@@ -1,59 +1,87 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>P-09 · Promociones Activas</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: transparent;
-        }
-        
-        .wrapper-promos {
-            position: fixed;
-            background-color: #ffffff;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            border: 1px solid #cccccc;
-            border-radius: 4px;
-            overflow: auto;
-            -webkit-overflow-scrolling: touch;
-            z-index: 10;
-        }
+<h1 class="sop-title-1">P-09 · Musicalización y Experiencia Sensorial</h1>
+<p class="sop-text">Estandarizar la ambientación sonora en salón mediante un repositorio offline homologado (Royalty-Free). El sistema garantiza cumplimiento legal ante normativas de propiedad intelectual (SADAIC/CAPIF) y regula el estímulo acústico según la afluencia de público en tienda.</p>
 
-        /* Vista Mobile (< 768px) */
-        @media (max-width: 767px) {
-            .wrapper-promos {
-                top: 64px;
-                left: 8px;
-                right: 8px;
-                bottom: 8px;
-            }
-        }
+<hr class="sop-divider">
 
-        /* Vista Escritorio / Terminal Sucursal (>= 768px) */
-        @media (min-width: 768px) {
-            .wrapper-promos {
-                top: 110px;
-                left: 345px;
-                right: 20px;
-                bottom: 20px;
-            }
-        }
+<h2 class="sop-title-2">FASE 1: MATRIZ DE PROGRAMACIÓN Y MOMENTOS</h2>
+<p class="sop-text">La musicalización se organiza en cuatro bloques operativos vinculados a los accesos directos configurados en el escritorio de la terminal de caja:</p>
 
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: block;
-        }
-    </style>
-</head>
-<body>
-    <div class="wrapper-promos">
-        <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQkz7Ir_NGsJ3GYgxB1VT-690Za3piPy0CCBTdGJhnWR3e-t6kKF0XBHWH_vN4ac3oDf_GV-ywZaXq2/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
-    </div>
-</body>
-</html>
+<table>
+  <thead>
+    <tr>
+      <th>Bloque / Acceso Directo</th>
+      <th>Horario / Momento</th>
+      <th>Clima Sonoro</th>
+      <th>Objetivo Comercial</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>1. Apertura Mañana</strong></td>
+      <td>Apertura y primeras horas</td>
+      <td>Tropical House suave / Melódico</td>
+      <td>Clima fresco y bienvenida al local</td>
+    </tr>
+    <tr>
+      <td><strong>2. Mediodía Chill</strong></td>
+      <td>Horario valle / Almuerzo</td>
+      <td>Chill Pop / Lo-Fi relajado</td>
+      <td>Recorrido pausado de salón</td>
+    </tr>
+    <tr>
+      <td><strong>3. Tarde Peak</strong></td>
+      <td>Tarde / Tráfico comercial</td>
+      <td>Deep House / Ritmo activo</td>
+      <td>Energía alta y dinamismo de compra</td>
+    </tr>
+    <tr>
+      <td><strong>4. Finde y Cierre</strong></td>
+      <td>Fines de semana y cierre</td>
+      <td>Vocal Chill / Pop comercial</td>
+      <td>Máximo impulso de venta</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr class="sop-divider">
+
+<h2 class="sop-title-2">FASE 2: OPERATORIA DIARIA EN TERMINAL</h2>
+<ul class="sop-list">
+  <li class="sop-list-item">✨ <strong>Apertura de Salón:</strong> Al iniciar la jornada y encender la consola de audio, hacer doble clic en el acceso directo <code>1. Apertura Mañana</code> en el escritorio de la PC. El reproductor iniciará automáticamente en orden aleatorio y bucle infinito.</li>
+  <li class="sop-list-item">✨ <strong>Cambio de Bloque:</strong> Al ingresar al turno tarde o fin de semana, cerrar la ventana activa de VLC y hacer doble clic sobre el acceso directo correspondiente al nuevo momento operativo.</li>
+  <li class="sop-list-item">🖥️ <strong>Calibración de Volumen:</strong> Mantener el volumen general de la terminal entre <strong>25% y 35%</strong>. La música debe acompañar el ambiente sin tapar la conversación con el cliente ni interferir en la línea de caja.</li>
+</ul>
+
+<hr class="sop-divider">
+
+<h2 class="sop-title-2">FASE 3: INSTALACIÓN TÉCNICA Y CONFIGURACIÓN (SETUP ÚNICA VEZ)</h2>
+<p class="sop-text">Procedimiento obligatorio para la PC de caja ante aperturas de sucursal, formateos o mantenimiento técnico:</p>
+<ul class="sop-list">
+  <li class="sop-list-item">🖥️ <strong>Instalación del Reproductor:</strong> Descargar e instalar la versión oficial desde el portal oficial de VideoLAN: <a href="https://www.videolan.org/vlc/" target="_blank" style="text-decoration: underline; color: #000000; font-weight: 600;">Descargar VLC Media Player (Sitio Oficial)</a>. Mantener la ruta de instalación por defecto (<code>C:\Program Files\VideoLAN\VLC\vlc.exe</code>).</li>
+  <li class="sop-list-item">🖥️ <strong>Descarga del Repositorio Maestro:</strong> Descargar la carpeta completa desde el repositorio oficial: <a href="https://drive.google.com/drive/folders/1l9SrgsdtJjCs7IfjcUTrWyaNNLdYI4mY?usp=drive_link" target="_blank" style="text-decoration: underline; color: #000000; font-weight: 600;">Carpeta Drive Musica_NAZARIA</a>. Descomprimir y alojar en la raíz del disco local como <code>C:\Musica_NAZARIA\</code>.</li>
+  <li class="sop-list-item">🖥️ <strong>Verificación de Estructura:</strong> Confirmar la presencia obligatoria de las 4 subcarpetas normalizadas:
+    <ul class="sop-list" style="margin-top: 6pt; margin-bottom: 6pt;">
+      <li class="sop-list-item">• <code>C:\Musica_NAZARIA\01_APERTURA_MAÑANA</code></li>
+      <li class="sop-list-item">• <code>C:\Musica_NAZARIA\02_MEDIODIA_CHILL</code></li>
+      <li class="sop-list-item">• <code>C:\Musica_NAZARIA\03_TARDE_PEAK</code></li>
+      <li class="sop-list-item">• <code>C:\Musica_NAZARIA\04_FINDE_Y_CIERRE</code></li>
+    </ul>
+  </li>
+  <li class="sop-list-item">🖥️ <strong>Creación de Automatismos en el Escritorio:</strong> En el Escritorio de Windows, hacer clic derecho → <strong>Nuevo</strong> → <strong>Acceso directo</strong>, y pegar en la casilla de ubicación el comando correspondiente con comillas incluidas:
+    <ul class="sop-list" style="margin-top: 6pt; margin-bottom: 0px;">
+      <li class="sop-list-item">• <strong>Acceso 1:</strong> <code>"C:\Program Files\VideoLAN\VLC\vlc.exe" --random --loop "C:\Musica_NAZARIA\01_APERTURA_MAÑANA"</code> (Nombrar: <code>1. Apertura Mañana</code>)</li>
+      <li class="sop-list-item">• <strong>Acceso 2:</strong> <code>"C:\Program Files\VideoLAN\VLC\vlc.exe" --random --loop "C:\Musica_NAZARIA\02_MEDIODIA_CHILL"</code> (Nombrar: <code>2. Mediodía Chill</code>)</li>
+      <li class="sop-list-item">• <strong>Acceso 3:</strong> <code>"C:\Program Files\VideoLAN\VLC\vlc.exe" --random --loop "C:\Musica_NAZARIA\03_TARDE_PEAK"</code> (Nombrar: <code>3. Tarde Peak</code>)</li>
+      <li class="sop-list-item">• <strong>Acceso 4:</strong> <code>"C:\Program Files\VideoLAN\VLC\vlc.exe" --random --loop "C:\Musica_NAZARIA\04_FINDE_Y_CIERRE"</code> (Nombrar: <code>4. Finde y Cierre</code>)</li>
+    </ul>
+  </li>
+</ul>
+
+<hr class="sop-divider">
+
+<h3 class="sop-title-3">⚠ REGLAS DE ORO (Puntos Críticos de Control)</h3>
+<ul class="sop-warning-list">
+  <li class="sop-warning-item">⚠ <strong>[Prohibición de Streaming y Derechos]:</strong> Terminantemente prohibido reproducir Spotify, YouTube, radios online o sintonizar FM/AM. El uso de música protegida expone a la sucursal a multas y fiscalizaciones de SADAIC/CAPIF.</li>
+  <li class="sop-warning-item">⚠ <strong>[Dispositivos Personales]:</strong> Prohibido conectar teléfonos celulares particulares, reproductores externos o memorias USB a la PC de caja o al sistema de sonido.</li>
+  <li class="sop-warning-item">⚠ <strong>[Operación 100% Offline]:</strong> La reproducción debe ejecutarse siempre desde el disco local <code>C:\</code> para preservar el ancho de banda y asegurar la estabilidad de la facturación en Dux Software.</li>
+</ul>
