@@ -38,8 +38,8 @@
             margin-bottom: 12pt !important;
             line-height: 1.25 !important;
             letter-spacing: 0.05em !important;
-            border-bottom: 2px solid #1A1A1A;
-            padding-bottom: 4px;
+            border-bottom: 2px solid #1A1A1A !important;
+            padding-bottom: 4px !important;
         }
         .sop-title-3 {
             font-family: 'Inter', sans-serif !important;
@@ -51,6 +51,7 @@
             line-height: 1.25 !important;
         }
         .sop-text {
+            font-family: 'Inter', sans-serif !important;
             margin-top: 0px !important;
             margin-bottom: 12pt !important;
             text-align: justify !important;
@@ -133,16 +134,32 @@
             </div>
         </div>
         <div class="text-[11px] font-medium text-neutral-600 bg-white border border-neutral-200 px-3 py-1.5 rounded flex items-center shadow-sm">
-            <span class="w-1.5 h-1.5 rounded-full bg-neutral-900 mr-2"></span> Terminal Sucursal
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 mr-2"></span> Terminal Sucursal
         </div>
     </header>
 
     <div class="flex-1 flex overflow-hidden">
         
-        <aside class="w-80 bg-white border-r border-neutral-200 p-4 flex flex-col space-y-1.5 overflow-y-auto">
-            <div class="text-[10px] font-bold text-neutral-400 uppercase tracking-widest px-3 mb-3 mt-1">Manuales de Proceso</div>
+        <!-- Panel Lateral con Buscador -->
+        <aside class="w-80 bg-white border-r border-neutral-200 p-4 flex flex-col overflow-y-auto shrink-0">
+            <div class="text-[10px] font-bold text-neutral-400 uppercase tracking-widest px-1 mb-2.5 mt-1">Manuales de Proceso</div>
             
-            <div id="sop-menu-container" class="flex flex-col space-y-1.5">
+            <!-- Buscador Rápido Instantáneo -->
+            <div class="relative mb-3">
+                <input type="text" id="sop-search-input" oninput="filterSops(this.value)" placeholder="Buscar manual o tema (ej: caja, falla, promo)..." class="w-full bg-neutral-50 border border-neutral-200 rounded px-3 py-2 pl-8 pr-7 text-xs text-neutral-800 placeholder-neutral-400 focus:bg-white focus:outline-none focus:border-black transition">
+                <svg class="w-3.5 h-3.5 text-neutral-400 absolute left-2.5 top-2.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 1114 0z"></path>
+                </svg>
+                <button id="sop-search-clear" onclick="clearSearch()" class="hidden absolute right-2.5 top-2 text-neutral-400 hover:text-black text-xs font-bold">✕</button>
+            </div>
+
+            <!-- Listado Dinámico de SOPs -->
+            <div id="sop-menu-container" class="flex flex-col space-y-1.5 flex-1">
+            </div>
+
+            <div id="no-results-msg" class="hidden text-center py-8 px-2">
+                <p class="text-xs text-neutral-400 font-medium">No se encontraron manuales para esa búsqueda.</p>
+                <button onclick="clearSearch()" class="mt-2 text-[11px] text-neutral-600 underline hover:text-black">Ver todos los manuales</button>
             </div>
         </aside>
 
@@ -156,7 +173,7 @@
             <div id="welcome-card" class="flex flex-col items-center justify-center text-center max-w-sm mx-auto space-y-3">
                 <div class="text-neutral-300 text-4xl">▪</div>
                 <h2 class="text-sm font-bold text-black tracking-wider uppercase">Portal Operativo Nazaria</h2>
-                <p class="text-xs text-neutral-500 leading-relaxed">Seleccioná un procedimiento operativo desde el panel lateral para consultar el estándar oficial vigente.</p>
+                <p class="text-xs text-neutral-500 leading-relaxed">Seleccioná un procedimiento operativo desde el panel lateral o usá el buscador para consultar el estándar oficial vigente.</p>
             </div>
 
             <div id="loader" class="hidden flex flex-col items-center justify-center text-center max-w-md mx-auto space-y-2">
@@ -168,36 +185,106 @@
 
     <script>
         let currentSopCode = null;
+        let allMenuItems = [];
+
+        // Diccionario semántico de palabras clave operativas de tienda
+        const SOP_KEYWORDS = {
+            "p01": "ventas atencion cliente bienvenida saludo fidelizacion asesoramiento salon piso objeciones",
+            "p02": "caja pagos cobrar dinero posnet payway nave mercadopago mercado pago tarjetas debito credito efectivo ticket factura afip cambio cierre arqueo",
+            "p03": "orden estetica local visual merchandising vidriera limpieza exhibicion doblado perchas cartel precio iluminacion",
+            "p04": "posventa cambios devoluciones falla garantia reclamo ticket cambio temporada plazo 30 dias zapato fallado",
+            "p05": "recepcion stock deposito mercaderia cajas remito ingreso correo argentino auditoria conteo faltante sobrante",
+            "p06": "gift cards tarjeta regalo saldo voucher canje vencimiento",
+            "p07": "venta activa omnicanalidad catalogo whatsapp clientes contacto llamada seguimiento reservas retiro tienda",
+            "p08": "contenido digital redes sociales instagram tiktok historias reels fotos estados publicaciones planificacion semanal",
+            "p09": "musicalizacion musica sonido audio volumen canciones vlc reproductor playlist ambiental sadaic capif parlantes",
+            "p10": "promociones promos activas descuentos cuotas bancos reintegros santander galicia nacion banco provincia ofertas",
+            "p11": "liquidacion aw26 rebajas verificacion articulos categoria remanente precios especiales ofertas fin temporada"
+        };
 
         window.onload = function() {
             loadDynamicMenu();
         };
 
+        function normalizeText(text) {
+            return (text || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+        }
+
         async function loadDynamicMenu() {
-            const container = document.getElementById('sop-menu-container');
             try {
                 const response = await fetch(`./menu.json?t=${new Date().getTime()}`);
                 if (!response.ok) throw new Error("Falta archivo menu.json central.");
                 
-                const menuItems = await response.json();
-                container.innerHTML = "";
-
-                menuItems.forEach(item => {
-                    const titleParts = item.title.split(' · ');
-                    const badgeText = titleParts[0] || item.id.toUpperCase();
-                    const nameText = titleParts[1] || item.title;
-
-                    container.innerHTML += `
-                        <button onclick="loadSOP('${item.id}')" id="btn-${item.id}" class="w-full text-left px-4 py-3 rounded border border-neutral-100 bg-neutral-50 text-neutral-700 hover:bg-[#E6D5C3]/30 hover:text-black flex items-center space-x-3 transition font-medium">
-                            <span class="font-bold text-[10px] text-neutral-900 bg-[#E6D5C3] px-1.5 py-0.5 rounded shrink-0">${badgeText}</span>
-                            <span class="text-xs truncate tracking-wide">${nameText}</span>
-                        </button>
-                    `;
-                });
+                allMenuItems = await response.json();
+                renderMenuItems(allMenuItems);
             } catch (error) {
                 console.error(error);
-                container.innerHTML = `<p class="text-xs text-red-600 px-3">Error al inicializar menú central.</p>`;
+                document.getElementById('sop-menu-container').innerHTML = `<p class="text-xs text-red-600 px-3">Error al inicializar menú central.</p>`;
             }
+        }
+
+        function renderMenuItems(items) {
+            const container = document.getElementById('sop-menu-container');
+            const noResults = document.getElementById('no-results-msg');
+            container.innerHTML = "";
+
+            if (!items || items.length === 0) {
+                noResults.classList.remove('hidden');
+                return;
+            }
+            noResults.classList.add('hidden');
+
+            items.forEach(item => {
+                const titleParts = item.title.split(' · ');
+                const badgeText = titleParts[0] || item.id.toUpperCase();
+                const nameText = titleParts[1] || item.title;
+                const isActive = (item.id === currentSopCode);
+
+                const activeClass = isActive 
+                    ? "bg-black text-white border-black" 
+                    : "bg-neutral-50 text-neutral-700 border-neutral-100 hover:bg-[#E6D5C3]/30 hover:text-black";
+
+                container.innerHTML += `
+                    <button onclick="loadSOP('${item.id}')" id="btn-${item.id}" class="w-full text-left px-4 py-3 rounded border ${activeClass} flex items-center space-x-3 transition font-medium">
+                        <span class="font-bold text-[10px] text-neutral-900 bg-[#E6D5C3] px-1.5 py-0.5 rounded shrink-0">${badgeText}</span>
+                        <span class="text-xs truncate tracking-wide">${nameText}</span>
+                    </button>
+                `;
+            });
+        }
+
+        function filterSops(rawQuery) {
+            const query = normalizeText(rawQuery);
+            const clearBtn = document.getElementById('sop-search-clear');
+            
+            if (query) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+
+            if (!query) {
+                renderMenuItems(allMenuItems);
+                return;
+            }
+
+            const filtered = allMenuItems.filter(item => {
+                const titleNorm = normalizeText(item.title);
+                const idNorm = normalizeText(item.id);
+                const keywordsNorm = normalizeText(SOP_KEYWORDS[item.id] || "");
+                
+                return titleNorm.includes(query) || idNorm.includes(query) || keywordsNorm.includes(query);
+            });
+
+            renderMenuItems(filtered);
+        }
+
+        function clearSearch() {
+            const input = document.getElementById('sop-search-input');
+            input.value = "";
+            document.getElementById('sop-search-clear').classList.add('hidden');
+            renderMenuItems(allMenuItems);
+            input.focus();
         }
 
         async function loadSOP(sopCode) {
@@ -209,12 +296,12 @@
 
             document.querySelectorAll('#sop-menu-container button').forEach(btn => {
                 btn.classList.remove('bg-black', 'text-white', 'border-black');
-                btn.classList.add('bg-neutral-50', 'text-neutral-700');
+                btn.classList.add('bg-neutral-50', 'text-neutral-700', 'border-neutral-100');
             });
 
             const activeBtn = document.getElementById(`btn-${sopCode}`);
             if (activeBtn) {
-                activeBtn.classList.remove('bg-neutral-50', 'text-neutral-700');
+                activeBtn.classList.remove('bg-neutral-50', 'text-neutral-700', 'border-neutral-100');
                 activeBtn.classList.add('bg-black', 'text-white', 'border-black');
             }
 
