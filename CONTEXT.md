@@ -11,7 +11,7 @@
 ## 2. Estándar de Diseño Estricto (P-00)
 Existen dos formatos admitidos dentro de `/sops/`:
 
-### Tipo A: Fragmentos HTML Estándar (p01 a p09, p11)
+### Formato Único Homologado: Fragmentos HTML Estándar (p01 a p11)
 Prohibido incluir etiquetas globales (`<!DOCTYPE html>`, `<html>`, `<head>`, `<body>`) o bloques markdown (` ``` `)[cite: 1]. Se estructuran exclusivamente con clases CSS de la familia **Inter**[cite: 1, 3]:
 - **Título Principal (22pt, #000000, Negrita):** `<h1 class="sop-title-1">P-XX · Título</h1>`[cite: 1, 3]
 - **Títulos de Fase (13pt, #000000, Negrita, MAYÚSCULAS, Borde 2px):** `<h2 class="sop-title-2">FASE X: NOMBRE</h2>`[cite: 1, 3]
@@ -30,9 +30,7 @@ Prohibido incluir etiquetas globales (`<!DOCTYPE html>`, `<html>`, `<head>`, `<b
   </ul>
   ```[cite: 1, 3]
 
-### Tipo B: Planillas e Integraciones Embebidas (p10.html)
-Documentos HTML completos estructurados con contenedor fijo responsivo:
-`.wrapper-promos { position: fixed; top: 110px; left: 345px; right: 20px; bottom: 20px; z-index: 10; overflow: auto; }`
+*(Nota: Todas las planillas y tablas de cobro fueron migradas a tablas HTML nativas responsive con diseño P-00).*`
 
 ## 3. Biblioteca Operativa de Emojis
 Asignación estricta de íconos según la naturaleza de la tarea:
