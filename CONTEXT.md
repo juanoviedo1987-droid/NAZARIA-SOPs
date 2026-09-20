@@ -46,5 +46,5 @@ Asignación estricta de íconos según la naturaleza de la tarea:
 ## 4. Flujo Operativo Desacoplado
 1. **Concepción (Gemini Gem):** Estructuración de borradores y análisis de directivas de negocio[cite: 1].
 2. **Maquetación (`admin.html`):** Inyección del texto en la consola $\rightarrow$ Procesamiento con Gemini 2.5 Flash (`v1beta`) $\rightarrow$ Previsualización y edición directa en hoja de 820px[cite: 1].
-3. **Persistencia (GitHub Web):** Clic en *"📋 Copiar Código del Manual"* $\rightarrow$ Clic en *"↗ Abrir Archivo en GitHub Web"* $\rightarrow$ Pegar código (`Ctrl+V`) y confirmar commit en `sops/pXX.html`[cite: 1]. (Si es nuevo, agregar la entrada a `menu.json`)[cite: 1].
+3. **Persistencia Directa (1 Clic):** Clic en **"🚀 Publicar en GitHub"** en la consola `admin.html`. El sistema guarda automáticamente el archivo en `sops/pXX.html` y actualiza `menu.json` si es un nuevo manual vía API de GitHub. (También se mantiene la opción de copia manual como respaldo).
 4. **Consulta (`index.html`):** Las terminales en locales visualizan los cambios inmediatamente sin recargas de servidor ni bloqueos de caché[cite: 1, 3].
