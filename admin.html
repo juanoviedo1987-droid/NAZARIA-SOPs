@@ -131,13 +131,17 @@
                 <p class="text-[11px] text-neutral-500">Consola Central de Procesos y Generación con IA</p>
             </div>
         </div>
-        <div class="flex items-center gap-3">
-            <button onclick="toggleGuideDrawer()" class="bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-semibold text-xs px-3.5 py-1.5 rounded transition shadow-sm flex items-center gap-1.5">
-                <span>📖</span> Guía Operativa & Estándar
+        <div class="flex items-center gap-2.5">
+            <button onclick="toggleMenuManagerModal()" class="bg-neutral-100 hover:bg-neutral-200 text-neutral-800 border border-neutral-300 font-semibold text-xs px-3 py-1.5 rounded transition shadow-sm flex items-center gap-1.5">
+                <span>📋</span> Gestionar Menú
             </button>
-            <div class="flex items-center gap-2">
-                <input type="password" id="gemini-key" placeholder="Gemini API Key" class="bg-neutral-50 border border-neutral-200 rounded px-3 py-1.5 text-xs text-neutral-800 w-52 focus:bg-white focus:outline-none focus:border-black">
-                <button onclick="saveKey()" class="bg-neutral-900 hover:bg-black text-white font-semibold text-xs px-4 py-1.5 rounded transition shadow-sm">Guardar Llave</button>
+            <button onclick="toggleGuideDrawer()" class="bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-semibold text-xs px-3 py-1.5 rounded transition shadow-sm flex items-center gap-1.5">
+                <span>📖</span> Guía Operativa
+            </button>
+            <div class="flex items-center gap-1.5 ml-1">
+                <input type="password" id="gemini-key" placeholder="Gemini API Key" class="bg-neutral-50 border border-neutral-200 rounded px-2.5 py-1.5 text-xs text-neutral-800 w-36 focus:bg-white focus:outline-none focus:border-black" title="Gemini API Key para generación con IA">
+                <input type="password" id="github-token" placeholder="GitHub Token" class="bg-neutral-50 border border-neutral-200 rounded px-2.5 py-1.5 text-xs text-neutral-800 w-36 focus:bg-white focus:outline-none focus:border-black" title="GitHub Token para publicación directa con 1 clic">
+                <button onclick="saveKeys()" class="bg-neutral-900 hover:bg-black text-white font-semibold text-xs px-3 py-1.5 rounded transition shadow-sm">Guardar</button>
             </div>
         </div>
     </header>
@@ -157,8 +161,8 @@
 
                 <div id="new-sop-fields" class="hidden bg-amber-50/60 border border-amber-200 p-3 rounded space-y-2">
                     <div class="text-[10px] font-bold text-amber-800 uppercase tracking-widest">Identificación de Nuevo Manual</div>
-                    <input type="text" id="new-id" placeholder="id único (ej: p11)" class="w-full bg-white border border-neutral-200 rounded p-2 text-xs text-neutral-800 focus:outline-none focus:border-black">
-                    <input type="text" id="new-title" placeholder="Título (ej: P-11 · Estrategia Digital)" class="w-full bg-white border border-neutral-200 rounded p-2 text-xs text-neutral-800 focus:outline-none focus:border-black">
+                    <input type="text" id="new-id" placeholder="id único (ej: p12)" class="w-full bg-white border border-neutral-200 rounded p-2 text-xs text-neutral-800 focus:outline-none focus:border-black">
+                    <input type="text" id="new-title" placeholder="Título (ej: P-12 · Estrategia Digital)" class="w-full bg-white border border-neutral-200 rounded p-2 text-xs text-neutral-800 focus:outline-none focus:border-black">
                 </div>
 
                 <div>
@@ -203,8 +207,22 @@
             </div>
 
             <div id="sheet-wrapper" class="w-full max-w-[820px] mx-auto hidden flex-col items-center pb-16">
-                <div class="w-full mb-2 px-1 flex items-center justify-between">
-                    <span class="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Hoja de Visualización y Edición Directa</span>
+                <!-- Barra de Herramientas de Edición Rápida -->
+                <div class="w-full mb-2 px-1 flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-1">
+                        <span class="text-[10px] font-bold text-neutral-400 uppercase tracking-widest mr-1.5">Herramientas:</span>
+                        <button type="button" onclick="insertSnippet('phase')" class="px-2 py-1 bg-white hover:bg-neutral-100 border border-neutral-200 rounded text-[11px] font-semibold text-neutral-700 transition" title="Insertar Título de Fase">+ Fase</button>
+                        <button type="button" onclick="insertSnippet('section')" class="px-2 py-1 bg-white hover:bg-neutral-100 border border-neutral-200 rounded text-[11px] font-semibold text-neutral-700 transition" title="Insertar Subsección">+ Sección</button>
+                        <button type="button" onclick="insertSnippet('warning')" class="px-2 py-1 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded text-[11px] font-bold text-amber-900 transition" title="Insertar Regla de Oro">⚠ Regla de Oro</button>
+                        <button type="button" onclick="insertSnippet('table')" class="px-2 py-1 bg-white hover:bg-neutral-100 border border-neutral-200 rounded text-[11px] font-semibold text-neutral-700 transition" title="Insertar Tabla">+ Tabla</button>
+                        <div class="h-4 w-[1px] bg-neutral-300 mx-1"></div>
+                        <button type="button" onclick="insertEmoji('🖥️')" class="px-1.5 py-1 bg-white hover:bg-neutral-100 border border-neutral-200 rounded text-xs" title="Sistemas (Dux)">🖥️</button>
+                        <button type="button" onclick="insertEmoji('📱')" class="px-1.5 py-1 bg-white hover:bg-neutral-100 border border-neutral-200 rounded text-xs" title="WhatsApp / Redes">📱</button>
+                        <button type="button" onclick="insertEmoji('💳')" class="px-1.5 py-1 bg-white hover:bg-neutral-100 border border-neutral-200 rounded text-xs" title="Tarjetas / Pagos">💳</button>
+                        <button type="button" onclick="insertEmoji('💵')" class="px-1.5 py-1 bg-white hover:bg-neutral-100 border border-neutral-200 rounded text-xs" title="Efectivo / Caja">💵</button>
+                        <button type="button" onclick="insertEmoji('📦')" class="px-1.5 py-1 bg-white hover:bg-neutral-100 border border-neutral-200 rounded text-xs" title="Mercadería / Stock">📦</button>
+                        <button type="button" onclick="insertEmoji('✨')" class="px-1.5 py-1 bg-white hover:bg-neutral-100 border border-neutral-200 rounded text-xs" title="Atención / Saludo">✨</button>
+                    </div>
                     <span id="editor-indicator" class="text-[10px] text-amber-700 font-bold bg-amber-50 px-2 py-0.5 rounded border border-amber-200">DOM Activo (Editable)</span>
                 </div>
 
@@ -220,26 +238,69 @@
             <div class="space-y-4">
                 <div class="border-b border-neutral-100 pb-2">
                     <div class="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">4. Publicación</div>
-                    <p class="text-[11px] text-neutral-500 mt-1">Copiá el código limpio validado bajo el estándar P-00 para guardar en el repositorio.</p>
+                    <p class="text-[11px] text-neutral-500 mt-1">Guardá los cambios directamente en el repositorio en la nube sin salir de la pantalla.</p>
                 </div>
 
-                <div class="space-y-2">
-                    <div class="text-[11px] font-mono text-neutral-500 bg-neutral-50 p-2 rounded border border-neutral-100 text-center truncate font-bold" id="file-path-indicator">sops/??.html</div>
-                    <button onclick="copyCleanHtml()" id="btn-copy" class="w-full bg-neutral-900 hover:bg-black text-white font-bold text-xs py-3 rounded transition flex items-center justify-center space-x-2 shadow-sm">
-                        <span>📋 Copiar Código del Manual</span>
+                <div class="space-y-2.5">
+                    <div class="text-[11px] font-mono text-neutral-600 bg-neutral-50 p-2 rounded border border-neutral-200 text-center truncate font-bold" id="file-path-indicator">sops/??.html</div>
+                    
+                    <!-- Botón Principal: Guardado Directo 1-Clic -->
+                    <button onclick="publishDirectToGitHub()" id="btn-publish" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs py-3 rounded transition flex items-center justify-center space-x-2 shadow-md">
+                        <span>🚀 Publicar en GitHub</span>
                     </button>
-                    <button onclick="openGitHubDirect()" class="w-full bg-neutral-50 hover:bg-neutral-100 text-neutral-700 border border-neutral-200 font-semibold text-xs py-2 rounded transition flex items-center justify-center space-x-1.5">
-                        <span>↗ Abrir Archivo en GitHub Web</span>
-                    </button>
+                    
+                    <p class="text-[10px] text-neutral-400 text-center px-1">Guarda en <code class="font-mono">sops/</code> y actualiza <code class="font-mono">menu.json</code> automáticamente.</p>
+                    
+                    <div class="pt-2 border-t border-neutral-100 space-y-2">
+                        <div class="text-[9px] font-bold text-neutral-400 uppercase tracking-widest">Opciones manuales (fallback):</div>
+                        <button onclick="copyCleanHtml()" id="btn-copy" class="w-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-semibold text-xs py-2 rounded transition flex items-center justify-center space-x-2 border border-neutral-200">
+                            <span>📋 Copiar Código HTML</span>
+                        </button>
+                        <button onclick="openGitHubDirect()" class="w-full bg-neutral-50 hover:bg-neutral-100 text-neutral-600 border border-neutral-200 font-medium text-xs py-1.5 rounded transition flex items-center justify-center space-x-1.5">
+                            <span>↗ Abrir en GitHub Web</span>
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <div class="border-t border-neutral-100 pt-3">
-                <button onclick="toggleGuideDrawer()" class="w-full bg-neutral-50 hover:bg-neutral-100 text-neutral-600 border border-neutral-200 text-[11px] font-medium py-2 rounded transition text-center">
+            <div class="border-t border-neutral-100 pt-3 space-y-2">
+                <button onclick="toggleMenuManagerModal()" class="w-full bg-neutral-50 hover:bg-neutral-100 text-neutral-700 border border-neutral-200 text-xs font-semibold py-2 rounded transition text-center flex items-center justify-center gap-1.5">
+                    <span>📋</span> Gestor de Orden del Menú
+                </button>
+                <button onclick="toggleGuideDrawer()" class="w-full text-neutral-500 hover:text-neutral-800 text-[11px] font-medium py-1 transition text-center">
                     Ver Guía de Flujo y Reglas
                 </button>
             </div>
         </aside>
+    </div>
+
+    <!-- Modal Gestor de Orden del Menú -->
+    <div id="menu-manager-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-2xl border border-neutral-200 w-full max-w-2xl max-h-[85vh] flex flex-col overflow-hidden">
+            <div class="p-4 border-b border-neutral-200 bg-neutral-50 flex items-center justify-between shrink-0">
+                <div class="flex items-center space-x-2">
+                    <span class="text-base">📋</span>
+                    <div>
+                        <h2 class="text-xs font-bold text-neutral-900 uppercase tracking-widest">Gestor de Catálogo y Menú Oficial</h2>
+                        <p class="text-[11px] text-neutral-500">Reordená con las flechas o modificá los títulos de los manuales</p>
+                    </div>
+                </div>
+                <button onclick="toggleMenuManagerModal()" class="w-7 h-7 rounded-full bg-neutral-200/70 hover:bg-neutral-300 text-neutral-700 flex items-center justify-center font-bold text-xs transition">✕</button>
+            </div>
+            
+            <div class="p-4 overflow-y-auto flex-1 space-y-2" id="menu-items-list">
+                <!-- Se llena dinámicamente con los items de menu.json -->
+            </div>
+
+            <div class="p-4 border-t border-neutral-200 bg-neutral-50 flex items-center justify-between shrink-0">
+                <button onclick="toggleMenuManagerModal()" class="px-4 py-2 bg-white hover:bg-neutral-100 text-neutral-700 border border-neutral-200 rounded text-xs font-semibold transition">
+                    Cancelar
+                </button>
+                <button onclick="saveMenuOrderToGitHub()" id="btn-save-menu-order" class="px-5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded text-xs font-bold transition shadow-sm flex items-center gap-1.5">
+                    <span>💾 Guardar Cambios en GitHub</span>
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- Backdrop del Drawer -->
@@ -270,7 +331,7 @@
                     </div>
                     <div class="bg-neutral-50 p-2.5 rounded border border-neutral-200/80">
                         <strong class="text-neutral-900 block mb-0.5">🖥️ Consola Admin (Esta Pantalla)</strong>
-                        <span>Para maquetar con formato oficial, ver la hoja real y ajustar el texto antes de publicar.</span>
+                        <span>Para maquetar con formato oficial, ver la hoja real y publicar directo a la nube.</span>
                     </div>
                     <div class="bg-neutral-50 p-2.5 rounded border border-neutral-200/80">
                         <strong class="text-neutral-900 block mb-0.5">☁️ GitHub Web</strong>
@@ -287,22 +348,11 @@
                 <div class="text-[10px] font-bold text-neutral-400 uppercase tracking-widest border-b border-neutral-100 pb-1">2. Paso a Paso para Publicar</div>
                 
                 <div class="bg-neutral-50 p-3 rounded border border-neutral-200/80 space-y-1.5">
-                    <strong class="text-neutral-900 text-xs block">Caso A: Modificar un manual existente</strong>
+                    <strong class="text-neutral-900 text-xs block">Publicación Directa (Recomendada)</strong>
                     <ol class="list-decimal pl-4 space-y-1 text-neutral-600">
-                        <li>Elegí el manual en el selector.</li>
-                        <li>Escribí la instrucción y clic en <em>"Generar Vista Previa con IA"</em> (o editalo directo en la hoja).</li>
-                        <li>Clic en <strong>"📋 Copiar Código del Manual"</strong>.</li>
-                        <li>Clic en <strong>"↗ Abrir Archivo en GitHub Web"</strong>, pegá el contenido (`Ctrl+V`) y tocá <strong>Commit changes</strong>.</li>
-                    </ol>
-                </div>
-
-                <div class="bg-neutral-50 p-3 rounded border border-neutral-200/80 space-y-1.5">
-                    <strong class="text-neutral-900 text-xs block">Caso B: Crear un manual nuevo</strong>
-                    <ol class="list-decimal pl-4 space-y-1 text-neutral-600">
-                        <li>Elegí <em>"➕ [CREAR NUEVO PROCEDIMIENTO]"</em> y completá ID (ej: <code>p11</code>) y Título.</li>
-                        <li>Pegá el borrador y clic en <em>"Generar Vista Previa con IA"</em>.</li>
-                        <li>Clic en <strong>"📋 Copiar Código del Manual"</strong>.</li>
-                        <li>Creá el archivo en GitHub en <code>sops/p11.html</code> pegando el código, y agregá la fila al <code>menu.json</code>.</li>
+                        <li>Configurá tu <strong>GitHub Token</strong> en la cabecera (se guarda una sola vez).</li>
+                        <li>Elegí el manual o creá uno nuevo, y editalo con IA o directamente en la hoja.</li>
+                        <li>Hacé clic en <strong>"🚀 Publicar en GitHub"</strong>. El sistema se encarga de guardar el archivo y actualizar el menú.</li>
                     </ol>
                 </div>
             </div>
@@ -337,10 +387,14 @@
         const GITHUB_REPO = "sops-nazaria";
         let currentSopCode = "";
         let fullMenuData = [];
+        let tempMenuData = [];
 
         window.onload = function() {
             if (localStorage.getItem('gemini_key')) {
                 document.getElementById('gemini-key').value = localStorage.getItem('gemini_key');
+            }
+            if (localStorage.getItem('github_token')) {
+                document.getElementById('github-token').value = localStorage.getItem('github_token');
             }
             loadMenu();
         };
@@ -357,10 +411,12 @@
             }
         }
 
-        function saveKey() {
+        function saveKeys() {
             const gKey = document.getElementById('gemini-key').value.trim();
-            localStorage.setItem('gemini_key', gKey);
-            logToConsole("Gemini API Key guardada en LocalStorage.");
+            const ghToken = document.getElementById('github-token').value.trim();
+            if (gKey) localStorage.setItem('gemini_key', gKey);
+            if (ghToken) localStorage.setItem('github_token', ghToken);
+            logToConsole("Llaves (Gemini / GitHub) guardadas en LocalStorage.");
         }
 
         function logToConsole(msg, isError = false) {
@@ -377,6 +433,12 @@
             return id.replace(/^sops\//, '').replace(/\.html$/, '').trim();
         }
 
+        function utf8ToBase64(str) {
+            return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+                return String.fromCharCode('0x' + p1);
+            }));
+        }
+
         async function loadMenu() {
             try {
                 const response = await fetch(`./menu.json?t=${Date.now()}`);
@@ -384,11 +446,15 @@
                 fullMenuData = await response.json();
                 
                 const selector = document.getElementById('sop-selector');
+                const previousVal = selector.value;
                 selector.innerHTML = '<option value="">-- Seleccionar SOP --</option>';
                 fullMenuData.forEach(item => {
                     selector.innerHTML += `<option value="${item.id}">${item.title}</option>`;
                 });
                 selector.innerHTML += `<option value="NEW_SOP">➕ [CREAR NUEVO PROCEDIMIENTO]</option>`;
+                if (previousVal && Array.from(selector.options).some(o => o.value === previousVal)) {
+                    selector.value = previousVal;
+                }
                 logToConsole("menu.json sincronizado correctamente.");
             } catch (error) {
                 logToConsole(error.message, true);
@@ -447,6 +513,29 @@
             } catch (error) { 
                 logToConsole(error.message, true); 
             }
+        }
+
+        /* Funciones de la Barra de Herramientas de Edición */
+        function insertSnippet(type) {
+            let htmlToInsert = '';
+            if (type === 'phase') {
+                htmlToInsert = '<h2 class="sop-title-2">FASE X: NUEVA FASE</h2><p class="sop-text">Descripción operativa de la fase...</p>';
+            } else if (type === 'section') {
+                htmlToInsert = '<h3 class="sop-title-3">X. Nombre de Sección</h3><p class="sop-text">Detalle...</p>';
+            } else if (type === 'warning') {
+                htmlToInsert = '<h3 class="sop-title-3">⚠ REGLAS DE ORO (Puntos Críticos de Control)</h3><ul class="sop-warning-list"><li class="sop-warning-item">⚠ <strong>[Punto Crítico]:</strong> Descripción obligatoria de la falta crítica.</li></ul>';
+            } else if (type === 'table') {
+                htmlToInsert = '<table><thead><tr><th>Encabezado 1</th><th>Encabezado 2</th><th>Encabezado 3</th></tr></thead><tbody><tr><td>Dato A</td><td>Dato B</td><td>Dato C</td></tr></tbody></table>';
+            }
+            if (htmlToInsert) {
+                document.getElementById('visual-editor').focus();
+                document.execCommand('insertHTML', false, htmlToInsert);
+            }
+        }
+
+        function insertEmoji(emoji) {
+            document.getElementById('visual-editor').focus();
+            document.execCommand('insertText', false, emoji + ' ');
         }
 
         async function processSOPModification() {
@@ -526,6 +615,124 @@ ASIGNACIÓN DE EMOJIS:
             }
         }
 
+        /* Publicación Directa en GitHub */
+        async function publishDirectToGitHub() {
+            const finalId = getSelectedId();
+            if (!finalId || finalId === "new") {
+                alert("Seleccioná o definí un ID de SOP válido primero.");
+                return;
+            }
+
+            const ghToken = localStorage.getItem('github_token') || document.getElementById('github-token').value.trim();
+            if (!ghToken) {
+                alert("Por favor ingresá tu GitHub Token en la cabecera para publicar.");
+                document.getElementById('github-token').focus();
+                return;
+            }
+
+            const isNew = (document.getElementById('sop-selector').value === "NEW_SOP");
+            const newTitle = isNew ? document.getElementById('new-title').value.trim() : "";
+            if (isNew && !newTitle) {
+                alert("Ingresá el título para el nuevo manual (ej: P-12 · Estrategia Digital).");
+                return;
+            }
+
+            const btn = document.getElementById('btn-publish');
+            const originalBtnHtml = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = `<span>⏳ Publicando en GitHub...</span>`;
+            logToConsole(`Iniciando publicación de sops/${finalId}.html en GitHub...`);
+
+            try {
+                const editor = document.getElementById('visual-editor');
+                const rawContent = editor.innerHTML.trim().replace(/^```html\s*/i, '').replace(/```$/i, '').trim();
+                const b64Content = utf8ToBase64(rawContent);
+
+                const fileUrl = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/sops/${finalId}.html`;
+                const headers = {
+                    'Authorization': `token ${ghToken}`,
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Content-Type': 'application/json'
+                };
+
+                // 1. Obtener SHA previo si existe el archivo
+                let sha = null;
+                const checkRes = await fetch(fileUrl, { headers });
+                if (checkRes.ok) {
+                    const checkData = await checkRes.json();
+                    sha = checkData.sha;
+                }
+
+                // 2. Guardar o actualizar sops/pXX.html
+                const bodyPayload = {
+                    message: `Admin Console: Actualizar ${finalId.toUpperCase()}`,
+                    content: b64Content
+                };
+                if (sha) bodyPayload.sha = sha;
+
+                const putRes = await fetch(fileUrl, {
+                    method: 'PUT',
+                    headers,
+                    body: JSON.stringify(bodyPayload)
+                });
+
+                if (!putRes.ok) {
+                    const err = await putRes.json().catch(() => ({}));
+                    throw new Error(err.message || `Error HTTP ${putRes.status}`);
+                }
+
+                logToConsole(`✔ Archivo sops/${finalId}.html actualizado correctamente.`);
+
+                // 3. Si es un SOP nuevo, actualizar menu.json automáticamente
+                if (isNew) {
+                    logToConsole(`Agregando ${finalId.toUpperCase()} al menu.json...`);
+                    const menuUrl = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/menu.json`;
+                    const menuRes = await fetch(menuUrl, { headers });
+                    if (!menuRes.ok) throw new Error("No se pudo obtener menu.json de GitHub.");
+                    
+                    const menuData = await menuRes.json();
+                    const menuContentDecoded = decodeURIComponent(atob(menuData.content).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+                    const menuList = JSON.parse(menuContentDecoded);
+                    
+                    if (!menuList.some(item => item.id === finalId)) {
+                        menuList.push({ id: finalId, title: newTitle });
+                        const updatedMenuJson = JSON.stringify(menuList, null, 2);
+                        const putMenuRes = await fetch(menuUrl, {
+                            method: 'PUT',
+                            headers,
+                            body: JSON.stringify({
+                                message: `Admin Console: Agregar ${finalId.toUpperCase()} al catálogo`,
+                                content: utf8ToBase64(updatedMenuJson),
+                                sha: menuData.sha
+                            })
+                        });
+                        if (!putMenuRes.ok) throw new Error("Error al actualizar menu.json en GitHub.");
+                        logToConsole(`✔ menu.json actualizado con ${finalId.toUpperCase()}.`);
+                    }
+                    await loadMenu();
+                    document.getElementById('sop-selector').value = finalId;
+                    handleSopSelection();
+                }
+
+                btn.classList.remove('bg-emerald-700', 'hover:bg-emerald-800');
+                btn.classList.add('bg-emerald-600');
+                btn.innerHTML = `<span>✔ ¡Publicado con Éxito!</span>`;
+                setTimeout(() => {
+                    btn.classList.remove('bg-emerald-600');
+                    btn.classList.add('bg-emerald-700', 'hover:bg-emerald-800');
+                    btn.innerHTML = originalBtnHtml;
+                    btn.disabled = false;
+                }, 3000);
+
+            } catch (err) {
+                logToConsole(`Error de publicación: ${err.message}`, true);
+                alert(`Error al publicar en GitHub: ${err.message}`);
+                btn.disabled = false;
+                btn.innerHTML = originalBtnHtml;
+            }
+        }
+
+        /* Opciones de Fallback Manual */
         function copyCleanHtml() {
             const editor = document.getElementById('visual-editor');
             const btnCopy = document.getElementById('btn-copy');
@@ -534,13 +741,13 @@ ASIGNACIÓN DE EMOJIS:
             navigator.clipboard.writeText(rawContent).then(() => {
                 const originalContent = btnCopy.innerHTML;
                 btnCopy.innerHTML = "<span>✔ ¡Código Copiado!</span>";
-                btnCopy.classList.remove('bg-neutral-900', 'hover:bg-black');
-                btnCopy.classList.add('bg-emerald-700', 'hover:bg-emerald-800');
+                btnCopy.classList.remove('bg-neutral-100', 'hover:bg-neutral-200');
+                btnCopy.classList.add('bg-emerald-700', 'text-white');
                 
                 setTimeout(() => {
                     btnCopy.innerHTML = originalContent;
-                    btnCopy.classList.remove('bg-emerald-700', 'hover:bg-emerald-800');
-                    btnCopy.classList.add('bg-neutral-900', 'hover:bg-black');
+                    btnCopy.classList.remove('bg-emerald-700', 'text-white');
+                    btnCopy.classList.add('bg-neutral-100', 'hover:bg-neutral-200');
                 }, 2000);
 
                 logToConsole("HTML estándar copiado al portapapeles.");
@@ -557,9 +764,109 @@ ASIGNACIÓN DE EMOJIS:
             }
             const isNew = (document.getElementById('sop-selector').value === "NEW_SOP");
             const targetUrl = isNew 
-                ? `[https://github.com/$](https://github.com/$){GITHUB_USER}/${GITHUB_REPO}/new/main/sops?filename=${finalId}.html`
-                : `[https://github.com/$](https://github.com/$){GITHUB_USER}/${GITHUB_REPO}/edit/main/sops/${finalId}.html`;
+                ? `https://github.com/${GITHUB_USER}/${GITHUB_REPO}/new/main/sops?filename=${finalId}.html`
+                : `https://github.com/${GITHUB_USER}/${GITHUB_REPO}/edit/main/sops/${finalId}.html`;
             window.open(targetUrl, '_blank');
+        }
+
+        /* Gestor de Menú Modal (Reordenar y Renombrar) */
+        function toggleMenuManagerModal() {
+            const modal = document.getElementById('menu-manager-modal');
+            if (modal.classList.contains('hidden')) {
+                tempMenuData = JSON.parse(JSON.stringify(fullMenuData));
+                renderMenuManager();
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+
+        function renderMenuManager() {
+            const listContainer = document.getElementById('menu-items-list');
+            listContainer.innerHTML = '';
+
+            tempMenuData.forEach((item, index) => {
+                const isFirst = index === 0;
+                const isLast = index === tempMenuData.length - 1;
+
+                listContainer.innerHTML += `
+                    <div class="flex items-center gap-2 p-2 bg-neutral-50 rounded border border-neutral-200">
+                        <span class="font-bold text-[10px] text-neutral-900 bg-[#E6D5C3] px-2 py-1 rounded shrink-0 font-mono">${item.id.toUpperCase()}</span>
+                        <input type="text" value="${item.title.replace(/"/g, '&quot;')}" onchange="updateMenuTitle(${index}, this.value)" class="flex-1 bg-white border border-neutral-200 rounded px-2.5 py-1 text-xs text-neutral-800 focus:outline-none focus:border-black font-medium">
+                        <div class="flex items-center gap-1 shrink-0">
+                            <button onclick="moveMenuItem(${index}, -1)" ${isFirst ? 'disabled class="opacity-30 p-1 rounded"' : 'class="p-1 hover:bg-neutral-200 rounded text-xs transition"'} title="Subir">▲</button>
+                            <button onclick="moveMenuItem(${index}, 1)" ${isLast ? 'disabled class="opacity-30 p-1 rounded"' : 'class="p-1 hover:bg-neutral-200 rounded text-xs transition"'} title="Bajar">▼</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function updateMenuTitle(index, newTitle) {
+            tempMenuData[index].title = newTitle.trim();
+        }
+
+        function moveMenuItem(index, direction) {
+            const newIndex = index + direction;
+            if (newIndex < 0 || newIndex >= tempMenuData.length) return;
+            const temp = tempMenuData[index];
+            tempMenuData[index] = tempMenuData[newIndex];
+            tempMenuData[newIndex] = temp;
+            renderMenuManager();
+        }
+
+        async function saveMenuOrderToGitHub() {
+            const ghToken = localStorage.getItem('github_token') || document.getElementById('github-token').value.trim();
+            if (!ghToken) {
+                alert("Por favor ingresá tu GitHub Token en la cabecera para guardar el menú.");
+                return;
+            }
+
+            const btn = document.getElementById('btn-save-menu-order');
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = "<span>⏳ Guardando en GitHub...</span>";
+
+            try {
+                const menuUrl = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/menu.json`;
+                const headers = {
+                    'Authorization': `token ${ghToken}`,
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Content-Type': 'application/json'
+                };
+
+                const getRes = await fetch(menuUrl, { headers });
+                if (!getRes.ok) throw new Error("No se pudo obtener el SHA actual de menu.json");
+                const getData = await getRes.json();
+
+                const updatedJson = JSON.stringify(tempMenuData, null, 2);
+                const putRes = await fetch(menuUrl, {
+                    method: 'PUT',
+                    headers,
+                    body: JSON.stringify({
+                        message: "Admin Console: Reordenar y actualizar menu.json",
+                        content: utf8ToBase64(updatedJson),
+                        sha: getData.sha
+                    })
+                });
+
+                if (!putRes.ok) {
+                    const err = await putRes.json().catch(() => ({}));
+                    throw new Error(err.message || `Error HTTP ${putRes.status}`);
+                }
+
+                fullMenuData = JSON.parse(JSON.stringify(tempMenuData));
+                await loadMenu();
+                toggleMenuManagerModal();
+                logToConsole("✔ Menú reordenado y guardado en GitHub con éxito.");
+                alert("¡Menú actualizado correctamente en GitHub!");
+            } catch (err) {
+                logToConsole(`Error al guardar menú: ${err.message}`, true);
+                alert(`Error: ${err.message}`);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
         }
     </script>
 </body>
