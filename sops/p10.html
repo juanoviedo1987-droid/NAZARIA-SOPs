@@ -1,59 +1,159 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>P-10 · Promociones Activas</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: transparent;
-        }
-        
-        .wrapper-promos {
-            position: fixed;
-            background-color: #ffffff;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            border: 1px solid #cccccc;
-            border-radius: 4px;
-            overflow: auto;
-            -webkit-overflow-scrolling: touch;
-            z-index: 10;
-        }
+<h1 class="sop-title-1">P-10 · Promociones Activas y Medios de Pago</h1>
+<p class="sop-text"><strong>Objetivo:</strong> Estandarizar la prioridad de cobro, descuentos por medio de pago, esquemas de cuotas y promociones vigentes por sucursal para optimizar el margen comercial y agilizar la línea de caja.</p>
 
-        /* Vista Mobile (< 768px) */
-        @media (max-width: 767px) {
-            .wrapper-promos {
-                top: 64px;
-                left: 8px;
-                right: 8px;
-                bottom: 8px;
-            }
-        }
+<hr class="sop-divider">
 
-        /* Vista Escritorio / Terminal Sucursal (>= 768px) */
-        @media (min-width: 768px) {
-            .wrapper-promos {
-                top: 110px;
-                left: 345px;
-                right: 20px;
-                bottom: 20px;
-            }
-        }
+<h2 class="sop-title-2">FASE 1: PRIORIDAD DE COBRO Y MEDIOS DE PAGO GENERALES</h2>
+<p class="sop-text">Condiciones comerciales vigentes para productos de temporada y línea general. Priorizar siempre medios de pago con menor comisión financiera:</p>
 
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: block;
-        }
-    </style>
-</head>
-<body>
-    <div class="wrapper-promos">
-        <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQkz7Ir_NGsJ3GYgxB1VT-690Za3piPy0CCBTdGJhnWR3e-t6kKF0XBHWH_vN4ac3oDf_GV-ywZaXq2/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
-    </div>
-</body>
-</html>
+<table>
+  <thead>
+    <tr>
+      <th>Medio de Pago</th>
+      <th>Condición / Descuento</th>
+      <th>Cuotas / Montos Mínimos</th>
+      <th>Observaciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>💵 <strong>1. Efectivo</strong></td>
+      <td><span style="font-weight: 700; color: #15803d; background-color: #dcfce7; padding: 2px 6px; rounded: 4px;">20% OFF</span></td>
+      <td>Pago único</td>
+      <td>Sin mínimo de compra. Máxima prioridad de cobro en salón.</td>
+    </tr>
+    <tr>
+      <td>📱 <strong>2. QR / Débito</strong></td>
+      <td><span style="font-weight: 700; color: #15803d; background-color: #dcfce7; padding: 2px 6px; rounded: 4px;">10% OFF</span></td>
+      <td>1 pago</td>
+      <td>Sin mínimo de compra. Priorizar siempre cobro vía QR ante débito físico.</td>
+    </tr>
+    <tr>
+      <td>💳 <strong>3. Crédito (Estándar)</strong></td>
+      <td>Precio de Lista</td>
+      <td><strong>1 a 3 cuotas sin interés</strong></td>
+      <td>Sin monto mínimo de compra.</td>
+    </tr>
+    <tr>
+      <td>💳 <strong>3.1 Crédito (6 Cuotas)</strong></td>
+      <td>Precio de Lista</td>
+      <td><strong>6 cuotas sin interés</strong></td>
+      <td>Aplica en <strong>tickets mayores a $150.000</strong>. En tickets menores tiene <strong>+10% de recargo</strong>.</td>
+    </tr>
+    <tr>
+      <td>💳 <strong>3.2 Crédito (9 Cuotas)</strong></td>
+      <td>Precio de Lista</td>
+      <td><strong>9 cuotas sin interés</strong></td>
+      <td>Aplica en <strong>tickets mayores a $225.000</strong>. En tickets menores tiene <strong>+20% de recargo</strong>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr class="sop-divider">
+
+<h2 class="sop-title-2">FASE 2: CONDICIONES DE PAGO EN LIQUIDACIÓN</h2>
+<p class="sop-text">Para mercadería identificada como Liquidación / Rebajas de temporada, aplican las siguientes pautas estrictas:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Medio de Pago</th>
+      <th>Precio Aplicable</th>
+      <th>Condición Operativa</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>💵 <strong>Efectivo</strong></td>
+      <td><span style="font-weight: 700; color: #15803d; background-color: #dcfce7; padding: 2px 6px; rounded: 4px;">5% OFF adicional</span></td>
+      <td>Descuento extra aplicado directamente sobre el Precio de Liquidación.</td>
+    </tr>
+    <tr>
+      <td>📱 <strong>Débito / QR / Crédito (1 Pago)</strong></td>
+      <td>Precio Fijo de Liquidación</td>
+      <td>Sin descuento adicional. Pago en 1 cuota.</td>
+    </tr>
+    <tr>
+      <td>💳 <strong>Crédito (3 Cuotas)</strong></td>
+      <td>Precio Liquidación <span style="font-weight: 700; color: #b91c1c;">+10% recargo</span></td>
+      <td>Financiación en 3 pagos sobre precio de liquidación.</td>
+    </tr>
+    <tr>
+      <td>💳 <strong>Crédito (6 Cuotas)</strong></td>
+      <td>Precio Liquidación <span style="font-weight: 700; color: #b91c1c;">+20% recargo</span></td>
+      <td>Financiación en 6 pagos sobre precio de liquidación.</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote class="sop-blockquote">
+  <strong>⚠ AVISO OBLIGATORIO A LA CLIENTA:</strong> Toda prenda, calzado o accesorio adquirido bajo precio de liquidación <strong>NO TIENE CAMBIO NI DEVOLUCIÓN</strong>. Aclarar antes de emitir el ticket.
+</blockquote>
+
+<hr class="sop-divider">
+
+<h2 class="sop-title-2">FASE 3: BENEFICIOS Y CONVENIOS POR SUCURSAL</h2>
+
+<h3 class="sop-title-3">🛍️ Sucursal CHAMPAGNAT</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Convenio / Beneficio</th>
+      <th>Beneficio Aplicable</th>
+      <th>Días y Condiciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Paseo Club</strong></td>
+      <td>15% OFF en zapatillas</td>
+      <td><strong>Martes y Miércoles</strong>. No acumulable con otras promociones.</td>
+    </tr>
+    <tr>
+      <td><strong>Club Champagnat 2026</strong></td>
+      <td>+5% adicional en Efectivo</td>
+      <td>Vigencia indefinida. Exclusivo pago en efectivo.</td>
+    </tr>
+    <tr>
+      <td><strong>Convenio UCES y Austral</strong></td>
+      <td>+5% adicional en Efectivo</td>
+      <td>Vigencia indefinida. Presentando credencial universitaria. Solo efectivo.</td>
+    </tr>
+    <tr>
+      <td><strong>Banco Nación (BNA)</strong></td>
+      <td>20% reintegro + 9 cuotas s/interés</td>
+      <td><strong>Todos los Jueves</strong> (20/08 al 30/09/2026). Tarjetas Visa/Mastercard Crédito vía MODO. Tope de reintegro: $30.000 por transacción.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 class="sop-title-3">🛍️ Sucursal TOM (Tortugas Open Mall)</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Convenio / Beneficio</th>
+      <th>Beneficio Aplicable</th>
+      <th>Días y Condiciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Banco Nación (BNA)</strong></td>
+      <td>20% reintegro + 9 cuotas s/interés</td>
+      <td><strong>Todos los Jueves</strong> (20/08 al 30/09/2026). Tarjetas Visa/Mastercard Crédito vía MODO. Tope de reintegro: $30.000 por transacción.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 class="sop-title-3">🛍️ Sucursal MASCHWITZ</h3>
+<p class="sop-text" style="color: #737373; font-style: italic;">Sin promociones exclusivas vigentes al momento. Rigen las condiciones generales de la Fase 1.</p>
+
+<hr class="sop-divider">
+
+<h3 class="sop-title-3">⚠ REGLAS DE ORO (Puntos Críticos de Control en Terminal)</h3>
+<ul class="sop-warning-list">
+  <li class="sop-warning-item">📱 <strong>[Posnet Mercado Pago]:</strong> Usar obligatoriamente si la clienta abona desde la App de Mercado Pago (QR / Link de Pago) o si la operación de crédito se pacta en CUOTAS.</li>
+  <li class="sop-warning-item">💳 <strong>[Posnet Payway]:</strong> Usar para promociones bancarias específicas homologadas o cuando la venta es en 1 PAGO estándar (Débito / Crédito 1 cuota).</li>
+  <li class="sop-warning-item">🚫 <strong>[Liquidación sin Cambio]:</strong> Prohibido aceptar cambios de artículos comprados en liquidación sin excepción, salvo autorización formal expresa de supervisión.</li>
+  <li class="sop-warning-item">🧾 <strong>[Validación de Topes Bancarios]:</strong> En promociones bancarias con MODO (como BNA), informar siempre a la clienta el tope máximo de reintegro por ticket para evitar reclamos en caja.</li>
+</ul>
