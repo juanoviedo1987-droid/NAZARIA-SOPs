@@ -1,48 +1,87 @@
-# Contexto Tecnológico: Sistema de SOPs Nazaria (v3)
+# Contexto Tecnológico y Memoria Operativa: Sistema de SOPs Nazaria (v3)
 
-## 1. Arquitectura del Sistema
-- **Infraestructura:** Alojamiento estático en GitHub Pages sobre el repositorio `juanoviedo1987-droid/sops-nazaria` (sin intermediarios ni servidores de compilación)[cite: 2].
-- **Estructura del Proyecto:**
-  - `/index.html`: Terminal de consulta en sucursales. Consume `/menu.json` dinámicamente con bypass anti-caché (`?t=`) y renderiza los manuales en una tarjeta A4 centrada (`max-w-[820px]`, `padding: 60px`)[cite: 2, 3].
-  - `/admin.html`: Consola de control para redacción y maquetado. Incluye panel de IA (`gemini-2.5-flash` vía `v1beta`), hoja de edición interactiva (`contenteditable`) de 820px y panel lateral deslizante (Drawer) con la guía de flujo[cite: 1].
-  - `/menu.json`: Manifiesto central que lista el catálogo activo: `[{"id": "p01", "title": "P-01 · Título"}]`[cite: 2, 4].
-  - `/sops/`: Directorio físico donde se almacenan los archivos HTML de cada manual (`p01.html`, `p02.html`, etc.)[cite: 2].
+Este documento es la **Fuente Central de Verdad y Memoria** del proyecto. Cualquier asistente de IA o desarrollador que trabaje en este repositorio debe leer este archivo para comprender la arquitectura, el negocio y las reglas de diseño sin necesidad de consultar historiales previos.
 
-## 2. Estándar de Diseño Estricto (P-00)
-Existen dos formatos admitidos dentro de `/sops/`:
+---
 
-### Formato Único Homologado: Fragmentos HTML Estándar (p01 a p11)
-Prohibido incluir etiquetas globales (`<!DOCTYPE html>`, `<html>`, `<head>`, `<body>`) o bloques markdown (` ``` `)[cite: 1]. Se estructuran exclusivamente con clases CSS de la familia **Inter**[cite: 1, 3]:
-- **Título Principal (22pt, #000000, Negrita):** `<h1 class="sop-title-1">P-XX · Título</h1>`[cite: 1, 3]
-- **Títulos de Fase (13pt, #000000, Negrita, MAYÚSCULAS, Borde 2px):** `<h2 class="sop-title-2">FASE X: NOMBRE</h2>`[cite: 1, 3]
-- **Sub-bloques (11pt, #404040, Negrita):** `<h3 class="sop-title-3">X. Nombre</h3>`[cite: 1, 3]
-- **Párrafos (11pt, #1A1A1A, Justificado):** `<p class="sop-text">Texto explicativo.</p>`[cite: 1, 3]
-- **Listas de Tareas:** `<ul class="sop-list"><li class="sop-list-item">[Emoji] <strong>Paso:</strong> Detalle.</li></ul>`[cite: 1, 3]
-- **Citas / Ejemplos:** `<blockquote class="sop-blockquote">Ejemplo: "Texto"</blockquote>`[cite: 1, 3]
-- **Separadores:** `<hr class="sop-divider">` tras el Objetivo y al finalizar cada Fase[cite: 1, 3].
-- **Tablas Operativas:** `<table>` con encabezados `<th>` en fondo `#F5F5F5` y bordes `#E5E5E5`[cite: 1].
-- **Reglas de Oro (Cierre Obligatorio):**
+## 1. Identidad y Alcance del Negocio
+* **Empresa:** Nazaria (Franquicia de retail de calzado y accesorios femeninos).
+* **Sucursales Activas:**
+  * **TOM** (Tortugas Open Mall)
+  * **Paseo Champagnat** (Pilar)
+  * **Maschwitz Mall** (Ingeniero Maschwitz)
+* **Sistemas Operativos Centrales:**
+  * **Dux Software:** Sistema ERP/POS central de facturación, control de stock y caja.
+  * **Terminales de Cobro:** Payway (usada para 1 pago y promociones bancarias BNA) y Mercado Pago (usada para cuotas y cobro QR).
+  * **Logística y Envíos:** Correo Argentino (envío bonificado a partir de 2 pares).
+
+---
+
+## 2. Infraestructura en la Nube (100% Serverless)
+* **Repositorio GitHub:** `juanoviedo1987-droid/sops-nazaria` (rama `main`).
+* **Sitio Web Público (Terminales de Sucursales):**  
+  `https://juanoviedo1987-droid.github.io/sops-nazaria/`
+* **Consola de Administración y Publicación:**  
+  `https://juanoviedo1987-droid.github.io/sops-nazaria/admin.html`
+* **Sin dependencias locales:** No requiere Git local ni servidores propios. Todas las operaciones de lectura y guardado se ejecutan mediante la API REST de GitHub (`/contents/`).
+
+---
+
+## 3. Catálogo Oficial Homologado (11 SOPs)
+El catálogo activo se gestiona dinámicamente desde `/menu.json`:
+1. `P-01`: **Atención al Cliente y Ventas** (Protocolo de bienvenida, indagación, calzado "vidriera" y cierre con 20% OFF efectivo).
+2. `P-02`: **Operación de Caja y Pagos** (Dux, fidelización por email, cobro Payway/MP, cierre ciego y notas de crédito).
+3. `P-03`: **Orden y Estética del Local** (Checklist de salón y vidriera, política de cero huecos/baches y depósito limpio).
+4. `P-04`: **Posventa y Cambios** (30 días por gusto, 45 días por falla, constancia digital y cruce entre locales).
+5. `P-05`: **Recepción y Stock** (Control de remito, auditoría semanal los jueves, reporte Google Forms y derivación de remanentes a P-08).
+6. `P-06`: **Gestión de Gift Cards** (Generador Google Forms, facturación Dux y protocolo de "quemado" obligatorio para evitar doble canje).
+7. `P-07`: **Venta Activa y Omnicanalidad** (WhatsApp/Instagram, prospección por turnos, comisión a la vendedora del turno y plantilla de envío Correo Argentino).
+8. `P-08`: **Estrategia de Contenido Digital** (Cronograma semanal de publicaciones: Mañana/Mediodía atracción vs Tarde/Noche conversión).
+9. `P-09`: **Musicalización y Experiencia Sensorial** (Ambientación sonora offline Royalty-Free con VLC para blindaje legal ante SADAIC/CAPIF).
+10. `P-10`: **Promociones Activas** (Matriz vertical compacta con colores del Excel: Efectivo 20% OFF, QR 10% OFF, cuotas, recargos de liquidación y promos bancarias por sucursal).
+11. `P-11`: **Liquidación AW26: Verificación de Artículos por Categoría** (Matriz de bateas fijas: $69.900, $49.900, $34.900 y $24.900).
+
+---
+
+## 4. Estándar de Diseño Estricto (Norma P-00)
+Cada archivo dentro de `/sops/pXX.html` es un fragmento HTML puro, sin etiquetas estructurales (`<!DOCTYPE>`, `<html>`, `<head>`, `<body>`) ni bloques de markdown (```` ``` ````).
+
+### Clases y Jerarquía Visual (Familia Tipográfica Inter):
+* **Título Principal:** `<h1 class="sop-title-1">P-XX · Título Oficial</h1>` (22pt, negrita, #000000).
+* **Objetivo:** `<p class="sop-text"><strong>Objetivo:</strong> Descripción clara del propósito.</p>`
+* **Separador:** `<hr class="sop-divider">` (tras el objetivo y al finalizar cada fase).
+* **Fases Operativas:** `<h2 class="sop-title-2">FASE X: NOMBRE EN MAYÚSCULAS</h2>`
+* **Sub-secciones:** `<h3 class="sop-title-3">X. Nombre de Sección</h3>`
+* **Párrafos Explicativos:** `<p class="sop-text">Texto justificado.</p>`
+* **Listas de Tareas:** `<ul class="sop-list"><li class="sop-list-item">[Emoji] <strong>Título:</strong> Detalle del paso.</li></ul>`
+* **Citas / Ejemplos:** `<blockquote class="sop-blockquote">Ejemplo: "Diálogo o texto de referencia"</blockquote>`
+* **Tablas:** `<table>` con encabezados en fondo `#F5F5F5` y bordes `#E5E5E5`.
+* **Reglas de Oro (Cierre Obligatorio al final de cada SOP):**
   ```html
   <hr class="sop-divider">
   <h3 class="sop-title-3">⚠ REGLAS DE ORO (Puntos Críticos de Control)</h3>
   <ul class="sop-warning-list">
-    <li class="sop-warning-item">⚠ <strong>[Regla]:</strong> Descripción de la falta crítica.</li>
+    <li class="sop-warning-item">⚠ <strong>[Punto Crítico]:</strong> Descripción obligatoria de la falta grave.</li>
   </ul>
-  ```[cite: 1, 3]
+  ```
 
-*(Nota: Todas las planillas y tablas de cobro fueron migradas a tablas HTML nativas responsive con diseño P-00).*`
+### Biblioteca de Emojis Operativos:
+* 🖥️ **Sistemas:** Dux Software, consultas en PC y reportes.
+* 📱 **Comunicación:** WhatsApp del local, formularios Google, Drive y redes sociales.
+* 💳 **Pagos Digitales:** Terminales Payway, Nave, Mercado Pago y tarjetas de crédito/débito.
+* 💵 **Efectivo:** Caja chica, fondo de cambio y arqueos de turno.
+* 📦 **Mercadería:** Control de stock, recepción de cajas, Correo Argentino y auditorías.
+* ✨ **Atención al Cliente:** Saludo, asesoramiento de imagen, vidriera viviente y fidelización.
 
-## 3. Biblioteca Operativa de Emojis
-Asignación estricta de íconos según la naturaleza de la tarea:
-- 🖥️ **Sistemas:** Dux Software, consultas en PC y reportes[cite: 1].
-- 📱 **Comunicación:** WhatsApp del local, formularios Google y redes sociales[cite: 1].
-- 💳 **Pagos Digitales:** Terminales Payway, Nave, Mercado Pago y tarjetas[cite: 1].
-- 💵 **Efectivo:** Caja chica, cambio y arqueos de turno[cite: 1].
-- 📦 **Mercadería:** Control de stock, recepción de cajas, Correo Argentino y auditorías[cite: 1].
-- ✨ **Atención al Cliente:** Saludo, estética, asesoramiento y fidelización[cite: 1].
+---
 
-## 4. Flujo Operativo Desacoplado
-1. **Concepción (Gemini Gem):** Estructuración de borradores y análisis de directivas de negocio[cite: 1].
-2. **Maquetación (`admin.html`):** Inyección del texto en la consola $\rightarrow$ Procesamiento con Gemini 2.5 Flash (`v1beta`) $\rightarrow$ Previsualización y edición directa en hoja de 820px[cite: 1].
-3. **Persistencia Directa (1 Clic):** Clic en **"🚀 Publicar en GitHub"** en la consola `admin.html`. El sistema guarda automáticamente el archivo en `sops/pXX.html` y actualiza `menu.json` si es un nuevo manual vía API de GitHub. (También se mantiene la opción de copia manual como respaldo).
-4. **Consulta (`index.html`):** Las terminales en locales visualizan los cambios inmediatamente sin recargas de servidor ni bloqueos de caché[cite: 1, 3].
+## 5. Funcionalidades Clave de las Aplicaciones
+1. **`index.html` (Terminal de Sucursal):**
+   * Hoja A4 centrada (`max-w-[820px]`, `md:p-[60px]`, fondo `#FAF9F6` con detalle Nazaria `#E6D5C3`).
+   * Buscador semántico instantáneo que analiza títulos, identificadores y palabras clave del negocio (`caja`, `falla`, `posnet`, `payway`, etc.).
+   * Drawer lateral responsive con apertura/cierre táctil optimizado para celulares.
+2. **`admin.html` (Consola de Gestión):**
+   * Motor de IA Gemini 2.5 Flash integrado para redactar y maquetar cumpliendo P-00.
+   * Publicación directa en 1 Clic a la API de GitHub (guarda `sops/pXX.html` y actualiza `menu.json`).
+   * Hoja interactiva editable directamente en pantalla (`contenteditable="true"`).
+   * Gestor de Menú modal con reordenamiento por flechas, edición de títulos y eliminación con borrado físico automático en GitHub.
