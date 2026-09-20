@@ -389,12 +389,16 @@
                 activeBtn.classList.add('bg-black', 'text-white', 'border-black');
             }
 
+            welcomeCard.classList.add('hidden');
+            sopViewCard.classList.add('hidden');
+            loader.classList.remove('hidden');
+
             // Ajustar ancho de la tarjeta para P-10 (Dashboard Widescreen) vs otros SOPs (Hoja A4 estándar)
             if (sopCode === 'p10') {
                 sopViewCard.classList.remove('max-w-[820px]', 'md:p-[60px]');
-                sopViewCard.classList.add('max-w-6xl', 'md:p-6');
+                sopViewCard.classList.add('max-w-6xl', 'md:p-8');
             } else {
-                sopViewCard.classList.remove('max-w-6xl', 'md:p-6');
+                sopViewCard.classList.remove('max-w-6xl', 'md:p-8');
                 sopViewCard.classList.add('max-w-[820px]', 'md:p-[60px]');
             }
 
