@@ -769,11 +769,14 @@ ASIGNACIÓN DE EMOJIS:
             window.open(targetUrl, '_blank');
         }
 
-        /* Gestor de Menú Modal (Reordenar y Renombrar) */
+        /* Gestor de Menú Modal (Reordenar, Renombrar y Eliminar) */
+        let deletedSopIds = [];
+
         function toggleMenuManagerModal() {
             const modal = document.getElementById('menu-manager-modal');
             if (modal.classList.contains('hidden')) {
                 tempMenuData = JSON.parse(JSON.stringify(fullMenuData));
+                deletedSopIds = [];
                 renderMenuManager();
                 modal.classList.remove('hidden');
             } else {
@@ -784,6 +787,11 @@ ASIGNACIÓN DE EMOJIS:
         function renderMenuManager() {
             const listContainer = document.getElementById('menu-items-list');
             listContainer.innerHTML = '';
+
+            if (tempMenuData.length === 0) {
+                listContainer.innerHTML = '<p class="text-xs text-neutral-400 text-center py-6">El menú no contiene procedimientos.</p>';
+                return;
+            }
 
             tempMenuData.forEach((item, index) => {
                 const isFirst = index === 0;
@@ -796,6 +804,7 @@ ASIGNACIÓN DE EMOJIS:
                         <div class="flex items-center gap-1 shrink-0">
                             <button onclick="moveMenuItem(${index}, -1)" ${isFirst ? 'disabled class="opacity-30 p-1 rounded"' : 'class="p-1 hover:bg-neutral-200 rounded text-xs transition"'} title="Subir">▲</button>
                             <button onclick="moveMenuItem(${index}, 1)" ${isLast ? 'disabled class="opacity-30 p-1 rounded"' : 'class="p-1 hover:bg-neutral-200 rounded text-xs transition"'} title="Bajar">▼</button>
+                            <button onclick="deleteMenuItem(${index})" class="p-1 hover:bg-red-50 text-neutral-400 hover:text-red-600 rounded text-xs transition ml-1" title="Eliminar este SOP">🗑️</button>
                         </div>
                     </div>
                 `;
@@ -813,6 +822,17 @@ ASIGNACIÓN DE EMOJIS:
             tempMenuData[index] = tempMenuData[newIndex];
             tempMenuData[newIndex] = temp;
             renderMenuManager();
+        }
+
+        function deleteMenuItem(index) {
+            const item = tempMenuData[index];
+            if (confirm(`¿Estás seguro de que querés eliminar "${item.title}"?\n\nAl hacer clic en "Guardar Cambios en GitHub", se dará de baja del catálogo y se eliminará el archivo sops/${item.id}.html.`)) {
+                if (!deletedSopIds.includes(item.id)) {
+                    deletedSopIds.push(item.id);
+                }
+                tempMenuData.splice(index, 1);
+                renderMenuManager();
+            }
         }
 
         async function saveMenuOrderToGitHub() {
@@ -835,6 +855,31 @@ ASIGNACIÓN DE EMOJIS:
                     'Content-Type': 'application/json'
                 };
 
+                // 1. Eliminar archivos físicos en GitHub si hubo bajas
+                for (const delId of deletedSopIds) {
+                    try {
+                        logToConsole(`Eliminando sops/${delId}.html en GitHub...`);
+                        const delUrl = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/sops/${delId}.html`;
+                        const delCheck = await fetch(delUrl, { headers });
+                        if (delCheck.ok) {
+                            const delData = await delCheck.json();
+                            await fetch(delUrl, {
+                                method: 'DELETE',
+                                headers,
+                                body: JSON.stringify({
+                                    message: `Admin Console: Eliminar ${delId.toUpperCase()} del catálogo`,
+                                    sha: delData.sha
+                                })
+                            });
+                            logToConsole(`✔ Archivo sops/${delId}.html eliminado de GitHub.`);
+                        }
+                    } catch (delErr) {
+                        console.warn(`No se pudo eliminar el archivo sops/${delId}.html:`, delErr);
+                    }
+                }
+                deletedSopIds = [];
+
+                // 2. Guardar nuevo menu.json
                 const getRes = await fetch(menuUrl, { headers });
                 if (!getRes.ok) throw new Error("No se pudo obtener el SHA actual de menu.json");
                 const getData = await getRes.json();
@@ -858,8 +903,8 @@ ASIGNACIÓN DE EMOJIS:
                 fullMenuData = JSON.parse(JSON.stringify(tempMenuData));
                 await loadMenu();
                 toggleMenuManagerModal();
-                logToConsole("✔ Menú reordenado y guardado en GitHub con éxito.");
-                alert("¡Menú actualizado correctamente en GitHub!");
+                logToConsole("✔ Menú guardado y actualizado en GitHub con éxito.");
+                alert("¡Menú y catálogo actualizados correctamente en GitHub!");
             } catch (err) {
                 logToConsole(`Error al guardar menú: ${err.message}`, true);
                 alert(`Error: ${err.message}`);
