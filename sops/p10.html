@@ -1,202 +1,206 @@
-<!-- Matriz Operativa de Promociones y Medios de Pago - Formato Excel Directo -->
-<div class="space-y-4 text-xs font-['Inter',Arial,sans-serif] leading-tight">
+<!-- Matriz Operativa de Promociones y Medios de Pago - Formato Dashboard Widescreen (2 Columnas) -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-3.5 text-xs font-['Inter',Arial,sans-serif] leading-tight">
 
-    <!-- Bloque 1: Medios de Pago y Prioridad de Venta (Lavanda / Azul) -->
-    <div class="border border-[#767680] rounded overflow-hidden shadow-sm">
-        <div class="bg-[#dfe0f8] text-[#1b1b20] font-bold text-xs px-3.5 py-2.5 border-b border-[#767680] flex items-center space-x-2 tracking-wide uppercase">
-            <span>💵</span>
-            <span>MEDIOS DE PAGO Y PRIORIDAD DE VENTA</span>
+    <!-- COLUMNA IZQUIERDA: Medios de Pago y Liquidación -->
+    <div class="space-y-3.5">
+        
+        <!-- Bloque 1: Medios de Pago y Prioridad de Venta (Lavanda / Azul) -->
+        <div class="border border-[#767680] rounded overflow-hidden shadow-sm">
+            <div class="bg-[#dfe0f8] text-[#1b1b20] font-bold text-xs px-3 py-2 border-b border-[#767680] flex items-center space-x-2 tracking-wide uppercase">
+                <span>💵</span>
+                <span>MEDIOS DE PAGO Y PRIORIDAD DE VENTA</span>
+            </div>
+            <div class="divide-y divide-[#767680] bg-[#faf8ff] text-[#1b1b20]">
+                <div class="px-3 py-2 flex items-center justify-between flex-wrap gap-1 hover:bg-[#dfe0f8]/30 transition">
+                    <div>
+                        <span class="font-bold text-[#15803d]">💵 1. EFECTIVO</span>
+                        <span class="mx-1 font-bold">➔</span>
+                        <span class="bg-[#dcfce7] text-[#15803d] font-bold px-1.5 py-0.5 rounded border border-[#86efac]">20% OFF</span>
+                    </div>
+                    <span class="text-[11px] text-neutral-600 font-medium">(Sin mínimo)</span>
+                </div>
+
+                <div class="px-3 py-2 flex items-center justify-between flex-wrap gap-1 hover:bg-[#dfe0f8]/30 transition">
+                    <div>
+                        <span class="font-bold text-[#1d4ed8]">📱 2. QR / DÉBITO</span>
+                        <span class="mx-1 font-bold">➔</span>
+                        <span class="bg-[#dbeafe] text-[#1d4ed8] font-bold px-1.5 py-0.5 rounded border border-[#93c5fd]">10% OFF</span>
+                    </div>
+                    <span class="text-[11px] text-neutral-600 font-medium">(Priorizar siempre QR)</span>
+                </div>
+
+                <div class="px-3 py-2 flex items-center justify-between flex-wrap gap-1 hover:bg-[#dfe0f8]/30 transition">
+                    <div>
+                        <span class="font-bold text-neutral-900">💳 3. CRÉDITO</span>
+                        <span class="mx-1 font-bold">➔</span>
+                        <span class="font-semibold text-neutral-700">PRECIO LISTA</span>
+                    </div>
+                    <span class="font-bold text-neutral-900 bg-white px-1.5 py-0.5 rounded border border-neutral-300 text-[11px]">1-3 cuotas s/interés (sin mínimo)</span>
+                </div>
+
+                <div class="px-3 py-2 flex items-center justify-between flex-wrap gap-1 hover:bg-[#dfe0f8]/30 transition">
+                    <div>
+                        <span class="font-bold text-neutral-900">💳 3.1 CRÉDITO</span>
+                        <span class="mx-1 font-bold">➔</span>
+                        <span class="font-semibold text-neutral-700">6 cuotas</span>
+                    </div>
+                    <div class="text-[11px] space-x-1">
+                        <span class="bg-amber-100 text-amber-900 font-bold px-1.5 py-0.5 rounded border border-amber-300">+10%</span>
+                        <span class="text-neutral-500 font-semibold">o ticket &gt;</span>
+                        <span class="bg-emerald-100 text-emerald-900 font-bold px-1.5 py-0.5 rounded border border-emerald-300">$150.000 s/interés</span>
+                    </div>
+                </div>
+
+                <div class="px-3 py-2 flex items-center justify-between flex-wrap gap-1 hover:bg-[#dfe0f8]/30 transition">
+                    <div>
+                        <span class="font-bold text-neutral-900">💳 3.2 CRÉDITO</span>
+                        <span class="mx-1 font-bold">➔</span>
+                        <span class="font-semibold text-neutral-700">9 cuotas</span>
+                    </div>
+                    <div class="text-[11px] space-x-1">
+                        <span class="bg-amber-100 text-amber-900 font-bold px-1.5 py-0.5 rounded border border-amber-300">+20%</span>
+                        <span class="text-neutral-500 font-semibold">o ticket &gt;</span>
+                        <span class="bg-emerald-100 text-emerald-900 font-bold px-1.5 py-0.5 rounded border border-emerald-300">$225.000 s/interés</span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="divide-y divide-[#767680] bg-[#faf8ff] text-[#1b1b20]">
-            <div class="px-3.5 py-2.5 flex items-center justify-between flex-wrap gap-1 hover:bg-[#dfe0f8]/30 transition">
-                <div>
-                    <span class="font-bold text-[#15803d]">💵 1. EFECTIVO</span>
-                    <span class="mx-1.5 font-bold">➔</span>
-                    <span class="bg-[#dcfce7] text-[#15803d] font-bold px-2 py-0.5 rounded border border-[#86efac]">20% OFF</span>
-                </div>
-                <span class="text-[11px] text-neutral-600 font-medium">(Sin mínimo de compra)</span>
-            </div>
 
-            <div class="px-3.5 py-2.5 flex items-center justify-between flex-wrap gap-1 hover:bg-[#dfe0f8]/30 transition">
-                <div>
-                    <span class="font-bold text-[#1d4ed8]">📱 2. QR / DÉBITO</span>
-                    <span class="mx-1.5 font-bold">➔</span>
-                    <span class="bg-[#dbeafe] text-[#1d4ed8] font-bold px-2 py-0.5 rounded border border-[#93c5fd]">10% OFF</span>
-                </div>
-                <span class="text-[11px] text-neutral-600 font-medium">(Sin mínimo. Priorizar siempre QR)</span>
+        <!-- Bloque 2: Liquidación (Rojo / Rosa) -->
+        <div class="border border-[#767680] rounded overflow-hidden shadow-sm">
+            <div class="bg-[#ea9999] text-[#1b1b20] font-bold text-xs px-3 py-2 border-b border-[#767680] flex items-center space-x-2 tracking-wide uppercase">
+                <span>🏷️</span>
+                <span>LIQUIDACIÓN: CONDICIONES DE PAGO Y CUOTAS</span>
             </div>
-
-            <div class="px-3.5 py-2.5 flex items-center justify-between flex-wrap gap-1 hover:bg-[#dfe0f8]/30 transition">
-                <div>
-                    <span class="font-bold text-neutral-900">💳 3. CRÉDITO</span>
-                    <span class="mx-1.5 font-bold">➔</span>
-                    <span class="font-semibold text-neutral-800">PRECIO DE LISTA</span>
+            <div class="divide-y divide-[#767680] bg-[#f4cccc] text-[#1b1b20]">
+                <div class="px-3 py-1.5 flex items-center justify-between flex-wrap gap-1">
+                    <span class="font-bold">💵 EFECTIVO</span>
+                    <span class="font-bold text-[#15803d] bg-white/80 px-1.5 py-0.5 rounded text-[11px]">➔ 5% OFF adicional sobre Liquidación</span>
                 </div>
-                <span class="font-bold text-neutral-900 bg-white px-2 py-0.5 rounded border border-neutral-300">1 a 3 cuotas s/interés (sin mínimo)</span>
-            </div>
-
-            <div class="px-3.5 py-2.5 flex items-center justify-between flex-wrap gap-1 hover:bg-[#dfe0f8]/30 transition">
-                <div>
-                    <span class="font-bold text-neutral-900">💳 3.1 CRÉDITO</span>
-                    <span class="mx-1.5 font-bold">➔</span>
-                    <span class="font-semibold text-neutral-800">PRECIO DE LISTA 6 cuotas</span>
+                <div class="px-3 py-1.5 flex items-center justify-between flex-wrap gap-1">
+                    <span class="font-bold">📱 DÉBITO / QR / CRÉDITO (1 PAGO)</span>
+                    <span class="font-bold text-neutral-900 bg-white/80 px-1.5 py-0.5 rounded text-[11px]">➔ Precio Fijo de Liquidación</span>
                 </div>
-                <div class="text-[11px] space-x-1">
-                    <span class="bg-amber-100 text-amber-900 font-bold px-1.5 py-0.5 rounded border border-amber-300">+10%</span>
-                    <span class="text-neutral-500 font-semibold">o ticket mayor a</span>
-                    <span class="bg-emerald-100 text-emerald-900 font-bold px-1.5 py-0.5 rounded border border-emerald-300">$150.000 s/interés</span>
+                <div class="px-3 py-1.5 flex items-center justify-between flex-wrap gap-1">
+                    <span class="font-bold">💳 CRÉDITO (3 CUOTAS)</span>
+                    <span class="font-bold text-amber-900 bg-white/80 px-1.5 py-0.5 rounded text-[11px]">➔ +10% de recargo sobre Liquidación</span>
                 </div>
-            </div>
-
-            <div class="px-3.5 py-2.5 flex items-center justify-between flex-wrap gap-1 hover:bg-[#dfe0f8]/30 transition">
-                <div>
-                    <span class="font-bold text-neutral-900">💳 3.2 CRÉDITO</span>
-                    <span class="mx-1.5 font-bold">➔</span>
-                    <span class="font-semibold text-neutral-800">PRECIO DE LISTA 9 cuotas</span>
+                <div class="px-3 py-1.5 flex items-center justify-between flex-wrap gap-1">
+                    <span class="font-bold">💳 CRÉDITO (6 CUOTAS)</span>
+                    <span class="font-bold text-red-900 bg-white/80 px-1.5 py-0.5 rounded text-[11px]">➔ +20% de recargo sobre Liquidación</span>
                 </div>
-                <div class="text-[11px] space-x-1">
-                    <span class="bg-amber-100 text-amber-900 font-bold px-1.5 py-0.5 rounded border border-amber-300">+20%</span>
-                    <span class="text-neutral-500 font-semibold">o ticket mayor a</span>
-                    <span class="bg-emerald-100 text-emerald-900 font-bold px-1.5 py-0.5 rounded border border-emerald-300">$225.000 s/interés</span>
+                <div class="px-3 py-1.5 bg-[#f4cccc] text-center font-bold text-red-900 tracking-wider uppercase text-[10px] border-t border-red-300">
+                    ⚠ IMPORTANTE: Liquidación no tiene cambio.-
                 </div>
             </div>
         </div>
+
     </div>
 
-    <!-- Bloque 2: Liquidación (Rojo / Rosa) -->
-    <div class="border border-[#767680] rounded overflow-hidden shadow-sm">
-        <div class="bg-[#ea9999] text-[#1b1b20] font-bold text-xs px-3.5 py-2.5 border-b border-[#767680] flex items-center space-x-2 tracking-wide uppercase">
-            <span>🏷️</span>
-            <span>LIQUIDACIÓN: CONDICIONES DE PAGO Y CUOTAS</span>
-        </div>
-        <div class="divide-y divide-[#767680] bg-[#f4cccc] text-[#1b1b20]">
-            <div class="px-3.5 py-2 flex items-center justify-between flex-wrap gap-1">
-                <span class="font-bold">💵 EFECTIVO</span>
-                <span class="font-bold text-[#15803d] bg-white/70 px-2 py-0.5 rounded">➔ 5% OFF adicional sobre Precio de Liquidación</span>
+    <!-- COLUMNA DERECHA: Promociones por Sucursal y Reglas de Oro -->
+    <div class="space-y-3.5">
+        
+        <!-- Bloque 3: Promociones Exclusivas por Sucursal (Azul Marino / Índigo) -->
+        <div class="border border-[#767680] rounded overflow-hidden shadow-sm">
+            <div class="bg-white text-[#515b92] font-bold text-xs px-3 py-2 border-b border-[#767680] flex items-center space-x-2 tracking-wide uppercase">
+                <span>🛍️</span>
+                <span>PROMOCIONES EXCLUSIVAS POR SUCURSAL</span>
             </div>
-            <div class="px-3.5 py-2 flex items-center justify-between flex-wrap gap-1">
-                <span class="font-bold">📱 DÉBITO / QR / CRÉDITO (1 PAGO)</span>
-                <span class="font-bold text-neutral-900 bg-white/70 px-2 py-0.5 rounded">➔ Precio Fijo de Liquidación</span>
-            </div>
-            <div class="px-3.5 py-2 flex items-center justify-between flex-wrap gap-1">
-                <span class="font-bold">💳 CRÉDITO (3 CUOTAS)</span>
-                <span class="font-bold text-amber-900 bg-white/70 px-2 py-0.5 rounded">➔ +10% de recargo sobre Precio de Liquidación</span>
-            </div>
-            <div class="px-3.5 py-2 flex items-center justify-between flex-wrap gap-1">
-                <span class="font-bold">💳 CRÉDITO (6 CUOTAS)</span>
-                <span class="font-bold text-red-900 bg-white/70 px-2 py-0.5 rounded">➔ +20% de recargo sobre Precio de Liquidación</span>
-            </div>
-            <div class="px-3.5 py-2.5 bg-[#f4cccc] text-center font-bold text-red-900 tracking-wider uppercase text-[11px] border-t-2 border-red-300">
-                ⚠ IMPORTANTE: Liquidación no tiene cambio.-
-            </div>
-        </div>
-    </div>
 
-    <!-- Bloque 3: Promociones Exclusivas por Sucursal (Azul Marino / Índigo) -->
-    <div class="border border-[#767680] rounded overflow-hidden shadow-sm">
-        <div class="bg-white text-[#515b92] font-bold text-xs px-3.5 py-2 border-b border-[#767680] flex items-center space-x-2 tracking-wide uppercase">
-            <span>🛍️</span>
-            <span>PROMOCIONES EXCLUSIVAS POR SUCURSAL</span>
-        </div>
-
-        <!-- Tabla Champagnat -->
-        <div class="overflow-x-auto">
+            <!-- Tabla Champagnat -->
             <table class="w-full text-left border-collapse border-b border-[#767680]">
                 <thead>
-                    <tr class="bg-[#515b92] text-white font-bold text-[11px]">
-                        <th class="p-2 border-r border-[#767680] w-1/3">🛍️ CHAMPAGNAT</th>
-                        <th class="p-2 border-r border-[#767680] w-1/3">Condición</th>
-                        <th class="p-2 w-1/3">Vigencia</th>
+                    <tr class="bg-[#515b92] text-white font-bold text-[10px]">
+                        <th class="p-1.5 border-r border-[#767680] w-[35%]">🛍️ CHAMPAGNAT</th>
+                        <th class="p-1.5 border-r border-[#767680] w-[40%]">Condición</th>
+                        <th class="p-1.5 w-[25%]">Vigencia</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[#767680] bg-[#faf8ff] text-[11px] text-[#1b1b20]">
                     <tr>
-                        <td class="p-2 border-r border-[#767680] font-bold">PASEO CLUB 15% OFF</td>
-                        <td class="p-2 border-r border-[#767680]">En zapatillas, NO ACUMULABLE CON OTRAS PROMOCIONES</td>
-                        <td class="p-2 font-bold text-amber-900 bg-amber-50">MARTES Y MIÉRCOLES</td>
+                        <td class="p-1.5 border-r border-[#767680] font-bold">PASEO CLUB 15% OFF</td>
+                        <td class="p-1.5 border-r border-[#767680] text-[10px]">En zapatillas, no acumulable</td>
+                        <td class="p-1.5 font-bold text-amber-900 bg-amber-50 text-[10px]">MARTES Y MIÉRC.</td>
                     </tr>
                     <tr>
-                        <td class="p-2 border-r border-[#767680] font-bold">CLUB CHAMPAGNAT 2026: +5% adicional en EFECTIVO</td>
-                        <td class="p-2 border-r border-[#767680]">Solo Efectivo</td>
-                        <td class="p-2 text-neutral-600">Indefinida</td>
+                        <td class="p-1.5 border-r border-[#767680] font-bold">CLUB CHAMPAGNAT: +5%</td>
+                        <td class="p-1.5 border-r border-[#767680] text-[10px]">Solo Efectivo</td>
+                        <td class="p-1.5 text-neutral-600 text-[10px]">Indefinida</td>
                     </tr>
                     <tr>
-                        <td class="p-2 border-r border-[#767680] font-bold">CONVENIO UCES y AUSTRAL: +5% adicional en EFECTIVO</td>
-                        <td class="p-2 border-r border-[#767680]">Solo Efectivo</td>
-                        <td class="p-2 text-neutral-600">Indefinida</td>
+                        <td class="p-1.5 border-r border-[#767680] font-bold">CONVENIO UCES/AUSTRAL: +5%</td>
+                        <td class="p-1.5 border-r border-[#767680] text-[10px]">Solo Efectivo</td>
+                        <td class="p-1.5 text-neutral-600 text-[10px]">Indefinida</td>
                     </tr>
-                    <tr class="bg-emerald-50/60">
-                        <td class="p-2 border-r border-[#767680] font-bold text-emerald-900">BNA: 20% + 9 cuotas sin interés</td>
-                        <td class="p-2 border-r border-[#767680]">Tarjetas Visa/Mastercard Crédito vía MODO. Tope reintegro $30.000 por transacción</td>
-                        <td class="p-2 font-bold text-emerald-900 bg-emerald-100">Todos los Jueves (20/08 al 30/09/2026)</td>
+                    <tr class="bg-emerald-50/70">
+                        <td class="p-1.5 border-r border-[#767680] font-bold text-emerald-900">BNA: 20% + 9 cuotas s/i</td>
+                        <td class="p-1.5 border-r border-[#767680] text-[10px]">Visa/Master MODO (tope $30k)</td>
+                        <td class="p-1.5 font-bold text-emerald-900 bg-emerald-100 text-[10px]">Jueves (hasta 30/09)</td>
                     </tr>
                 </tbody>
             </table>
-        </div>
 
-        <!-- Tabla TOM -->
-        <div class="overflow-x-auto">
+            <!-- Tabla TOM -->
             <table class="w-full text-left border-collapse border-b border-[#767680]">
                 <thead>
-                    <tr class="bg-[#515b92] text-white font-bold text-[11px]">
-                        <th class="p-2 border-r border-[#767680] w-1/3">🛍️ TOM</th>
-                        <th class="p-2 border-r border-[#767680] w-1/3">Condición</th>
-                        <th class="p-2 w-1/3">Vigencia</th>
+                    <tr class="bg-[#515b92] text-white font-bold text-[10px]">
+                        <th class="p-1.5 border-r border-[#767680] w-[35%]">🛍️ TOM</th>
+                        <th class="p-1.5 border-r border-[#767680] w-[40%]">Condición</th>
+                        <th class="p-1.5 w-[25%]">Vigencia</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[#767680] bg-[#faf8ff] text-[11px] text-[#1b1b20]">
-                    <tr class="bg-emerald-50/60">
-                        <td class="p-2 border-r border-[#767680] font-bold text-emerald-900">BNA: 20% + 9 cuotas sin interés</td>
-                        <td class="p-2 border-r border-[#767680]">Tarjetas Visa/Mastercard Crédito vía MODO. Tope reintegro $30.000 por transacción</td>
-                        <td class="p-2 font-bold text-emerald-900 bg-emerald-100">Todos los Jueves (20/08 al 30/09/2026)</td>
+                    <tr class="bg-emerald-50/70">
+                        <td class="p-1.5 border-r border-[#767680] font-bold text-emerald-900">BNA: 20% + 9 cuotas s/i</td>
+                        <td class="p-1.5 border-r border-[#767680] text-[10px]">Visa/Master MODO (tope $30k)</td>
+                        <td class="p-1.5 font-bold text-emerald-900 bg-emerald-100 text-[10px]">Jueves (hasta 30/09)</td>
                     </tr>
                 </tbody>
             </table>
-        </div>
 
-        <!-- Tabla Maschwitz -->
-        <div class="overflow-x-auto">
+            <!-- Tabla Maschwitz -->
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="bg-[#515b92] text-white font-bold text-[11px]">
-                        <th class="p-2 border-r border-[#767680] w-1/3">🛍️ MASCHWITZ</th>
-                        <th class="p-2 border-r border-[#767680] w-1/3">Condición</th>
-                        <th class="p-2 w-1/3">Vigencia</th>
+                    <tr class="bg-[#515b92] text-white font-bold text-[10px]">
+                        <th class="p-1.5 border-r border-[#767680] w-[35%]">🛍️ MASCHWITZ</th>
+                        <th class="p-1.5 border-r border-[#767680] w-[40%]">Condición</th>
+                        <th class="p-1.5 w-[25%]">Vigencia</th>
                     </tr>
                 </thead>
-                <tbody class="bg-[#faf8ff] text-[11px] text-neutral-500 italic">
+                <tbody class="bg-[#faf8ff] text-[10px] text-neutral-500 italic">
                     <tr>
-                        <td class="p-2 border-r border-[#767680]">Sin promociones exclusivas vigentes</td>
-                        <td class="p-2 border-r border-[#767680]">-</td>
-                        <td class="p-2">-</td>
+                        <td class="p-1.5 border-r border-[#767680]">Sin promociones exclusivas</td>
+                        <td class="p-1.5 border-r border-[#767680]">-</td>
+                        <td class="p-1.5">-</td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    </div>
 
-    <!-- Bloque 4: Reglas de Oro en Terminal (Amarillo Oro) -->
-    <div class="border border-[#ffd16e] rounded overflow-hidden shadow-sm">
-        <div class="bg-[#ffd16e] text-[#402c00] font-bold text-xs px-3.5 py-2.5 border-b border-[#ffd16e] flex items-center space-x-2 tracking-wide uppercase">
-            <span>⚠</span>
-            <span>REGLA DE ORO: ¿CÓMO PASAR LA TARJETA?</span>
-        </div>
-        <div class="divide-y divide-[#ffd16e] bg-[#fff1cc] text-[#402c00]">
-            <div class="px-3.5 py-2.5 flex items-start space-x-2.5">
-                <span class="font-bold text-base mt-[-2px]">📱</span>
-                <div>
-                    <strong class="font-bold text-neutral-900">POSNET MERCADO PAGO:</strong>
-                    <span class="font-medium text-neutral-800">Usar si pagan desde App MP (QR / Link) o si la venta es en <strong>CUOTAS</strong>.</span>
+        <!-- Bloque 4: Reglas de Oro en Terminal (Amarillo Oro) -->
+        <div class="border border-[#ffd16e] rounded overflow-hidden shadow-sm">
+            <div class="bg-[#ffd16e] text-[#402c00] font-bold text-xs px-3 py-1.5 border-b border-[#ffd16e] flex items-center space-x-1.5 tracking-wide uppercase">
+                <span>⚠</span>
+                <span>REGLA DE ORO: ¿CÓMO PASAR LA TARJETA?</span>
+            </div>
+            <div class="divide-y divide-[#ffd16e] bg-[#fff1cc] text-[#402c00]">
+                <div class="px-3 py-2 flex items-start space-x-2">
+                    <span class="font-bold text-sm">📱</span>
+                    <div class="text-[11px]">
+                        <strong class="font-bold text-neutral-900">POSNET MERCADO PAGO:</strong>
+                        <span>Usar si pagan desde App MP (QR / Link) o si la venta es en <strong>CUOTAS</strong>.</span>
+                    </div>
+                </div>
+                <div class="px-3 py-2 flex items-start space-x-2">
+                    <span class="font-bold text-sm">💳</span>
+                    <div class="text-[11px]">
+                        <strong class="font-bold text-neutral-900">POSNET PAYWAY:</strong>
+                        <span>Usar para <strong>Promos Bancarias (BNA)</strong> o venta en <strong>1 PAGO</strong> (Débito/Crédito).</span>
+                    </div>
                 </div>
             </div>
-            <div class="px-3.5 py-2.5 flex items-start space-x-2.5">
-                <span class="font-bold text-base mt-[-2px]">💳</span>
-                <div>
-                    <strong class="font-bold text-neutral-900">POSNET PAYWAY:</strong>
-                    <span class="font-medium text-neutral-800">Usar para <strong>Promos Bancarias específicas (BNA)</strong> o venta en <strong>1 PAGO</strong> (Débito / Crédito estándar).</span>
-                </div>
-            </div>
         </div>
+
     </div>
 
 </div>
