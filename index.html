@@ -20,7 +20,7 @@
         }
         .sop-title-1 {
             font-family: 'Inter', sans-serif !important;
-            font-size: 22pt !important;
+            font-size: 20pt !important;
             font-weight: 700 !important;
             color: #000000 !important;
             margin-top: 0px !important;
@@ -28,18 +28,29 @@
             line-height: 1.25 !important;
             letter-spacing: -0.02em !important;
         }
+        @media (min-width: 640px) {
+            .sop-title-1 {
+                font-size: 22pt !important;
+            }
+        }
         .sop-title-2 {
             font-family: 'Inter', sans-serif !important;
-            font-size: 13pt !important;
+            font-size: 12pt !important;
             font-weight: 700 !important;
             color: #000000 !important;
             text-transform: uppercase !important;
-            margin-top: 26pt !important;
+            margin-top: 24pt !important;
             margin-bottom: 12pt !important;
             line-height: 1.25 !important;
             letter-spacing: 0.05em !important;
             border-bottom: 2px solid #1A1A1A !important;
             padding-bottom: 4px !important;
+        }
+        @media (min-width: 640px) {
+            .sop-title-2 {
+                font-size: 13pt !important;
+                margin-top: 26pt !important;
+            }
         }
         .sop-title-3 {
             font-family: 'Inter', sans-serif !important;
@@ -59,8 +70,13 @@
         .sop-list {
             margin-top: 0px !important;
             margin-bottom: 12pt !important;
-            padding-left: 15pt !important;
+            padding-left: 12pt !important;
             list-style-type: none !important;
+        }
+        @media (min-width: 640px) {
+            .sop-list {
+                padding-left: 15pt !important;
+            }
         }
         .sop-list-item {
             margin-bottom: 6pt !important;
@@ -69,8 +85,14 @@
         .sop-divider {
             border: none !important;
             border-top: 1px solid #E5E5E5 !important;
-            margin-top: 24pt !important;
-            margin-bottom: 24pt !important;
+            margin-top: 20pt !important;
+            margin-bottom: 20pt !important;
+        }
+        @media (min-width: 640px) {
+            .sop-divider {
+                margin-top: 24pt !important;
+                margin-bottom: 24pt !important;
+            }
         }
         .sop-blockquote {
             margin-top: 0px !important;
@@ -85,7 +107,7 @@
         .sop-warning-list {
             margin-top: 0px !important;
             margin-bottom: 12pt !important;
-            padding-left: 15pt !important;
+            padding-left: 0px !important;
             list-style-type: none !important;
         }
         .sop-warning-item {
@@ -102,18 +124,33 @@
             border-collapse: collapse !important;
             margin-top: 14pt !important;
             margin-bottom: 18pt !important;
-            font-size: 10pt !important;
+            font-size: 9.5pt !important;
             text-align: left !important;
+            display: block !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+        }
+        @media (min-width: 640px) {
+            .sop-container table {
+                font-size: 10pt !important;
+                display: table !important;
+            }
         }
         .sop-container th {
-            padding: 10px !important;
+            padding: 8px 10px !important;
             font-weight: 700 !important;
             background-color: #F5F5F5 !important;
             border: 1px solid #E5E5E5 !important;
             color: #000000 !important;
+            white-space: nowrap !important;
+        }
+        @media (min-width: 640px) {
+            .sop-container th {
+                white-space: normal !important;
+            }
         }
         .sop-container td {
-            padding: 10px !important;
+            padding: 8px 10px !important;
             border: 1px solid #E5E5E5 !important;
             vertical-align: top !important;
         }
@@ -121,28 +158,47 @@
 </head>
 <body class="bg-[#F4F4F4] font-['Inter'] text-neutral-900 min-h-screen flex flex-col">
 
-    <header class="bg-white border-b border-neutral-200 px-8 py-5 flex items-center justify-between shadow-sm">
-        <div class="flex items-center space-x-4">
-            <div class="bg-black text-white px-3 py-1.5 rounded font-bold tracking-widest text-xs">
+    <!-- Header Principal Adaptable -->
+    <header class="bg-white border-b border-neutral-200 px-4 sm:px-8 py-3.5 sm:py-5 flex items-center justify-between shadow-sm shrink-0 z-20">
+        <div class="flex items-center space-x-3 sm:space-x-4">
+            <!-- Botón Hamburguesa para Mobile -->
+            <button onclick="toggleMobileSidebar(true)" class="md:hidden p-2 -ml-1 text-neutral-700 hover:text-black hover:bg-neutral-100 rounded-lg transition" title="Abrir Menú de Manuales">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+            <div class="bg-black text-white px-2.5 sm:px-3 py-1 sm:py-1.5 rounded font-bold tracking-widest text-xs">
                 NZ
             </div>
             <div>
-                <h1 class="text-base font-bold tracking-widest text-black uppercase">
-                    NAZARIA <span class="ml-2 text-[10px] font-bold bg-[#E6D5C3] text-neutral-800 px-2 py-0.5 rounded tracking-normal">OPERACIONES</span>
+                <h1 class="text-sm sm:text-base font-bold tracking-widest text-black uppercase">
+                    NAZARIA <span class="ml-1 sm:ml-2 text-[9px] sm:text-[10px] font-bold bg-[#E6D5C3] text-neutral-800 px-2 py-0.5 rounded tracking-normal">OPERACIONES</span>
                 </h1>
-                <p class="text-[11px] text-neutral-500 tracking-wide mt-0.5">Base de Conocimiento y Manuales Técnicos</p>
+                <p class="text-[10px] sm:text-[11px] text-neutral-500 tracking-wide mt-0.5 hidden xs:block">Base de Conocimiento y Manuales Técnicos</p>
             </div>
         </div>
-        <div class="text-[11px] font-medium text-neutral-600 bg-white border border-neutral-200 px-3 py-1.5 rounded flex items-center shadow-sm">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 mr-2"></span> Terminal Sucursal
+        <div class="flex items-center gap-2">
+            <button onclick="toggleMobileSidebar(true)" class="md:hidden bg-[#E6D5C3]/40 border border-[#E6D5C3] text-neutral-900 font-semibold text-xs px-2.5 py-1.5 rounded flex items-center gap-1.5">
+                <span>📋</span> Menú
+            </button>
+            <div class="text-[10px] sm:text-[11px] font-medium text-neutral-600 bg-white border border-neutral-200 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded flex items-center shadow-sm">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 mr-1.5 sm:mr-2"></span> <span class="hidden sm:inline">Terminal</span> Sucursal
+            </div>
         </div>
     </header>
 
-    <div class="flex-1 flex overflow-hidden">
+    <div class="flex-1 flex overflow-hidden relative">
         
-        <!-- Panel Lateral con Buscador -->
-        <aside class="w-80 bg-white border-r border-neutral-200 p-4 flex flex-col overflow-y-auto shrink-0">
-            <div class="text-[10px] font-bold text-neutral-400 uppercase tracking-widest px-1 mb-2.5 mt-1">Manuales de Proceso</div>
+        <!-- Backdrop para Mobile -->
+        <div id="sidebar-backdrop" onclick="toggleMobileSidebar(false)" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-30 hidden md:hidden transition-opacity"></div>
+
+        <!-- Panel Lateral con Buscador (Drawer en mobile, estático en desktop) -->
+        <aside id="sidebar-panel" class="fixed inset-y-0 left-0 z-40 w-80 max-w-[85vw] bg-white border-r border-neutral-200 p-4 flex flex-col transform -translate-x-full md:translate-x-0 md:static transition-transform duration-300 ease-in-out shrink-0 overflow-y-auto shadow-2xl md:shadow-none">
+            
+            <div class="flex items-center justify-between mb-2.5 mt-1 px-1">
+                <div class="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Manuales de Proceso</div>
+                <button onclick="toggleMobileSidebar(false)" class="md:hidden text-neutral-400 hover:text-black p-1 text-sm font-bold">✕</button>
+            </div>
             
             <!-- Buscador Rápido Instantáneo -->
             <div class="relative mb-3">
@@ -163,20 +219,24 @@
             </div>
         </aside>
 
-        <main class="flex-1 bg-[#FAF9F6] p-8 flex justify-center overflow-y-auto">
-            <div id="sop-view-card" class="bg-white text-neutral-900 w-full max-w-[820px] min-h-[1123px] shadow-sm rounded border border-neutral-200 p-[60px] hidden relative">
+        <!-- Área de Lectura Principal -->
+        <main class="flex-1 bg-[#FAF9F6] p-3 sm:p-6 md:p-8 flex justify-center overflow-y-auto w-full">
+            <div id="sop-view-card" class="bg-white text-neutral-900 w-full max-w-[820px] shadow-sm rounded border border-neutral-200 p-4 sm:p-8 md:p-[60px] hidden relative">
                 <div class="absolute top-0 left-0 right-0 h-1.5 bg-[#E6D5C3]"></div>
                 <div id="sop-content" class="sop-container">
                 </div>
             </div>
 
-            <div id="welcome-card" class="flex flex-col items-center justify-center text-center max-w-sm mx-auto space-y-3">
+            <div id="welcome-card" class="flex flex-col items-center justify-center text-center max-w-sm mx-auto p-4 space-y-3 my-auto">
                 <div class="text-neutral-300 text-4xl">▪</div>
                 <h2 class="text-sm font-bold text-black tracking-wider uppercase">Portal Operativo Nazaria</h2>
-                <p class="text-xs text-neutral-500 leading-relaxed">Seleccioná un procedimiento operativo desde el panel lateral o usá el buscador para consultar el estándar oficial vigente.</p>
+                <p class="text-xs text-neutral-500 leading-relaxed">Seleccioná un procedimiento operativo desde el menú o usá el buscador para consultar el estándar oficial vigente.</p>
+                <button onclick="toggleMobileSidebar(true)" class="md:hidden mt-2 bg-neutral-900 hover:bg-black text-white text-xs font-semibold px-4 py-2 rounded shadow-sm flex items-center gap-1.5 transition">
+                    <span>📋</span> Abrir Menú de Manuales
+                </button>
             </div>
 
-            <div id="loader" class="hidden flex flex-col items-center justify-center text-center max-w-md mx-auto space-y-2">
+            <div id="loader" class="hidden flex flex-col items-center justify-center text-center max-w-md mx-auto space-y-2 my-auto">
                 <div class="w-5 h-5 border-2 border-neutral-900 border-t-transparent rounded-full animate-spin"></div>
                 <p class="text-[11px] text-neutral-500 tracking-wide">Sincronizando con base central...</p>
             </div>
@@ -205,6 +265,24 @@
         window.onload = function() {
             loadDynamicMenu();
         };
+
+        function toggleMobileSidebar(forceState) {
+            const sidebar = document.getElementById('sidebar-panel');
+            const backdrop = document.getElementById('sidebar-backdrop');
+            
+            const isOpen = !sidebar.classList.contains('-translate-x-full');
+            const shouldOpen = (forceState !== undefined) ? forceState : !isOpen;
+
+            if (shouldOpen) {
+                sidebar.classList.remove('-translate-x-full');
+                backdrop.classList.remove('hidden');
+                document.body.classList.add('overflow-hidden');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                backdrop.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            }
+        }
 
         function normalizeText(text) {
             return (text || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
@@ -241,13 +319,14 @@
                 const isActive = (item.id === currentSopCode);
 
                 const activeClass = isActive 
-                    ? "bg-black text-white border-black" 
+                    ? "bg-black text-white border-black shadow-sm" 
                     : "bg-neutral-50 text-neutral-700 border-neutral-100 hover:bg-[#E6D5C3]/30 hover:text-black";
 
+                // Sin 'truncate': el texto se adapta en múltiples líneas según el ancho de la pantalla
                 container.innerHTML += `
-                    <button onclick="loadSOP('${item.id}')" id="btn-${item.id}" class="w-full text-left px-4 py-3 rounded border ${activeClass} flex items-center space-x-3 transition font-medium">
-                        <span class="font-bold text-[10px] text-neutral-900 bg-[#E6D5C3] px-1.5 py-0.5 rounded shrink-0">${badgeText}</span>
-                        <span class="text-xs truncate tracking-wide">${nameText}</span>
+                    <button onclick="loadSOP('${item.id}')" id="btn-${item.id}" class="w-full text-left px-3 py-2.5 rounded border ${activeClass} flex items-start space-x-2.5 transition font-medium text-xs leading-snug">
+                        <span class="font-bold text-[9px] text-neutral-900 bg-[#E6D5C3] px-1.5 py-0.5 rounded shrink-0 mt-0.5 font-mono">${badgeText}</span>
+                        <span class="flex-1 whitespace-normal break-words">${nameText}</span>
                     </button>
                 `;
             });
@@ -293,6 +372,11 @@
             const sopViewCard = document.getElementById('sop-view-card');
             const loader = document.getElementById('loader');
             const sopContent = document.getElementById('sop-content');
+
+            // En dispositivos móviles, cerrar el menú lateral automáticamente al elegir un manual
+            if (window.innerWidth < 768) {
+                toggleMobileSidebar(false);
+            }
 
             document.querySelectorAll('#sop-menu-container button').forEach(btn => {
                 btn.classList.remove('bg-black', 'text-white', 'border-black');
