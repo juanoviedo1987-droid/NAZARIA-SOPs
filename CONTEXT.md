@@ -18,11 +18,11 @@ Este documento es la **Fuente Central de Verdad y Memoria** del proyecto. Cualqu
 ---
 
 ## 2. Infraestructura en la Nube (100% Serverless)
-* **Repositorio GitHub:** `juanoviedo1987-droid/sops-nazaria` (rama `main`).
+* **Repositorio GitHub:** `juanoviedo1987-droid/NAZARIA-SOPs` (rama `main`).
 * **Sitio Web Público (Terminales de Sucursales):**  
-  `https://juanoviedo1987-droid.github.io/sops-nazaria/`
+  `https://juanoviedo1987-droid.github.io/NAZARIA-SOPs/`
 * **Consola de Administración y Publicación:**  
-  `https://juanoviedo1987-droid.github.io/sops-nazaria/admin.html`
+  `https://juanoviedo1987-droid.github.io/NAZARIA-SOPs/admin.html`
 * **Sin dependencias locales:** No requiere Git local ni servidores propios. Todas las operaciones de lectura y guardado se ejecutan mediante la API REST de GitHub (`/contents/`).
 
 ---
