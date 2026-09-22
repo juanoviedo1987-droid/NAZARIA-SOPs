@@ -161,8 +161,8 @@
 
                 <div id="new-sop-fields" class="hidden bg-amber-50/60 border border-amber-200 p-3 rounded space-y-2">
                     <div class="text-[10px] font-bold text-amber-800 uppercase tracking-widest">Identificación de Nuevo Manual</div>
-                    <input type="text" id="new-id" placeholder="id único (ej: p12)" class="w-full bg-white border border-neutral-200 rounded p-2 text-xs text-neutral-800 focus:outline-none focus:border-black">
-                    <input type="text" id="new-title" placeholder="Título (ej: P-12 · Estrategia Digital)" class="w-full bg-white border border-neutral-200 rounded p-2 text-xs text-neutral-800 focus:outline-none focus:border-black">
+                    <input type="text" id="new-id" placeholder="id único (ej: p13)" class="w-full bg-white border border-neutral-200 rounded p-2 text-xs text-neutral-800 focus:outline-none focus:border-black">
+                    <input type="text" id="new-title" placeholder="Título (ej: P-13 · Nuevo Procedimiento)" class="w-full bg-white border border-neutral-200 rounded p-2 text-xs text-neutral-800 focus:outline-none focus:border-black">
                 </div>
 
                 <div>
@@ -633,7 +633,7 @@ ASIGNACIÓN DE EMOJIS:
             const isNew = (document.getElementById('sop-selector').value === "NEW_SOP");
             const newTitle = isNew ? document.getElementById('new-title').value.trim() : "";
             if (isNew && !newTitle) {
-                alert("Ingresá el título para el nuevo manual (ej: P-12 · Estrategia Digital).");
+                alert("Ingresá el título para el nuevo manual (ej: P-13 · Nuevo Procedimiento).");
                 return;
             }
 
