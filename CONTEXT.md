@@ -27,19 +27,24 @@ Este documento es la **Fuente Central de Verdad y Memoria** del proyecto. Cualqu
 
 ---
 
-## 3. Catálogo Oficial Homologado (11 SOPs)
-El catálogo activo se gestiona dinámicamente desde `/menu.json`:
-1. `P-01`: **Atención al Cliente y Ventas** (Protocolo de bienvenida, indagación, calzado "vidriera" y cierre con 20% OFF efectivo).
-2. `P-02`: **Operación de Caja y Pagos** (Dux, fidelización por email, cobro Payway/MP, cierre ciego y notas de crédito).
-3. `P-03`: **Orden y Estética del Local** (Checklist de salón y vidriera, política de cero huecos/baches y depósito limpio).
-4. `P-04`: **Posventa y Cambios** (30 días por gusto, 45 días por falla, constancia digital y cruce entre locales).
-5. `P-05`: **Recepción y Stock** (Control de remito, auditoría semanal los jueves, reporte Google Forms y derivación de remanentes a P-08).
-6. `P-06`: **Gestión de Gift Cards** (Generador Google Forms, facturación Dux y protocolo de "quemado" obligatorio para evitar doble canje).
-7. `P-07`: **Venta Activa y Omnicanalidad** (WhatsApp/Instagram, prospección por turnos, comisión a la vendedora del turno y plantilla de envío Correo Argentino).
-8. `P-08`: **Estrategia de Contenido Digital** (Cronograma semanal de publicaciones: Mañana/Mediodía atracción vs Tarde/Noche conversión).
-9. `P-09`: **Musicalización y Experiencia Sensorial** (Ambientación sonora offline Royalty-Free con VLC para blindaje legal ante SADAIC/CAPIF).
-10. `P-10`: **Promociones Activas** (Matriz vertical compacta con colores del Excel: Efectivo 20% OFF, QR 10% OFF, cuotas, recargos de liquidación y promos bancarias por sucursal).
-11. `P-11`: **Liquidación AW26: Verificación de Artículos por Categoría** (Matriz de bateas fijas: $69.900, $49.900, $34.900 y $24.900).
+## 3. Catálogo Oficial Homologado (12 SOPs)
+El catálogo activo se gestiona dinámicamente desde `/menu.json`, organizado en 4 bloques funcionales:
+* **Bloque Mostrador, Cobro y Dux:**
+  1. `P-01`: **Atención al Cliente y Ventas** (Protocolo de bienvenida, indagación, calzado "vidriera" y cierre con 20% OFF efectivo).
+  2. `P-02`: **Operación de Caja y Pagos** (Dux, fidelización por email, cobro Payway/MP, cierre ciego y protocolo de errores).
+  3. `P-03`: **Operación de Dux: Facturación, Notas de Crédito, Cambios y Cuenta Corriente** (Triángulo fiscal, cambio mano a mano, cobro de diferencias, saldo a favor en cta. cte., anulación por error y señas de traspasos).
+  4. `P-04`: **Posventa y Cambios** (30 días por gusto, 45 días por falla, constancia digital y cruce entre locales).
+  5. `P-05`: **Gestión de Gift Cards** (Generador Google Forms, facturación Dux y protocolo de "quemado" obligatorio para evitar doble canje).
+* **Bloque Depósito y Stock:**
+  6. `P-06`: **Recepción y Stock** (Control de remito, auditoría semanal los jueves, traspasos entre locales, señas y derivación de fallas/remanentes).
+* **Bloque Salón y Estética:**
+  7. `P-07`: **Orden y Estética del Local** (Checklist de salón y vidriera, política de cero huecos/baches y depósito limpio).
+  8. `P-08`: **Musicalización y Experiencia Sensorial** (Ambientación sonora offline Royalty-Free con VLC para blindaje legal ante SADAIC/CAPIF).
+* **Bloque Comercial y Redes:**
+  9. `P-09`: **Venta Activa y Omnicanalidad** (WhatsApp/Instagram, prospección por turnos, comisión a la vendedora y envíos Correo Argentino).
+  10. `P-10`: **Estrategia de Contenido Digital** (Cronograma semanal de publicaciones: Mañana/Mediodía atracción vs Tarde/Noche conversión).
+  11. `P-11`: **Promociones Activas** (Matriz vertical compacta: Efectivo 20% OFF, QR 10% OFF, cuotas, recargos y promos bancarias por sucursal).
+  12. `P-12`: **Liquidación AW26: Verificación de Artículos por Categoría** (Matriz de bateas fijas: $69.900, $49.900, $34.900 y $24.900).
 
 ---
 
