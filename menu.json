@@ -1,13 +1,14 @@
 [
   {"id": "p01", "title": "P-01 · Atención al Cliente y Ventas"},
   {"id": "p02", "title": "P-02 · Operación de Caja y Pagos"},
-  {"id": "p03", "title": "P-03 · Orden y Estética del Local"},
+  {"id": "p03", "title": "P-03 · Operación de Dux: Facturación, Notas de Crédito, Cambios y Cuenta Corriente"},
   {"id": "p04", "title": "P-04 · Posventa y Cambios"},
-  {"id": "p05", "title": "P-05 · Recepción y Stock"},
-  {"id": "p06", "title": "P-06 · Gestión de Gift Cards"},
-  {"id": "p07", "title": "P-07 · Venta Activa y Omnicanalidad"},
-  {"id": "p08", "title": "P-08 · Estrategia de Contenido Digital"},
-  {"id": "p09", "title": "P-09 · Musicalización y Experiencia Sensorial"},
-  {"id": "p10", "title": "P-10 · Promociones Activas"},
-  {"id": "p11", "title": "P-11 · Liquidación AW26: Verificación de Artículos por Categoría"}
+  {"id": "p05", "title": "P-05 · Gestión de Gift Cards"},
+  {"id": "p06", "title": "P-06 · Recepción y Stock"},
+  {"id": "p07", "title": "P-07 · Orden y Estética del Local"},
+  {"id": "p08", "title": "P-08 · Musicalización y Experiencia Sensorial"},
+  {"id": "p09", "title": "P-09 · Venta Activa y Omnicanalidad"},
+  {"id": "p10", "title": "P-10 · Estrategia de Contenido Digital"},
+  {"id": "p11", "title": "P-11 · Promociones Activas"},
+  {"id": "p12", "title": "P-12 · Liquidación AW26: Verificación de Artículos por Categoría"}
 ]
