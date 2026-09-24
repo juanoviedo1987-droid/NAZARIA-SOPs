@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Composturas - Nazaria Zapatos</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .tab-active {
+            border-bottom: 2px solid #000000;
+            color: #000000;
+            font-weight: 700;
+        }
+        @keyframes pulse-subtle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        .animate-pulse-slow {
+            animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="bg-[#F8F7F4] text-neutral-900 min-h-screen flex flex-col">
+
+    <!-- Header Principal -->
+    <header class="bg-neutral-900 text-white border-b border-neutral-800 px-4 sm:px-6 py-3.5 flex items-center justify-between sticky top-0 z-30 shadow-md">
+        <div class="flex items-center space-x-3">
+            <a href="index.html" class="bg-black text-[#E6D5C3] border border-neutral-700 px-2.5 py-1 rounded font-bold tracking-widest text-xs hover:border-[#E6D5C3] transition" title="Volver al Portal de SOPs">
+                NZ
+            </a>
+            <div>
+                <div class="flex items-center gap-2">
+                    <h1 class="text-sm sm:text-base font-bold tracking-wider uppercase text-white">
+                        NAZARIA <span class="text-[10px] font-bold bg-[#E6D5C3] text-neutral-900 px-2 py-0.5 rounded tracking-normal">COMPOSTURAS</span>
+                    </h1>
+                </div>
+                <p class="text-[10px] text-neutral-400">Gestión de Servicio Técnico, Taller y Notificaciones a Clientas</p>
+            </div>
+        </div>
+
+        <!-- Acciones en Cabecera -->
+        <div class="flex items-center gap-2">
+            <!-- Selector Rápido de Sucursal Activa -->
+            <div class="hidden sm:flex items-center bg-neutral-800 rounded border border-neutral-700 p-0.5 text-xs">
+                <button onclick="setSucursalFilter('TODAS')" id="btn-suc-todas" class="px-2.5 py-1 rounded text-neutral-300 hover:text-white transition font-medium">Todas</button>
+                <button onclick="setSucursalFilter('TOM')" id="btn-suc-tom" class="px-2.5 py-1 rounded text-neutral-300 hover:text-white transition font-medium">TOM</button>
+                <button onclick="setSucursalFilter('Maschwitz')" id="btn-suc-maschwitz" class="px-2.5 py-1 rounded text-neutral-300 hover:text-white transition font-medium">Maschwitz</button>
+            </div>
+
+            <button onclick="openNewModal()" class="bg-[#E6D5C3] hover:bg-[#d8c5b0] text-neutral-900 font-bold text-xs px-3 sm:px-4 py-2 rounded shadow-sm flex items-center gap-1.5 transition">
+                <span>➕</span> <span class="hidden xs:inline">Nueva</span> Compostura
+            </button>
+
+            <!-- Menú de Opciones / Sync -->
+            <div class="relative">
+                <button onclick="toggleMenuOptions()" class="p-2 text-neutral-300 hover:text-white hover:bg-neutral-800 rounded transition" title="Opciones y sincronización">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                    </svg>
+                </button>
+                <div id="menu-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-neutral-200 py-1.5 z-40 text-xs text-neutral-800">
+                    <a href="index.html" class="flex items-center gap-2 px-3 py-2 hover:bg-neutral-100">
+                        <span>📖</span> Ver Manual P-04 (Posventa)
+                    </a>
+                    <button onclick="exportToCSV()" class="w-full text-left flex items-center gap-2 px-3 py-2 hover:bg-neutral-100">
+                        <span>📥</span> Exportar a Excel (CSV)
+                    </button>
+                    <button onclick="openSyncModal()" class="w-full text-left flex items-center gap-2 px-3 py-2 hover:bg-neutral-100 border-t border-neutral-100">
+                        <span>☁️</span> Sincronización con GitHub
+                    </button>
+                    <button onclick="resetDemoData()" class="w-full text-left flex items-center gap-2 px-3 py-2 text-red-600 hover:bg-red-50 border-t border-neutral-100">
+                        <span>🔄</span> Cargar datos de prueba
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 space-y-4 sm:space-y-6">
+
+        <!-- Selector Mobile de Sucursal -->
+        <div class="sm:hidden flex items-center justify-between bg-white p-2.5 rounded-lg border border-neutral-200 shadow-sm">
+            <span class="text-xs font-semibold text-neutral-600">Sucursal activa:</span>
+            <select id="mobile-sucursal-select" onchange="setSucursalFilter(this.value)" class="bg-neutral-50 border border-neutral-300 rounded px-2.5 py-1 text-xs font-medium text-neutral-800 focus:outline-none">
+                <option value="TODAS">Todas las Sucursales</option>
+                <option value="TOM">TOM (Tortugas)</option>
+                <option value="Maschwitz">Maschwitz Mall</option>
+            </select>
+        </div>
+
+        <!-- Tarjetas de Métricas / KPIs -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4">
+            <div class="bg-white p-3 sm:p-4 rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between">
+                <div class="text-[11px] font-semibold text-neutral-500 uppercase tracking-wide">🟡 En Sucursal</div>
+                <div class="flex items-baseline justify-between mt-2">
+                    <span id="kpi-recibidos" class="text-2xl sm:text-3xl font-bold text-neutral-900">0</span>
+                    <span class="text-[10px] text-neutral-400">Pares a despachar</span>
+                </div>
+            </div>
+
+            <div class="bg-white p-3 sm:p-4 rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between">
+                <div class="text-[11px] font-semibold text-neutral-500 uppercase tracking-wide">🚚 En Taller / Fábrica</div>
+                <div class="flex items-baseline justify-between mt-2">
+                    <span id="kpi-taller" class="text-2xl sm:text-3xl font-bold text-blue-700">0</span>
+                    <span class="text-[10px] text-neutral-400">En reparación</span>
+                </div>
+            </div>
+
+            <div class="bg-white p-3 sm:p-4 rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between">
+                <div class="text-[11px] font-semibold text-neutral-500 uppercase tracking-wide">📦 Listas para Retiro</div>
+                <div class="flex items-baseline justify-between mt-2">
+                    <span id="kpi-listas" class="text-2xl sm:text-3xl font-bold text-emerald-700">0</span>
+                    <span class="text-[10px] text-emerald-600 font-medium">Avisar clienta</span>
+                </div>
+            </div>
+
+            <div class="bg-white p-3 sm:p-4 rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between">
+                <div class="text-[11px] font-semibold text-neutral-500 uppercase tracking-wide">⚠ Alerta Plazos (&gt;7d)</div>
+                <div class="flex items-baseline justify-between mt-2">
+                    <span id="kpi-alertas" class="text-2xl sm:text-3xl font-bold text-amber-600">0</span>
+                    <span class="text-[10px] text-neutral-400">Límite: 10d hábiles</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Barra de Búsqueda y Pestañas de Estado -->
+        <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-3 sm:p-4 space-y-3">
+            <div class="flex flex-col sm:flex-row gap-2.5 items-stretch sm:items-center justify-between">
+                
+                <!-- Input de Búsqueda en tiempo real -->
+                <div class="relative flex-1">
+                    <input type="text" id="search-input" oninput="renderTable()" placeholder="Buscar por Clienta, Teléfono, Ticket (#CMP) o Modelo..." class="w-full bg-neutral-50 border border-neutral-200 rounded-lg px-3.5 py-2 pl-9 text-xs text-neutral-800 placeholder-neutral-400 focus:bg-white focus:outline-none focus:border-black transition">
+                    <svg class="w-4 h-4 text-neutral-400 absolute left-3 top-2.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 1114 0z"></path>
+                    </svg>
+                </div>
+
+                <!-- Botón de Actualizar -->
+                <button onclick="loadDataFromStorage()" class="text-xs text-neutral-600 hover:text-black border border-neutral-200 bg-neutral-50 hover:bg-neutral-100 px-3 py-2 rounded-lg flex items-center justify-center gap-1.5 transition">
+                    <span>🔄</span> Refrescar
+                </button>
+            </div>
+
+            <!-- Pestañas de Filtro por Estado -->
+            <div class="flex items-center space-x-1 sm:space-x-3 border-b border-neutral-200 overflow-x-auto pb-1 text-xs">
+                <button onclick="setStatusFilter('TODOS')" id="tab-status-todos" class="tab-btn px-3 py-2 text-neutral-500 hover:text-black transition whitespace-nowrap tab-active">
+                    Todos (<span id="count-todos">0</span>)
+                </button>
+                <button onclick="setStatusFilter('RECIBIDO_LOCAL')" id="tab-status-recibido" class="tab-btn px-3 py-2 text-neutral-500 hover:text-black transition whitespace-nowrap">
+                    🟡 En Sucursal (<span id="count-recibidos">0</span>)
+                </button>
+                <button onclick="setStatusFilter('ENVIADO_TALLER')" id="tab-status-taller" class="tab-btn px-3 py-2 text-neutral-500 hover:text-black transition whitespace-nowrap">
+                    🚚 En Taller (<span id="count-taller">0</span>)
+                </button>
+                <button onclick="setStatusFilter('LISTO_RETIRO')" id="tab-status-listo" class="tab-btn px-3 py-2 text-neutral-500 hover:text-black transition whitespace-nowrap">
+                    📦 Listas para Retirar (<span id="count-listo">0</span>)
+                </button>
+                <button onclick="setStatusFilter('ENTREGADO')" id="tab-status-entregado" class="tab-btn px-3 py-2 text-neutral-500 hover:text-black transition whitespace-nowrap">
+                    ✅ Entregadas (<span id="count-entregado">0</span>)
+                </button>
+            </div>
+        </div>
+
+        <!-- Listado de Composturas (Cards en mobile, Tabla en Desktop) -->
+        <div class="bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden">
+            <div id="table-container" class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="bg-neutral-50 border-b border-neutral-200 text-neutral-500 font-semibold uppercase tracking-wider text-[10px]">
+                            <th class="py-3 px-3 sm:px-4">Ticket / Local</th>
+                            <th class="py-3 px-3 sm:px-4">Clienta</th>
+                            <th class="py-3 px-3 sm:px-4">Calzado & Falla</th>
+                            <th class="py-3 px-3 sm:px-4">Ingreso / Plazo</th>
+                            <th class="py-3 px-3 sm:px-4">Estado Operativo</th>
+                            <th class="py-3 px-3 sm:px-4 text-right">Acciones WhatsApp</th>
+                        </tr>
+                    </thead>
+                    <tbody id="composturas-tbody" class="divide-y divide-neutral-100">
+                        <!-- Filas dinámicas -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Estado Vacío -->
+            <div id="empty-state" class="hidden text-center py-12 px-4 space-y-2">
+                <div class="text-3xl text-neutral-300">👠</div>
+                <p class="text-sm font-semibold text-neutral-700">No se encontraron composturas registradas</p>
+                <p class="text-xs text-neutral-400">Podés agregar una nueva compostura con el botón superior derecho.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Modal: Nueva Compostura / Edición -->
+    <div id="modal-new" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
+        <div class="bg-white rounded-xl shadow-2xl border border-neutral-200 w-full max-w-lg overflow-hidden flex flex-col max-h-[92vh]">
+            
+            <div class="bg-neutral-900 text-white px-5 py-3.5 flex items-center justify-between shrink-0">
+                <div class="flex items-center gap-2">
+                    <span class="text-base">🔨</span>
+                    <h3 id="modal-title" class="text-sm font-bold tracking-wide">Nueva Compostura</h3>
+                </div>
+                <button onclick="closeNewModal()" class="text-neutral-400 hover:text-white text-lg font-bold p-1">✕</button>
+            </div>
+
+            <form id="form-compostura" onsubmit="handleFormSubmit(event)" class="p-5 overflow-y-auto space-y-4 flex-1 text-xs">
+                <input type="hidden" id="edit-id" value="">
+
+                <!-- Sucursal de Recepción -->
+                <div>
+                    <label class="block font-semibold text-neutral-700 mb-1">Sucursal de Recepción *</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="flex items-center gap-2 border border-neutral-200 p-2.5 rounded-lg cursor-pointer hover:bg-neutral-50 has-[:checked]:border-black has-[:checked]:bg-neutral-100 transition">
+                            <input type="radio" name="form-sucursal" value="TOM" checked class="text-black focus:ring-black">
+                            <div>
+                                <div class="font-bold text-neutral-900">TOM</div>
+                                <div class="text-[10px] text-neutral-500">Tortugas Open Mall</div>
+                            </div>
+                        </label>
+                        <label class="flex items-center gap-2 border border-neutral-200 p-2.5 rounded-lg cursor-pointer hover:bg-neutral-50 has-[:checked]:border-black has-[:checked]:bg-neutral-100 transition">
+                            <input type="radio" name="form-sucursal" value="Maschwitz" class="text-black focus:ring-black">
+                            <div>
+                                <div class="font-bold text-neutral-900">Maschwitz</div>
+                                <div class="text-[10px] text-neutral-500">Maschwitz Mall</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Datos de la Clienta -->
+                <div class="border-t border-neutral-100 pt-3">
+                    <h4 class="font-bold text-neutral-800 uppercase tracking-wider text-[10px] mb-2 text-[#b38e65]">Datos de la Clienta</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <div>
+                            <label class="block font-medium text-neutral-600 mb-1">Nombre y Apellido *</label>
+                            <input type="text" id="clienta-nombre" required placeholder="Ej: Marcela López" class="w-full bg-neutral-50 border border-neutral-200 rounded px-2.5 py-1.5 text-xs text-neutral-900 focus:bg-white focus:outline-none focus:border-black">
+                        </div>
+                        <div>
+                            <label class="block font-medium text-neutral-600 mb-1">WhatsApp / Teléfono *</label>
+                            <input type="tel" id="clienta-telefono" required placeholder="Ej: 11 5566 7788" class="w-full bg-neutral-50 border border-neutral-200 rounded px-2.5 py-1.5 text-xs text-neutral-900 focus:bg-white focus:outline-none focus:border-black">
+                        </div>
+                        <div>
+                            <label class="block font-medium text-neutral-600 mb-1">DNI (Opcional para Dux)</label>
+                            <input type="text" id="clienta-dni" placeholder="Ej: 34123456" class="w-full bg-neutral-50 border border-neutral-200 rounded px-2.5 py-1.5 text-xs text-neutral-900 focus:bg-white focus:outline-none focus:border-black">
+                        </div>
+                        <div>
+                            <label class="block font-medium text-neutral-600 mb-1">Vendedora que recibe</label>
+                            <input type="text" id="recepcion-vendedora" placeholder="Tu nombre" class="w-full bg-neutral-50 border border-neutral-200 rounded px-2.5 py-1.5 text-xs text-neutral-900 focus:bg-white focus:outline-none focus:border-black">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Datos del Calzado -->
+                <div class="border-t border-neutral-100 pt-3">
+                    <h4 class="font-bold text-neutral-800 uppercase tracking-wider text-[10px] mb-2 text-[#b38e65]">Datos del Calzado</h4>
+                    <div class="grid grid-cols-3 gap-2.5">
+                        <div>
+                            <label class="block font-medium text-neutral-600 mb-1">Artículo *</label>
+                            <input type="text" id="calzado-articulo" required placeholder="Ej: S4020, N73" class="w-full uppercase bg-neutral-50 border border-neutral-200 rounded px-2.5 py-1.5 text-xs text-neutral-900 focus:bg-white focus:outline-none focus:border-black">
+                        </div>
+                        <div>
+                            <label class="block font-medium text-neutral-600 mb-1">Color *</label>
+                            <input type="text" id="calzado-color" required placeholder="Ej: Negro" class="w-full bg-neutral-50 border border-neutral-200 rounded px-2.5 py-1.5 text-xs text-neutral-900 focus:bg-white focus:outline-none focus:border-black">
+                        </div>
+                        <div>
+                            <label class="block font-medium text-neutral-600 mb-1">Talle *</label>
+                            <select id="calzado-talle" class="w-full bg-neutral-50 border border-neutral-200 rounded px-2 py-1.5 text-xs text-neutral-900 focus:bg-white focus:outline-none focus:border-black">
+                                <option value="35">35</option>
+                                <option value="36">36</option>
+                                <option value="37">37</option>
+                                <option value="38" selected>38</option>
+                                <option value="39">39</option>
+                                <option value="40">40</option>
+                                <option value="41">41</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Diagnóstico de Falla -->
+                <div class="border-t border-neutral-100 pt-3">
+                    <h4 class="font-bold text-neutral-800 uppercase tracking-wider text-[10px] mb-2 text-[#b38e65]">Motivo de Reparación</h4>
+                    <div class="space-y-2">
+                        <div>
+                            <label class="block font-medium text-neutral-600 mb-1">Tipo de Falla *</label>
+                            <select id="falla-tipo" class="w-full bg-neutral-50 border border-neutral-200 rounded px-2.5 py-1.5 text-xs text-neutral-900 focus:bg-white focus:outline-none focus:border-black">
+                                <option value="Despegue de base">Despegue de base / suela</option>
+                                <option value="Cierre / Hebilla">Rotura o traba de cierre / hebilla</option>
+                                <option value="Costura">Costura descosida / suelta</option>
+                                <option value="Taco / Tapita">Taco flojo / tapita rota</option>
+                                <option value="Plantilla">Plantilla despegada / rota</option>
+                                <option value="Falla de material">Falla estructural de material / cuero</option>
+                                <option value="Otro">Otro motivo</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-medium text-neutral-600 mb-1">Detalle específico de la falla *</label>
+                            <textarea id="falla-descripcion" required rows="2" placeholder="Ej: Se despegó la puntera del pie izquierdo a la altura del arco..." class="w-full bg-neutral-50 border border-neutral-200 rounded px-2.5 py-1.5 text-xs text-neutral-900 focus:bg-white focus:outline-none focus:border-black"></textarea>
+                        </div>
+                        <div>
+                            <label class="block font-medium text-neutral-600 mb-1">Observaciones adicionales</label>
+                            <input type="text" id="compostura-notas" placeholder="Ej: Dejó con caja original, cliente de confianza..." class="w-full bg-neutral-50 border border-neutral-200 rounded px-2.5 py-1.5 text-xs text-neutral-900 focus:bg-white focus:outline-none focus:border-black">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botones de Acción -->
+                <div class="pt-3 border-t border-neutral-100 flex flex-col sm:flex-row gap-2">
+                    <button type="submit" name="action" value="save_and_wa" class="flex-1 bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 px-4 rounded-lg shadow-sm flex items-center justify-center gap-2 transition">
+                        <span>📲</span> Guardar y Abrir WhatsApp
+                    </button>
+                    <button type="submit" name="action" value="save_only" class="bg-neutral-900 hover:bg-black text-white font-semibold py-2.5 px-4 rounded-lg transition">
+                        Solo Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Detalle y Comprobante Imprimible -->
+    <div id="modal-ticket" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
+        <div class="bg-white rounded-xl shadow-2xl border border-neutral-200 w-full max-w-md overflow-hidden flex flex-col max-h-[92vh]">
+            <div class="bg-neutral-900 text-white px-5 py-3 flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-[#E6D5C3]">Comprobante de Recepción</span>
+                <button onclick="closeTicketModal()" class="text-neutral-400 hover:text-white text-lg font-bold">✕</button>
+            </div>
+            <div id="ticket-printable" class="p-6 overflow-y-auto space-y-4 text-xs font-mono">
+                <!-- Contenido dinámico del ticket -->
+            </div>
+            <div class="p-4 bg-neutral-50 border-t border-neutral-200 flex gap-2">
+                <button onclick="printTicket()" class="flex-1 bg-neutral-900 hover:bg-black text-white font-semibold py-2 px-3 rounded text-xs transition flex items-center justify-center gap-1.5">
+                    <span>🖨️</span> Imprimir Cupón
+                </button>
+                <button onclick="closeTicketModal()" class="border border-neutral-300 bg-white hover:bg-neutral-100 text-neutral-800 font-semibold py-2 px-3 rounded text-xs transition">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Sincronización con GitHub -->
+    <div id="modal-sync" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
+        <div class="bg-white rounded-xl shadow-2xl border border-neutral-200 w-full max-w-md overflow-hidden p-5 space-y-4 text-xs">
+            <div class="flex items-center justify-between border-b border-neutral-200 pb-2">
+                <h3 class="font-bold text-sm text-neutral-900 flex items-center gap-2">
+                    <span>☁️</span> Sincronización con GitHub
+                </h3>
+                <button onclick="closeSyncModal()" class="text-neutral-400 hover:text-black font-bold">✕</button>
+            </div>
+            <p class="text-neutral-600 leading-relaxed">
+                Los datos se guardan por defecto en la memoria de este navegador. Podés sincronizarlos con el repositorio central en GitHub (<code class="bg-neutral-100 px-1 py-0.5 rounded font-mono">data/composturas.json</code>) usando tu GitHub Token.
+            </p>
+            <div>
+                <label class="block font-semibold text-neutral-700 mb-1">GitHub Personal Access Token</label>
+                <input type="password" id="sync-token-input" placeholder="ghp_..." class="w-full bg-neutral-50 border border-neutral-200 rounded px-3 py-2 text-xs font-mono text-neutral-900 focus:outline-none focus:border-black">
+            </div>
+            <div class="flex flex-col gap-2 pt-2">
+                <button onclick="pushToGitHub()" id="btn-push-github" class="w-full bg-neutral-900 hover:bg-black text-white font-bold py-2.5 rounded transition flex items-center justify-center gap-1.5">
+                    <span>⬆️</span> Subir Cambios a GitHub
+                </button>
+                <button onclick="pullFromGitHub()" id="btn-pull-github" class="w-full border border-neutral-300 hover:bg-neutral-100 text-neutral-800 font-semibold py-2 rounded transition flex items-center justify-center gap-1.5">
+                    <span>⬇️</span> Descargar Última Versión desde GitHub
+                </button>
+            </div>
+            <div id="sync-status-msg" class="text-[11px] text-center font-medium"></div>
+        </div>
+    </div>
+
+    <!-- Script de Lógica Operativa -->
+    <script>
+        const STORAGE_KEY = 'nazaria_composturas_v1';
+        const GITHUB_REPO = 'NAZARIA-SOPs';
+        const GITHUB_USER = 'juanoviedo1987-droid';
+        const GITHUB_FILE_PATH = 'data/composturas.json';
+
+        let composturas = [];
+        let currentSucursalFilter = 'TODAS';
+        let currentStatusFilter = 'TODOS';
+
+        // Inicialización
+        window.onload = function() {
+            // Cargar token previo si existía en admin
+            if (localStorage.getItem('github_token')) {
+                document.getElementById('sync-token-input').value = localStorage.getItem('github_token');
+            }
+            loadDataFromStorage();
+        };
+
+        // Carga de Datos desde LocalStorage o data/composturas.json inicial
+        async function loadDataFromStorage() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                try {
+                    composturas = JSON.parse(saved);
+                } catch(e) {
+                    composturas = [];
+                }
+            } else {
+                // Intentar leer data/composturas.json
+                try {
+                    const res = await fetch(`./data/composturas.json?t=${Date.now()}`);
+                    if (res.ok) {
+                        composturas = await res.json();
+                        saveToStorage();
+                    }
+                } catch (e) {
+                    composturas = [];
+                }
+            }
+            updateKPIs();
+            renderTable();
+        }
+
+        function saveToStorage() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(composturas));
+            updateKPIs();
+            renderTable();
+        }
+
+        // Filtros
+        function setSucursalFilter(suc) {
+            currentSucursalFilter = suc;
+            
+            // Actualizar botones desktop
+            ['todas', 'tom', 'maschwitz'].forEach(id => {
+                const btn = document.getElementById(`btn-suc-${id}`);
+                if (btn) {
+                    btn.classList.remove('bg-white', 'text-black', 'shadow-sm', 'font-bold');
+                    btn.classList.add('text-neutral-300');
+                }
+            });
+            const activeBtn = document.getElementById(`btn-suc-${suc.toLowerCase()}`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-white', 'text-black', 'shadow-sm', 'font-bold');
+                activeBtn.classList.remove('text-neutral-300');
+            }
+
+            // Actualizar select mobile
+            const mobSelect = document.getElementById('mobile-sucursal-select');
+            if (mobSelect) mobSelect.value = suc;
+
+            renderTable();
+        }
+
+        function setStatusFilter(status) {
+            currentStatusFilter = status;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('tab-active'));
+            
+            const tabMap = {
+                'TODOS': 'tab-status-todos',
+                'RECIBIDO_LOCAL': 'tab-status-recibido',
+                'ENVIADO_TALLER': 'tab-status-taller',
+                'LISTO_RETIRO': 'tab-status-listo',
+                'ENTREGADO': 'tab-status-entregado'
+            };
+            if (tabMap[status]) {
+                document.getElementById(tabMap[status]).classList.add('tab-active');
+            }
+            renderTable();
+        }
+
+        // Cálculo de Días Transcurridos
+        function getDaysDiff(dateString) {
+            if (!dateString) return 0;
+            const diffTime = Math.abs(new Date() - new Date(dateString));
+            return Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        }
+
+        // Actualización de Métricas (KPIs)
+        function updateKPIs() {
+            const list = (currentSucursalFilter === 'TODAS') 
+                ? composturas 
+                : composturas.filter(c => c.sucursal === currentSucursalFilter);
+
+            const recibidos = list.filter(c => c.estado === 'RECIBIDO_LOCAL').length;
+            const taller = list.filter(c => c.estado === 'ENVIADO_TALLER').length;
+            const listo = list.filter(c => c.estado === 'LISTO_RETIRO').length;
+            const entregado = list.filter(c => c.estado === 'ENTREGADO').length;
+            
+            // Alertas: más de 7 días sin entregar
+            const alertas = list.filter(c => c.estado !== 'ENTREGADO' && getDaysDiff(c.fechas.ingreso) >= 8).length;
+
+            document.getElementById('kpi-recibidos').innerText = recibidos;
+            document.getElementById('kpi-taller').innerText = taller;
+            document.getElementById('kpi-listas').innerText = listo;
+            document.getElementById('kpi-alertas').innerText = alertas;
+
+            document.getElementById('count-todos').innerText = list.length;
+            document.getElementById('count-recibidos').innerText = recibidos;
+            document.getElementById('count-taller').innerText = taller;
+            document.getElementById('count-listo').innerText = listo;
+            document.getElementById('count-entregado').innerText = entregado;
+        }
+
+        // Renderizado de la Tabla Principal
+        function renderTable() {
+            const tbody = document.getElementById('composturas-tbody');
+            const emptyState = document.getElementById('empty-state');
+            const search = document.getElementById('search-input').value.trim().toLowerCase();
+
+            let filtered = composturas.filter(c => {
+                // Filtro Sucursal
+                if (currentSucursalFilter !== 'TODAS' && c.sucursal !== currentSucursalFilter) return false;
+                // Filtro Estado
+                if (currentStatusFilter !== 'TODOS' && c.estado !== currentStatusFilter) return false;
+                // Búsqueda
+                if (search) {
+                    const matchText = `${c.id} ${c.clienta.nombre} ${c.clienta.telefono} ${c.calzado.articulo} ${c.calzado.color} ${c.falla.tipo} ${c.falla.descripcion}`.toLowerCase();
+                    if (!matchText.includes(search)) return false;
+                }
+                return true;
+            });
+
+            // Ordenar: primero los no entregados por fecha más antigua (más urgentes)
+            filtered.sort((a, b) => {
+                if (a.estado === 'ENTREGADO' && b.estado !== 'ENTREGADO') return 1;
+                if (a.estado !== 'ENTREGADO' && b.estado === 'ENTREGADO') return -1;
+                return new Date(b.fechas.ingreso) - new Date(a.fechas.ingreso);
+            });
+
+            tbody.innerHTML = '';
+
+            if (filtered.length === 0) {
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+                filtered.forEach(c => {
+                    const days = getDaysDiff(c.fechas.ingreso);
+                    
+                    // Semáforo de Días
+                    let badgeDays = '';
+                    if (c.estado === 'ENTREGADO') {
+                        badgeDays = `<span class="text-[10px] text-neutral-400">Entregado</span>`;
+                    } else if (days >= 10) {
+                        badgeDays = `<span class="inline-flex items-center gap-1 bg-red-100 text-red-800 font-bold px-2 py-0.5 rounded text-[10px] animate-pulse-slow">⚠ ${days} días (VENCIDO)</span>`;
+                    } else if (days >= 7) {
+                        badgeDays = `<span class="inline-flex items-center gap-1 bg-amber-100 text-amber-900 font-semibold px-2 py-0.5 rounded text-[10px]">⏰ ${days} días (Límite)</span>`;
+                    } else {
+                        badgeDays = `<span class="text-[10px] text-neutral-500 font-medium">📅 ${days} días</span>`;
+                    }
+
+                    // Badge de Estado
+                    const estadoOptions = [
+                        { id: 'RECIBIDO_LOCAL', label: '🟡 En Sucursal', cls: 'bg-amber-50 text-amber-900 border-amber-300' },
+                        { id: 'ENVIADO_TALLER', label: '🚚 En Taller', cls: 'bg-blue-50 text-blue-900 border-blue-300' },
+                        { id: 'LISTO_RETIRO', label: '📦 Listo en Local', cls: 'bg-emerald-50 text-emerald-900 border-emerald-300 font-bold' },
+                        { id: 'ENTREGADO', label: '✅ Entregado', cls: 'bg-neutral-100 text-neutral-600 border-neutral-300' }
+                    ];
+                    const currentOpt = estadoOptions.find(o => o.id === c.estado) || estadoOptions[0];
+
+                    const dateFormatted = new Date(c.fechas.ingreso).toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit' });
+
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-neutral-50/80 transition";
+                    tr.innerHTML = `
+                        <td class="py-3 px-3 sm:px-4 align-top">
+                            <div class="font-mono font-bold text-neutral-900 text-xs">${c.id}</div>
+                            <span class="inline-block mt-0.5 text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded ${c.sucursal === 'TOM' ? 'bg-[#E6D5C3] text-neutral-900' : 'bg-neutral-200 text-neutral-800'}">${c.sucursal}</span>
+                        </td>
+                        <td class="py-3 px-3 sm:px-4 align-top">
+                            <div class="font-bold text-neutral-900">${c.clienta.nombre}</div>
+                            <div class="text-[11px] text-neutral-500 font-mono flex items-center gap-1 mt-0.5">
+                                <span>📱 ${c.clienta.telefono}</span>
+                            </div>
+                        </td>
+                        <td class="py-3 px-3 sm:px-4 align-top">
+                            <div class="font-semibold text-neutral-900">
+                                <span class="bg-neutral-100 px-1 py-0.5 rounded font-mono font-bold">${c.calzado.articulo}</span> 
+                                <span class="text-neutral-500 font-normal">T.${c.calzado.talle} - ${c.calzado.color}</span>
+                            </div>
+                            <div class="text-[11px] text-neutral-600 mt-1 max-w-xs leading-snug">
+                                <strong class="text-neutral-700">${c.falla.tipo}:</strong> ${c.falla.descripcion}
+                            </div>
+                        </td>
+                        <td class="py-3 px-3 sm:px-4 align-top">
+                            <div class="text-neutral-700 font-medium">${dateFormatted}</div>
+                            <div class="mt-1">${badgeDays}</div>
+                        </td>
+                        <td class="py-3 px-3 sm:px-4 align-top">
+                            <select onchange="updateItemStatus('${c.id}', this.value)" class="text-xs rounded border px-2 py-1 focus:outline-none focus:border-black font-medium cursor-pointer ${currentOpt.cls}">
+                                <option value="RECIBIDO_LOCAL" ${c.estado === 'RECIBIDO_LOCAL' ? 'selected' : ''}>🟡 En Sucursal</option>
+                                <option value="ENVIADO_TALLER" ${c.estado === 'ENVIADO_TALLER' ? 'selected' : ''}>🚚 En Taller</option>
+                                <option value="LISTO_RETIRO" ${c.estado === 'LISTO_RETIRO' ? 'selected' : ''}>📦 Listo en Local</option>
+                                <option value="ENTREGADO" ${c.estado === 'ENTREGADO' ? 'selected' : ''}>✅ Entregado</option>
+                            </select>
+                        </td>
+                        <td class="py-3 px-3 sm:px-4 align-top text-right space-x-1 whitespace-nowrap">
+                            <button onclick="sendConstanciaWA('${c.id}')" title="Enviar Constancia de Recepción por WhatsApp" class="p-1.5 rounded bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 transition">
+                                📲 Constancia
+                            </button>
+                            <button onclick="sendRetiroWA('${c.id}')" title="Avisar que está listo para retirar" class="p-1.5 rounded ${c.estado === 'LISTO_RETIRO' ? 'bg-emerald-600 hover:bg-emerald-700 text-white font-bold' : 'bg-neutral-100 hover:bg-neutral-200 text-neutral-700'} border border-neutral-300 transition">
+                                ✨ Aviso Retiro
+                            </button>
+                            <button onclick="viewTicket('${c.id}')" title="Ver Comprobante Imprimible" class="p-1.5 rounded bg-neutral-100 hover:bg-neutral-200 text-neutral-700 border border-neutral-300 transition">
+                                🖨️
+                            </button>
+                            <button onclick="deleteItem('${c.id}')" title="Eliminar registro" class="p-1.5 rounded hover:bg-red-50 text-neutral-400 hover:text-red-600 transition">
+                                🗑️
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+        }
+
+        // Cambio de Estado Rápido
+        function updateItemStatus(id, newStatus) {
+            const item = composturas.find(c => c.id === id);
+            if (!item) return;
+            item.estado = newStatus;
+            
+            const now = new Date().toISOString();
+            if (newStatus === 'ENVIADO_TALLER' && !item.fechas.envioTaller) item.fechas.envioTaller = now;
+            if (newStatus === 'LISTO_RETIRO') item.fechas.listoRetiro = now;
+            if (newStatus === 'ENTREGADO') item.fechas.entrega = now;
+
+            saveToStorage();
+
+            // Si pasa a Listo para Retirar, sugerir enviar WhatsApp
+            if (newStatus === 'LISTO_RETIRO') {
+                if (confirm(`¿Querés abrir WhatsApp ahora para avisarle a ${item.clienta.nombre} que su calzado ya está listo en ${item.sucursal}?`)) {
+                    sendRetiroWA(id);
+                }
+            }
+        }
+
+        // WhatsApp: Mensaje de Constancia de Recepción
+        function sendConstanciaWA(id) {
+            const item = composturas.find(c => c.id === id);
+            if (!item) return;
+
+            const telClean = item.clienta.telefono.replace(/[^0-9]/g, '');
+            // Formatear si falta el 549 para Argentina
+            let phone = telClean;
+            if (phone.length === 10) phone = '549' + phone;
+            else if (phone.startsWith('15') && phone.length === 10) phone = '54911' + phone.substring(2);
+
+            const msg = `¡Hola *${item.clienta.nombre}*! 👋 Te saludamos desde *Nazaria (${item.sucursal})*.%0A%0A` +
+                `Registramos el ingreso de tu calzado para servicio técnico de compostura:%0A` +
+                `📋 *Ticket:* #${item.id}%0A` +
+                `👠 *Modelo:* ${item.calzado.articulo} (Color ${item.calzado.color} - Talle ${item.calzado.talle})%0A` +
+                `🔍 *Diagnóstico:* ${item.falla.tipo} - ${item.falla.descripcion}%0A` +
+                `⏳ *Plazo estimado:* 10 días hábiles.%0A%0A` +
+                `Te avisaremos por este medio apenas regrese impecable del taller para que puedas pasar a retirarlo. ¡Muchas gracias!`;
+
+            window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+        }
+
+        // WhatsApp: Aviso de Retiro
+        function sendRetiroWA(id) {
+            const item = composturas.find(c => c.id === id);
+            if (!item) return;
+
+            const telClean = item.clienta.telefono.replace(/[^0-9]/g, '');
+            let phone = telClean;
+            if (phone.length === 10) phone = '549' + phone;
+
+            const msg = `¡Hola *${item.clienta.nombre}*! ✨ Te avisamos desde *Nazaria (${item.sucursal})* que tu calzado ya volvió del taller y *está LISTO PARA RETIRAR*:%0A%0A` +
+                `📋 *Ticket:* #${item.id}%0A` +
+                `👠 *Modelo:* ${item.calzado.articulo} (Talle ${item.calzado.talle})%0A` +
+                `📍 *Lugar de Retiro:* Sucursal Nazaria ${item.sucursal}%0A%0A` +
+                `¡Te esperamos para entregártelo en nuestro horario de atención! 😊`;
+
+            window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+        }
+
+        // Ver Ticket Imprimible
+        function viewTicket(id) {
+            const item = composturas.find(c => c.id === id);
+            if (!item) return;
+
+            const dateStr = new Date(item.fechas.ingreso).toLocaleString('es-AR');
+
+            const printable = document.getElementById('ticket-printable');
+            printable.innerHTML = `
+                <div class="border-b border-dashed border-neutral-400 pb-3 text-center">
+                    <div class="font-bold text-sm">NAZARIA ZAPATOS</div>
+                    <div class="text-[10px] text-neutral-500">SUCURSAL ${item.sucursal.toUpperCase()}</div>
+                    <div class="text-xs font-bold mt-1 bg-neutral-100 py-1 rounded">CONSTANCIA DE COMPOSTURA #${item.id}</div>
+                </div>
+                <div class="space-y-1.5 text-[11px]">
+                    <div><strong>Fecha:</strong> ${dateStr}</div>
+                    <div><strong>Clienta:</strong> ${item.clienta.nombre}</div>
+                    <div><strong>Teléfono:</strong> ${item.clienta.telefono}</div>
+                    ${item.clienta.dni ? `<div><strong>DNI:</strong> ${item.clienta.dni}</div>` : ''}
+                    <div><strong>Artículo:</strong> ${item.calzado.articulo} | Talle: ${item.calzado.talle} | Color: ${item.calzado.color}</div>
+                    <div><strong>Falla:</strong> ${item.falla.tipo} - ${item.falla.descripcion}</div>
+                    <div><strong>Recepción:</strong> ${item.vendedora || 'Vendedora de turno'}</div>
+                </div>
+                <div class="border-t border-b border-dashed border-neutral-400 py-2 text-[10px] text-center text-neutral-600">
+                    Plazo estimado de servicio: 10 días hábiles.<br>
+                    Se le dará aviso por WhatsApp para su retiro.
+                </div>
+                <div class="pt-2 text-[9px] text-center text-neutral-400">
+                    Conserve este cupón para retirar en el local.
+                </div>
+            `;
+            document.getElementById('modal-ticket').classList.remove('hidden');
+        }
+
+        function closeTicketModal() {
+            document.getElementById('modal-ticket').classList.add('hidden');
+        }
+
+        function printTicket() {
+            window.print();
+        }
+
+        // Gestión de Modal Nuevo / Edición
+        function openNewModal() {
+            document.getElementById('form-compostura').reset();
+            document.getElementById('edit-id').value = '';
+            document.getElementById('modal-title').innerText = 'Nueva Compostura';
+
+            // Seleccionar por defecto la sucursal activa si no es TODAS
+            if (currentSucursalFilter !== 'TODAS') {
+                const radio = document.querySelector(`input[name="form-sucursal"][value="${currentSucursalFilter}"]`);
+                if (radio) radio.checked = true;
+            }
+
+            document.getElementById('modal-new').classList.remove('hidden');
+        }
+
+        function closeNewModal() {
+            document.getElementById('modal-new').classList.add('hidden');
+        }
+
+        // Guardar Formulario
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const submitter = e.submitter;
+            const action = submitter ? submitter.value : 'save_only';
+
+            const sucursal = document.querySelector('input[name="form-sucursal"]:checked').value;
+            const nombre = document.getElementById('clienta-nombre').value.trim();
+            const telefono = document.getElementById('clienta-telefono').value.trim();
+            const dni = document.getElementById('clienta-dni').value.trim();
+            const vendedora = document.getElementById('recepcion-vendedora').value.trim();
+
+            const articulo = document.getElementById('calzado-articulo').value.trim().toUpperCase();
+            const color = document.getElementById('calzado-color').value.trim();
+            const talle = document.getElementById('calzado-talle').value;
+
+            const fallaTipo = document.getElementById('falla-tipo').value;
+            const fallaDesc = document.getElementById('falla-descripcion').value.trim();
+            const notas = document.getElementById('compostura-notas').value.trim();
+
+            // Generar nuevo ID correlativo
+            const nextNumber = composturas.length > 0 
+                ? Math.max(...composturas.map(c => parseInt(c.id.replace('CMP-', '')) || 100)) + 1 
+                : 101;
+            const newId = `CMP-${nextNumber}`;
+
+            const newItem = {
+                id: newId,
+                sucursal: sucursal,
+                clienta: { nombre, telefono, dni },
+                calzado: { articulo, color, talle },
+                falla: { tipo: fallaTipo, descripcion: fallaDesc },
+                fechas: {
+                    ingreso: new Date().toISOString(),
+                    envioTaller: null,
+                    listoRetiro: null,
+                    entrega: null
+                },
+                estado: 'RECIBIDO_LOCAL',
+                notas: notas,
+                vendedora: vendedora
+            };
+
+            composturas.unshift(newItem);
+            saveToStorage();
+            closeNewModal();
+
+            if (action === 'save_and_wa') {
+                sendConstanciaWA(newId);
+            }
+        }
+
+        // Eliminar Registro
+        function deleteItem(id) {
+            if (confirm(`¿Estás seguro de que querés eliminar el registro #${id}?`)) {
+                composturas = composturas.filter(c => c.id !== id);
+                saveToStorage();
+            }
+        }
+
+        // Exportar a CSV (Excel)
+        function exportToCSV() {
+            if (composturas.length === 0) {
+                alert("No hay composturas para exportar.");
+                return;
+            }
+            let csv = "ID,Sucursal,Clienta,Telefono,DNI,Articulo,Color,Talle,Falla_Tipo,Falla_Detalle,Estado,Fecha_Ingreso\n";
+            composturas.forEach(c => {
+                const row = [
+                    c.id,
+                    c.sucursal,
+                    `"${c.clienta.nombre}"`,
+                    `"${c.clienta.telefono}"`,
+                    c.clienta.dni || "",
+                    c.calzado.articulo,
+                    c.calzado.color,
+                    c.calzado.talle,
+                    `"${c.falla.tipo}"`,
+                    `"${c.falla.descripcion.replace(/"/g, '""')}"`,
+                    c.estado,
+                    c.fechas.ingreso
+                ];
+                csv += row.join(",") + "\n";
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `composturas_nazaria_${new Date().toISOString().slice(0,10)}.csv`;
+            a.click();
+        }
+
+        // Sincronización con GitHub (Push / Pull)
+        function openSyncModal() {
+            document.getElementById('modal-sync').classList.remove('hidden');
+            toggleMenuOptions(false);
+        }
+        function closeSyncModal() {
+            document.getElementById('modal-sync').classList.add('hidden');
+        }
+
+        async function pushToGitHub() {
+            const token = document.getElementById('sync-token-input').value.trim();
+            const statusBox = document.getElementById('sync-status-msg');
+            if (!token) {
+                alert("Por favor ingresá tu GitHub Token.");
+                return;
+            }
+            localStorage.setItem('github_token', token);
+
+            statusBox.className = "text-[11px] text-center font-medium text-neutral-600";
+            statusBox.innerText = "⏳ Guardando datos en GitHub...";
+
+            try {
+                const url = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${GITHUB_FILE_PATH}`;
+                const headers = {
+                    'Authorization': `token ${token}`,
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Content-Type': 'application/json'
+                };
+
+                let sha = null;
+                const checkRes = await fetch(url, { headers });
+                if (checkRes.ok) {
+                    const data = await checkRes.json();
+                    sha = data.sha;
+                }
+
+                const contentJson = JSON.stringify(composturas, null, 2);
+                const b64 = btoa(unescape(encodeURIComponent(contentJson)));
+
+                const putBody = {
+                    message: `Composturas App: Actualizar registros (${composturas.length} pares)`,
+                    content: b64
+                };
+                if (sha) putBody.sha = sha;
+
+                const putRes = await fetch(url, {
+                    method: 'PUT',
+                    headers,
+                    body: JSON.stringify(putBody)
+                });
+
+                if (!putRes.ok) throw new Error("Error en la respuesta de GitHub.");
+
+                statusBox.className = "text-[11px] text-center font-bold text-emerald-600";
+                statusBox.innerText = "✔ ¡Sincronizado con éxito en GitHub!";
+                setTimeout(() => closeSyncModal(), 1500);
+
+            } catch (err) {
+                statusBox.className = "text-[11px] text-center font-bold text-red-600";
+                statusBox.innerText = `Error: ${err.message}`;
+            }
+        }
+
+        async function pullFromGitHub() {
+            const statusBox = document.getElementById('sync-status-msg');
+            statusBox.className = "text-[11px] text-center font-medium text-neutral-600";
+            statusBox.innerText = "⏳ Descargando datos desde GitHub...";
+
+            try {
+                const res = await fetch(`./data/composturas.json?t=${Date.now()}`);
+                if (!res.ok) throw new Error("No se pudo obtener data/composturas.json");
+                composturas = await res.json();
+                saveToStorage();
+                statusBox.className = "text-[11px] text-center font-bold text-emerald-600";
+                statusBox.innerText = "✔ ¡Datos descargados y actualizados!";
+                setTimeout(() => closeSyncModal(), 1500);
+            } catch (err) {
+                statusBox.className = "text-[11px] text-center font-bold text-red-600";
+                statusBox.innerText = `Error: ${err.message}`;
+            }
+        }
+
+        // Cargar datos demo
+        function resetDemoData() {
+            if (confirm("¿Cargar los datos de prueba iniciales de TOM y Maschwitz?")) {
+                composturas = [
+                    {
+                        id: "CMP-101",
+                        sucursal: "TOM",
+                        clienta: { nombre: "Carolina Benítez", telefono: "1154896231", dni: "35894120" },
+                        calzado: { articulo: "S4020", color: "Negro", talle: "38" },
+                        falla: { tipo: "Despegue de base", descripcion: "Despegue en la puntera del pie derecho." },
+                        fechas: { ingreso: new Date(Date.now() - 3 * 86400000).toISOString(), envioTaller: new Date().toISOString(), listoRetiro: null, entrega: null },
+                        estado: "ENVIADO_TALLER",
+                        notas: "Traído con caja original.",
+                        vendedora: "Lucía"
+                    },
+                    {
+                        id: "CMP-102",
+                        sucursal: "Maschwitz",
+                        clienta: { nombre: "Valeria Rossi", telefono: "1141258963", dni: "32145879" },
+                        calzado: { articulo: "N73", color: "Suela", talle: "37" },
+                        falla: { tipo: "Cierre / Hebilla", descripcion: "Cierre lateral trabado que no sube." },
+                        fechas: { ingreso: new Date(Date.now() - 1 * 86400000).toISOString(), envioTaller: null, listoRetiro: null, entrega: null },
+                        estado: "RECIBIDO_LOCAL",
+                        notas: "Fajar para traspaso a fábrica.",
+                        vendedora: "Mariana"
+                    },
+                    {
+                        id: "CMP-103",
+                        sucursal: "TOM",
+                        clienta: { nombre: "Florencia Gómez", telefono: "1165893214", dni: "38541296" },
+                        calzado: { articulo: "SAGUILA", color: "Beige", talle: "39" },
+                        falla: { tipo: "Costura", descripcion: "Descosido en tira de talón izquierdo." },
+                        fechas: { ingreso: new Date(Date.now() - 11 * 86400000).toISOString(), envioTaller: new Date().toISOString(), listoRetiro: new Date().toISOString(), entrega: null },
+                        estado: "LISTO_RETIRO",
+                        notas: "Ya retornó del taller. Se probó el arreglo y quedó impecable.",
+                        vendedora: "Camila"
+                    }
+                ];
+                saveToStorage();
+                toggleMenuOptions(false);
+            }
+        }
+
+        function toggleMenuOptions(force) {
+            const menu = document.getElementById('menu-dropdown');
+            if (force === false) menu.classList.add('hidden');
+            else menu.classList.toggle('hidden');
+        }
+
+        // Cerrar menú al hacer clic afuera
+        window.addEventListener('click', function(e) {
+            const btn = e.target.closest('button[title="Opciones y sincronización"]');
+            const menu = document.getElementById('menu-dropdown');
+            if (!btn && menu && !menu.contains(e.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
