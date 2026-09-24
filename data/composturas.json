@@ -1,0 +1,86 @@
+[
+  {
+    "id": "CMP-101",
+    "sucursal": "TOM",
+    "clienta": {
+      "nombre": "Carolina Benítez",
+      "telefono": "1154896231",
+      "dni": "35894120"
+    },
+    "calzado": {
+      "articulo": "S4020",
+      "color": "Negro",
+      "talle": "38",
+      "fechaCompraAprox": "2026-08-20"
+    },
+    "falla": {
+      "tipo": "Despegue de base",
+      "descripcion": "Despegue en la puntera del pie derecho."
+    },
+    "fechas": {
+      "ingreso": "2026-09-18T14:30:00",
+      "envioTaller": "2026-09-19T11:00:00",
+      "listoRetiro": null,
+      "entrega": null
+    },
+    "estado": "ENVIADO_TALLER",
+    "notas": "Traído con caja original.",
+    "vendedora": "Lucía"
+  },
+  {
+    "id": "CMP-102",
+    "sucursal": "Maschwitz",
+    "clienta": {
+      "nombre": "Valeria Rossi",
+      "telefono": "1141258963",
+      "dni": "32145879"
+    },
+    "calzado": {
+      "articulo": "N73",
+      "color": "Suela",
+      "talle": "37",
+      "fechaCompraAprox": "2026-09-02"
+    },
+    "falla": {
+      "tipo": "Cierre / Hebilla",
+      "descripcion": "Cierre lateral trabado que no sube."
+    },
+    "fechas": {
+      "ingreso": "2026-09-22T17:15:00",
+      "envioTaller": null,
+      "listoRetiro": null,
+      "entrega": null
+    },
+    "estado": "RECIBIDO_LOCAL",
+    "notas": "Fajar para traspaso a fábrica.",
+    "vendedora": "Mariana"
+  },
+  {
+    "id": "CMP-103",
+    "sucursal": "TOM",
+    "clienta": {
+      "nombre": "Florencia Gómez",
+      "telefono": "1165893214",
+      "dni": "38541296"
+    },
+    "calzado": {
+      "articulo": "SAGUILA",
+      "color": "Beige",
+      "talle": "39",
+      "fechaCompraAprox": "2026-08-15"
+    },
+    "falla": {
+      "tipo": "Costura",
+      "descripcion": "Descosido en tira de talón izquierdo."
+    },
+    "fechas": {
+      "ingreso": "2026-09-10T11:20:00",
+      "envioTaller": "2026-09-11T16:00:00",
+      "listoRetiro": "2026-09-23T10:00:00",
+      "entrega": null
+    },
+    "estado": "LISTO_RETIRO",
+    "notas": "Ya retornó del taller. Se probó el arreglo y quedó impecable.",
+    "vendedora": "Camila"
+  }
+]
