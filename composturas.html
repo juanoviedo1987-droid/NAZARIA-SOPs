@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control de Composturas - Nazaria Zapatos</title>
+    <title>Control de Composturas y Garantías - Nazaria Zapatos</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,13 +40,13 @@
                         NAZARIA <span class="text-[10px] font-bold bg-[#E6D5C3] text-neutral-900 px-2 py-0.5 rounded tracking-normal">COMPOSTURAS</span>
                     </h1>
                 </div>
-                <p class="text-[10px] text-neutral-400">Servicio Técnico · Tarjetas Digitales para WhatsApp</p>
+                <p class="text-[10px] text-neutral-400">Servicio Técnico · Notas de Crédito · Comprobantes WhatsApp</p>
             </div>
         </div>
 
         <!-- Acciones en Cabecera -->
         <div class="flex items-center gap-2">
-            <!-- Selector Rápido de Sucursal Activa -->
+            <!-- Selector Rápido de Sucursal Activa (Guarda memoria) -->
             <div class="hidden sm:flex items-center bg-neutral-800 rounded border border-neutral-700 p-0.5 text-xs">
                 <button onclick="setSucursalFilter('TODAS')" id="btn-suc-todas" class="px-2.5 py-1 rounded bg-white text-black shadow-sm font-bold transition">Todas</button>
                 <button onclick="setSucursalFilter('TOM')" id="btn-suc-tom" class="px-2.5 py-1 rounded text-neutral-300 hover:text-white transition font-medium">TOM</button>
@@ -69,7 +69,7 @@
                         <span>📖</span> Ver Manual P-04 (Posventa)
                     </a>
                     <button onclick="exportToCSV()" class="w-full text-left flex items-center gap-2 px-3 py-2 hover:bg-neutral-100">
-                        <span>📥</span> Exportar a Excel (CSV)
+                        <span>📥</span> Exportar a Excel (CSV con NC)
                     </button>
                     <button onclick="openSyncModal()" class="w-full text-left flex items-center gap-2 px-3 py-2 hover:bg-neutral-100 border-t border-neutral-100">
                         <span>☁️</span> Sincronización con GitHub
@@ -95,7 +95,7 @@
             </select>
         </div>
 
-        <!-- 3 Estados Operativos Clave (KPIs Clickeables) -->
+        <!-- 4 Estados Operativos Clave (KPIs Clickeables) -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4">
             
             <!-- 1. En Reparación -->
@@ -122,38 +122,38 @@
                 </div>
             </div>
 
-            <!-- 3. Entregadas (Fin) -->
+            <!-- 3. Notas de Crédito Emitidas -->
+            <div onclick="setStatusFilter('NOTA_CREDITO')" class="bg-white p-3.5 sm:p-4 rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between cursor-pointer hover:border-purple-500 hover:shadow-md transition">
+                <div class="text-[11px] font-bold text-purple-700 uppercase tracking-wide flex items-center justify-between">
+                    <span>3. 💳 Notas de Crédito</span>
+                    <span class="text-[10px] text-neutral-400">Ver ➔</span>
+                </div>
+                <div class="flex items-baseline justify-between mt-2">
+                    <span id="kpi-nc" class="text-2xl sm:text-3xl font-bold text-purple-700">0</span>
+                    <span class="text-[10px] text-neutral-400">Garantía / Cta Cte</span>
+                </div>
+            </div>
+
+            <!-- 4. Entregadas / Cerradas -->
             <div onclick="setStatusFilter('ENTREGADO')" class="bg-white p-3.5 sm:p-4 rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between cursor-pointer hover:border-neutral-500 hover:shadow-md transition">
                 <div class="text-[11px] font-bold text-neutral-600 uppercase tracking-wide flex items-center justify-between">
-                    <span>3. ⚪ Entregadas</span>
+                    <span>4. ⚪ Entregadas</span>
                     <span class="text-[10px] text-neutral-400">Ver ➔</span>
                 </div>
                 <div class="flex items-baseline justify-between mt-2">
                     <span id="kpi-entregadas" class="text-2xl sm:text-3xl font-bold text-neutral-700">0</span>
-                    <span class="text-[10px] text-neutral-400">Proceso finalizado</span>
-                </div>
-            </div>
-
-            <!-- Alerta Plazos (>7 días) -->
-            <div onclick="filterAlertsOnly()" class="bg-white p-3.5 sm:p-4 rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between cursor-pointer hover:border-red-500 hover:shadow-md transition">
-                <div class="text-[11px] font-bold text-red-600 uppercase tracking-wide flex items-center justify-between">
-                    <span>⚠️ Alerta Plazos (&gt;7d)</span>
-                    <span class="text-[9px] text-neutral-400">Ver ➔</span>
-                </div>
-                <div class="flex items-baseline justify-between mt-2">
-                    <span id="kpi-alertas" class="text-2xl sm:text-3xl font-bold text-red-600">0</span>
-                    <span class="text-[10px] text-neutral-400">Límite SOP: 10d</span>
+                    <span class="text-[10px] text-neutral-400">Finalizadas</span>
                 </div>
             </div>
         </div>
 
-        <!-- Buscador y Pestañas Simplificadas -->
+        <!-- Buscador y Pestañas -->
         <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-3 sm:p-4 space-y-3">
             <div class="flex flex-col sm:flex-row gap-2.5 items-stretch sm:items-center justify-between">
                 
                 <!-- Input de Búsqueda -->
                 <div class="relative flex-1">
-                    <input type="text" id="search-input" oninput="renderTable()" placeholder="Buscar por Clienta, Teléfono, Ticket (#CMP) o Modelo..." class="w-full bg-neutral-50 border border-neutral-200 rounded-lg px-3.5 py-2 pl-9 text-xs text-neutral-800 placeholder-neutral-400 focus:bg-white focus:outline-none focus:border-black transition">
+                    <input type="text" id="search-input" oninput="renderTable()" placeholder="Buscar por Clienta, Teléfono, Ticket (#CMP), NC de Dux o Modelo..." class="w-full bg-neutral-50 border border-neutral-200 rounded-lg px-3.5 py-2 pl-9 text-xs text-neutral-800 placeholder-neutral-400 focus:bg-white focus:outline-none focus:border-black transition">
                     <svg class="w-4 h-4 text-neutral-400 absolute left-3 top-2.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 1114 0z"></path>
                     </svg>
@@ -175,15 +175,18 @@
                 <button onclick="setStatusFilter('LISTO_RETIRO')" id="tab-status-listo" class="tab-btn px-3 py-2 text-neutral-500 hover:text-black transition whitespace-nowrap">
                     🟢 2. Listas para Retirar (<span id="count-listo">0</span>)
                 </button>
+                <button onclick="setStatusFilter('NOTA_CREDITO')" id="tab-status-nc" class="tab-btn px-3 py-2 text-neutral-500 hover:text-black transition whitespace-nowrap">
+                    💳 3. Notas de Crédito (<span id="count-nc">0</span>)
+                </button>
                 <button onclick="setStatusFilter('ENTREGADO')" id="tab-status-entregado" class="tab-btn px-3 py-2 text-neutral-500 hover:text-black transition whitespace-nowrap">
-                    ⚪ 3. Entregadas (<span id="count-entregadas">0</span>)
+                    ⚪ 4. Entregadas (<span id="count-entregadas">0</span>)
                 </button>
             </div>
         </div>
 
         <!-- Indicador de Navegación -->
         <div class="flex items-center justify-between px-1 text-[11px] text-neutral-500">
-            <span>💡 <em>Hacé clic en cualquier fila para ver la ficha o en <strong>[🖼️ Imagen]</strong> para copiarla al WhatsApp de la clienta</em></span>
+            <span>💡 <em>Hacé clic en cualquier fila para ver la ficha o en <strong>[📋 / ✨ / 💳]</strong> para copiar la tarjeta al WhatsApp</em></span>
             <span id="active-filter-badge" class="font-semibold text-neutral-700"></span>
         </div>
 
@@ -197,8 +200,8 @@
                             <th class="py-3 px-3 sm:px-4">Clienta</th>
                             <th class="py-3 px-3 sm:px-4">Calzado & Falla</th>
                             <th class="py-3 px-3 sm:px-4">Ingreso / Plazo</th>
-                            <th class="py-3 px-3 sm:px-4">Estado</th>
-                            <th class="py-3 px-3 sm:px-4 text-right">Comprobantes para WhatsApp</th>
+                            <th class="py-3 px-3 sm:px-4">Estado Operativo</th>
+                            <th class="py-3 px-3 sm:px-4 text-right">Comprobantes WhatsApp</th>
                         </tr>
                     </thead>
                     <tbody id="composturas-tbody" class="divide-y divide-neutral-100">
@@ -237,7 +240,7 @@
                     <span class="text-base">🖼️</span>
                     <div>
                         <h3 id="voucher-modal-title" class="text-xs sm:text-sm font-bold tracking-wide">Comprobante Digital</h3>
-                        <p class="text-[10px] text-neutral-400">Tarjeta gráfica lista para pegar en WhatsApp</p>
+                        <p class="text-[10px] text-neutral-400">Tarjeta gráfica lista para pegar con Ctrl + V en WhatsApp</p>
                     </div>
                 </div>
                 <button onclick="closeVoucherModal()" class="text-neutral-400 hover:text-white text-lg font-bold p-1">✕</button>
@@ -246,15 +249,13 @@
             <!-- Área de Visualización de la Tarjeta (Renderizable por html2canvas) -->
             <div class="p-4 overflow-y-auto flex-1 flex flex-col items-center justify-center bg-[#F3F2EE]">
                 
-                <!-- CONTENEDOR DEL COMPROBANTE 1: RECEPCIÓN DE COMPOSTURA -->
+                <!-- CONTENEDOR 1: RECEPCIÓN DE COMPOSTURA -->
                 <div id="voucher-card-recepcion" class="w-full max-w-sm bg-white rounded-xl shadow-lg border border-neutral-300 overflow-hidden text-neutral-900 font-sans hidden">
-                    <!-- Top Banner -->
                     <div class="bg-[#1A1A1A] text-white p-4 text-center border-b-2 border-[#E6D5C3] relative">
                         <div class="text-[10px] tracking-widest uppercase font-bold text-[#E6D5C3]">NAZARIA ZAPATOS</div>
                         <h2 class="text-sm font-bold tracking-wide mt-0.5 uppercase">Constancia de Servicio Técnico</h2>
                         <div class="absolute right-3 top-3 text-[9px] bg-neutral-800 text-neutral-300 px-2 py-0.5 rounded font-mono font-bold" id="card-rec-ticket">#CMP-101</div>
                     </div>
-                    <!-- Body -->
                     <div class="p-4 space-y-3 text-xs">
                         <div class="flex justify-between items-center bg-[#FAF9F6] p-2.5 rounded border border-neutral-200">
                             <div>
@@ -285,7 +286,6 @@
                             </div>
                         </div>
 
-                        <!-- Highlight Plazo -->
                         <div class="bg-amber-50 border-l-4 border-amber-500 p-2.5 rounded text-[11px] text-amber-950 space-y-1">
                             <div class="font-bold flex items-center gap-1">
                                 <span>⏳</span> Plazo estimado: 10 días hábiles
@@ -295,15 +295,13 @@
                             </p>
                         </div>
                     </div>
-                    <!-- Footer -->
                     <div class="bg-neutral-100 text-neutral-500 px-4 py-2 text-[9px] text-center border-t border-neutral-200">
-                        Presentá este comprobante digital al momento de retirar en el local.
+                        Presentá este comprobante digital o tu DNI al momento de retirar en el local.
                     </div>
                 </div>
 
-                <!-- CONTENEDOR DEL COMPROBANTE 2: AVISO DE CALZADO LISTO PARA RETIRAR -->
+                <!-- CONTENEDOR 2: AVISO DE CALZADO LISTO PARA RETIRAR -->
                 <div id="voucher-card-retiro" class="w-full max-w-sm bg-white rounded-xl shadow-lg border border-neutral-300 overflow-hidden text-neutral-900 font-sans hidden">
-                    <!-- Top Banner -->
                     <div class="bg-emerald-900 text-white p-4 text-center border-b-2 border-emerald-400 relative">
                         <div class="text-[10px] tracking-widest uppercase font-bold text-emerald-200">NAZARIA ZAPATOS</div>
                         <h2 class="text-sm font-bold tracking-wide mt-0.5 uppercase flex items-center justify-center gap-1.5">
@@ -311,7 +309,6 @@
                         </h2>
                         <div class="absolute right-3 top-3 text-[9px] bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded font-mono font-bold" id="card-ret-ticket">#CMP-101</div>
                     </div>
-                    <!-- Body -->
                     <div class="p-4 space-y-3 text-xs">
                         <div class="text-center py-1">
                             <div class="text-sm font-bold text-neutral-900">¡Hola, <span id="card-ret-clienta">Marcela</span>! 👋</div>
@@ -332,9 +329,51 @@
                             <div class="text-[10px] text-neutral-500">Podés pasar en nuestro horario habitual de atención.</div>
                         </div>
                     </div>
-                    <!-- Footer -->
                     <div class="bg-neutral-100 text-neutral-500 px-4 py-2 text-[9px] text-center border-t border-neutral-200">
                         ¡Te esperamos en nuestro local para entregártelo!
+                    </div>
+                </div>
+
+                <!-- CONTENEDOR 3: COMPROBANTE DE NOTA DE CRÉDITO (SALDO EN CTA. CTE.) -->
+                <div id="voucher-card-nc" class="w-full max-w-sm bg-white rounded-xl shadow-lg border border-neutral-300 overflow-hidden text-neutral-900 font-sans hidden">
+                    <div class="bg-[#1A1A1A] text-white p-4 text-center border-b-2 border-[#E6D5C3] relative">
+                        <div class="text-[10px] tracking-widest uppercase font-bold text-[#E6D5C3]">NAZARIA ZAPATOS</div>
+                        <h2 class="text-sm font-bold tracking-wide mt-0.5 uppercase flex items-center justify-center gap-1.5">
+                            <span>💳</span> Constancia de Saldo a Favor
+                        </h2>
+                        <div class="absolute right-3 top-3 text-[9px] bg-neutral-800 text-[#E6D5C3] px-2 py-0.5 rounded font-mono font-bold" id="card-nc-ticket">#CMP-101</div>
+                    </div>
+                    <div class="p-4 space-y-3 text-xs">
+                        <div class="text-center py-1">
+                            <div class="text-sm font-bold text-neutral-900">Estimada <span id="card-nc-clienta">Marcela López</span>,</div>
+                            <p class="text-neutral-600 text-[11px] mt-0.5">
+                                Ante la evaluación técnica por garantía de tu calzado <strong id="card-nc-articulo">S4020</strong>, se ha emitido tu <strong>Nota de Crédito en Dux Software</strong>.
+                            </p>
+                        </div>
+
+                        <!-- Recuadro Dorado Destacado con NC y Saldo -->
+                        <div class="bg-[#FAF9F6] p-3.5 rounded-xl border-2 border-[#E6D5C3] text-center space-y-1.5">
+                            <span class="text-[10px] text-neutral-500 font-bold uppercase tracking-wider block">COMPROBANTE OFICIAL EN DUX</span>
+                            <div class="text-xs text-neutral-500 font-medium">Nota de Crédito N°:</div>
+                            <div id="card-nc-numero" class="text-base font-extrabold text-neutral-900 font-mono tracking-wider bg-white py-1 px-2 rounded border border-neutral-300 inline-block">NC-A-0001-00012345</div>
+                            
+                            <div class="pt-2">
+                                <span class="text-[10px] text-neutral-500 font-bold uppercase tracking-wider block">SALDO EN TU CUENTA CORRIENTE</span>
+                                <div id="card-nc-monto" class="text-2xl font-black text-emerald-800 tracking-tight">$69.900</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-neutral-50 p-2.5 rounded border border-neutral-200 text-[11px] text-neutral-600 space-y-1">
+                            <div class="flex items-center gap-1 font-bold text-neutral-800">
+                                <span>✔</span> Imputado a tu DNI / CUIT en sistema
+                            </div>
+                            <p class="text-[10px] text-neutral-500 leading-relaxed">
+                                Este saldo a favor está disponible en tu Cuenta Corriente para descontar en tu próxima compra en nuestras sucursales Nazaria (Vigencia 90 días).
+                            </p>
+                        </div>
+                    </div>
+                    <div class="bg-neutral-100 text-neutral-500 px-4 py-2 text-[9px] text-center border-t border-neutral-200">
+                        Sucursal emisora: <strong id="card-nc-sucursal">TOM</strong> · Nazaria Zapatos
                     </div>
                 </div>
 
@@ -349,13 +388,51 @@
                     <button onclick="downloadVoucherImage()" class="flex-1 bg-neutral-100 hover:bg-neutral-200 text-neutral-800 font-semibold py-2 px-3 rounded-lg text-xs transition flex items-center justify-center gap-1.5">
                         <span>📥</span> Descargar PNG
                     </button>
-                    <button onclick="openWhatsAppFallback()" class="flex-1 border border-neutral-300 hover:bg-neutral-50 text-neutral-700 font-semibold py-2 px-3 rounded-lg text-xs transition flex items-center justify-center gap-1.5">
-                        <span>📲</span> Abrir WhatsApp
+                    <button onclick="closeVoucherModal()" class="border border-neutral-300 hover:bg-neutral-50 text-neutral-700 font-semibold py-2 px-3 rounded-lg text-xs transition">
+                        Cerrar
                     </button>
                 </div>
                 <div id="voucher-copy-status" class="text-[11px] text-center font-bold text-emerald-700 h-4"></div>
             </div>
 
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL: ASIGNACIÓN DE NOTA DE CRÉDITO DUX   -->
+    <!-- ========================================== -->
+    <div id="modal-nc-input" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
+        <div class="bg-white rounded-xl shadow-2xl border border-neutral-200 w-full max-w-sm overflow-hidden p-5 space-y-4 text-xs">
+            <div class="flex items-center justify-between border-b border-neutral-200 pb-2">
+                <h3 class="font-bold text-sm text-neutral-900 flex items-center gap-2">
+                    <span>💳</span> Resolver con Nota de Crédito
+                </h3>
+                <button onclick="closeNcModal()" class="text-neutral-400 hover:text-black font-bold">✕</button>
+            </div>
+            <p class="text-neutral-600 leading-relaxed">
+                Para garantizar la trazabilidad de la Cuenta Corriente en Dux, ingresá los datos del comprobante generado:
+            </p>
+            <input type="hidden" id="nc-target-id" value="">
+            <div>
+                <label class="block font-semibold text-neutral-700 mb-1">N° Nota de Crédito en Dux *</label>
+                <input type="text" id="nc-input-numero" required placeholder="Ej: NC-A-0001-00045678" class="w-full bg-neutral-50 border border-neutral-300 rounded px-3 py-2 text-xs font-mono font-bold text-neutral-900 focus:bg-white focus:outline-none focus:border-black uppercase">
+            </div>
+            <div>
+                <label class="block font-semibold text-neutral-700 mb-1">Monto Acreditado ($) *</label>
+                <input type="text" id="nc-input-monto" required placeholder="Ej: $69.900" class="w-full bg-neutral-50 border border-neutral-300 rounded px-3 py-2 text-xs font-bold text-emerald-700 focus:bg-white focus:outline-none focus:border-black">
+            </div>
+            <div>
+                <label class="block font-semibold text-neutral-700 mb-1">Motivo / Dictamen</label>
+                <input type="text" id="nc-input-motivo" value="Falla estructural de fábrica (Sin reparación)" class="w-full bg-neutral-50 border border-neutral-200 rounded px-3 py-1.5 text-xs text-neutral-700 focus:bg-white focus:outline-none focus:border-black">
+            </div>
+            <div class="pt-2 flex gap-2">
+                <button onclick="confirmNotaCredito()" class="flex-1 bg-purple-700 hover:bg-purple-800 text-white font-bold py-2.5 rounded-lg transition flex items-center justify-center gap-1.5">
+                    <span>✔</span> Guardar y Generar Tarjeta
+                </button>
+                <button onclick="closeNcModal()" class="border border-neutral-300 hover:bg-neutral-100 text-neutral-700 font-semibold px-3 py-2 rounded-lg transition">
+                    Cancelar
+                </button>
+            </div>
         </div>
     </div>
 
@@ -384,11 +461,9 @@
                 <button onclick="deleteCurrentDetailItem()" class="text-neutral-400 hover:text-red-600 text-xs font-semibold p-1 transition flex items-center gap-1">
                     <span>🗑️</span> Eliminar
                 </button>
-                <div class="flex gap-2">
-                    <button onclick="closeDetailModal()" class="bg-neutral-900 hover:bg-black text-white font-semibold px-4 py-1.5 rounded transition">
-                        Cerrar
-                    </button>
-                </div>
+                <button onclick="closeDetailModal()" class="bg-neutral-900 hover:bg-black text-white font-semibold px-4 py-1.5 rounded transition">
+                    Cerrar
+                </button>
             </div>
         </div>
     </div>
@@ -402,12 +477,43 @@
             <div class="bg-neutral-900 text-white px-5 py-3.5 flex items-center justify-between shrink-0">
                 <div class="flex items-center gap-2">
                     <span class="text-base">🔨</span>
-                    <h3 class="text-sm font-bold tracking-wide">Nueva Compostura</h3>
+                    <h3 class="text-sm font-bold tracking-wide">Nueva Compostura / Garantía</h3>
                 </div>
                 <button onclick="closeNewModal()" class="text-neutral-400 hover:text-white text-lg font-bold p-1">✕</button>
             </div>
 
             <form id="form-compostura" onsubmit="handleFormSubmit(event)" class="p-5 overflow-y-auto space-y-4 flex-1 text-xs">
+                
+                <!-- Tipo de Entrada: ¿Reparación o Nota de Crédito Directa? -->
+                <div class="bg-neutral-50 p-2.5 rounded-lg border border-neutral-200">
+                    <label class="block font-semibold text-neutral-800 mb-1.5">Destino Operativo:</label>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <label class="flex items-center gap-2 p-2 bg-white rounded border border-neutral-200 cursor-pointer has-[:checked]:border-black has-[:checked]:bg-neutral-100 transition">
+                            <input type="radio" name="form-destino" value="EN_PROCESO" checked onchange="toggleDirectNcFields(false)" class="text-black">
+                            <span class="font-bold text-neutral-900">🔨 Envío a Taller</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-2 bg-white rounded border border-neutral-200 cursor-pointer has-[:checked]:border-purple-600 has-[:checked]:bg-purple-50 transition">
+                            <input type="radio" name="form-destino" value="NOTA_CREDITO" onchange="toggleDirectNcFields(true)" class="text-purple-600">
+                            <span class="font-bold text-purple-950">💳 NC Directa en Dux</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Campos de Nota de Crédito Directa (Ocultos por defecto) -->
+                <div id="direct-nc-fields" class="hidden bg-purple-50/70 p-3 rounded-lg border border-purple-200 space-y-2">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-purple-900 block">Datos Obligatorios de la Nota de Crédito</span>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block font-medium text-neutral-700 mb-0.5">N° NC en Dux *</label>
+                            <input type="text" id="direct-nc-numero" placeholder="Ej: NC-000123" class="w-full bg-white border border-purple-300 rounded px-2 py-1 text-xs font-mono font-bold uppercase">
+                        </div>
+                        <div>
+                            <label class="block font-medium text-neutral-700 mb-0.5">Monto Acreditado ($) *</label>
+                            <input type="text" id="direct-nc-monto" placeholder="Ej: $69.900" class="w-full bg-white border border-purple-300 rounded px-2 py-1 text-xs font-bold text-emerald-700">
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Sucursal de Recepción -->
                 <div>
                     <label class="block font-semibold text-neutral-700 mb-1">Sucursal de Recepción *</label>
@@ -442,7 +548,7 @@
                             <input type="tel" id="clienta-telefono" required placeholder="Ej: 11 5566 7788" class="w-full bg-neutral-50 border border-neutral-200 rounded px-2.5 py-1.5 text-xs text-neutral-900 focus:bg-white focus:outline-none focus:border-black">
                         </div>
                         <div>
-                            <label class="block font-medium text-neutral-600 mb-1">DNI (Opcional)</label>
+                            <label class="block font-medium text-neutral-600 mb-1">DNI (Recomendado para Dux)</label>
                             <input type="text" id="clienta-dni" placeholder="Ej: 34123456" class="w-full bg-neutral-50 border border-neutral-200 rounded px-2.5 py-1.5 text-xs text-neutral-900 focus:bg-white focus:outline-none focus:border-black">
                         </div>
                         <div>
@@ -479,12 +585,34 @@
                     </div>
                 </div>
 
-                <!-- Diagnóstico de Falla -->
+                <!-- Diagnóstico con Botones Rápidos (Chips en 1 Toque) -->
                 <div class="border-t border-neutral-100 pt-3">
-                    <h4 class="font-bold text-neutral-800 uppercase tracking-wider text-[10px] mb-2 text-[#b38e65]">Motivo de Reparación</h4>
+                    <div class="flex items-center justify-between mb-1.5">
+                        <h4 class="font-bold text-neutral-800 uppercase tracking-wider text-[10px] text-[#b38e65]">Motivo de Reparación</h4>
+                        <span class="text-[10px] text-neutral-400">⚡ Carga rápida en 1 toque</span>
+                    </div>
+
+                    <!-- Chips Rápidos -->
+                    <div class="flex flex-wrap gap-1.5 mb-2.5">
+                        <button type="button" onclick="selectQuickFalla('Despegue de base', 'Despegue en suela/puntera')" class="bg-neutral-100 hover:bg-neutral-200 text-neutral-800 px-2 py-1 rounded text-[11px] font-medium transition">
+                            👟 Despegue Suela
+                        </button>
+                        <button type="button" onclick="selectQuickFalla('Taco / Tapita', 'Tapita de taco gastada/rota')" class="bg-neutral-100 hover:bg-neutral-200 text-neutral-800 px-2 py-1 rounded text-[11px] font-medium transition">
+                            👠 Taco / Tapita
+                        </button>
+                        <button type="button" onclick="selectQuickFalla('Costura', 'Costura descosida en capellada')" class="bg-neutral-100 hover:bg-neutral-200 text-neutral-800 px-2 py-1 rounded text-[11px] font-medium transition">
+                            🧵 Costura
+                        </button>
+                        <button type="button" onclick="selectQuickFalla('Cierre / Hebilla', 'Cierre trabado / hebilla rota')" class="bg-neutral-100 hover:bg-neutral-200 text-neutral-800 px-2 py-1 rounded text-[11px] font-medium transition">
+                            🔒 Cierre / Hebilla
+                        </button>
+                        <button type="button" onclick="selectQuickFalla('Plantilla', 'Plantilla interior despegada')" class="bg-neutral-100 hover:bg-neutral-200 text-neutral-800 px-2 py-1 rounded text-[11px] font-medium transition">
+                            🩴 Plantilla
+                        </button>
+                    </div>
+
                     <div class="space-y-2">
                         <div>
-                            <label class="block font-medium text-neutral-600 mb-1">Tipo de Falla *</label>
                             <select id="falla-tipo" class="w-full bg-neutral-50 border border-neutral-200 rounded px-2.5 py-1.5 text-xs text-neutral-900 focus:bg-white focus:outline-none focus:border-black">
                                 <option value="Despegue de base">Despegue de base / suela</option>
                                 <option value="Cierre / Hebilla">Rotura o traba de cierre / hebilla</option>
@@ -496,8 +624,7 @@
                             </select>
                         </div>
                         <div>
-                            <label class="block font-medium text-neutral-600 mb-1">Detalle específico de la falla *</label>
-                            <textarea id="falla-descripcion" required rows="2" placeholder="Ej: Se despegó la puntera del pie izquierdo..." class="w-full bg-neutral-50 border border-neutral-200 rounded px-2.5 py-1.5 text-xs text-neutral-900 focus:bg-white focus:outline-none focus:border-black"></textarea>
+                            <textarea id="falla-descripcion" required rows="2" placeholder="Detalle específico del calzado..." class="w-full bg-neutral-50 border border-neutral-200 rounded px-2.5 py-1.5 text-xs text-neutral-900 focus:bg-white focus:outline-none focus:border-black"></textarea>
                         </div>
                     </div>
                 </div>
@@ -505,7 +632,7 @@
                 <!-- Botones de Acción -->
                 <div class="pt-3 border-t border-neutral-100 flex gap-2">
                     <button type="submit" class="flex-1 bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 px-4 rounded-lg shadow-sm flex items-center justify-center gap-2 transition">
-                        <span>🖼️</span> Guardar y Generar Comprobante
+                        <span>🖼️</span> Guardar y Ver Comprobante
                     </button>
                     <button type="button" onclick="closeNewModal()" class="border border-neutral-300 bg-white hover:bg-neutral-100 text-neutral-800 font-semibold py-2.5 px-4 rounded-lg transition">
                         Cancelar
@@ -547,12 +674,12 @@
     <!-- LÓGICA JAVASCRIPT                          -->
     <!-- ========================================== -->
     <script>
-        const STORAGE_KEY = 'nazaria_composturas_v2';
+        const STORAGE_KEY = 'nazaria_composturas_v3';
         const GITHUB_REPO = 'NAZARIA-SOPs';
         const GITHUB_USER = 'juanoviedo1987-droid';
         const GITHUB_FILE_PATH = 'data/composturas.json';
 
-        // Base de datos de prueba predeterminada
+        // Base de datos de prueba con todos los casos (incluyendo Notas de Crédito con Nro de Dux)
         const DEFAULT_DEMO_DATA = [
             {
                 id: "CMP-101",
@@ -589,7 +716,7 @@
                 sucursal: "TOM",
                 clienta: { nombre: "Andrea Morales", telefono: "1133221144", dni: "36125478" },
                 calzado: { articulo: "N08", color: "Negro", talle: "36" },
-                falla: { tipo: "Taco / Tapita", descripcion: "Tapita de taco rota." },
+                falla: { tipo: "Taco / Tapita", descripcion: "Tapita de taco rota en primer uso." },
                 fechas: { ingreso: new Date(Date.now() - 2 * 86400000).toISOString(), listoRetiro: null, entrega: null },
                 estado: "EN_PROCESO",
                 vendedora: "Lucía"
@@ -599,9 +726,10 @@
                 sucursal: "Maschwitz",
                 clienta: { nombre: "Romina Sánchez", telefono: "1122334455", dni: "33987456" },
                 calzado: { articulo: "SFENIX", color: "Platino", talle: "38" },
-                falla: { tipo: "Despegue de base", descripcion: "Despegue en arco interno pie izquierdo." },
-                fechas: { ingreso: new Date(Date.now() - 5 * 86400000).toISOString(), listoRetiro: null, entrega: null },
-                estado: "EN_PROCESO",
+                falla: { tipo: "Falla de material", descripcion: "Falla estructural de base sin arreglo." },
+                fechas: { ingreso: new Date(Date.now() - 5 * 86400000).toISOString(), listoRetiro: null, entrega: new Date().toISOString() },
+                estado: "NOTA_CREDITO",
+                notaCredito: { numero: "NC-A-0002-00018942", monto: "$69.900", motivo: "Dictamen de fábrica: falla irrecuperable" },
                 vendedora: "Mariana"
             },
             {
@@ -641,17 +769,20 @@
         let currentStatusFilter = 'TODOS';
         let filterOnlyAlerts = false;
         let selectedDetailId = null;
-        let currentVoucherType = 'recepcion'; // 'recepcion' | 'retiro'
+        let currentVoucherType = 'recepcion'; // 'recepcion' | 'retiro' | 'nc'
         let currentVoucherItem = null;
 
         window.onload = function() {
             if (localStorage.getItem('github_token')) {
                 document.getElementById('sync-token-input').value = localStorage.getItem('github_token');
             }
+            // Recordar sucursal por computadora
+            const defaultSuc = localStorage.getItem('default_sucursal') || 'TODAS';
+            currentSucursalFilter = defaultSuc;
+            
             loadDataFromStorage();
         };
 
-        // Normalizar estados viejos (RECIBIDO_LOCAL / ENVIADO_TALLER -> EN_PROCESO)
         function normalizeStatus(st) {
             if (st === 'RECIBIDO_LOCAL' || st === 'ENVIADO_TALLER') return 'EN_PROCESO';
             return st;
@@ -673,23 +804,10 @@
                     saveToStorage();
                 }
             } else {
-                try {
-                    const res = await fetch(`./data/composturas.json?t=${Date.now()}`);
-                    if (res.ok) {
-                        const data = await res.json();
-                        if (Array.isArray(data) && data.length > 0) {
-                            composturas = data.map(c => ({ ...c, estado: normalizeStatus(c.estado) }));
-                        } else {
-                            composturas = JSON.parse(JSON.stringify(DEFAULT_DEMO_DATA));
-                        }
-                    } else {
-                        composturas = JSON.parse(JSON.stringify(DEFAULT_DEMO_DATA));
-                    }
-                } catch(e) {
-                    composturas = JSON.parse(JSON.stringify(DEFAULT_DEMO_DATA));
-                }
+                composturas = JSON.parse(JSON.stringify(DEFAULT_DEMO_DATA));
                 saveToStorage();
             }
+            applySucursalUI(currentSucursalFilter);
             updateKPIs();
             renderTable();
         }
@@ -700,10 +818,7 @@
             renderTable();
         }
 
-        function setSucursalFilter(suc) {
-            currentSucursalFilter = suc;
-            filterOnlyAlerts = false;
-
+        function applySucursalUI(suc) {
             ['todas', 'tom', 'maschwitz'].forEach(id => {
                 const btn = document.getElementById(`btn-suc-${id}`);
                 if (btn) {
@@ -716,10 +831,17 @@
                 activeBtn.classList.add('bg-white', 'text-black', 'shadow-sm', 'font-bold');
                 activeBtn.classList.remove('text-neutral-300');
             }
-
             const mobSelect = document.getElementById('mobile-sucursal-select');
             if (mobSelect) mobSelect.value = suc;
+        }
 
+        function setSucursalFilter(suc) {
+            currentSucursalFilter = suc;
+            filterOnlyAlerts = false;
+            // Recordar preferencia en este navegador
+            localStorage.setItem('default_sucursal', suc);
+
+            applySucursalUI(suc);
             updateKPIs();
             renderTable();
         }
@@ -734,6 +856,7 @@
                 'TODOS': 'tab-status-todos',
                 'EN_PROCESO': 'tab-status-proceso',
                 'LISTO_RETIRO': 'tab-status-listo',
+                'NOTA_CREDITO': 'tab-status-nc',
                 'ENTREGADO': 'tab-status-entregado'
             };
             if (tabMap[status]) {
@@ -771,17 +894,20 @@
 
             const proceso = list.filter(c => c.estado === 'EN_PROCESO').length;
             const listo = list.filter(c => c.estado === 'LISTO_RETIRO').length;
+            const nc = list.filter(c => c.estado === 'NOTA_CREDITO').length;
             const entregado = list.filter(c => c.estado === 'ENTREGADO').length;
-            const alertas = list.filter(c => c.estado !== 'ENTREGADO' && getDaysDiff(c.fechas.ingreso) >= 8).length;
+            const alertas = list.filter(c => (c.estado === 'EN_PROCESO' || c.estado === 'LISTO_RETIRO') && getDaysDiff(c.fechas.ingreso) >= 8).length;
 
             document.getElementById('kpi-proceso').innerText = proceso;
             document.getElementById('kpi-listas').innerText = listo;
+            document.getElementById('kpi-nc').innerText = nc;
             document.getElementById('kpi-entregadas').innerText = entregado;
             document.getElementById('kpi-alertas').innerText = alertas;
 
             document.getElementById('count-todos').innerText = list.length;
             document.getElementById('count-proceso').innerText = proceso;
             document.getElementById('count-listo').innerText = listo;
+            document.getElementById('count-nc').innerText = nc;
             document.getElementById('count-entregadas').innerText = entregado;
         }
 
@@ -796,7 +922,7 @@
             if (currentSucursalFilter !== 'TODAS') filterDesc.push(`Sucursal: ${currentSucursalFilter}`);
             if (filterOnlyAlerts) filterDesc.push(`⚠ Demoradas (>7d)`);
             else if (currentStatusFilter !== 'TODOS') {
-                const labels = { 'EN_PROCESO': 'En Reparación', 'LISTO_RETIRO': 'Listas para Retiro', 'ENTREGADO': 'Entregadas' };
+                const labels = { 'EN_PROCESO': 'En Reparación', 'LISTO_RETIRO': 'Listas para Retiro', 'NOTA_CREDITO': 'Notas de Crédito', 'ENTREGADO': 'Entregadas' };
                 filterDesc.push(`Estado: ${labels[currentStatusFilter] || currentStatusFilter}`);
             }
             if (search) filterDesc.push(`Búsqueda: "${search}"`);
@@ -805,20 +931,23 @@
             let filtered = composturas.filter(c => {
                 if (currentSucursalFilter !== 'TODAS' && c.sucursal !== currentSucursalFilter) return false;
                 if (filterOnlyAlerts) {
-                    if (c.estado === 'ENTREGADO' || getDaysDiff(c.fechas.ingreso) < 8) return false;
+                    if (c.estado === 'ENTREGADO' || c.estado === 'NOTA_CREDITO' || getDaysDiff(c.fechas.ingreso) < 8) return false;
                 } else if (currentStatusFilter !== 'TODOS' && c.estado !== currentStatusFilter) {
                     return false;
                 }
                 if (search) {
-                    const matchText = `${c.id} ${c.clienta.nombre} ${c.clienta.telefono} ${c.calzado.articulo} ${c.calzado.color} ${c.falla.tipo} ${c.falla.descripcion}`.toLowerCase();
+                    const ncText = c.notaCredito ? `${c.notaCredito.numero} ${c.notaCredito.monto}` : '';
+                    const matchText = `${c.id} ${c.clienta.nombre} ${c.clienta.telefono} ${c.calzado.articulo} ${c.calzado.color} ${c.falla.tipo} ${c.falla.descripcion} ${ncText}`.toLowerCase();
                     if (!matchText.includes(search)) return false;
                 }
                 return true;
             });
 
             filtered.sort((a, b) => {
-                if (a.estado === 'ENTREGADO' && b.estado !== 'ENTREGADO') return 1;
-                if (a.estado !== 'ENTREGADO' && b.estado === 'ENTREGADO') return -1;
+                const isClosedA = (a.estado === 'ENTREGADO' || a.estado === 'NOTA_CREDITO');
+                const isClosedB = (b.estado === 'ENTREGADO' || b.estado === 'NOTA_CREDITO');
+                if (isClosedA && !isClosedB) return 1;
+                if (!isClosedA && isClosedB) return -1;
                 return new Date(b.fechas.ingreso) - new Date(a.fechas.ingreso);
             });
 
@@ -834,7 +963,7 @@
                     title = "¡Excelente! No hay calzados demorados";
                     desc = "Ninguna compostura activa supera los 7 días de plazo en esta sucursal.";
                 } else if (currentStatusFilter !== 'TODOS') {
-                    const labels = { 'EN_PROCESO': 'En Reparación', 'LISTO_RETIRO': 'Listas para Retiro', 'ENTREGADO': 'Entregadas' };
+                    const labels = { 'EN_PROCESO': 'En Reparación', 'LISTO_RETIRO': 'Listas para Retiro', 'NOTA_CREDITO': 'Notas de Crédito', 'ENTREGADO': 'Entregadas' };
                     title = `No hay calzados en "${labels[currentStatusFilter]}"`;
                     desc = `No hay artículos registrados bajo este estado para ${currentSucursalFilter === 'TODAS' ? 'ninguna sucursal' : currentSucursalFilter}.`;
                 }
@@ -851,6 +980,8 @@
                     let badgeDays = '';
                     if (c.estado === 'ENTREGADO') {
                         badgeDays = `<span class="text-[10px] text-neutral-400 font-medium">✅ Entregado</span>`;
+                    } else if (c.estado === 'NOTA_CREDITO') {
+                        badgeDays = `<span class="text-[10px] text-purple-700 font-bold bg-purple-50 px-1.5 py-0.5 rounded border border-purple-200">💳 Resuelto por NC</span>`;
                     } else if (days >= 10) {
                         badgeDays = `<span class="inline-flex items-center gap-1 bg-red-100 text-red-800 font-bold px-2 py-0.5 rounded text-[10px] animate-pulse-slow">⚠ ${days} días (VENCIDO)</span>`;
                     } else if (days >= 7) {
@@ -862,7 +993,8 @@
                     const estadoOptions = {
                         'EN_PROCESO': { label: '1. 🟡 En Reparación', cls: 'bg-amber-50 text-amber-900 border-amber-300 font-semibold' },
                         'LISTO_RETIRO': { label: '2. 🟢 Listo para Retirar', cls: 'bg-emerald-50 text-emerald-900 border-emerald-300 font-bold' },
-                        'ENTREGADO': { label: '3. ⚪ Entregado', cls: 'bg-neutral-100 text-neutral-600 border-neutral-300' }
+                        'NOTA_CREDITO': { label: '3. 💳 Nota de Crédito', cls: 'bg-purple-50 text-purple-900 border-purple-300 font-bold' },
+                        'ENTREGADO': { label: '4. ⚪ Entregado (Fin)', cls: 'bg-neutral-100 text-neutral-600 border-neutral-300' }
                     };
                     const currentOpt = estadoOptions[c.estado] || estadoOptions['EN_PROCESO'];
                     const dateFormatted = new Date(c.fechas.ingreso).toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit' });
@@ -882,6 +1014,7 @@
                         <td class="py-3 px-3 sm:px-4 align-top">
                             <div class="font-bold text-neutral-900">${c.clienta.nombre}</div>
                             <div class="text-[11px] text-neutral-500 font-mono mt-0.5">📱 ${c.clienta.telefono}</div>
+                            ${c.clienta.dni ? `<div class="text-[10px] text-neutral-400">DNI: ${c.clienta.dni}</div>` : ''}
                         </td>
                         <td class="py-3 px-3 sm:px-4 align-top">
                             <div class="font-semibold text-neutral-900">
@@ -891,29 +1024,129 @@
                             <div class="text-[11px] text-neutral-600 mt-0.5 max-w-xs leading-snug">
                                 <strong class="text-neutral-700">${c.falla.tipo}:</strong> ${c.falla.descripcion}
                             </div>
+                            ${c.notaCredito ? `
+                                <div class="mt-1 bg-purple-50 border border-purple-200 p-1 px-1.5 rounded text-[10px] text-purple-900 font-mono inline-block">
+                                    💳 NC Dux: <strong>${c.notaCredito.numero}</strong> (${c.notaCredito.monto})
+                                </div>
+                            ` : ''}
                         </td>
                         <td class="py-3 px-3 sm:px-4 align-top">
                             <div class="text-neutral-700 font-medium">${dateFormatted}</div>
                             <div class="mt-1">${badgeDays}</div>
                         </td>
                         <td class="py-3 px-3 sm:px-4 align-top" onclick="event.stopPropagation()">
-                            <select onchange="updateItemStatus('${c.id}', this.value)" class="text-xs rounded border px-2 py-1.5 focus:outline-none focus:border-black cursor-pointer ${currentOpt.cls}">
+                            <select onchange="handleSelectStatusChange('${c.id}', this.value)" class="text-xs rounded border px-2 py-1.5 focus:outline-none focus:border-black cursor-pointer ${currentOpt.cls}">
                                 <option value="EN_PROCESO" ${c.estado === 'EN_PROCESO' ? 'selected' : ''}>1. 🟡 En Reparación</option>
                                 <option value="LISTO_RETIRO" ${c.estado === 'LISTO_RETIRO' ? 'selected' : ''}>2. 🟢 Listo para Retirar</option>
-                                <option value="ENTREGADO" ${c.estado === 'ENTREGADO' ? 'selected' : ''}>3. ⚪ Entregado (Fin)</option>
+                                <option value="NOTA_CREDITO" ${c.estado === 'NOTA_CREDITO' ? 'selected' : ''}>3. 💳 Nota de Crédito (Dux)</option>
+                                <option value="ENTREGADO" ${c.estado === 'ENTREGADO' ? 'selected' : ''}>4. ⚪ Entregado (Fin)</option>
                             </select>
+                            
+                            <!-- Botón Directo "Entregar" para los pares que están listos -->
+                            ${c.estado === 'LISTO_RETIRO' ? `
+                                <button onclick="quickEntregar('${c.id}')" class="mt-1.5 w-full bg-neutral-900 hover:bg-black text-white text-[10px] font-bold py-1 px-2 rounded shadow-sm flex items-center justify-center gap-1 transition">
+                                    <span>✔</span> Entregar a Clienta
+                                </button>
+                            ` : ''}
                         </td>
                         <td class="py-3 px-3 sm:px-4 align-top text-right space-x-1.5 whitespace-nowrap" onclick="event.stopPropagation()">
                             <button onclick="showVoucherModal('${c.id}', 'recepcion')" title="Comprobante de Recepción (para WhatsApp)" class="p-1.5 px-2.5 rounded bg-neutral-100 hover:bg-neutral-200 text-neutral-800 border border-neutral-300 font-semibold transition text-xs inline-flex items-center gap-1">
                                 <span>📋</span> Constancia
                             </button>
-                            <button onclick="showVoucherModal('${c.id}', 'retiro')" title="Aviso de Retiro (para WhatsApp)" class="p-1.5 px-2.5 rounded ${c.estado === 'LISTO_RETIRO' ? 'bg-emerald-600 hover:bg-emerald-700 text-white font-bold' : 'bg-neutral-100 hover:bg-neutral-200 text-neutral-700 border border-neutral-300'} transition text-xs inline-flex items-center gap-1">
-                                <span>✨</span> Aviso Retiro
-                            </button>
+                            ${c.estado === 'NOTA_CREDITO' ? `
+                                <button onclick="showVoucherModal('${c.id}', 'nc')" title="Tarjeta de Nota de Crédito" class="p-1.5 px-2.5 rounded bg-purple-700 hover:bg-purple-800 text-white font-bold transition text-xs inline-flex items-center gap-1">
+                                    <span>💳</span> Tarjeta NC
+                                </button>
+                            ` : `
+                                <button onclick="showVoucherModal('${c.id}', 'retiro')" title="Aviso de Retiro (para WhatsApp)" class="p-1.5 px-2.5 rounded ${c.estado === 'LISTO_RETIRO' ? 'bg-emerald-600 hover:bg-emerald-700 text-white font-bold' : 'bg-neutral-100 hover:bg-neutral-200 text-neutral-700 border border-neutral-300'} transition text-xs inline-flex items-center gap-1">
+                                    <span>✨</span> Aviso Retiro
+                                </button>
+                            `}
                         </td>
                     `;
                     tbody.appendChild(tr);
                 });
+            }
+        }
+
+        // ========================================================
+        // GESTIÓN DE NOTA DE CRÉDITO Y CAMBIO DE ESTADOS
+        // ========================================================
+        function handleSelectStatusChange(id, newStatus) {
+            if (newStatus === 'NOTA_CREDITO') {
+                openNcModal(id);
+            } else {
+                updateItemStatus(id, newStatus);
+            }
+        }
+
+        function openNcModal(id) {
+            const item = composturas.find(c => c.id === id);
+            if (!item) return;
+            document.getElementById('nc-target-id').value = id;
+            document.getElementById('nc-input-numero').value = item.notaCredito ? item.notaCredito.numero : '';
+            document.getElementById('nc-input-monto').value = item.notaCredito ? item.notaCredito.monto : '';
+            document.getElementById('modal-nc-input').classList.remove('hidden');
+            setTimeout(() => document.getElementById('nc-input-numero').focus(), 100);
+        }
+
+        function closeNcModal() {
+            document.getElementById('modal-nc-input').classList.add('hidden');
+        }
+
+        function confirmNotaCredito() {
+            const id = document.getElementById('nc-target-id').value;
+            const numero = document.getElementById('nc-input-numero').value.trim();
+            const monto = document.getElementById('nc-input-monto').value.trim();
+            const motivo = document.getElementById('nc-input-motivo').value.trim();
+
+            if (!numero) {
+                alert("Por favor ingresá el número de Nota de Crédito generado en Dux.");
+                return;
+            }
+            if (!monto) {
+                alert("Por favor ingresá el monto acreditado en la Cuenta Corriente.");
+                return;
+            }
+
+            const item = composturas.find(c => c.id === id);
+            if (!item) return;
+
+            item.estado = 'NOTA_CREDITO';
+            item.notaCredito = { numero, monto, motivo };
+            item.fechas.entrega = new Date().toISOString();
+
+            saveToStorage();
+            closeNcModal();
+
+            // Abrir automáticamente la tarjeta de comprobante de Nota de Crédito para mandársela a la clienta
+            showVoucherModal(id, 'nc');
+        }
+
+        // Entrega Rápida en 1 Clic
+        function quickEntregar(id) {
+            const item = composturas.find(c => c.id === id);
+            if (!item) return;
+            if (confirm(`¿Confirmar entrega del calzado #${item.id} (${item.calzado.articulo}) a ${item.clienta.nombre}?`)) {
+                item.estado = 'ENTREGADO';
+                item.fechas.entrega = new Date().toISOString();
+                saveToStorage();
+            }
+        }
+
+        function updateItemStatus(id, newStatus) {
+            const item = composturas.find(c => c.id === id);
+            if (!item) return;
+            item.estado = newStatus;
+            
+            const now = new Date().toISOString();
+            if (newStatus === 'LISTO_RETIRO' && !item.fechas.listoRetiro) item.fechas.listoRetiro = now;
+            if (newStatus === 'ENTREGADO' && !item.fechas.entrega) item.fechas.entrega = now;
+
+            saveToStorage();
+
+            if (newStatus === 'LISTO_RETIRO') {
+                showVoucherModal(id, 'retiro');
             }
         }
 
@@ -929,13 +1162,17 @@
             document.getElementById('voucher-copy-status').innerText = '';
             const cardRec = document.getElementById('voucher-card-recepcion');
             const cardRet = document.getElementById('voucher-card-retiro');
+            const cardNc = document.getElementById('voucher-card-nc');
+
+            cardRec.classList.add('hidden');
+            cardRet.classList.add('hidden');
+            cardNc.classList.add('hidden');
 
             const dateStr = new Date(item.fechas.ingreso).toLocaleDateString('es-AR');
 
             if (type === 'recepcion') {
                 document.getElementById('voucher-modal-title').innerText = `Constancia de Recepción #${item.id}`;
                 cardRec.classList.remove('hidden');
-                cardRet.classList.add('hidden');
 
                 document.getElementById('card-rec-ticket').innerText = `#${item.id}`;
                 document.getElementById('card-rec-sucursal').innerText = (item.sucursal === 'TOM') ? 'Tortugas Open Mall (TOM)' : 'Maschwitz Mall';
@@ -946,9 +1183,8 @@
                 document.getElementById('card-rec-tallecolor').innerText = `T.${item.calzado.talle} · ${item.calzado.color}`;
                 document.getElementById('card-rec-falla').innerText = `${item.falla.tipo} - ${item.falla.descripcion}`;
 
-            } else {
+            } else if (type === 'retiro') {
                 document.getElementById('voucher-modal-title').innerText = `Aviso de Retiro #${item.id}`;
-                cardRec.classList.add('hidden');
                 cardRet.classList.remove('hidden');
 
                 document.getElementById('card-ret-ticket').innerText = `#${item.id}`;
@@ -956,6 +1192,17 @@
                 document.getElementById('card-ret-articulo').innerText = item.calzado.articulo;
                 document.getElementById('card-ret-tallecolor').innerText = `Talle ${item.calzado.talle} · Color ${item.calzado.color}`;
                 document.getElementById('card-ret-sucursal').innerText = (item.sucursal === 'TOM') ? 'Nazaria Tortugas Open Mall (TOM)' : 'Nazaria Maschwitz Mall';
+
+            } else if (type === 'nc') {
+                document.getElementById('voucher-modal-title').innerText = `Constancia de Nota de Crédito #${item.id}`;
+                cardNc.classList.remove('hidden');
+
+                document.getElementById('card-nc-ticket').innerText = `#${item.id}`;
+                document.getElementById('card-nc-clienta').innerText = item.clienta.nombre;
+                document.getElementById('card-nc-articulo').innerText = `${item.calzado.articulo} (T.${item.calzado.talle} · ${item.calzado.color})`;
+                document.getElementById('card-nc-numero').innerText = item.notaCredito ? item.notaCredito.numero : 'NC EN DUX';
+                document.getElementById('card-nc-monto').innerText = item.notaCredito ? item.notaCredito.monto : '$0.00';
+                document.getElementById('card-nc-sucursal').innerText = item.sucursal;
             }
 
             document.getElementById('modal-voucher').classList.remove('hidden');
@@ -967,9 +1214,9 @@
         }
 
         async function getTargetCanvas() {
-            const targetEl = (currentVoucherType === 'recepcion')
-                ? document.getElementById('voucher-card-recepcion')
-                : document.getElementById('voucher-card-retiro');
+            let targetEl = document.getElementById('voucher-card-recepcion');
+            if (currentVoucherType === 'retiro') targetEl = document.getElementById('voucher-card-retiro');
+            if (currentVoucherType === 'nc') targetEl = document.getElementById('voucher-card-nc');
 
             return await html2canvas(targetEl, {
                 scale: 2,
@@ -978,7 +1225,6 @@
             });
         }
 
-        // COPIAR IMAGEN AL PORTAPAPELES (Ctrl + V directo en WhatsApp)
         async function copyVoucherImage() {
             const statusEl = document.getElementById('voucher-copy-status');
             const btn = document.getElementById('btn-copy-voucher');
@@ -1014,7 +1260,6 @@
                             throw new Error("El navegador no permite copiado directo al portapapeles.");
                         }
                     } catch (err) {
-                        // Fallback a descarga si el portapapeles del navegador está restringido
                         downloadVoucherImage();
                         statusEl.className = "text-[11px] text-center font-bold text-blue-700";
                         statusEl.innerText = "Imagen descargada en tu equipo (adjuntala en WhatsApp).";
@@ -1031,59 +1276,18 @@
             }
         }
 
-        // DESCARGAR IMAGEN
         async function downloadVoucherImage() {
             if (!currentVoucherItem) return;
             const canvas = await getTargetCanvas();
             const link = document.createElement('a');
-            link.download = `Nazaria_Compostura_${currentVoucherItem.id}_${currentVoucherType}.png`;
+            link.download = `Nazaria_${currentVoucherItem.id}_${currentVoucherType}.png`;
             link.href = canvas.toDataURL('image/png');
             link.click();
         }
 
-        // WHATSAPP LINK OPCIONAL DE RESPALDO
-        function openWhatsAppFallback() {
-            if (!currentVoucherItem) return;
-            const item = currentVoucherItem;
-            const telClean = item.clienta.telefono.replace(/[^0-9]/g, '');
-            let phone = telClean;
-            if (phone.length === 10) phone = '549' + phone;
-
-            let msg = '';
-            if (currentVoucherType === 'recepcion') {
-                msg = `¡Hola *${item.clienta.nombre}*! 👋 En *Nazaria (${item.sucursal})* recibimos tu calzado para compostura:%0A` +
-                      `📋 *Ticket:* #${item.id}%0A` +
-                      `👠 *Modelo:* ${item.calzado.articulo} (${item.calzado.color} - T.${item.calzado.talle})%0A` +
-                      `🔍 *Diagnóstico:* ${item.falla.tipo} - ${item.falla.descripcion}%0A` +
-                      `⏳ *Plazo estimado:* 10 días hábiles.%0A` +
-                      `¡Te avisaremos apenas regrese reparado!`;
-            } else {
-                msg = `¡Hola *${item.clienta.nombre}*! ✨ Tu calzado *${item.calzado.articulo}* ya volvió del taller y *está LISTO PARA RETIRAR* en Nazaria ${item.sucursal} (Ticket #${item.id}). ¡Te esperamos! 😊`;
-            }
-
-            window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
-        }
-
         // ==========================================
-        // GESTIÓN DE ESTADOS Y FICHA DE DETALLE
+        // FICHA DE DETALLE
         // ==========================================
-        function updateItemStatus(id, newStatus) {
-            const item = composturas.find(c => c.id === id);
-            if (!item) return;
-            item.estado = newStatus;
-            
-            const now = new Date().toISOString();
-            if (newStatus === 'LISTO_RETIRO' && !item.fechas.listoRetiro) item.fechas.listoRetiro = now;
-            if (newStatus === 'ENTREGADO' && !item.fechas.entrega) item.fechas.entrega = now;
-
-            saveToStorage();
-
-            // Si pasa a Listo para Retirar, abrir automáticamente la tarjeta para mandársela a la clienta
-            if (newStatus === 'LISTO_RETIRO') {
-                showVoucherModal(id, 'retiro');
-            }
-        }
-
         function openDetailModal(id) {
             const item = composturas.find(c => c.id === id);
             if (!item) return;
@@ -1099,25 +1303,44 @@
 
             const detailBody = document.getElementById('detail-body');
             detailBody.innerHTML = `
-                <!-- Selector de Estado Directo -->
+                <!-- Selector de Estado -->
                 <div class="bg-neutral-50 p-3 rounded-lg border border-neutral-200 flex items-center justify-between">
-                    <span class="font-bold text-neutral-800">Estado Actual:</span>
-                    <select onchange="updateItemStatus('${item.id}', this.value); openDetailModal('${item.id}');" class="text-xs font-bold rounded border px-2.5 py-1.5 focus:outline-none focus:border-black cursor-pointer bg-white">
+                    <span class="font-bold text-neutral-800">Estado:</span>
+                    <select onchange="handleSelectStatusChange('${item.id}', this.value); closeDetailModal();" class="text-xs font-bold rounded border px-2.5 py-1.5 focus:outline-none focus:border-black cursor-pointer bg-white">
                         <option value="EN_PROCESO" ${item.estado === 'EN_PROCESO' ? 'selected' : ''}>1. 🟡 En Reparación (Taller)</option>
                         <option value="LISTO_RETIRO" ${item.estado === 'LISTO_RETIRO' ? 'selected' : ''}>2. 🟢 Listo para Retirar (Avisar)</option>
-                        <option value="ENTREGADO" ${item.estado === 'ENTREGADO' ? 'selected' : ''}>3. ⚪ Entregado a la Clienta (Fin)</option>
+                        <option value="NOTA_CREDITO" ${item.estado === 'NOTA_CREDITO' ? 'selected' : ''}>3. 💳 Nota de Crédito (Dux)</option>
+                        <option value="ENTREGADO" ${item.estado === 'ENTREGADO' ? 'selected' : ''}>4. ⚪ Entregado (Fin)</option>
                     </select>
                 </div>
 
-                <!-- Botones de Comprobantes Digitales -->
-                <div class="grid grid-cols-2 gap-2 pt-1">
-                    <button onclick="closeDetailModal(); showVoucherModal('${item.id}', 'recepcion');" class="bg-neutral-900 hover:bg-black text-white font-bold p-2.5 rounded-lg flex items-center justify-center gap-1.5 transition">
-                        <span>📋</span> Tarjeta Recepción
+                <!-- Botones de Tarjetas Digitales -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-1">
+                    <button onclick="closeDetailModal(); showVoucherModal('${item.id}', 'recepcion');" class="bg-neutral-900 hover:bg-black text-white font-bold p-2.5 rounded-lg flex items-center justify-center gap-1.5 transition text-[11px]">
+                        <span>📋</span> Tarjeta Ingreso
                     </button>
-                    <button onclick="closeDetailModal(); showVoucherModal('${item.id}', 'retiro');" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold p-2.5 rounded-lg flex items-center justify-center gap-1.5 transition">
-                        <span>✨</span> Tarjeta Aviso Retiro
+                    <button onclick="closeDetailModal(); showVoucherModal('${item.id}', 'retiro');" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold p-2.5 rounded-lg flex items-center justify-center gap-1.5 transition text-[11px]">
+                        <span>✨</span> Aviso Retiro
+                    </button>
+                    <button onclick="closeDetailModal(); openNcModal('${item.id}');" class="bg-purple-700 hover:bg-purple-800 text-white font-bold p-2.5 rounded-lg flex items-center justify-center gap-1.5 transition text-[11px]">
+                        <span>💳</span> ${item.notaCredito ? 'Ver/Editar NC' : 'Asignar NC'}
                     </button>
                 </div>
+
+                ${item.notaCredito ? `
+                    <div class="bg-purple-50 p-3 rounded-lg border border-purple-200 space-y-1">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-purple-900 block">Datos Fiscales de Nota de Crédito</span>
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-neutral-600">N° Comprobante Dux:</span>
+                            <strong class="font-mono text-purple-950">${item.notaCredito.numero}</strong>
+                        </div>
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-neutral-600">Monto Acreditado:</span>
+                            <strong class="text-emerald-800 font-bold">${item.notaCredito.monto}</strong>
+                        </div>
+                        <div class="text-[11px] text-neutral-500 pt-0.5">Motivo: ${item.notaCredito.motivo}</div>
+                    </div>
+                ` : ''}
 
                 <!-- Datos Clienta -->
                 <div class="border border-neutral-200 rounded-lg p-3 space-y-1">
@@ -1151,7 +1374,7 @@
                             <strong class="text-neutral-800">${dateListo}</strong>
                         </div>
                         <div class="bg-neutral-50 p-2 rounded border border-neutral-100">
-                            <span class="text-neutral-400 block font-semibold">3. ENTREGADO</span>
+                            <span class="text-neutral-400 block font-semibold">3. FINALIZADO</span>
                             <strong class="text-neutral-800">${dateEntrega}</strong>
                         </div>
                     </div>
@@ -1176,10 +1399,23 @@
         }
 
         // ==========================================
-        // NUEVA COMPOSTURA
+        // NUEVA COMPOSTURA Y CHIPS RÁPIDOS
         // ==========================================
+        function selectQuickFalla(tipo, desc) {
+            document.getElementById('falla-tipo').value = tipo;
+            document.getElementById('falla-descripcion').value = desc;
+        }
+
+        function toggleDirectNcFields(isNc) {
+            const fields = document.getElementById('direct-nc-fields');
+            if (isNc) fields.classList.remove('hidden');
+            else fields.classList.add('hidden');
+        }
+
         function openNewModal() {
             document.getElementById('form-compostura').reset();
+            toggleDirectNcFields(false);
+
             if (currentSucursalFilter !== 'TODAS') {
                 const radio = document.querySelector(`input[name="form-sucursal"][value="${currentSucursalFilter}"]`);
                 if (radio) radio.checked = true;
@@ -1194,6 +1430,7 @@
         function handleFormSubmit(e) {
             e.preventDefault();
 
+            const destino = document.querySelector('input[name="form-destino"]:checked').value;
             const sucursal = document.querySelector('input[name="form-sucursal"]:checked').value;
             const nombre = document.getElementById('clienta-nombre').value.trim();
             const telefono = document.getElementById('clienta-telefono').value.trim();
@@ -1206,6 +1443,17 @@
 
             const fallaTipo = document.getElementById('falla-tipo').value;
             const fallaDesc = document.getElementById('falla-descripcion').value.trim();
+
+            let notaCreditoData = null;
+            if (destino === 'NOTA_CREDITO') {
+                const ncNum = document.getElementById('direct-nc-numero').value.trim();
+                const ncMonto = document.getElementById('direct-nc-monto').value.trim();
+                if (!ncNum || !ncMonto) {
+                    alert("Al seleccionar Nota de Crédito Directa, es obligatorio indicar N° de NC y Monto de Dux.");
+                    return;
+                }
+                notaCreditoData = { numero: ncNum, monto: ncMonto, motivo: "Garantía directa en salón" };
+            }
 
             const nextNumber = composturas.length > 0 
                 ? Math.max(...composturas.map(c => parseInt(c.id.replace('CMP-', '')) || 100)) + 1 
@@ -1221,9 +1469,10 @@
                 fechas: {
                     ingreso: new Date().toISOString(),
                     listoRetiro: null,
-                    entrega: null
+                    entrega: (destino === 'NOTA_CREDITO') ? new Date().toISOString() : null
                 },
-                estado: 'EN_PROCESO',
+                estado: destino,
+                notaCredito: notaCreditoData,
                 vendedora: vendedora
             };
 
@@ -1231,20 +1480,25 @@
             saveToStorage();
             closeNewModal();
 
-            // Abrir automáticamente la tarjeta de comprobante de recepción para copiar y enviar
-            showVoucherModal(newId, 'recepcion');
+            if (destino === 'NOTA_CREDITO') {
+                showVoucherModal(newId, 'nc');
+            } else {
+                showVoucherModal(newId, 'recepcion');
+            }
         }
 
         // ==========================================
-        // EXPORTACIÓN Y SYNC
+        // EXPORTACIÓN A CSV CON NOTA DE CRÉDITO
         // ==========================================
         function exportToCSV() {
             if (composturas.length === 0) {
                 alert("No hay composturas para exportar.");
                 return;
             }
-            let csv = "ID,Sucursal,Clienta,Telefono,DNI,Articulo,Color,Talle,Falla_Tipo,Falla_Detalle,Estado,Fecha_Ingreso\n";
+            let csv = "ID,Sucursal,Clienta,Telefono,DNI,Articulo,Color,Talle,Falla_Tipo,Falla_Detalle,Estado,Fecha_Ingreso,Nro_Nota_Credito,Monto_NC\n";
             composturas.forEach(c => {
+                const ncNum = c.notaCredito ? c.notaCredito.numero : "";
+                const ncMonto = c.notaCredito ? c.notaCredito.monto : "";
                 const row = [
                     c.id,
                     c.sucursal,
@@ -1257,7 +1511,9 @@
                     `"${c.falla.tipo}"`,
                     `"${c.falla.descripcion.replace(/"/g, '""')}"`,
                     c.estado,
-                    c.fechas.ingreso
+                    c.fechas.ingreso,
+                    `"${ncNum}"`,
+                    `"${ncMonto}"`
                 ];
                 csv += row.join(",") + "\n";
             });
