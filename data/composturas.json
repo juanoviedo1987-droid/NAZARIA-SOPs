@@ -10,16 +10,15 @@
     "calzado": {
       "articulo": "S4020",
       "color": "Negro",
-      "talle": "38",
-      "fechaCompraAprox": "2026-08-20"
+      "talle": "38"
     },
     "falla": {
       "tipo": "Despegue de base",
       "descripcion": "Despegue en la puntera del pie derecho."
     },
     "fechas": {
-      "ingreso": "2026-09-18T14:30:00",
-      "envioTaller": "2026-09-19T11:00:00",
+      "ingreso": "2026-09-21T14:30:00",
+      "envioTaller": "2026-09-22T11:00:00",
       "listoRetiro": null,
       "entrega": null
     },
@@ -38,15 +37,14 @@
     "calzado": {
       "articulo": "N73",
       "color": "Suela",
-      "talle": "37",
-      "fechaCompraAprox": "2026-09-02"
+      "talle": "37"
     },
     "falla": {
       "tipo": "Cierre / Hebilla",
       "descripcion": "Cierre lateral trabado que no sube."
     },
     "fechas": {
-      "ingreso": "2026-09-22T17:15:00",
+      "ingreso": "2026-09-23T17:15:00",
       "envioTaller": null,
       "listoRetiro": null,
       "entrega": null
@@ -66,21 +64,155 @@
     "calzado": {
       "articulo": "SAGUILA",
       "color": "Beige",
-      "talle": "39",
-      "fechaCompraAprox": "2026-08-15"
+      "talle": "39"
     },
     "falla": {
       "tipo": "Costura",
       "descripcion": "Descosido en tira de talón izquierdo."
     },
     "fechas": {
-      "ingreso": "2026-09-10T11:20:00",
-      "envioTaller": "2026-09-11T16:00:00",
+      "ingreso": "2026-09-12T11:20:00",
+      "envioTaller": "2026-09-13T16:00:00",
       "listoRetiro": "2026-09-23T10:00:00",
       "entrega": null
     },
     "estado": "LISTO_RETIRO",
     "notas": "Ya retornó del taller. Se probó el arreglo y quedó impecable.",
     "vendedora": "Camila"
+  },
+  {
+    "id": "CMP-104",
+    "sucursal": "TOM",
+    "clienta": {
+      "nombre": "Andrea Morales",
+      "telefono": "1133221144",
+      "dni": "36125478"
+    },
+    "calzado": {
+      "articulo": "N08",
+      "color": "Negro",
+      "talle": "36"
+    },
+    "falla": {
+      "tipo": "Taco / Tapita",
+      "descripcion": "Tapita de taco rota en el primer uso."
+    },
+    "fechas": {
+      "ingreso": "2026-09-22T10:00:00",
+      "envioTaller": null,
+      "listoRetiro": null,
+      "entrega": null
+    },
+    "estado": "RECIBIDO_LOCAL",
+    "notas": "Cambio de ambas tapitas para nivelar.",
+    "vendedora": "Lucía"
+  },
+  {
+    "id": "CMP-105",
+    "sucursal": "Maschwitz",
+    "clienta": {
+      "nombre": "Romina Sánchez",
+      "telefono": "1122334455",
+      "dni": "33987456"
+    },
+    "calzado": {
+      "articulo": "SFENIX",
+      "color": "Platino",
+      "talle": "38"
+    },
+    "falla": {
+      "tipo": "Despegue de base",
+      "descripcion": "Despegue en arco interno pie izquierdo."
+    },
+    "fechas": {
+      "ingreso": "2026-09-19T16:40:00",
+      "envioTaller": "2026-09-20T11:30:00",
+      "listoRetiro": null,
+      "entrega": null
+    },
+    "estado": "ENVIADO_TALLER",
+    "notas": "Enviar a fábrica urgente.",
+    "vendedora": "Mariana"
+  },
+  {
+    "id": "CMP-106",
+    "sucursal": "Maschwitz",
+    "clienta": {
+      "nombre": "Laura Fernández",
+      "telefono": "1199887766",
+      "dni": "31456789"
+    },
+    "calzado": {
+      "articulo": "N531",
+      "color": "Suela",
+      "talle": "39"
+    },
+    "falla": {
+      "tipo": "Costura",
+      "descripcion": "Refuerzo de costura en boca de capellada."
+    },
+    "fechas": {
+      "ingreso": "2026-09-18T18:00:00",
+      "envioTaller": "2026-09-19T10:00:00",
+      "listoRetiro": "2026-09-24T12:00:00",
+      "entrega": null
+    },
+    "estado": "LISTO_RETIRO",
+    "notas": "Listo para entregar.",
+    "vendedora": "Mariana"
+  },
+  {
+    "id": "CMP-107",
+    "sucursal": "TOM",
+    "clienta": {
+      "nombre": "Mariana Peralta",
+      "telefono": "1177665544",
+      "dni": "29874123"
+    },
+    "calzado": {
+      "articulo": "S200",
+      "color": "Negro",
+      "talle": "37"
+    },
+    "falla": {
+      "tipo": "Cierre / Hebilla",
+      "descripcion": "Cambio de hebilla metálica oxidada."
+    },
+    "fechas": {
+      "ingreso": "2026-09-08T15:20:00",
+      "envioTaller": "2026-09-09T11:00:00",
+      "listoRetiro": "2026-09-15T14:00:00",
+      "entrega": "2026-09-16T17:30:00"
+    },
+    "estado": "ENTREGADO",
+    "notas": "Clienta retiró satisfecha.",
+    "vendedora": "Camila"
+  },
+  {
+    "id": "CMP-108",
+    "sucursal": "Maschwitz",
+    "clienta": {
+      "nombre": "Natalia Díaz",
+      "telefono": "1188776655",
+      "dni": "34567890"
+    },
+    "calzado": {
+      "articulo": "S400",
+      "color": "Camel",
+      "talle": "40"
+    },
+    "falla": {
+      "tipo": "Plantilla",
+      "descripcion": "Plantilla interior acolchada desprendida."
+    },
+    "fechas": {
+      "ingreso": "2026-09-05T12:10:00",
+      "envioTaller": "2026-09-06T10:00:00",
+      "listoRetiro": "2026-09-12T16:00:00",
+      "entrega": "2026-09-14T11:00:00"
+    },
+    "estado": "ENTREGADO",
+    "notas": "Entregado en tiempo y forma.",
+    "vendedora": "Mariana"
   }
 ]
