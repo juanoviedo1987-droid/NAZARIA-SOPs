@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         body { font-family: 'Inter', sans-serif; }
         .tab-active {
@@ -28,7 +29,7 @@
 <body class="bg-[#F8F7F4] text-neutral-900 min-h-screen flex flex-col">
 
     <!-- Header Principal -->
-    <header class="bg-neutral-900 text-white border-b border-neutral-800 px-4 sm:px-6 py-3.5 flex items-center justify-between sticky top-0 z-30 shadow-md">
+    <header class="bg-neutral-900 text-white border-b border-neutral-800 px-4 sm:px-6 py-3 flex items-center justify-between sticky top-0 z-30 shadow-md">
         <div class="flex items-center space-x-3">
             <a href="index.html" class="bg-black text-[#E6D5C3] border border-neutral-700 px-2.5 py-1 rounded font-bold tracking-widest text-xs hover:border-[#E6D5C3] transition" title="Volver al Portal de SOPs">
                 NZ
@@ -39,7 +40,7 @@
                         NAZARIA <span class="text-[10px] font-bold bg-[#E6D5C3] text-neutral-900 px-2 py-0.5 rounded tracking-normal">COMPOSTURAS</span>
                     </h1>
                 </div>
-                <p class="text-[10px] text-neutral-400">Gestión de Servicio Técnico, Taller y Notificaciones a Clientas</p>
+                <p class="text-[10px] text-neutral-400">Servicio Técnico · Tarjetas Digitales para WhatsApp</p>
             </div>
         </div>
 
@@ -58,7 +59,7 @@
 
             <!-- Menú de Opciones / Sync -->
             <div class="relative">
-                <button onclick="toggleMenuOptions()" class="p-2 text-neutral-300 hover:text-white hover:bg-neutral-800 rounded transition" title="Opciones y sincronización">
+                <button onclick="toggleMenuOptions()" class="p-2 text-neutral-300 hover:text-white hover:bg-neutral-800 rounded transition" title="Opciones">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
                     </svg>
@@ -86,7 +87,7 @@
 
         <!-- Selector Mobile de Sucursal -->
         <div class="sm:hidden flex items-center justify-between bg-white p-2.5 rounded-lg border border-neutral-200 shadow-sm">
-            <span class="text-xs font-semibold text-neutral-600">Sucursal activa:</span>
+            <span class="text-xs font-semibold text-neutral-600">Sucursal:</span>
             <select id="mobile-sucursal-select" onchange="setSucursalFilter(this.value)" class="bg-neutral-50 border border-neutral-300 rounded px-2.5 py-1 text-xs font-medium text-neutral-800 focus:outline-none">
                 <option value="TODAS">Todas las Sucursales</option>
                 <option value="TOM">TOM (Tortugas)</option>
@@ -94,58 +95,63 @@
             </select>
         </div>
 
-        <!-- Tarjetas de Métricas / KPIs (Clickeables para filtrar) -->
+        <!-- 3 Estados Operativos Clave (KPIs Clickeables) -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4">
-            <div onclick="setStatusFilter('RECIBIDO_LOCAL')" class="bg-white p-3 sm:p-4 rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between cursor-pointer hover:border-black hover:shadow-md transition">
-                <div class="text-[11px] font-semibold text-neutral-500 uppercase tracking-wide flex items-center justify-between">
-                    <span>🟡 En Sucursal</span>
-                    <span class="text-[9px] text-neutral-400">Ver ➔</span>
+            
+            <!-- 1. En Reparación -->
+            <div onclick="setStatusFilter('EN_PROCESO')" class="bg-white p-3.5 sm:p-4 rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between cursor-pointer hover:border-amber-500 hover:shadow-md transition">
+                <div class="text-[11px] font-bold text-amber-700 uppercase tracking-wide flex items-center justify-between">
+                    <span>1. 🟡 En Reparación</span>
+                    <span class="text-[10px] text-neutral-400">Ver ➔</span>
                 </div>
                 <div class="flex items-baseline justify-between mt-2">
-                    <span id="kpi-recibidos" class="text-2xl sm:text-3xl font-bold text-neutral-900">0</span>
-                    <span class="text-[10px] text-neutral-400">Pares a despachar</span>
+                    <span id="kpi-proceso" class="text-2xl sm:text-3xl font-bold text-neutral-900">0</span>
+                    <span class="text-[10px] text-neutral-400">En taller / fábrica</span>
                 </div>
             </div>
 
-            <div onclick="setStatusFilter('ENVIADO_TALLER')" class="bg-white p-3 sm:p-4 rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between cursor-pointer hover:border-blue-500 hover:shadow-md transition">
-                <div class="text-[11px] font-semibold text-neutral-500 uppercase tracking-wide flex items-center justify-between">
-                    <span>🚚 En Taller</span>
-                    <span class="text-[9px] text-neutral-400">Ver ➔</span>
-                </div>
-                <div class="flex items-baseline justify-between mt-2">
-                    <span id="kpi-taller" class="text-2xl sm:text-3xl font-bold text-blue-700">0</span>
-                    <span class="text-[10px] text-neutral-400">En reparación</span>
-                </div>
-            </div>
-
-            <div onclick="setStatusFilter('LISTO_RETIRO')" class="bg-white p-3 sm:p-4 rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between cursor-pointer hover:border-emerald-500 hover:shadow-md transition">
-                <div class="text-[11px] font-semibold text-neutral-500 uppercase tracking-wide flex items-center justify-between">
-                    <span>📦 Listas para Retiro</span>
-                    <span class="text-[9px] text-neutral-400">Ver ➔</span>
+            <!-- 2. Listo para Retirar -->
+            <div onclick="setStatusFilter('LISTO_RETIRO')" class="bg-white p-3.5 sm:p-4 rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between cursor-pointer hover:border-emerald-500 hover:shadow-md transition">
+                <div class="text-[11px] font-bold text-emerald-700 uppercase tracking-wide flex items-center justify-between">
+                    <span>2. 🟢 Listas para Retirar</span>
+                    <span class="text-[10px] text-neutral-400">Ver ➔</span>
                 </div>
                 <div class="flex items-baseline justify-between mt-2">
                     <span id="kpi-listas" class="text-2xl sm:text-3xl font-bold text-emerald-700">0</span>
-                    <span class="text-[10px] text-emerald-600 font-medium">Avisar clienta</span>
+                    <span class="text-[10px] text-emerald-600 font-medium">Avisar a clienta</span>
                 </div>
             </div>
 
-            <div onclick="filterAlertsOnly()" class="bg-white p-3 sm:p-4 rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between cursor-pointer hover:border-amber-500 hover:shadow-md transition">
-                <div class="text-[11px] font-semibold text-neutral-500 uppercase tracking-wide flex items-center justify-between">
-                    <span>⚠ Alerta Plazos (&gt;7d)</span>
+            <!-- 3. Entregadas (Fin) -->
+            <div onclick="setStatusFilter('ENTREGADO')" class="bg-white p-3.5 sm:p-4 rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between cursor-pointer hover:border-neutral-500 hover:shadow-md transition">
+                <div class="text-[11px] font-bold text-neutral-600 uppercase tracking-wide flex items-center justify-between">
+                    <span>3. ⚪ Entregadas</span>
+                    <span class="text-[10px] text-neutral-400">Ver ➔</span>
+                </div>
+                <div class="flex items-baseline justify-between mt-2">
+                    <span id="kpi-entregadas" class="text-2xl sm:text-3xl font-bold text-neutral-700">0</span>
+                    <span class="text-[10px] text-neutral-400">Proceso finalizado</span>
+                </div>
+            </div>
+
+            <!-- Alerta Plazos (>7 días) -->
+            <div onclick="filterAlertsOnly()" class="bg-white p-3.5 sm:p-4 rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between cursor-pointer hover:border-red-500 hover:shadow-md transition">
+                <div class="text-[11px] font-bold text-red-600 uppercase tracking-wide flex items-center justify-between">
+                    <span>⚠️ Alerta Plazos (&gt;7d)</span>
                     <span class="text-[9px] text-neutral-400">Ver ➔</span>
                 </div>
                 <div class="flex items-baseline justify-between mt-2">
-                    <span id="kpi-alertas" class="text-2xl sm:text-3xl font-bold text-amber-600">0</span>
-                    <span class="text-[10px] text-neutral-400">Límite: 10d hábiles</span>
+                    <span id="kpi-alertas" class="text-2xl sm:text-3xl font-bold text-red-600">0</span>
+                    <span class="text-[10px] text-neutral-400">Límite SOP: 10d</span>
                 </div>
             </div>
         </div>
 
-        <!-- Barra de Búsqueda y Pestañas de Estado -->
+        <!-- Buscador y Pestañas Simplificadas -->
         <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-3 sm:p-4 space-y-3">
             <div class="flex flex-col sm:flex-row gap-2.5 items-stretch sm:items-center justify-between">
                 
-                <!-- Input de Búsqueda en tiempo real -->
+                <!-- Input de Búsqueda -->
                 <div class="relative flex-1">
                     <input type="text" id="search-input" oninput="renderTable()" placeholder="Buscar por Clienta, Teléfono, Ticket (#CMP) o Modelo..." class="w-full bg-neutral-50 border border-neutral-200 rounded-lg px-3.5 py-2 pl-9 text-xs text-neutral-800 placeholder-neutral-400 focus:bg-white focus:outline-none focus:border-black transition">
                     <svg class="w-4 h-4 text-neutral-400 absolute left-3 top-2.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -153,39 +159,35 @@
                     </svg>
                 </div>
 
-                <!-- Botón de Reset Filtros -->
                 <button onclick="resetFilters()" class="text-xs text-neutral-600 hover:text-black border border-neutral-200 bg-neutral-50 hover:bg-neutral-100 px-3 py-2 rounded-lg flex items-center justify-center gap-1.5 transition">
                     <span>🔄</span> Limpiar Filtros
                 </button>
             </div>
 
-            <!-- Pestañas de Filtro por Estado -->
+            <!-- Pestañas Simplificadas -->
             <div class="flex items-center space-x-1 sm:space-x-3 border-b border-neutral-200 overflow-x-auto pb-1 text-xs">
                 <button onclick="setStatusFilter('TODOS')" id="tab-status-todos" class="tab-btn px-3 py-2 text-neutral-500 hover:text-black transition whitespace-nowrap tab-active">
-                    Todos (<span id="count-todos">0</span>)
+                    Todas (<span id="count-todos">0</span>)
                 </button>
-                <button onclick="setStatusFilter('RECIBIDO_LOCAL')" id="tab-status-recibido" class="tab-btn px-3 py-2 text-neutral-500 hover:text-black transition whitespace-nowrap">
-                    🟡 En Sucursal (<span id="count-recibidos">0</span>)
-                </button>
-                <button onclick="setStatusFilter('ENVIADO_TALLER')" id="tab-status-taller" class="tab-btn px-3 py-2 text-neutral-500 hover:text-black transition whitespace-nowrap">
-                    🚚 En Taller (<span id="count-taller">0</span>)
+                <button onclick="setStatusFilter('EN_PROCESO')" id="tab-status-proceso" class="tab-btn px-3 py-2 text-neutral-500 hover:text-black transition whitespace-nowrap">
+                    🟡 1. En Reparación (<span id="count-proceso">0</span>)
                 </button>
                 <button onclick="setStatusFilter('LISTO_RETIRO')" id="tab-status-listo" class="tab-btn px-3 py-2 text-neutral-500 hover:text-black transition whitespace-nowrap">
-                    📦 Listas para Retirar (<span id="count-listo">0</span>)
+                    🟢 2. Listas para Retirar (<span id="count-listo">0</span>)
                 </button>
                 <button onclick="setStatusFilter('ENTREGADO')" id="tab-status-entregado" class="tab-btn px-3 py-2 text-neutral-500 hover:text-black transition whitespace-nowrap">
-                    ✅ Entregadas (<span id="count-entregado">0</span>)
+                    ⚪ 3. Entregadas (<span id="count-entregadas">0</span>)
                 </button>
             </div>
         </div>
 
-        <!-- Indicador de click interactivo -->
+        <!-- Indicador de Navegación -->
         <div class="flex items-center justify-between px-1 text-[11px] text-neutral-500">
-            <span>💡 <em>Hacé clic en cualquier fila para ver la ficha completa, historial y opciones</em></span>
+            <span>💡 <em>Hacé clic en cualquier fila para ver la ficha o en <strong>[🖼️ Imagen]</strong> para copiarla al WhatsApp de la clienta</em></span>
             <span id="active-filter-badge" class="font-semibold text-neutral-700"></span>
         </div>
 
-        <!-- Listado de Composturas -->
+        <!-- Tabla Principal -->
         <div class="bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden">
             <div id="table-container" class="overflow-x-auto">
                 <table class="w-full text-left border-collapse text-xs">
@@ -195,8 +197,8 @@
                             <th class="py-3 px-3 sm:px-4">Clienta</th>
                             <th class="py-3 px-3 sm:px-4">Calzado & Falla</th>
                             <th class="py-3 px-3 sm:px-4">Ingreso / Plazo</th>
-                            <th class="py-3 px-3 sm:px-4">Estado Operativo</th>
-                            <th class="py-3 px-3 sm:px-4 text-right">Acciones Directas</th>
+                            <th class="py-3 px-3 sm:px-4">Estado</th>
+                            <th class="py-3 px-3 sm:px-4 text-right">Comprobantes para WhatsApp</th>
                         </tr>
                     </thead>
                     <tbody id="composturas-tbody" class="divide-y divide-neutral-100">
@@ -208,8 +210,8 @@
             <!-- Estado Vacío Inteligente -->
             <div id="empty-state" class="hidden text-center py-12 px-4 space-y-3">
                 <div class="text-3xl text-neutral-300">👠</div>
-                <p id="empty-state-title" class="text-sm font-semibold text-neutral-700">No se encontraron calzados para esta vista</p>
-                <p id="empty-state-desc" class="text-xs text-neutral-500 max-w-sm mx-auto leading-relaxed">Podés restablecer los filtros para ver todas las composturas o registrar una nueva con el botón superior.</p>
+                <p id="empty-state-title" class="text-sm font-semibold text-neutral-700">No se encontraron calzados en esta vista</p>
+                <p id="empty-state-desc" class="text-xs text-neutral-500 max-w-sm mx-auto leading-relaxed">No hay composturas registradas con el filtro activo.</p>
                 <div class="pt-2 flex justify-center gap-2">
                     <button onclick="resetFilters()" class="bg-neutral-900 hover:bg-black text-white font-semibold text-xs px-4 py-2 rounded-lg transition">
                         Ver Todas las Composturas
@@ -223,7 +225,143 @@
 
     </main>
 
-    <!-- Modal: Ficha Completa de la Compostura (Se abre al clickear cualquier ítem) -->
+    <!-- ========================================== -->
+    <!-- MODAL: VISOR DE TARJETA / COMPROBANTE PNG  -->
+    <!-- ========================================== -->
+    <div id="modal-voucher" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
+        <div class="bg-white rounded-2xl shadow-2xl border border-neutral-200 w-full max-w-md overflow-hidden flex flex-col max-h-[95vh]">
+            
+            <!-- Cabecera del Modal -->
+            <div class="bg-neutral-900 text-white px-5 py-3.5 flex items-center justify-between shrink-0">
+                <div class="flex items-center gap-2">
+                    <span class="text-base">🖼️</span>
+                    <div>
+                        <h3 id="voucher-modal-title" class="text-xs sm:text-sm font-bold tracking-wide">Comprobante Digital</h3>
+                        <p class="text-[10px] text-neutral-400">Tarjeta gráfica lista para pegar en WhatsApp</p>
+                    </div>
+                </div>
+                <button onclick="closeVoucherModal()" class="text-neutral-400 hover:text-white text-lg font-bold p-1">✕</button>
+            </div>
+
+            <!-- Área de Visualización de la Tarjeta (Renderizable por html2canvas) -->
+            <div class="p-4 overflow-y-auto flex-1 flex flex-col items-center justify-center bg-[#F3F2EE]">
+                
+                <!-- CONTENEDOR DEL COMPROBANTE 1: RECEPCIÓN DE COMPOSTURA -->
+                <div id="voucher-card-recepcion" class="w-full max-w-sm bg-white rounded-xl shadow-lg border border-neutral-300 overflow-hidden text-neutral-900 font-sans hidden">
+                    <!-- Top Banner -->
+                    <div class="bg-[#1A1A1A] text-white p-4 text-center border-b-2 border-[#E6D5C3] relative">
+                        <div class="text-[10px] tracking-widest uppercase font-bold text-[#E6D5C3]">NAZARIA ZAPATOS</div>
+                        <h2 class="text-sm font-bold tracking-wide mt-0.5 uppercase">Constancia de Servicio Técnico</h2>
+                        <div class="absolute right-3 top-3 text-[9px] bg-neutral-800 text-neutral-300 px-2 py-0.5 rounded font-mono font-bold" id="card-rec-ticket">#CMP-101</div>
+                    </div>
+                    <!-- Body -->
+                    <div class="p-4 space-y-3 text-xs">
+                        <div class="flex justify-between items-center bg-[#FAF9F6] p-2.5 rounded border border-neutral-200">
+                            <div>
+                                <span class="text-[10px] text-neutral-400 block font-semibold">SUCURSAL</span>
+                                <strong id="card-rec-sucursal" class="text-neutral-900 text-xs uppercase">TOM</strong>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-[10px] text-neutral-400 block font-semibold">FECHA INGRESO</span>
+                                <span id="card-rec-fecha" class="font-medium text-neutral-700">24/09/2026</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-[10px] text-neutral-400 block font-semibold uppercase">CLIENTA</span>
+                            <div id="card-rec-clienta" class="font-bold text-neutral-900 text-sm">Marcela López</div>
+                            <div id="card-rec-tel" class="text-neutral-500 font-mono text-[11px]">11 5566 7788</div>
+                        </div>
+
+                        <div class="bg-neutral-50 p-2.5 rounded border border-neutral-200">
+                            <span class="text-[10px] text-[#b38e65] block font-bold uppercase tracking-wider">CALZADO INGRESADO</span>
+                            <div class="flex justify-between items-baseline mt-0.5">
+                                <span id="card-rec-articulo" class="font-bold text-neutral-900 font-mono text-sm">S4020</span>
+                                <span id="card-rec-tallecolor" class="text-neutral-600 font-medium">T.38 · Negro</span>
+                            </div>
+                            <div class="mt-1.5 pt-1.5 border-t border-neutral-200">
+                                <strong class="text-neutral-700 block text-[10px]">DIAGNÓSTICO DE FALLA:</strong>
+                                <span id="card-rec-falla" class="text-neutral-600 leading-snug">Despegue de puntera derecha.</span>
+                            </div>
+                        </div>
+
+                        <!-- Highlight Plazo -->
+                        <div class="bg-amber-50 border-l-4 border-amber-500 p-2.5 rounded text-[11px] text-amber-950 space-y-1">
+                            <div class="font-bold flex items-center gap-1">
+                                <span>⏳</span> Plazo estimado: 10 días hábiles
+                            </div>
+                            <p class="text-[10px] text-amber-900 leading-relaxed">
+                                Te notificaremos por este medio apenas tu calzado regrese reparado e impecable del taller para coordinar su retiro.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Footer -->
+                    <div class="bg-neutral-100 text-neutral-500 px-4 py-2 text-[9px] text-center border-t border-neutral-200">
+                        Presentá este comprobante digital al momento de retirar en el local.
+                    </div>
+                </div>
+
+                <!-- CONTENEDOR DEL COMPROBANTE 2: AVISO DE CALZADO LISTO PARA RETIRAR -->
+                <div id="voucher-card-retiro" class="w-full max-w-sm bg-white rounded-xl shadow-lg border border-neutral-300 overflow-hidden text-neutral-900 font-sans hidden">
+                    <!-- Top Banner -->
+                    <div class="bg-emerald-900 text-white p-4 text-center border-b-2 border-emerald-400 relative">
+                        <div class="text-[10px] tracking-widest uppercase font-bold text-emerald-200">NAZARIA ZAPATOS</div>
+                        <h2 class="text-sm font-bold tracking-wide mt-0.5 uppercase flex items-center justify-center gap-1.5">
+                            <span>✨</span> ¡Tu calzado está listo! <span>✨</span>
+                        </h2>
+                        <div class="absolute right-3 top-3 text-[9px] bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded font-mono font-bold" id="card-ret-ticket">#CMP-101</div>
+                    </div>
+                    <!-- Body -->
+                    <div class="p-4 space-y-3 text-xs">
+                        <div class="text-center py-1">
+                            <div class="text-sm font-bold text-neutral-900">¡Hola, <span id="card-ret-clienta">Marcela</span>! 👋</div>
+                            <p class="text-neutral-600 text-[11px] mt-1">
+                                Tu reparación ha sido finalizada con éxito por nuestro taller.
+                            </p>
+                        </div>
+
+                        <div class="bg-emerald-50/70 p-3 rounded-xl border border-emerald-200 text-center space-y-1">
+                            <span class="text-[10px] text-emerald-800 font-bold uppercase tracking-wider block">CALZADO REPARADO</span>
+                            <div id="card-ret-articulo" class="text-base font-extrabold text-neutral-900 font-mono">S4020</div>
+                            <div id="card-ret-tallecolor" class="text-neutral-600 text-xs font-medium">Talle 38 · Color Negro</div>
+                        </div>
+
+                        <div class="bg-[#FAF9F6] p-3 rounded-lg border border-neutral-200 text-center space-y-1">
+                            <span class="text-[10px] text-neutral-400 font-bold uppercase tracking-wider block">PUNTO DE RETIRO</span>
+                            <div id="card-ret-sucursal" class="font-bold text-neutral-900 text-sm">Nazaria Tortugas Open Mall (TOM)</div>
+                            <div class="text-[10px] text-neutral-500">Podés pasar en nuestro horario habitual de atención.</div>
+                        </div>
+                    </div>
+                    <!-- Footer -->
+                    <div class="bg-neutral-100 text-neutral-500 px-4 py-2 text-[9px] text-center border-t border-neutral-200">
+                        ¡Te esperamos en nuestro local para entregártelo!
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Botones de Acción: Copiar Imagen (Ctrl+V) / Descargar -->
+            <div class="p-4 bg-white border-t border-neutral-200 space-y-2 shrink-0">
+                <button onclick="copyVoucherImage()" id="btn-copy-voucher" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 px-4 rounded-xl shadow-md flex items-center justify-center gap-2 transition text-xs sm:text-sm">
+                    <span class="text-base">📋</span> Copiar Imagen para WhatsApp (Ctrl + V)
+                </button>
+                <div class="flex gap-2">
+                    <button onclick="downloadVoucherImage()" class="flex-1 bg-neutral-100 hover:bg-neutral-200 text-neutral-800 font-semibold py-2 px-3 rounded-lg text-xs transition flex items-center justify-center gap-1.5">
+                        <span>📥</span> Descargar PNG
+                    </button>
+                    <button onclick="openWhatsAppFallback()" class="flex-1 border border-neutral-300 hover:bg-neutral-50 text-neutral-700 font-semibold py-2 px-3 rounded-lg text-xs transition flex items-center justify-center gap-1.5">
+                        <span>📲</span> Abrir WhatsApp
+                    </button>
+                </div>
+                <div id="voucher-copy-status" class="text-[11px] text-center font-bold text-emerald-700 h-4"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL: FICHA COMPLETA DE DETALLE           -->
+    <!-- ========================================== -->
     <div id="modal-detail" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
         <div class="bg-white rounded-xl shadow-2xl border border-neutral-200 w-full max-w-lg overflow-hidden flex flex-col max-h-[92vh]">
             
@@ -232,14 +370,14 @@
                     <span class="text-base">👠</span>
                     <div>
                         <h3 id="detail-ticket-title" class="text-sm font-bold tracking-wide">Ficha de Compostura</h3>
-                        <p id="detail-ticket-subtitle" class="text-[10px] text-neutral-400">Detalle operativo y seguimiento</p>
+                        <p id="detail-ticket-subtitle" class="text-[10px] text-neutral-400">Seguimiento y comprobantes</p>
                     </div>
                 </div>
                 <button onclick="closeDetailModal()" class="text-neutral-400 hover:text-white text-lg font-bold p-1">✕</button>
             </div>
 
             <div id="detail-body" class="p-5 overflow-y-auto space-y-4 text-xs">
-                <!-- Contenido dinámico de la ficha -->
+                <!-- Contenido dinámico -->
             </div>
 
             <div class="p-4 bg-neutral-50 border-t border-neutral-200 flex flex-wrap gap-2 justify-between items-center">
@@ -247,9 +385,6 @@
                     <span>🗑️</span> Eliminar
                 </button>
                 <div class="flex gap-2">
-                    <button onclick="printCurrentTicket()" class="bg-neutral-100 hover:bg-neutral-200 text-neutral-800 font-semibold px-3 py-1.5 rounded transition flex items-center gap-1">
-                        <span>🖨️</span> Ticket
-                    </button>
                     <button onclick="closeDetailModal()" class="bg-neutral-900 hover:bg-black text-white font-semibold px-4 py-1.5 rounded transition">
                         Cerrar
                     </button>
@@ -258,21 +393,21 @@
         </div>
     </div>
 
-    <!-- Modal: Nueva Compostura / Edición -->
+    <!-- ========================================== -->
+    <!-- MODAL: NUEVA COMPOSTURA                    -->
+    <!-- ========================================== -->
     <div id="modal-new" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
         <div class="bg-white rounded-xl shadow-2xl border border-neutral-200 w-full max-w-lg overflow-hidden flex flex-col max-h-[92vh]">
             
             <div class="bg-neutral-900 text-white px-5 py-3.5 flex items-center justify-between shrink-0">
                 <div class="flex items-center gap-2">
                     <span class="text-base">🔨</span>
-                    <h3 id="modal-title" class="text-sm font-bold tracking-wide">Nueva Compostura</h3>
+                    <h3 class="text-sm font-bold tracking-wide">Nueva Compostura</h3>
                 </div>
                 <button onclick="closeNewModal()" class="text-neutral-400 hover:text-white text-lg font-bold p-1">✕</button>
             </div>
 
             <form id="form-compostura" onsubmit="handleFormSubmit(event)" class="p-5 overflow-y-auto space-y-4 flex-1 text-xs">
-                <input type="hidden" id="edit-id" value="">
-
                 <!-- Sucursal de Recepción -->
                 <div>
                     <label class="block font-semibold text-neutral-700 mb-1">Sucursal de Recepción *</label>
@@ -307,7 +442,7 @@
                             <input type="tel" id="clienta-telefono" required placeholder="Ej: 11 5566 7788" class="w-full bg-neutral-50 border border-neutral-200 rounded px-2.5 py-1.5 text-xs text-neutral-900 focus:bg-white focus:outline-none focus:border-black">
                         </div>
                         <div>
-                            <label class="block font-medium text-neutral-600 mb-1">DNI (Opcional para Dux)</label>
+                            <label class="block font-medium text-neutral-600 mb-1">DNI (Opcional)</label>
                             <input type="text" id="clienta-dni" placeholder="Ej: 34123456" class="w-full bg-neutral-50 border border-neutral-200 rounded px-2.5 py-1.5 text-xs text-neutral-900 focus:bg-white focus:outline-none focus:border-black">
                         </div>
                         <div>
@@ -364,44 +499,19 @@
                             <label class="block font-medium text-neutral-600 mb-1">Detalle específico de la falla *</label>
                             <textarea id="falla-descripcion" required rows="2" placeholder="Ej: Se despegó la puntera del pie izquierdo..." class="w-full bg-neutral-50 border border-neutral-200 rounded px-2.5 py-1.5 text-xs text-neutral-900 focus:bg-white focus:outline-none focus:border-black"></textarea>
                         </div>
-                        <div>
-                            <label class="block font-medium text-neutral-600 mb-1">Observaciones adicionales</label>
-                            <input type="text" id="compostura-notas" placeholder="Ej: Dejó con caja original, cliente habitual..." class="w-full bg-neutral-50 border border-neutral-200 rounded px-2.5 py-1.5 text-xs text-neutral-900 focus:bg-white focus:outline-none focus:border-black">
-                        </div>
                     </div>
                 </div>
 
                 <!-- Botones de Acción -->
-                <div class="pt-3 border-t border-neutral-100 flex flex-col sm:flex-row gap-2">
-                    <button type="submit" name="action" value="save_and_wa" class="flex-1 bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 px-4 rounded-lg shadow-sm flex items-center justify-center gap-2 transition">
-                        <span>📲</span> Guardar y Abrir WhatsApp
+                <div class="pt-3 border-t border-neutral-100 flex gap-2">
+                    <button type="submit" class="flex-1 bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 px-4 rounded-lg shadow-sm flex items-center justify-center gap-2 transition">
+                        <span>🖼️</span> Guardar y Generar Comprobante
                     </button>
-                    <button type="submit" name="action" value="save_only" class="bg-neutral-900 hover:bg-black text-white font-semibold py-2.5 px-4 rounded-lg transition">
-                        Solo Guardar
+                    <button type="button" onclick="closeNewModal()" class="border border-neutral-300 bg-white hover:bg-neutral-100 text-neutral-800 font-semibold py-2.5 px-4 rounded-lg transition">
+                        Cancelar
                     </button>
                 </div>
             </form>
-        </div>
-    </div>
-
-    <!-- Modal: Comprobante Imprimible -->
-    <div id="modal-ticket" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
-        <div class="bg-white rounded-xl shadow-2xl border border-neutral-200 w-full max-w-md overflow-hidden flex flex-col max-h-[92vh]">
-            <div class="bg-neutral-900 text-white px-5 py-3 flex items-center justify-between">
-                <span class="text-xs font-bold uppercase tracking-wider text-[#E6D5C3]">Comprobante de Recepción</span>
-                <button onclick="closeTicketModal()" class="text-neutral-400 hover:text-white text-lg font-bold">✕</button>
-            </div>
-            <div id="ticket-printable" class="p-6 overflow-y-auto space-y-4 text-xs font-mono">
-                <!-- Contenido dinámico del ticket -->
-            </div>
-            <div class="p-4 bg-neutral-50 border-t border-neutral-200 flex gap-2">
-                <button onclick="printTicket()" class="flex-1 bg-neutral-900 hover:bg-black text-white font-semibold py-2 px-3 rounded text-xs transition flex items-center justify-center gap-1.5">
-                    <span>🖨️</span> Imprimir Cupón
-                </button>
-                <button onclick="closeTicketModal()" class="border border-neutral-300 bg-white hover:bg-neutral-100 text-neutral-800 font-semibold py-2 px-3 rounded text-xs transition">
-                    Cerrar
-                </button>
-            </div>
         </div>
     </div>
 
@@ -415,7 +525,7 @@
                 <button onclick="closeSyncModal()" class="text-neutral-400 hover:text-black font-bold">✕</button>
             </div>
             <p class="text-neutral-600 leading-relaxed">
-                Los datos se guardan en este navegador y podés respaldarlos centralizadamente en GitHub (<code class="bg-neutral-100 px-1 py-0.5 rounded font-mono">data/composturas.json</code>).
+                Respaldá la base de composturas directamente en el repositorio GitHub (<code class="bg-neutral-100 px-1 py-0.5 rounded font-mono">data/composturas.json</code>).
             </p>
             <div>
                 <label class="block font-semibold text-neutral-700 mb-1">GitHub Personal Access Token</label>
@@ -433,14 +543,16 @@
         </div>
     </div>
 
-    <!-- Script de Lógica Operativa -->
+    <!-- ========================================== -->
+    <!-- LÓGICA JAVASCRIPT                          -->
+    <!-- ========================================== -->
     <script>
-        const STORAGE_KEY = 'nazaria_composturas_v1';
+        const STORAGE_KEY = 'nazaria_composturas_v2';
         const GITHUB_REPO = 'NAZARIA-SOPs';
         const GITHUB_USER = 'juanoviedo1987-droid';
         const GITHUB_FILE_PATH = 'data/composturas.json';
 
-        // Base de datos de respaldo integrada (8 casos reales para TOM y Maschwitz en todos los estados)
+        // Base de datos de prueba predeterminada
         const DEFAULT_DEMO_DATA = [
             {
                 id: "CMP-101",
@@ -448,9 +560,8 @@
                 clienta: { nombre: "Carolina Benítez", telefono: "1154896231", dni: "35894120" },
                 calzado: { articulo: "S4020", color: "Negro", talle: "38" },
                 falla: { tipo: "Despegue de base", descripcion: "Despegue en la puntera del pie derecho." },
-                fechas: { ingreso: new Date(Date.now() - 3 * 86400000).toISOString(), envioTaller: new Date(Date.now() - 2 * 86400000).toISOString(), listoRetiro: null, entrega: null },
-                estado: "ENVIADO_TALLER",
-                notas: "Traído con caja original.",
+                fechas: { ingreso: new Date(Date.now() - 3 * 86400000).toISOString(), listoRetiro: null, entrega: null },
+                estado: "EN_PROCESO",
                 vendedora: "Lucía"
             },
             {
@@ -459,9 +570,8 @@
                 clienta: { nombre: "Valeria Rossi", telefono: "1141258963", dni: "32145879" },
                 calzado: { articulo: "N73", color: "Suela", talle: "37" },
                 falla: { tipo: "Cierre / Hebilla", descripcion: "Cierre lateral trabado que no sube." },
-                fechas: { ingreso: new Date(Date.now() - 1 * 86400000).toISOString(), envioTaller: null, listoRetiro: null, entrega: null },
-                estado: "RECIBIDO_LOCAL",
-                notas: "Fajar para traspaso a fábrica.",
+                fechas: { ingreso: new Date(Date.now() - 1 * 86400000).toISOString(), listoRetiro: null, entrega: null },
+                estado: "EN_PROCESO",
                 vendedora: "Mariana"
             },
             {
@@ -470,9 +580,8 @@
                 clienta: { nombre: "Florencia Gómez", telefono: "1165893214", dni: "38541296" },
                 calzado: { articulo: "SAGUILA", color: "Beige", talle: "39" },
                 falla: { tipo: "Costura", descripcion: "Descosido en tira de talón izquierdo." },
-                fechas: { ingreso: new Date(Date.now() - 12 * 86400000).toISOString(), envioTaller: new Date(Date.now() - 11 * 86400000).toISOString(), listoRetiro: new Date(Date.now() - 1 * 86400000).toISOString(), entrega: null },
+                fechas: { ingreso: new Date(Date.now() - 12 * 86400000).toISOString(), listoRetiro: new Date(Date.now() - 1 * 86400000).toISOString(), entrega: null },
                 estado: "LISTO_RETIRO",
-                notas: "Ya retornó del taller. Se probó el arreglo y quedó impecable.",
                 vendedora: "Camila"
             },
             {
@@ -480,10 +589,9 @@
                 sucursal: "TOM",
                 clienta: { nombre: "Andrea Morales", telefono: "1133221144", dni: "36125478" },
                 calzado: { articulo: "N08", color: "Negro", talle: "36" },
-                falla: { tipo: "Taco / Tapita", descripcion: "Tapita de taco rota en el primer uso." },
-                fechas: { ingreso: new Date(Date.now() - 2 * 86400000).toISOString(), envioTaller: null, listoRetiro: null, entrega: null },
-                estado: "RECIBIDO_LOCAL",
-                notas: "Cambio de ambas tapitas para nivelar.",
+                falla: { tipo: "Taco / Tapita", descripcion: "Tapita de taco rota." },
+                fechas: { ingreso: new Date(Date.now() - 2 * 86400000).toISOString(), listoRetiro: null, entrega: null },
+                estado: "EN_PROCESO",
                 vendedora: "Lucía"
             },
             {
@@ -492,9 +600,8 @@
                 clienta: { nombre: "Romina Sánchez", telefono: "1122334455", dni: "33987456" },
                 calzado: { articulo: "SFENIX", color: "Platino", talle: "38" },
                 falla: { tipo: "Despegue de base", descripcion: "Despegue en arco interno pie izquierdo." },
-                fechas: { ingreso: new Date(Date.now() - 5 * 86400000).toISOString(), envioTaller: new Date(Date.now() - 4 * 86400000).toISOString(), listoRetiro: null, entrega: null },
-                estado: "ENVIADO_TALLER",
-                notas: "Enviar a fábrica urgente.",
+                fechas: { ingreso: new Date(Date.now() - 5 * 86400000).toISOString(), listoRetiro: null, entrega: null },
+                estado: "EN_PROCESO",
                 vendedora: "Mariana"
             },
             {
@@ -503,9 +610,8 @@
                 clienta: { nombre: "Laura Fernández", telefono: "1199887766", dni: "31456789" },
                 calzado: { articulo: "N531", color: "Suela", talle: "39" },
                 falla: { tipo: "Costura", descripcion: "Refuerzo de costura en boca de capellada." },
-                fechas: { ingreso: new Date(Date.now() - 6 * 86400000).toISOString(), envioTaller: new Date(Date.now() - 5 * 86400000).toISOString(), listoRetiro: new Date(Date.now() - 1 * 86400000).toISOString(), entrega: null },
+                fechas: { ingreso: new Date(Date.now() - 6 * 86400000).toISOString(), listoRetiro: new Date().toISOString(), entrega: null },
                 estado: "LISTO_RETIRO",
-                notas: "Listo para entregar.",
                 vendedora: "Mariana"
             },
             {
@@ -514,9 +620,8 @@
                 clienta: { nombre: "Mariana Peralta", telefono: "1177665544", dni: "29874123" },
                 calzado: { articulo: "S200", color: "Negro", talle: "37" },
                 falla: { tipo: "Cierre / Hebilla", descripcion: "Cambio de hebilla metálica." },
-                fechas: { ingreso: new Date(Date.now() - 15 * 86400000).toISOString(), envioTaller: new Date(Date.now() - 14 * 86400000).toISOString(), listoRetiro: new Date(Date.now() - 8 * 86400000).toISOString(), entrega: new Date(Date.now() - 7 * 86400000).toISOString() },
+                fechas: { ingreso: new Date(Date.now() - 15 * 86400000).toISOString(), listoRetiro: new Date(Date.now() - 8 * 86400000).toISOString(), entrega: new Date(Date.now() - 7 * 86400000).toISOString() },
                 estado: "ENTREGADO",
-                notas: "Clienta retiró satisfecha.",
                 vendedora: "Camila"
             },
             {
@@ -525,9 +630,8 @@
                 clienta: { nombre: "Natalia Díaz", telefono: "1188776655", dni: "34567890" },
                 calzado: { articulo: "S400", color: "Camel", talle: "40" },
                 falla: { tipo: "Plantilla", descripcion: "Plantilla interior acolchada desprendida." },
-                fechas: { ingreso: new Date(Date.now() - 18 * 86400000).toISOString(), envioTaller: new Date(Date.now() - 17 * 86400000).toISOString(), listoRetiro: new Date(Date.now() - 11 * 86400000).toISOString(), entrega: new Date(Date.now() - 10 * 86400000).toISOString() },
+                fechas: { ingreso: new Date(Date.now() - 18 * 86400000).toISOString(), listoRetiro: new Date(Date.now() - 11 * 86400000).toISOString(), entrega: new Date(Date.now() - 10 * 86400000).toISOString() },
                 estado: "ENTREGADO",
-                notas: "Entregado en tiempo y forma.",
                 vendedora: "Mariana"
             }
         ];
@@ -537,8 +641,9 @@
         let currentStatusFilter = 'TODOS';
         let filterOnlyAlerts = false;
         let selectedDetailId = null;
+        let currentVoucherType = 'recepcion'; // 'recepcion' | 'retiro'
+        let currentVoucherItem = null;
 
-        // Inicialización segura
         window.onload = function() {
             if (localStorage.getItem('github_token')) {
                 document.getElementById('sync-token-input').value = localStorage.getItem('github_token');
@@ -546,14 +651,19 @@
             loadDataFromStorage();
         };
 
-        // Carga de Datos garantizada (LocalStorage -> fetch data/composturas.json -> fallback inline)
+        // Normalizar estados viejos (RECIBIDO_LOCAL / ENVIADO_TALLER -> EN_PROCESO)
+        function normalizeStatus(st) {
+            if (st === 'RECIBIDO_LOCAL' || st === 'ENVIADO_TALLER') return 'EN_PROCESO';
+            return st;
+        }
+
         async function loadDataFromStorage() {
             const saved = localStorage.getItem(STORAGE_KEY);
             if (saved) {
                 try {
                     const parsed = JSON.parse(saved);
                     if (Array.isArray(parsed) && parsed.length > 0) {
-                        composturas = parsed;
+                        composturas = parsed.map(c => ({ ...c, estado: normalizeStatus(c.estado) }));
                     } else {
                         composturas = JSON.parse(JSON.stringify(DEFAULT_DEMO_DATA));
                         saveToStorage();
@@ -568,14 +678,14 @@
                     if (res.ok) {
                         const data = await res.json();
                         if (Array.isArray(data) && data.length > 0) {
-                            composturas = data;
+                            composturas = data.map(c => ({ ...c, estado: normalizeStatus(c.estado) }));
                         } else {
                             composturas = JSON.parse(JSON.stringify(DEFAULT_DEMO_DATA));
                         }
                     } else {
                         composturas = JSON.parse(JSON.stringify(DEFAULT_DEMO_DATA));
                     }
-                } catch (e) {
+                } catch(e) {
                     composturas = JSON.parse(JSON.stringify(DEFAULT_DEMO_DATA));
                 }
                 saveToStorage();
@@ -590,7 +700,6 @@
             renderTable();
         }
 
-        // Filtro de Sucursal
         function setSucursalFilter(suc) {
             currentSucursalFilter = suc;
             filterOnlyAlerts = false;
@@ -615,7 +724,6 @@
             renderTable();
         }
 
-        // Filtro de Estado
         function setStatusFilter(status) {
             currentStatusFilter = status;
             filterOnlyAlerts = false;
@@ -624,8 +732,7 @@
             
             const tabMap = {
                 'TODOS': 'tab-status-todos',
-                'RECIBIDO_LOCAL': 'tab-status-recibido',
-                'ENVIADO_TALLER': 'tab-status-taller',
+                'EN_PROCESO': 'tab-status-proceso',
                 'LISTO_RETIRO': 'tab-status-listo',
                 'ENTREGADO': 'tab-status-entregado'
             };
@@ -635,7 +742,6 @@
             renderTable();
         }
 
-        // Filtro de Alertas (>7 días)
         function filterAlertsOnly() {
             filterOnlyAlerts = true;
             currentStatusFilter = 'TODOS';
@@ -643,7 +749,6 @@
             renderTable();
         }
 
-        // Reset completo de Filtros
         function resetFilters() {
             currentStatusFilter = 'TODOS';
             currentSucursalFilter = 'TODAS';
@@ -653,38 +758,33 @@
             setStatusFilter('TODOS');
         }
 
-        // Cálculo de Días
         function getDaysDiff(dateString) {
             if (!dateString) return 0;
             const diffTime = Math.abs(new Date() - new Date(dateString));
             return Math.floor(diffTime / (1000 * 60 * 60 * 24));
         }
 
-        // Actualización de Métricas (KPIs y Contadores)
         function updateKPIs() {
             const list = (currentSucursalFilter === 'TODAS') 
                 ? composturas 
                 : composturas.filter(c => c.sucursal === currentSucursalFilter);
 
-            const recibidos = list.filter(c => c.estado === 'RECIBIDO_LOCAL').length;
-            const taller = list.filter(c => c.estado === 'ENVIADO_TALLER').length;
+            const proceso = list.filter(c => c.estado === 'EN_PROCESO').length;
             const listo = list.filter(c => c.estado === 'LISTO_RETIRO').length;
             const entregado = list.filter(c => c.estado === 'ENTREGADO').length;
             const alertas = list.filter(c => c.estado !== 'ENTREGADO' && getDaysDiff(c.fechas.ingreso) >= 8).length;
 
-            document.getElementById('kpi-recibidos').innerText = recibidos;
-            document.getElementById('kpi-taller').innerText = taller;
+            document.getElementById('kpi-proceso').innerText = proceso;
             document.getElementById('kpi-listas').innerText = listo;
+            document.getElementById('kpi-entregadas').innerText = entregado;
             document.getElementById('kpi-alertas').innerText = alertas;
 
             document.getElementById('count-todos').innerText = list.length;
-            document.getElementById('count-recibidos').innerText = recibidos;
-            document.getElementById('count-taller').innerText = taller;
+            document.getElementById('count-proceso').innerText = proceso;
             document.getElementById('count-listo').innerText = listo;
-            document.getElementById('count-entregado').innerText = entregado;
+            document.getElementById('count-entregadas').innerText = entregado;
         }
 
-        // Renderizado de la Tabla Principal
         function renderTable() {
             const tbody = document.getElementById('composturas-tbody');
             const emptyState = document.getElementById('empty-state');
@@ -692,12 +792,11 @@
             const search = document.getElementById('search-input').value.trim().toLowerCase();
             const badgeIndicator = document.getElementById('active-filter-badge');
 
-            // Etiqueta del filtro activo
             let filterDesc = [];
             if (currentSucursalFilter !== 'TODAS') filterDesc.push(`Sucursal: ${currentSucursalFilter}`);
             if (filterOnlyAlerts) filterDesc.push(`⚠ Demoradas (>7d)`);
             else if (currentStatusFilter !== 'TODOS') {
-                const labels = { 'RECIBIDO_LOCAL': 'En Sucursal', 'ENVIADO_TALLER': 'En Taller', 'LISTO_RETIRO': 'Listas para Retiro', 'ENTREGADO': 'Entregadas' };
+                const labels = { 'EN_PROCESO': 'En Reparación', 'LISTO_RETIRO': 'Listas para Retiro', 'ENTREGADO': 'Entregadas' };
                 filterDesc.push(`Estado: ${labels[currentStatusFilter] || currentStatusFilter}`);
             }
             if (search) filterDesc.push(`Búsqueda: "${search}"`);
@@ -717,7 +816,6 @@
                 return true;
             });
 
-            // Ordenar: primero los activos por fecha de ingreso ascendente (los más viejos arriba)
             filtered.sort((a, b) => {
                 if (a.estado === 'ENTREGADO' && b.estado !== 'ENTREGADO') return 1;
                 if (a.estado !== 'ENTREGADO' && b.estado === 'ENTREGADO') return -1;
@@ -730,16 +828,15 @@
                 tableContainer.classList.add('hidden');
                 emptyState.classList.remove('hidden');
 
-                // Mensaje contextual para que el usuario entienda exactamente qué pasó
                 let title = "No hay calzados en esta vista";
                 let desc = "No se encontraron composturas con el filtro seleccionado.";
                 if (filterOnlyAlerts) {
                     title = "¡Excelente! No hay calzados demorados";
                     desc = "Ninguna compostura activa supera los 7 días de plazo en esta sucursal.";
                 } else if (currentStatusFilter !== 'TODOS') {
-                    const labels = { 'RECIBIDO_LOCAL': 'En Sucursal', 'ENVIADO_TALLER': 'En Taller', 'LISTO_RETIRO': 'Listas para Retiro', 'ENTREGADO': 'Entregadas' };
+                    const labels = { 'EN_PROCESO': 'En Reparación', 'LISTO_RETIRO': 'Listas para Retiro', 'ENTREGADO': 'Entregadas' };
                     title = `No hay calzados en "${labels[currentStatusFilter]}"`;
-                    desc = `Actualmente no hay artículos registrados bajo este estado para ${currentSucursalFilter === 'TODAS' ? 'ninguna sucursal' : currentSucursalFilter}.`;
+                    desc = `No hay artículos registrados bajo este estado para ${currentSucursalFilter === 'TODAS' ? 'ninguna sucursal' : currentSucursalFilter}.`;
                 }
                 document.getElementById('empty-state-title').innerText = title;
                 document.getElementById('empty-state-desc').innerText = desc;
@@ -757,24 +854,22 @@
                     } else if (days >= 10) {
                         badgeDays = `<span class="inline-flex items-center gap-1 bg-red-100 text-red-800 font-bold px-2 py-0.5 rounded text-[10px] animate-pulse-slow">⚠ ${days} días (VENCIDO)</span>`;
                     } else if (days >= 7) {
-                        badgeDays = `<span class="inline-flex items-center gap-1 bg-amber-100 text-amber-900 font-semibold px-2 py-0.5 rounded text-[10px]">⏰ ${days} días (Límite)</span>`;
+                        badgeDays = `<span class="inline-flex items-center gap-1 bg-amber-100 text-amber-900 font-semibold px-2 py-0.5 rounded text-[10px]">⏰ ${days} días</span>`;
                     } else {
                         badgeDays = `<span class="text-[10px] text-neutral-500 font-medium">📅 ${days} días</span>`;
                     }
 
-                    const estadoOptions = [
-                        { id: 'RECIBIDO_LOCAL', label: '🟡 En Sucursal', cls: 'bg-amber-50 text-amber-900 border-amber-300' },
-                        { id: 'ENVIADO_TALLER', label: '🚚 En Taller', cls: 'bg-blue-50 text-blue-900 border-blue-300' },
-                        { id: 'LISTO_RETIRO', label: '📦 Listo en Local', cls: 'bg-emerald-50 text-emerald-900 border-emerald-300 font-bold' },
-                        { id: 'ENTREGADO', label: '✅ Entregado', cls: 'bg-neutral-100 text-neutral-600 border-neutral-300' }
-                    ];
-                    const currentOpt = estadoOptions.find(o => o.id === c.estado) || estadoOptions[0];
+                    const estadoOptions = {
+                        'EN_PROCESO': { label: '1. 🟡 En Reparación', cls: 'bg-amber-50 text-amber-900 border-amber-300 font-semibold' },
+                        'LISTO_RETIRO': { label: '2. 🟢 Listo para Retirar', cls: 'bg-emerald-50 text-emerald-900 border-emerald-300 font-bold' },
+                        'ENTREGADO': { label: '3. ⚪ Entregado', cls: 'bg-neutral-100 text-neutral-600 border-neutral-300' }
+                    };
+                    const currentOpt = estadoOptions[c.estado] || estadoOptions['EN_PROCESO'];
                     const dateFormatted = new Date(c.fechas.ingreso).toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit' });
 
                     const tr = document.createElement('tr');
                     tr.className = "hover:bg-neutral-50/90 transition cursor-pointer border-b border-neutral-100";
                     tr.onclick = (e) => {
-                        // Si hizo clic en un select o botón, no abrir el modal
                         if (e.target.closest('select') || e.target.closest('button')) return;
                         openDetailModal(c.id);
                     };
@@ -786,14 +881,12 @@
                         </td>
                         <td class="py-3 px-3 sm:px-4 align-top">
                             <div class="font-bold text-neutral-900">${c.clienta.nombre}</div>
-                            <div class="text-[11px] text-neutral-500 font-mono flex items-center gap-1 mt-0.5">
-                                <span>📱 ${c.clienta.telefono}</span>
-                            </div>
+                            <div class="text-[11px] text-neutral-500 font-mono mt-0.5">📱 ${c.clienta.telefono}</div>
                         </td>
                         <td class="py-3 px-3 sm:px-4 align-top">
                             <div class="font-semibold text-neutral-900">
                                 <span class="bg-neutral-100 px-1 py-0.5 rounded font-mono font-bold">${c.calzado.articulo}</span> 
-                                <span class="text-neutral-500 font-normal">T.${c.calzado.talle} - ${c.calzado.color}</span>
+                                <span class="text-neutral-500 font-normal">T.${c.calzado.talle} · ${c.calzado.color}</span>
                             </div>
                             <div class="text-[11px] text-neutral-600 mt-0.5 max-w-xs leading-snug">
                                 <strong class="text-neutral-700">${c.falla.tipo}:</strong> ${c.falla.descripcion}
@@ -804,22 +897,18 @@
                             <div class="mt-1">${badgeDays}</div>
                         </td>
                         <td class="py-3 px-3 sm:px-4 align-top" onclick="event.stopPropagation()">
-                            <select onchange="updateItemStatus('${c.id}', this.value)" class="text-xs rounded border px-2 py-1 focus:outline-none focus:border-black font-medium cursor-pointer ${currentOpt.cls}">
-                                <option value="RECIBIDO_LOCAL" ${c.estado === 'RECIBIDO_LOCAL' ? 'selected' : ''}>🟡 En Sucursal</option>
-                                <option value="ENVIADO_TALLER" ${c.estado === 'ENVIADO_TALLER' ? 'selected' : ''}>🚚 En Taller</option>
-                                <option value="LISTO_RETIRO" ${c.estado === 'LISTO_RETIRO' ? 'selected' : ''}>📦 Listo en Local</option>
-                                <option value="ENTREGADO" ${c.estado === 'ENTREGADO' ? 'selected' : ''}>✅ Entregado</option>
+                            <select onchange="updateItemStatus('${c.id}', this.value)" class="text-xs rounded border px-2 py-1.5 focus:outline-none focus:border-black cursor-pointer ${currentOpt.cls}">
+                                <option value="EN_PROCESO" ${c.estado === 'EN_PROCESO' ? 'selected' : ''}>1. 🟡 En Reparación</option>
+                                <option value="LISTO_RETIRO" ${c.estado === 'LISTO_RETIRO' ? 'selected' : ''}>2. 🟢 Listo para Retirar</option>
+                                <option value="ENTREGADO" ${c.estado === 'ENTREGADO' ? 'selected' : ''}>3. ⚪ Entregado (Fin)</option>
                             </select>
                         </td>
-                        <td class="py-3 px-3 sm:px-4 align-top text-right space-x-1 whitespace-nowrap" onclick="event.stopPropagation()">
-                            <button onclick="sendConstanciaWA('${c.id}')" title="Enviar Constancia de Recepción por WhatsApp" class="p-1.5 rounded bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 transition">
-                                📲 Constancia
+                        <td class="py-3 px-3 sm:px-4 align-top text-right space-x-1.5 whitespace-nowrap" onclick="event.stopPropagation()">
+                            <button onclick="showVoucherModal('${c.id}', 'recepcion')" title="Comprobante de Recepción (para WhatsApp)" class="p-1.5 px-2.5 rounded bg-neutral-100 hover:bg-neutral-200 text-neutral-800 border border-neutral-300 font-semibold transition text-xs inline-flex items-center gap-1">
+                                <span>📋</span> Constancia
                             </button>
-                            <button onclick="sendRetiroWA('${c.id}')" title="Avisar que está listo para retirar" class="p-1.5 rounded ${c.estado === 'LISTO_RETIRO' ? 'bg-emerald-600 hover:bg-emerald-700 text-white font-bold' : 'bg-neutral-100 hover:bg-neutral-200 text-neutral-700'} border border-neutral-300 transition">
-                                ✨ Aviso Retiro
-                            </button>
-                            <button onclick="openDetailModal('${c.id}')" title="Ver Ficha Completa" class="p-1.5 rounded bg-neutral-100 hover:bg-neutral-200 text-neutral-700 border border-neutral-300 transition">
-                                👁️
+                            <button onclick="showVoucherModal('${c.id}', 'retiro')" title="Aviso de Retiro (para WhatsApp)" class="p-1.5 px-2.5 rounded ${c.estado === 'LISTO_RETIRO' ? 'bg-emerald-600 hover:bg-emerald-700 text-white font-bold' : 'bg-neutral-100 hover:bg-neutral-200 text-neutral-700 border border-neutral-300'} transition text-xs inline-flex items-center gap-1">
+                                <span>✨</span> Aviso Retiro
                             </button>
                         </td>
                     `;
@@ -828,90 +917,242 @@
             }
         }
 
-        // Abrir Modal de Ficha de Detalle (al clickear cualquier fila)
+        // ========================================================
+        // GENERACIÓN Y COPIADO DE IMAGEN (HTML2CANVAS / CLIPBOARD)
+        // ========================================================
+        function showVoucherModal(id, type) {
+            const item = composturas.find(c => c.id === id);
+            if (!item) return;
+            currentVoucherItem = item;
+            currentVoucherType = type;
+
+            document.getElementById('voucher-copy-status').innerText = '';
+            const cardRec = document.getElementById('voucher-card-recepcion');
+            const cardRet = document.getElementById('voucher-card-retiro');
+
+            const dateStr = new Date(item.fechas.ingreso).toLocaleDateString('es-AR');
+
+            if (type === 'recepcion') {
+                document.getElementById('voucher-modal-title').innerText = `Constancia de Recepción #${item.id}`;
+                cardRec.classList.remove('hidden');
+                cardRet.classList.add('hidden');
+
+                document.getElementById('card-rec-ticket').innerText = `#${item.id}`;
+                document.getElementById('card-rec-sucursal').innerText = (item.sucursal === 'TOM') ? 'Tortugas Open Mall (TOM)' : 'Maschwitz Mall';
+                document.getElementById('card-rec-fecha').innerText = dateStr;
+                document.getElementById('card-rec-clienta').innerText = item.clienta.nombre;
+                document.getElementById('card-rec-tel').innerText = item.clienta.telefono;
+                document.getElementById('card-rec-articulo').innerText = item.calzado.articulo;
+                document.getElementById('card-rec-tallecolor').innerText = `T.${item.calzado.talle} · ${item.calzado.color}`;
+                document.getElementById('card-rec-falla').innerText = `${item.falla.tipo} - ${item.falla.descripcion}`;
+
+            } else {
+                document.getElementById('voucher-modal-title').innerText = `Aviso de Retiro #${item.id}`;
+                cardRec.classList.add('hidden');
+                cardRet.classList.remove('hidden');
+
+                document.getElementById('card-ret-ticket').innerText = `#${item.id}`;
+                document.getElementById('card-ret-clienta').innerText = item.clienta.nombre.split(' ')[0];
+                document.getElementById('card-ret-articulo').innerText = item.calzado.articulo;
+                document.getElementById('card-ret-tallecolor').innerText = `Talle ${item.calzado.talle} · Color ${item.calzado.color}`;
+                document.getElementById('card-ret-sucursal').innerText = (item.sucursal === 'TOM') ? 'Nazaria Tortugas Open Mall (TOM)' : 'Nazaria Maschwitz Mall';
+            }
+
+            document.getElementById('modal-voucher').classList.remove('hidden');
+        }
+
+        function closeVoucherModal() {
+            document.getElementById('modal-voucher').classList.add('hidden');
+            currentVoucherItem = null;
+        }
+
+        async function getTargetCanvas() {
+            const targetEl = (currentVoucherType === 'recepcion')
+                ? document.getElementById('voucher-card-recepcion')
+                : document.getElementById('voucher-card-retiro');
+
+            return await html2canvas(targetEl, {
+                scale: 2,
+                backgroundColor: null,
+                useCORS: true
+            });
+        }
+
+        // COPIAR IMAGEN AL PORTAPAPELES (Ctrl + V directo en WhatsApp)
+        async function copyVoucherImage() {
+            const statusEl = document.getElementById('voucher-copy-status');
+            const btn = document.getElementById('btn-copy-voucher');
+            const originalText = btn.innerHTML;
+
+            statusEl.className = "text-[11px] text-center font-bold text-neutral-600";
+            statusEl.innerText = "⏳ Generando imagen...";
+            btn.disabled = true;
+
+            try {
+                const canvas = await getTargetCanvas();
+
+                canvas.toBlob(async (blob) => {
+                    try {
+                        if (navigator.clipboard && navigator.clipboard.write) {
+                            await navigator.clipboard.write([
+                                new ClipboardItem({ 'image/png': blob })
+                            ]);
+                            statusEl.className = "text-[12px] text-center font-bold text-emerald-700";
+                            statusEl.innerText = "✔ ¡Imagen Copiada! Ahora andá a WhatsApp y presioná Ctrl + V";
+                            
+                            btn.classList.remove('bg-emerald-700', 'hover:bg-emerald-800');
+                            btn.classList.add('bg-emerald-600');
+                            btn.innerHTML = "<span>✔ ¡Imagen en Portapapeles!</span>";
+                            setTimeout(() => {
+                                btn.classList.remove('bg-emerald-600');
+                                btn.classList.add('bg-emerald-700', 'hover:bg-emerald-800');
+                                btn.innerHTML = originalText;
+                                btn.disabled = false;
+                            }, 3500);
+
+                        } else {
+                            throw new Error("El navegador no permite copiado directo al portapapeles.");
+                        }
+                    } catch (err) {
+                        // Fallback a descarga si el portapapeles del navegador está restringido
+                        downloadVoucherImage();
+                        statusEl.className = "text-[11px] text-center font-bold text-blue-700";
+                        statusEl.innerText = "Imagen descargada en tu equipo (adjuntala en WhatsApp).";
+                        btn.disabled = false;
+                        btn.innerHTML = originalText;
+                    }
+                }, 'image/png');
+
+            } catch (err) {
+                statusEl.className = "text-[11px] text-center font-bold text-red-600";
+                statusEl.innerText = `Error: ${err.message}`;
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        }
+
+        // DESCARGAR IMAGEN
+        async function downloadVoucherImage() {
+            if (!currentVoucherItem) return;
+            const canvas = await getTargetCanvas();
+            const link = document.createElement('a');
+            link.download = `Nazaria_Compostura_${currentVoucherItem.id}_${currentVoucherType}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+
+        // WHATSAPP LINK OPCIONAL DE RESPALDO
+        function openWhatsAppFallback() {
+            if (!currentVoucherItem) return;
+            const item = currentVoucherItem;
+            const telClean = item.clienta.telefono.replace(/[^0-9]/g, '');
+            let phone = telClean;
+            if (phone.length === 10) phone = '549' + phone;
+
+            let msg = '';
+            if (currentVoucherType === 'recepcion') {
+                msg = `¡Hola *${item.clienta.nombre}*! 👋 En *Nazaria (${item.sucursal})* recibimos tu calzado para compostura:%0A` +
+                      `📋 *Ticket:* #${item.id}%0A` +
+                      `👠 *Modelo:* ${item.calzado.articulo} (${item.calzado.color} - T.${item.calzado.talle})%0A` +
+                      `🔍 *Diagnóstico:* ${item.falla.tipo} - ${item.falla.descripcion}%0A` +
+                      `⏳ *Plazo estimado:* 10 días hábiles.%0A` +
+                      `¡Te avisaremos apenas regrese reparado!`;
+            } else {
+                msg = `¡Hola *${item.clienta.nombre}*! ✨ Tu calzado *${item.calzado.articulo}* ya volvió del taller y *está LISTO PARA RETIRAR* en Nazaria ${item.sucursal} (Ticket #${item.id}). ¡Te esperamos! 😊`;
+            }
+
+            window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+        }
+
+        // ==========================================
+        // GESTIÓN DE ESTADOS Y FICHA DE DETALLE
+        // ==========================================
+        function updateItemStatus(id, newStatus) {
+            const item = composturas.find(c => c.id === id);
+            if (!item) return;
+            item.estado = newStatus;
+            
+            const now = new Date().toISOString();
+            if (newStatus === 'LISTO_RETIRO' && !item.fechas.listoRetiro) item.fechas.listoRetiro = now;
+            if (newStatus === 'ENTREGADO' && !item.fechas.entrega) item.fechas.entrega = now;
+
+            saveToStorage();
+
+            // Si pasa a Listo para Retirar, abrir automáticamente la tarjeta para mandársela a la clienta
+            if (newStatus === 'LISTO_RETIRO') {
+                showVoucherModal(id, 'retiro');
+            }
+        }
+
         function openDetailModal(id) {
             const item = composturas.find(c => c.id === id);
             if (!item) return;
             selectedDetailId = id;
 
-            document.getElementById('detail-ticket-title').innerText = `Compostura #${item.id} - ${item.calzado.articulo}`;
+            document.getElementById('detail-ticket-title').innerText = `Compostura #${item.id} · ${item.calzado.articulo}`;
             document.getElementById('detail-ticket-subtitle').innerText = `Sucursal ${item.sucursal} · Registrado por ${item.vendedora || 'Sucursal'}`;
 
             const days = getDaysDiff(item.fechas.ingreso);
             const dateIngreso = new Date(item.fechas.ingreso).toLocaleString('es-AR');
-            const dateTaller = item.fechas.envioTaller ? new Date(item.fechas.envioTaller).toLocaleDateString('es-AR') : 'Pendiente';
             const dateListo = item.fechas.listoRetiro ? new Date(item.fechas.listoRetiro).toLocaleDateString('es-AR') : 'Pendiente';
             const dateEntrega = item.fechas.entrega ? new Date(item.fechas.entrega).toLocaleDateString('es-AR') : 'Pendiente';
 
             const detailBody = document.getElementById('detail-body');
             detailBody.innerHTML = `
-                <!-- Selector Rápido de Estado en la Ficha -->
+                <!-- Selector de Estado Directo -->
                 <div class="bg-neutral-50 p-3 rounded-lg border border-neutral-200 flex items-center justify-between">
-                    <span class="font-bold text-neutral-700">Estado Actual:</span>
+                    <span class="font-bold text-neutral-800">Estado Actual:</span>
                     <select onchange="updateItemStatus('${item.id}', this.value); openDetailModal('${item.id}');" class="text-xs font-bold rounded border px-2.5 py-1.5 focus:outline-none focus:border-black cursor-pointer bg-white">
-                        <option value="RECIBIDO_LOCAL" ${item.estado === 'RECIBIDO_LOCAL' ? 'selected' : ''}>🟡 En Sucursal (esperando taller)</option>
-                        <option value="ENVIADO_TALLER" ${item.estado === 'ENVIADO_TALLER' ? 'selected' : ''}>🚚 En Taller / Fábrica</option>
-                        <option value="LISTO_RETIRO" ${item.estado === 'LISTO_RETIRO' ? 'selected' : ''}>📦 Listo en Local (avisar clienta)</option>
-                        <option value="ENTREGADO" ${item.estado === 'ENTREGADO' ? 'selected' : ''}>✅ Entregado a la Clienta</option>
+                        <option value="EN_PROCESO" ${item.estado === 'EN_PROCESO' ? 'selected' : ''}>1. 🟡 En Reparación (Taller)</option>
+                        <option value="LISTO_RETIRO" ${item.estado === 'LISTO_RETIRO' ? 'selected' : ''}>2. 🟢 Listo para Retirar (Avisar)</option>
+                        <option value="ENTREGADO" ${item.estado === 'ENTREGADO' ? 'selected' : ''}>3. ⚪ Entregado a la Clienta (Fin)</option>
                     </select>
                 </div>
 
-                <!-- Datos de la Clienta -->
-                <div class="border border-neutral-200 rounded-lg p-3 space-y-1.5">
-                    <div class="text-[10px] font-bold uppercase tracking-wider text-[#b38e65]">Datos de la Clienta</div>
+                <!-- Botones de Comprobantes Digitales -->
+                <div class="grid grid-cols-2 gap-2 pt-1">
+                    <button onclick="closeDetailModal(); showVoucherModal('${item.id}', 'recepcion');" class="bg-neutral-900 hover:bg-black text-white font-bold p-2.5 rounded-lg flex items-center justify-center gap-1.5 transition">
+                        <span>📋</span> Tarjeta Recepción
+                    </button>
+                    <button onclick="closeDetailModal(); showVoucherModal('${item.id}', 'retiro');" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold p-2.5 rounded-lg flex items-center justify-center gap-1.5 transition">
+                        <span>✨</span> Tarjeta Aviso Retiro
+                    </button>
+                </div>
+
+                <!-- Datos Clienta -->
+                <div class="border border-neutral-200 rounded-lg p-3 space-y-1">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-[#b38e65]">Clienta</span>
                     <div class="font-bold text-sm text-neutral-900">${item.clienta.nombre}</div>
-                    <div class="flex items-center gap-3 text-neutral-600 font-mono">
-                        <span>📱 ${item.clienta.telefono}</span>
-                        ${item.clienta.dni ? `<span>• DNI: ${item.clienta.dni}</span>` : ''}
-                    </div>
-                    <div class="pt-1 flex gap-2">
-                        <button onclick="sendConstanciaWA('${item.id}')" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold text-[11px] px-2.5 py-1 rounded border border-emerald-200 flex items-center gap-1 transition">
-                            <span>📲</span> Enviar Constancia
-                        </button>
-                        <button onclick="sendRetiroWA('${item.id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-[11px] px-2.5 py-1 rounded flex items-center gap-1 transition">
-                            <span>✨</span> Avisar Retiro
-                        </button>
-                    </div>
+                    <div class="text-neutral-600 font-mono text-[11px]">📱 ${item.clienta.telefono} ${item.clienta.dni ? `· DNI: ${item.clienta.dni}` : ''}</div>
                 </div>
 
-                <!-- Datos del Calzado y Falla -->
-                <div class="border border-neutral-200 rounded-lg p-3 space-y-1.5">
-                    <div class="text-[10px] font-bold uppercase tracking-wider text-[#b38e65]">Calzado y Diagnóstico</div>
+                <!-- Calzado y Diagnóstico -->
+                <div class="border border-neutral-200 rounded-lg p-3 space-y-1">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-[#b38e65]">Calzado & Falla</span>
                     <div class="font-bold text-neutral-900 text-sm">
-                        <span class="font-mono bg-neutral-100 px-1.5 py-0.5 rounded">${item.calzado.articulo}</span>
-                        <span class="text-neutral-600 font-normal">| Talle ${item.calzado.talle} | Color: ${item.calzado.color}</span>
+                        <span class="font-mono bg-neutral-100 px-1 py-0.5 rounded">${item.calzado.articulo}</span> · Talle ${item.calzado.talle} · ${item.calzado.color}
                     </div>
-                    <div>
-                        <span class="font-semibold text-neutral-800">Motivo:</span> ${item.falla.tipo}
-                    </div>
-                    <div class="bg-amber-50/60 border border-amber-200 p-2 rounded text-neutral-700 leading-relaxed">
-                        ${item.falla.descripcion}
-                    </div>
-                    ${item.notas ? `<div class="text-neutral-500 italic text-[11px]">Notas: ${item.notas}</div>` : ''}
+                    <div class="text-neutral-700 mt-1"><strong>${item.falla.tipo}:</strong> ${item.falla.descripcion}</div>
                 </div>
 
-                <!-- Línea de Tiempo / Trazabilidad -->
+                <!-- Trazabilidad -->
                 <div class="border border-neutral-200 rounded-lg p-3 space-y-2">
-                    <div class="flex items-center justify-between">
-                        <span class="text-[10px] font-bold uppercase tracking-wider text-[#b38e65]">Trazabilidad y Plazos</span>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-[#b38e65]">Plazos</span>
                         <span class="font-bold ${days >= 10 ? 'text-red-600' : (days >= 7 ? 'text-amber-600' : 'text-neutral-700')}">${days} días transcurridos</span>
                     </div>
-                    <div class="grid grid-cols-2 gap-2 text-[11px]">
-                        <div class="bg-neutral-50 p-2 rounded">
-                            <span class="text-neutral-400 block text-[10px]">1. Recepción en Local</span>
-                            <strong>${dateIngreso}</strong>
+                    <div class="grid grid-cols-3 gap-2 text-[10px] text-center">
+                        <div class="bg-neutral-50 p-2 rounded border border-neutral-100">
+                            <span class="text-neutral-400 block font-semibold">1. INGRESO</span>
+                            <strong class="text-neutral-800">${dateIngreso.slice(0, 10)}</strong>
                         </div>
-                        <div class="bg-neutral-50 p-2 rounded">
-                            <span class="text-neutral-400 block text-[10px]">2. Envío a Taller</span>
-                            <strong>${dateTaller}</strong>
+                        <div class="bg-neutral-50 p-2 rounded border border-neutral-100">
+                            <span class="text-neutral-400 block font-semibold">2. LISTO</span>
+                            <strong class="text-neutral-800">${dateListo}</strong>
                         </div>
-                        <div class="bg-neutral-50 p-2 rounded">
-                            <span class="text-neutral-400 block text-[10px]">3. Retorno a Local</span>
-                            <strong>${dateListo}</strong>
-                        </div>
-                        <div class="bg-neutral-50 p-2 rounded">
-                            <span class="text-neutral-400 block text-[10px]">4. Entrega a Clienta</span>
-                            <strong>${dateEntrega}</strong>
+                        <div class="bg-neutral-50 p-2 rounded border border-neutral-100">
+                            <span class="text-neutral-400 block font-semibold">3. ENTREGADO</span>
+                            <strong class="text-neutral-800">${dateEntrega}</strong>
                         </div>
                     </div>
                 </div>
@@ -934,122 +1175,15 @@
             }
         }
 
-        function printCurrentTicket() {
-            if (!selectedDetailId) return;
-            viewTicket(selectedDetailId);
-        }
-
-        // Cambio de Estado Rápido
-        function updateItemStatus(id, newStatus) {
-            const item = composturas.find(c => c.id === id);
-            if (!item) return;
-            item.estado = newStatus;
-            
-            const now = new Date().toISOString();
-            if (newStatus === 'ENVIADO_TALLER' && !item.fechas.envioTaller) item.fechas.envioTaller = now;
-            if (newStatus === 'LISTO_RETIRO' && !item.fechas.listoRetiro) item.fechas.listoRetiro = now;
-            if (newStatus === 'ENTREGADO' && !item.fechas.entrega) item.fechas.entrega = now;
-
-            saveToStorage();
-
-            if (newStatus === 'LISTO_RETIRO') {
-                if (confirm(`¿Querés abrir WhatsApp ahora para avisarle a ${item.clienta.nombre} que su calzado ya está listo en ${item.sucursal}?`)) {
-                    sendRetiroWA(id);
-                }
-            }
-        }
-
-        // WhatsApp: Mensaje de Constancia
-        function sendConstanciaWA(id) {
-            const item = composturas.find(c => c.id === id);
-            if (!item) return;
-
-            const telClean = item.clienta.telefono.replace(/[^0-9]/g, '');
-            let phone = telClean;
-            if (phone.length === 10) phone = '549' + phone;
-
-            const msg = `¡Hola *${item.clienta.nombre}*! 👋 Te saludamos desde *Nazaria (${item.sucursal})*.%0A%0A` +
-                `Registramos el ingreso de tu calzado para servicio técnico de compostura:%0A` +
-                `📋 *Ticket:* #${item.id}%0A` +
-                `👠 *Modelo:* ${item.calzado.articulo} (Color ${item.calzado.color} - Talle ${item.calzado.talle})%0A` +
-                `🔍 *Diagnóstico:* ${item.falla.tipo} - ${item.falla.descripcion}%0A` +
-                `⏳ *Plazo estimado:* 10 días hábiles.%0A%0A` +
-                `Te avisaremos por este medio apenas regrese impecable del taller para que puedas pasar a retirarlo. ¡Muchas gracias!`;
-
-            window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
-        }
-
-        // WhatsApp: Aviso de Retiro
-        function sendRetiroWA(id) {
-            const item = composturas.find(c => c.id === id);
-            if (!item) return;
-
-            const telClean = item.clienta.telefono.replace(/[^0-9]/g, '');
-            let phone = telClean;
-            if (phone.length === 10) phone = '549' + phone;
-
-            const msg = `¡Hola *${item.clienta.nombre}*! ✨ Te avisamos desde *Nazaria (${item.sucursal})* que tu calzado ya volvió del taller y *está LISTO PARA RETIRAR*:%0A%0A` +
-                `📋 *Ticket:* #${item.id}%0A` +
-                `👠 *Modelo:* ${item.calzado.articulo} (Talle ${item.calzado.talle})%0A` +
-                `📍 *Lugar de Retiro:* Sucursal Nazaria ${item.sucursal}%0A%0A` +
-                `¡Te esperamos para entregártelo en nuestro horario de atención! 😊`;
-
-            window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
-        }
-
-        // Ver Ticket Imprimible
-        function viewTicket(id) {
-            const item = composturas.find(c => c.id === id);
-            if (!item) return;
-
-            const dateStr = new Date(item.fechas.ingreso).toLocaleString('es-AR');
-
-            const printable = document.getElementById('ticket-printable');
-            printable.innerHTML = `
-                <div class="border-b border-dashed border-neutral-400 pb-3 text-center">
-                    <div class="font-bold text-sm">NAZARIA ZAPATOS</div>
-                    <div class="text-[10px] text-neutral-500">SUCURSAL ${item.sucursal.toUpperCase()}</div>
-                    <div class="text-xs font-bold mt-1 bg-neutral-100 py-1 rounded">CONSTANCIA DE COMPOSTURA #${item.id}</div>
-                </div>
-                <div class="space-y-1.5 text-[11px]">
-                    <div><strong>Fecha:</strong> ${dateStr}</div>
-                    <div><strong>Clienta:</strong> ${item.clienta.nombre}</div>
-                    <div><strong>Teléfono:</strong> ${item.clienta.telefono}</div>
-                    ${item.clienta.dni ? `<div><strong>DNI:</strong> ${item.clienta.dni}</div>` : ''}
-                    <div><strong>Artículo:</strong> ${item.calzado.articulo} | Talle: ${item.calzado.talle} | Color: ${item.calzado.color}</div>
-                    <div><strong>Falla:</strong> ${item.falla.tipo} - ${item.falla.descripcion}</div>
-                    <div><strong>Recepción:</strong> ${item.vendedora || 'Vendedora de turno'}</div>
-                </div>
-                <div class="border-t border-b border-dashed border-neutral-400 py-2 text-[10px] text-center text-neutral-600">
-                    Plazo estimado de servicio: 10 días hábiles.<br>
-                    Se le dará aviso por WhatsApp para su retiro.
-                </div>
-                <div class="pt-2 text-[9px] text-center text-neutral-400">
-                    Conserve este cupón para retirar en el local.
-                </div>
-            `;
-            document.getElementById('modal-ticket').classList.remove('hidden');
-        }
-
-        function closeTicketModal() {
-            document.getElementById('modal-ticket').classList.add('hidden');
-        }
-
-        function printTicket() {
-            window.print();
-        }
-
-        // Modal Nuevo
+        // ==========================================
+        // NUEVA COMPOSTURA
+        // ==========================================
         function openNewModal() {
             document.getElementById('form-compostura').reset();
-            document.getElementById('edit-id').value = '';
-            document.getElementById('modal-title').innerText = 'Nueva Compostura';
-
             if (currentSucursalFilter !== 'TODAS') {
                 const radio = document.querySelector(`input[name="form-sucursal"][value="${currentSucursalFilter}"]`);
                 if (radio) radio.checked = true;
             }
-
             document.getElementById('modal-new').classList.remove('hidden');
         }
 
@@ -1057,11 +1191,8 @@
             document.getElementById('modal-new').classList.add('hidden');
         }
 
-        // Guardar Formulario
         function handleFormSubmit(e) {
             e.preventDefault();
-            const submitter = e.submitter;
-            const action = submitter ? submitter.value : 'save_only';
 
             const sucursal = document.querySelector('input[name="form-sucursal"]:checked').value;
             const nombre = document.getElementById('clienta-nombre').value.trim();
@@ -1075,7 +1206,6 @@
 
             const fallaTipo = document.getElementById('falla-tipo').value;
             const fallaDesc = document.getElementById('falla-descripcion').value.trim();
-            const notas = document.getElementById('compostura-notas').value.trim();
 
             const nextNumber = composturas.length > 0 
                 ? Math.max(...composturas.map(c => parseInt(c.id.replace('CMP-', '')) || 100)) + 1 
@@ -1090,12 +1220,10 @@
                 falla: { tipo: fallaTipo, descripcion: fallaDesc },
                 fechas: {
                     ingreso: new Date().toISOString(),
-                    envioTaller: null,
                     listoRetiro: null,
                     entrega: null
                 },
-                estado: 'RECIBIDO_LOCAL',
-                notas: notas,
+                estado: 'EN_PROCESO',
                 vendedora: vendedora
             };
 
@@ -1103,12 +1231,13 @@
             saveToStorage();
             closeNewModal();
 
-            if (action === 'save_and_wa') {
-                sendConstanciaWA(newId);
-            }
+            // Abrir automáticamente la tarjeta de comprobante de recepción para copiar y enviar
+            showVoucherModal(newId, 'recepcion');
         }
 
-        // Exportar a CSV (Excel)
+        // ==========================================
+        // EXPORTACIÓN Y SYNC
+        // ==========================================
         function exportToCSV() {
             if (composturas.length === 0) {
                 alert("No hay composturas para exportar.");
@@ -1141,7 +1270,6 @@
             a.click();
         }
 
-        // Sincronización con GitHub (Push / Pull)
         function openSyncModal() {
             document.getElementById('modal-sync').classList.remove('hidden');
             toggleMenuOptions(false);
@@ -1212,7 +1340,8 @@
             try {
                 const res = await fetch(`./data/composturas.json?t=${Date.now()}`);
                 if (!res.ok) throw new Error("No se pudo obtener data/composturas.json");
-                composturas = await res.json();
+                const data = await res.json();
+                composturas = data.map(c => ({ ...c, estado: normalizeStatus(c.estado) }));
                 saveToStorage();
                 statusBox.className = "text-[11px] text-center font-bold text-emerald-600";
                 statusBox.innerText = "✔ ¡Datos descargados y actualizados!";
@@ -1223,7 +1352,6 @@
             }
         }
 
-        // Cargar datos demo
         function resetDemoData() {
             if (confirm("¿Restaurar los datos de prueba de TOM y Maschwitz?")) {
                 localStorage.removeItem(STORAGE_KEY);
@@ -1240,7 +1368,7 @@
         }
 
         window.addEventListener('click', function(e) {
-            const btn = e.target.closest('button[title="Opciones y sincronización"]');
+            const btn = e.target.closest('button[title="Opciones"]');
             const menu = document.getElementById('menu-dropdown');
             if (!btn && menu && !menu.contains(e.target)) {
                 menu.classList.add('hidden');
