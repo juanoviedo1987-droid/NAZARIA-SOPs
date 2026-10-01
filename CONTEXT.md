@@ -8,7 +8,6 @@ Este documento es la **Fuente Central de Verdad y Memoria** del proyecto. Cualqu
 * **Empresa:** Nazaria (Franquicia de retail de calzado y accesorios femeninos).
 * **Sucursales Activas:**
   * **TOM** (Tortugas Open Mall)
-  * **Paseo Champagnat** (Pilar)
   * **Maschwitz Mall** (Ingeniero Maschwitz)
 * **Sistemas Operativos Centrales:**
   * **Dux Software:** Sistema ERP/POS central de facturación, control de stock y caja.
