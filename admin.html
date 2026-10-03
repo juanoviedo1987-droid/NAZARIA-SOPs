@@ -411,12 +411,59 @@
             }
         }
 
-        function saveKeys() {
+        function getGitHubToken() {
+            let token = (document.getElementById('github-token').value || '').trim();
+            if (!token) {
+                token = (localStorage.getItem('github_token') || '').trim();
+            }
+            token = token.replace(/['"\s]/g, '');
+            if (token) {
+                localStorage.setItem('github_token', token);
+                document.getElementById('github-token').value = token;
+            }
+            return token;
+        }
+
+        async function saveKeys() {
             const gKey = document.getElementById('gemini-key').value.trim();
-            const ghToken = document.getElementById('github-token').value.trim();
-            if (gKey) localStorage.setItem('gemini_key', gKey);
-            if (ghToken) localStorage.setItem('github_token', ghToken);
-            logToConsole("Llaves (Gemini / GitHub) guardadas en LocalStorage.");
+            let ghToken = document.getElementById('github-token').value.trim().replace(/['"\s]/g, '');
+            
+            if (gKey) {
+                localStorage.setItem('gemini_key', gKey);
+            }
+            if (ghToken) {
+                localStorage.setItem('github_token', ghToken);
+                document.getElementById('github-token').value = ghToken;
+            } else {
+                localStorage.removeItem('github_token');
+            }
+
+            if (ghToken) {
+                logToConsole("Verificando GitHub Token contra la API...");
+                try {
+                    const testRes = await fetch("https://api.github.com/user", {
+                        headers: {
+                            'Authorization': `token ${ghToken}`,
+                            'Accept': 'application/vnd.github.v3+json'
+                        }
+                    });
+                    if (testRes.ok) {
+                        const userData = await testRes.json();
+                        logToConsole(`✔ GitHub Token válido: Conectado como @${userData.login}`);
+                        alert(`¡Configuración guardada!\n\nGitHub conectado con éxito como: @${userData.login}`);
+                        return;
+                    } else {
+                        logToConsole(`⚠ GitHub Token rechazado por GitHub (${testRes.status} ${testRes.statusText})`, true);
+                        alert(`⚠️ Atención:\nEl GitHub Token ingresado parece incorrecto o expiró (Error ${testRes.status}).\nVerificá que comience con ghp_ y no contenga caracteres faltantes.`);
+                        return;
+                    }
+                } catch (e) {
+                    logToConsole("No se pudo verificar el token contra la API: " + e.message, true);
+                }
+            }
+
+            logToConsole("Llaves guardadas en LocalStorage.");
+            alert("Configuración guardada en tu navegador.");
         }
 
         function logToConsole(msg, isError = false) {
@@ -623,9 +670,9 @@ ASIGNACIÓN DE EMOJIS:
                 return;
             }
 
-            const ghToken = localStorage.getItem('github_token') || document.getElementById('github-token').value.trim();
+            const ghToken = getGitHubToken();
             if (!ghToken) {
-                alert("Por favor ingresá tu GitHub Token en la cabecera para publicar.");
+                alert("Por favor ingresá tu GitHub Token en la cabecera (arriba a la derecha) y hacé clic en 'Guardar'.");
                 document.getElementById('github-token').focus();
                 return;
             }
@@ -658,6 +705,9 @@ ASIGNACIÓN DE EMOJIS:
                 // 1. Obtener SHA previo si existe el archivo
                 let sha = null;
                 const checkRes = await fetch(fileUrl, { headers });
+                if (checkRes.status === 401) {
+                    throw new Error("Bad credentials");
+                }
                 if (checkRes.ok) {
                     const checkData = await checkRes.json();
                     sha = checkData.sha;
@@ -726,7 +776,11 @@ ASIGNACIÓN DE EMOJIS:
 
             } catch (err) {
                 logToConsole(`Error de publicación: ${err.message}`, true);
-                alert(`Error al publicar en GitHub: ${err.message}`);
+                if (err.message.includes('Bad credentials') || err.message.includes('401')) {
+                    alert("❌ Error de autenticación (Bad credentials):\n\nEl GitHub Token configurado en el navegador no es válido o expiró.\n\nPara solucionarlo:\n1. Copiá tu token vigente de GitHub (ej: ghp_...).\n2. Pegalo en la casilla 'GitHub Token' arriba a la derecha.\n3. Hacé clic en 'Guardar'.\n4. Volvé a presionar 'Publicar en GitHub'.");
+                } else {
+                    alert(`Error al publicar en GitHub: ${err.message}`);
+                }
                 btn.disabled = false;
                 btn.innerHTML = originalBtnHtml;
             }
@@ -836,9 +890,10 @@ ASIGNACIÓN DE EMOJIS:
         }
 
         async function saveMenuOrderToGitHub() {
-            const ghToken = localStorage.getItem('github_token') || document.getElementById('github-token').value.trim();
+            const ghToken = getGitHubToken();
             if (!ghToken) {
-                alert("Por favor ingresá tu GitHub Token en la cabecera para guardar el menú.");
+                alert("Por favor ingresá tu GitHub Token en la cabecera (arriba a la derecha) y hacé clic en 'Guardar'.");
+                document.getElementById('github-token').focus();
                 return;
             }
 
@@ -861,6 +916,7 @@ ASIGNACIÓN DE EMOJIS:
                         logToConsole(`Eliminando sops/${delId}.html en GitHub...`);
                         const delUrl = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/sops/${delId}.html`;
                         const delCheck = await fetch(delUrl, { headers });
+                        if (delCheck.status === 401) throw new Error("Bad credentials");
                         if (delCheck.ok) {
                             const delData = await delCheck.json();
                             await fetch(delUrl, {
@@ -874,6 +930,7 @@ ASIGNACIÓN DE EMOJIS:
                             logToConsole(`✔ Archivo sops/${delId}.html eliminado de GitHub.`);
                         }
                     } catch (delErr) {
+                        if (delErr.message.includes('Bad credentials')) throw delErr;
                         console.warn(`No se pudo eliminar el archivo sops/${delId}.html:`, delErr);
                     }
                 }
@@ -881,6 +938,7 @@ ASIGNACIÓN DE EMOJIS:
 
                 // 2. Guardar nuevo menu.json
                 const getRes = await fetch(menuUrl, { headers });
+                if (getRes.status === 401) throw new Error("Bad credentials");
                 if (!getRes.ok) throw new Error("No se pudo obtener el SHA actual de menu.json");
                 const getData = await getRes.json();
 
@@ -907,7 +965,11 @@ ASIGNACIÓN DE EMOJIS:
                 alert("¡Menú y catálogo actualizados correctamente en GitHub!");
             } catch (err) {
                 logToConsole(`Error al guardar menú: ${err.message}`, true);
-                alert(`Error: ${err.message}`);
+                if (err.message.includes('Bad credentials') || err.message.includes('401')) {
+                    alert("❌ Error de autenticación (Bad credentials):\n\nEl GitHub Token configurado en el navegador no es válido o expiró.\n\nPegá tu token vigente en la casilla 'GitHub Token' arriba a la derecha y hacé clic en 'Guardar'.");
+                } else {
+                    alert(`Error al guardar menú: ${err.message}`);
+                }
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = originalText;
