@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Nazaria - Story Arena</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      font-family: 'Montserrat', sans-serif;
+      background: radial-gradient(circle at 50% 15%, #FAF8F5 0%, #F4ECE3 60%, #E5D7C7 100%);
+      color: #1A1A1A;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 90px 75px 80px;
+    }
+
+    /* Borde editorial de lujo */
+    .frame-border {
+      position: absolute;
+      inset: 32px;
+      border: 1.5px solid rgba(184, 155, 126, 0.45);
+      pointer-events: none;
+      z-index: 10;
+    }
+    .frame-corner {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-color: #B89B7E;
+      border-style: solid;
+      pointer-events: none;
+      z-index: 11;
+    }
+    .fc-tl { top: 26px; left: 26px; border-width: 3px 0 0 3px; }
+    .fc-tr { top: 26px; right: 26px; border-width: 3px 3px 0 0; }
+    .fc-bl { bottom: 26px; left: 26px; border-width: 0 0 3px 3px; }
+    .fc-br { bottom: 26px; right: 26px; border-width: 0 3px 3px 0; }
+
+    /* Header */
+    .header {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+    .brand-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      color: #1A1A1A;
+      margin-bottom: 24px;
+    }
+    .brand-icon {
+      width: 48px;
+      height: 48px;
+    }
+    .brand-name {
+      font-family: 'Cinzel', 'Cormorant Garamond', serif;
+      font-size: 42px;
+      font-weight: 700;
+      letter-spacing: 0.38em;
+      margin-right: -0.38em;
+      line-height: 1;
+    }
+    .kicker {
+      font-size: 17px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #8C6F52;
+      margin-bottom: 12px;
+    }
+    .main-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 80px;
+      font-style: italic;
+      font-weight: 600;
+      color: #1A1A1A;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 14px;
+    }
+    .season-badge {
+      display: inline-block;
+      background: #1A1A1A;
+      color: #FAF8F5;
+      font-size: 13px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 8px 24px;
+      border-radius: 30px;
+    }
+
+    /* Showcase de Calzado (Mosaico Vertical) */
+    .showcase {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+      z-index: 2;
+      margin: 25px 0 20px;
+    }
+    .hero-shoe {
+      height: 520px;
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 22px 48px rgba(100, 75, 50, 0.15);
+      border: 1.5px solid rgba(255, 255, 255, 0.9);
+      background: #fff;
+    }
+    .hero-shoe img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .hero-tag {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(26, 26, 26, 0.9);
+      backdrop-filter: blur(10px);
+      color: #F4EBE2;
+      padding: 8px 20px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border-radius: 30px;
+      border: 1px solid rgba(230, 213, 195, 0.35);
+    }
+    .secondary-shoes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      height: 250px;
+    }
+    .sub-shoe {
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 14px 30px rgba(100, 75, 50, 0.1);
+      border: 1.5px solid rgba(255, 255, 255, 0.9);
+      background: #fff;
+    }
+    .sub-shoe img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Highlight Banner 5% Extra */
+    .highlight-card {
+      background: linear-gradient(135deg, #EAD6C2 0%, #D8BEA3 100%);
+      border: 2px solid #C4A787;
+      border-radius: 24px;
+      padding: 22px 28px;
+      text-align: center;
+      box-shadow: 0 12px 28px rgba(138, 107, 74, 0.18);
+      position: relative;
+      z-index: 2;
+      margin-bottom: 18px;
+    }
+    .hl-badge {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #61462D;
+      margin-bottom: 6px;
+    }
+    .hl-number {
+      font-size: 46px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #1A1A1A;
+      line-height: 1.1;
+    }
+    .hl-caption {
+      font-size: 14px;
+      font-weight: 600;
+      color: #553D26;
+      margin-top: 4px;
+    }
+
+    /* Lista de Promociones de Caja */
+    .promos-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      z-index: 2;
+      margin-bottom: 25px;
+    }
+    .promo-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(8px);
+      border: 1px solid #E0CEBB;
+      border-radius: 16px;
+      padding: 16px 26px;
+      box-shadow: 0 6px 16px rgba(100, 75, 50, 0.06);
+    }
+    .promo-row.featured {
+      background: #1A1A1A;
+      color: #FAF8F5;
+      border-color: #1A1A1A;
+    }
+    .pr-left {
+      display: flex;
+      flex-direction: column;
+    }
+    .pr-method {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-weight: 700;
+      color: #8C6F52;
+      margin-bottom: 2px;
+    }
+    .promo-row.featured .pr-method {
+      color: #D6BF9E;
+    }
+    .pr-desc {
+      font-size: 13px;
+      color: #555;
+      font-weight: 500;
+    }
+    .promo-row.featured .pr-desc {
+      color: #C9B29B;
+    }
+    .pr-rate {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .promo-row.featured .pr-rate {
+      color: #FAF8F5;
+    }
+
+    /* Footer & Locales */
+    .footer {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      border-top: 1.5px solid rgba(184, 155, 126, 0.4);
+      padding-top: 22px;
+    }
+    .footer-dates {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #1A1A1A;
+      margin-bottom: 8px;
+    }
+    .footer-locales {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: #7A5E43;
+      margin-bottom: 16px;
+    }
+    .cta-pill {
+      display: inline-block;
+      background: #1A1A1A;
+      color: #FAF8F5;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 12px 28px;
+      border-radius: 40px;
+    }
+  </style>
+</head>
+<body>
+  <div class="frame-border"></div>
+  <div class="frame-corner fc-tl"></div>
+  <div class="frame-corner fc-tr"></div>
+  <div class="frame-corner fc-bl"></div>
+  <div class="frame-corner fc-br"></div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="brand-logo">
+      <svg class="brand-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M50 18 L76 44 L50 70 L24 44 Z" />
+        <path d="M50 70 L34 88" />
+        <path d="M50 70 L66 88" />
+      </svg>
+      <div class="brand-name">NAZARIA</div>
+    </div>
+    <div class="kicker">Semana Post Día de la Madre</div>
+    <div class="main-title">¡Date el gusto vos!</div>
+    <div class="season-badge">Exclusivo Nueva Temporada</div>
+  </div>
+
+  <!-- Showcase Vertical -->
+  <div class="showcase">
+    <div class="hero-shoe">
+      <div class="hero-tag">Best Seller Colección</div>
+      <img src="../img/enhanced_trio_jewel.jpg" alt="Sandalias Joya Nazaria">
+    </div>
+    <div class="secondary-shoes">
+      <div class="sub-shoe">
+        <img src="../img/enhanced_birks.jpg" alt="Sandalias Birk Nazaria">
+      </div>
+      <div class="sub-shoe">
+        <img src="../img/enhanced_comfort.jpg" alt="Sandalias Confort Nazaria">
+      </div>
+    </div>
+  </div>
+
+  <!-- Highlight Banner -->
+  <div class="highlight-card">
+    <div class="hl-badge">Beneficio Especial en Locales</div>
+    <div class="hl-number">+5% OFF EXTRA</div>
+    <div class="hl-caption">Acumulable con todas las promociones vigentes de caja</div>
+  </div>
+
+  <!-- Promociones -->
+  <div class="promos-container">
+    <div class="promo-row featured">
+      <div class="pr-left">
+        <span class="pr-method">Efectivo</span>
+        <span class="pr-desc">20% habitual + 5% extra</span>
+      </div>
+      <div class="pr-rate">25% OFF</div>
+    </div>
+    <div class="promo-row">
+      <div class="pr-left">
+        <span class="pr-method">Débito / QR</span>
+        <span class="pr-desc">10% habitual + 5% extra</span>
+      </div>
+      <div class="pr-rate">15% OFF</div>
+    </div>
+    <div class="promo-row">
+      <div class="pr-left">
+        <span class="pr-method">Tarjeta de Crédito</span>
+        <span class="pr-desc">+ 5% OFF directo de regalo</span>
+      </div>
+      <div class="pr-rate">3 Cuotas S/I</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-dates">Del Lunes 19 al Viernes 23 de Octubre</div>
+    <div class="footer-locales">TORTUGAS OPEN MALL (TOM) &bull; MASCHWITZ MALL</div>
+    <div class="cta-pill">Consultanos Stock & Talles por WhatsApp</div>
+  </div>
+</body>
+</html>
