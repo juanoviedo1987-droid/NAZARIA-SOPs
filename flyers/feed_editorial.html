@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Nazaria - Editorial Luxury Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 1080px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: 'Montserrat', sans-serif;
+      background: radial-gradient(circle at 50% 20%, #FAF8F5 0%, #F3EAE0 60%, #E2D2C0 100%);
+      color: #1A1A1A;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 46px 54px 40px;
+    }
+
+    /* Borde editorial de alta gama */
+    .frame-border {
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(184, 155, 126, 0.4);
+      pointer-events: none;
+      z-index: 10;
+    }
+    .frame-corner {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-color: #B89B7E;
+      border-style: solid;
+      pointer-events: none;
+      z-index: 11;
+    }
+    .fc-tl { top: 14px; left: 14px; border-width: 2.5px 0 0 2.5px; }
+    .fc-tr { top: 14px; right: 14px; border-width: 2.5px 2.5px 0 0; }
+    .fc-bl { bottom: 14px; left: 14px; border-width: 0 0 2.5px 2.5px; }
+    .fc-br { bottom: 14px; right: 14px; border-width: 0 2.5px 2.5px 0; }
+
+    /* Header */
+    .header {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+    .brand-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      color: #1A1A1A;
+      margin-bottom: 8px;
+    }
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+    }
+    .brand-name {
+      font-family: 'Cinzel', 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      margin-left: 0.3em;
+    }
+    .kicker {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.26em;
+      color: #8C6F52;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+    .main-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 50px;
+      font-weight: 600;
+      font-style: italic;
+      color: #1A1A1A;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+    }
+    .season-badge {
+      display: inline-block;
+      margin-top: 5px;
+      background: #1A1A1A;
+      color: #FAF8F5;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 3px 14px;
+      border-radius: 20px;
+    }
+
+    /* Showcase: Grid Editorial Asimétrico */
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      grid-template-rows: 245px 205px;
+      gap: 14px;
+      margin: 6px 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .card {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 10px 24px rgba(100, 75, 50, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(145deg, #FFFFFF 0%, #FAF6F0 100%);
+    }
+
+    /* Card 1: Héroe Botas Texanas */
+    .card-hero {
+      grid-row: span 2;
+      background: linear-gradient(160deg, #FFFFFF 20%, #F5EDE4 100%);
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 20px 16px 20px;
+    }
+    .card-hero img {
+      width: 100%;
+      height: 340px;
+      object-fit: contain;
+      filter: drop-shadow(0 14px 18px rgba(90, 65, 45, 0.22));
+    }
+    .hero-label {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(26, 26, 26, 0.9);
+      backdrop-filter: blur(8px);
+      color: #F4EBE2;
+      padding: 6px 14px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border-radius: 30px;
+      border: 1px solid rgba(230, 213, 195, 0.3);
+      z-index: 3;
+    }
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 21px;
+      font-style: italic;
+      font-weight: 600;
+      color: #533B26;
+      margin-top: 10px;
+    }
+
+    /* Card 2: Suecos de Cuero */
+    .card-mules {
+      background: linear-gradient(135deg, #FFFFFF 0%, #F7EFE8 100%);
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 12px 14px;
+    }
+    .card-mules img {
+      width: 100%;
+      height: 155px;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 14px rgba(80, 55, 35, 0.18));
+    }
+    .sub-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #7A5F45;
+      margin-top: 6px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Card 3: Sandalias Birk Joya */
+    .card-jewel {
+      background: linear-gradient(135deg, #FFFFFF 0%, #F6EEE5 100%);
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 12px 14px;
+    }
+    .card-jewel img {
+      width: 100%;
+      height: 135px;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 14px rgba(80, 55, 35, 0.18));
+    }
+
+    /* Banner Beneficio Especial */
+    .promo-highlight {
+      text-align: center;
+      margin: 2px 0 8px;
+      position: relative;
+      z-index: 2;
+    }
+    .highlight-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #E8D5C0;
+      border: 1.2px solid #C4A787;
+      padding: 8px 24px;
+      border-radius: 50px;
+      box-shadow: 0 6px 16px rgba(138, 107, 74, 0.12);
+    }
+    .pill-tag {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #5D4329;
+    }
+    .pill-value {
+      font-size: 24px;
+      font-weight: 800;
+      color: #1A1A1A;
+      letter-spacing: -0.02em;
+    }
+    .pill-sub {
+      font-size: 12px;
+      font-weight: 600;
+      color: #6C543D;
+    }
+
+    /* Grilla de Promociones de Caja */
+    .promos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 2;
+    }
+    .promo-box {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(8px);
+      border: 1px solid #E0CEBB;
+      border-radius: 12px;
+      padding: 10px 10px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(100, 75, 50, 0.05);
+    }
+    .promo-box.featured {
+      background: #1A1A1A;
+      color: #FAF8F5;
+      border-color: #1A1A1A;
+    }
+    .promo-method {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-weight: 700;
+      color: #8C6F52;
+      margin-bottom: 2px;
+    }
+    .promo-box.featured .promo-method {
+      color: #D6BF9E;
+    }
+    .promo-rate {
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 2px;
+      letter-spacing: -0.02em;
+    }
+    .promo-box.featured .promo-rate {
+      color: #FAF8F5;
+    }
+    .promo-detail {
+      font-size: 10px;
+      font-weight: 500;
+      color: #555;
+    }
+    .promo-box.featured .promo-detail {
+      color: #C9B29B;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      border-top: 1px solid rgba(184, 155, 126, 0.35);
+      padding-top: 10px;
+    }
+    .footer-dates {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #1A1A1A;
+      margin-bottom: 2px;
+    }
+    .footer-branches {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: #7D6348;
+    }
+  </style>
+</head>
+<body>
+  <!-- Marco Editorial -->
+  <div class="frame-border"></div>
+  <div class="frame-corner fc-tl"></div>
+  <div class="frame-corner fc-tr"></div>
+  <div class="frame-corner fc-bl"></div>
+  <div class="frame-corner fc-br"></div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="brand-logo">
+      <svg class="brand-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M50 18 L76 44 L50 70 L24 44 Z" />
+        <path d="M50 70 L34 88" />
+        <path d="M50 70 L66 88" />
+      </svg>
+      <div class="brand-name">NAZARIA</div>
+    </div>
+    <div class="kicker">Semana Post Día de la Madre</div>
+    <div class="main-title">¡Date el gusto vos!</div>
+    <div class="season-badge">Exclusivo Nueva Temporada</div>
+  </div>
+
+  <!-- Showcase Editorial con Fotos Reales Aisladas -->
+  <div class="showcase-grid">
+    <!-- Card Héroe: Texanas -->
+    <div class="card card-hero">
+      <div class="hero-label">Colección Texanas</div>
+      <img src="../img/trim_boots.png" alt="Botas Texanas Nazaria">
+      <div class="card-title">Botas Texanas de Cuero</div>
+    </div>
+
+    <!-- Card 2: Suecos -->
+    <div class="card card-mules">
+      <img src="../img/trim_mules.png" alt="Suecos Nazaria">
+      <div class="sub-label">Suecos &bull; Plataforma Confort</div>
+    </div>
+
+    <!-- Card 3: Sandalias Birk Joya -->
+    <div class="card card-jewel">
+      <img src="../img/trim_jewel.png" alt="Sandalias Joya Nazaria">
+      <div class="sub-label">Sandalias Joya &bull; Bordadas</div>
+    </div>
+  </div>
+
+  <!-- Banner Beneficio Especial -->
+  <div class="promo-highlight">
+    <div class="highlight-pill">
+      <span class="pill-tag">Beneficio Especial</span>
+      <span class="pill-value">+5% OFF EXTRA</span>
+      <span class="pill-sub">Acumulable en Caja</span>
+    </div>
+  </div>
+
+  <!-- Grilla de Promociones de Caja -->
+  <div class="promos-grid">
+    <div class="promo-box featured">
+      <div class="promo-method">Efectivo</div>
+      <div class="promo-rate">25% OFF</div>
+      <div class="promo-detail">20% habitual + 5% extra</div>
+    </div>
+    <div class="promo-box">
+      <div class="promo-method">Débito / QR</div>
+      <div class="promo-rate">15% OFF</div>
+      <div class="promo-detail">10% habitual + 5% extra</div>
+    </div>
+    <div class="promo-box">
+      <div class="promo-method">Crédito</div>
+      <div class="promo-rate">3 Cuotas</div>
+      <div class="promo-detail">Sin Interés + 5% OFF directo</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-dates">Del Lunes 19 al Viernes 23 de Octubre</div>
+    <div class="footer-branches">TORTUGAS OPEN MALL (TOM) &bull; MASCHWITZ MALL</div>
+  </div>
+</body>
+</html>
