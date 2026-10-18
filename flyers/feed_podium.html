@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Nazaria - Flyer Arena Podium Oficial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 1080px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: 'Montserrat', sans-serif;
+      background: radial-gradient(circle at 50% 25%, #FAF8F5 0%, #F3ECE3 65%, #E5D7C7 100%);
+      color: #1A1A1A;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 48px 58px 42px;
+    }
+
+    /* Borde editorial fino */
+    .frame-border {
+      position: absolute;
+      inset: 20px;
+      border: 1.5px solid rgba(184, 155, 126, 0.45);
+      pointer-events: none;
+      z-index: 10;
+    }
+    .frame-corner {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-color: #B89B7E;
+      border-style: solid;
+      pointer-events: none;
+      z-index: 11;
+    }
+    .fc-tl { top: 16px; left: 16px; border-width: 3px 0 0 3px; }
+    .fc-tr { top: 16px; right: 16px; border-width: 3px 3px 0 0; }
+    .fc-bl { bottom: 16px; left: 16px; border-width: 0 0 3px 3px; }
+    .fc-br { bottom: 16px; right: 16px; border-width: 0 3px 3px 0; }
+
+    /* Header */
+    .header {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+    .brand-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: #1A1A1A;
+      margin-bottom: 12px;
+    }
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+    }
+    .brand-name {
+      font-family: 'Cinzel', 'Cormorant Garamond', serif;
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: 0.36em;
+      margin-right: -0.36em;
+      line-height: 1;
+    }
+    .kicker {
+      font-size: 13px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #8C6F52;
+      margin-bottom: 5px;
+    }
+    .main-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 54px;
+      font-style: italic;
+      font-weight: 600;
+      color: #1A1A1A;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+    }
+    .season-badge {
+      display: inline-block;
+      margin-top: 6px;
+      background: #1A1A1A;
+      color: #FAF8F5;
+      font-size: 10.5px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 4px 16px;
+      border-radius: 20px;
+    }
+
+    /* Showcase con Podio de Estudio Limpio */
+    .podium-container {
+      height: 470px;
+      margin: 4px 0 8px;
+      position: relative;
+      z-index: 2;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 16px 36px rgba(100, 75, 50, 0.12);
+      border: 1.5px solid rgba(255, 255, 255, 0.95);
+      background: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .podium-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 52%;
+      display: block;
+    }
+    .podium-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(26, 26, 26, 0.88);
+      backdrop-filter: blur(8px);
+      color: #F4EBE2;
+      padding: 6px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border-radius: 30px;
+      border: 1px solid rgba(230, 213, 195, 0.3);
+      z-index: 5;
+    }
+
+    /* Promo Pill Central */
+    .promo-highlight {
+      text-align: center;
+      margin: 2px 0 10px;
+      position: relative;
+      z-index: 2;
+    }
+    .highlight-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #E8D5C0;
+      border: 1.5px solid #C4A787;
+      padding: 9px 28px;
+      border-radius: 50px;
+      box-shadow: 0 8px 20px rgba(138, 107, 74, 0.15);
+    }
+    .pill-tag {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #5D4329;
+    }
+    .pill-value {
+      font-size: 26px;
+      font-weight: 800;
+      color: #1A1A1A;
+      letter-spacing: -0.02em;
+    }
+    .pill-sub {
+      font-size: 13px;
+      font-weight: 600;
+      color: #6C543D;
+    }
+
+    /* Grilla de Promociones de Caja */
+    .promos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 2;
+    }
+    .promo-box {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(8px);
+      border: 1px solid #E0CEBB;
+      border-radius: 14px;
+      padding: 13px 12px;
+      text-align: center;
+      box-shadow: 0 6px 14px rgba(100, 75, 50, 0.06);
+    }
+    .promo-box.featured {
+      background: #1A1A1A;
+      color: #FAF8F5;
+      border-color: #1A1A1A;
+    }
+    .promo-method {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-weight: 700;
+      color: #8C6F52;
+      margin-bottom: 3px;
+    }
+    .promo-box.featured .promo-method {
+      color: #D6BF9E;
+    }
+    .promo-rate {
+      font-size: 29px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 3px;
+      letter-spacing: -0.02em;
+    }
+    .promo-box.featured .promo-rate {
+      color: #FAF8F5;
+    }
+    .promo-detail {
+      font-size: 11px;
+      font-weight: 500;
+      color: #555;
+    }
+    .promo-box.featured .promo-detail {
+      color: #C9B29B;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      border-top: 1px solid rgba(184, 155, 126, 0.35);
+      padding-top: 12px;
+    }
+    .footer-dates {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #1A1A1A;
+      margin-bottom: 3px;
+    }
+    .footer-branches {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: #7A5E43;
+    }
+  </style>
+</head>
+<body>
+  <div class="frame-border"></div>
+  <div class="frame-corner fc-tl"></div>
+  <div class="frame-corner fc-tr"></div>
+  <div class="frame-corner fc-bl"></div>
+  <div class="frame-corner fc-br"></div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="brand-logo">
+      <svg class="brand-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M50 18 L76 44 L50 70 L24 44 Z" />
+        <path d="M50 70 L34 88" />
+        <path d="M50 70 L66 88" />
+      </svg>
+      <div class="brand-name">NAZARIA</div>
+    </div>
+    <div class="kicker">Semana Post Día de la Madre</div>
+    <div class="main-title">¡Date el gusto vos!</div>
+    <div class="season-badge">Exclusivo Nueva Temporada</div>
+  </div>
+
+  <!-- Showcase con Podio de Estudio -->
+  <div class="podium-container">
+    <div class="podium-badge">Best Sellers Colección</div>
+    <img src="../img/podium_showcase_all.jpg" alt="Colección Calzado Nazaria en Podio">
+  </div>
+
+  <!-- Highlight 5% Extra -->
+  <div class="promo-highlight">
+    <div class="highlight-pill">
+      <span class="pill-tag">Beneficio Especial</span>
+      <span class="pill-value">+5% OFF EXTRA</span>
+      <span class="pill-sub">Acumulable en Caja</span>
+    </div>
+  </div>
+
+  <!-- Grid Promos -->
+  <div class="promos-grid">
+    <div class="promo-box featured">
+      <div class="promo-method">Efectivo</div>
+      <div class="promo-rate">25% OFF</div>
+      <div class="promo-detail">20% habitual + 5% extra</div>
+    </div>
+    <div class="promo-box">
+      <div class="promo-method">Débito / QR</div>
+      <div class="promo-rate">15% OFF</div>
+      <div class="promo-detail">10% habitual + 5% extra</div>
+    </div>
+    <div class="promo-box">
+      <div class="promo-method">Crédito</div>
+      <div class="promo-rate">3 Cuotas</div>
+      <div class="promo-detail">Sin Interés + 5% OFF directo</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-dates">Del Lunes 19 al Viernes 23 de Octubre</div>
+    <div class="footer-branches">TORTUGAS OPEN MALL (TOM) &bull; MASCHWITZ MALL</div>
+  </div>
+</body>
+</html>
