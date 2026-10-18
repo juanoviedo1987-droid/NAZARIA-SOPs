@@ -19,13 +19,13 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 48px 58px 42px;
+      padding: 38px 52px 34px;
     }
 
     /* Borde editorial fino */
     .frame-border {
       position: absolute;
-      inset: 20px;
+      inset: 18px;
       border: 1.5px solid rgba(184, 155, 126, 0.45);
       pointer-events: none;
       z-index: 10;
@@ -39,10 +39,10 @@
       pointer-events: none;
       z-index: 11;
     }
-    .fc-tl { top: 16px; left: 16px; border-width: 3px 0 0 3px; }
-    .fc-tr { top: 16px; right: 16px; border-width: 3px 3px 0 0; }
-    .fc-bl { bottom: 16px; left: 16px; border-width: 0 0 3px 3px; }
-    .fc-br { bottom: 16px; right: 16px; border-width: 0 3px 3px 0; }
+    .fc-tl { top: 14px; left: 14px; border-width: 3px 0 0 3px; }
+    .fc-tr { top: 14px; right: 14px; border-width: 3px 3px 0 0; }
+    .fc-bl { bottom: 14px; left: 14px; border-width: 0 0 3px 3px; }
+    .fc-br { bottom: 14px; right: 14px; border-width: 0 3px 3px 0; }
 
     /* Header */
     .header {
@@ -57,33 +57,33 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       color: #1A1A1A;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
     .brand-icon {
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
     }
     .brand-name {
       font-family: 'Cinzel', 'Cormorant Garamond', serif;
-      font-size: 30px;
+      font-size: 28px;
       font-weight: 700;
       letter-spacing: 0.36em;
       margin-right: -0.36em;
       line-height: 1;
     }
     .kicker {
-      font-size: 13px;
+      font-size: 12px;
       letter-spacing: 0.28em;
       text-transform: uppercase;
       font-weight: 700;
       color: #8C6F52;
-      margin-bottom: 5px;
+      margin-bottom: 4px;
     }
     .main-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 54px;
+      font-size: 50px;
       font-style: italic;
       font-weight: 600;
       color: #1A1A1A;
@@ -92,21 +92,21 @@
     }
     .season-badge {
       display: inline-block;
-      margin-top: 6px;
+      margin-top: 5px;
       background: #1A1A1A;
       color: #FAF8F5;
-      font-size: 10.5px;
+      font-size: 10px;
       letter-spacing: 0.22em;
       text-transform: uppercase;
       font-weight: 700;
-      padding: 4px 16px;
+      padding: 3px 15px;
       border-radius: 20px;
     }
 
     /* Showcase con Podio de Estudio Limpio */
     .podium-container {
-      height: 470px;
-      margin: 4px 0 8px;
+      height: 520px;
+      margin: 2px 0 6px;
       position: relative;
       z-index: 2;
       border-radius: 20px;
@@ -117,12 +117,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 6px 10px;
     }
     .podium-container img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      object-position: center 52%;
+      object-fit: contain;
+      object-position: center center;
       display: block;
     }
     .podium-badge {
@@ -280,7 +281,7 @@
   <!-- Showcase con Podio de Estudio -->
   <div class="podium-container">
     <div class="podium-badge">Best Sellers Colección</div>
-    <img src="../img/podium_showcase_all.jpg" alt="Colección Calzado Nazaria en Podio">
+    <img src="../img/podium_full_shoes.jpg" alt="Colección Calzado Nazaria en Podio">
   </div>
 
   <!-- Highlight 5% Extra -->
