@@ -19,13 +19,13 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 34px 50px 28px;
+      padding: 24px 44px 20px;
     }
 
     /* Borde editorial fino */
     .frame-border {
       position: absolute;
-      inset: 16px;
+      inset: 12px;
       border: 1.5px solid rgba(184, 155, 126, 0.45);
       pointer-events: none;
       z-index: 10;
@@ -39,10 +39,10 @@
       pointer-events: none;
       z-index: 11;
     }
-    .fc-tl { top: 12px; left: 12px; border-width: 3px 0 0 3px; }
-    .fc-tr { top: 12px; right: 12px; border-width: 3px 3px 0 0; }
-    .fc-bl { bottom: 12px; left: 12px; border-width: 0 0 3px 3px; }
-    .fc-br { bottom: 12px; right: 12px; border-width: 0 3px 3px 0; }
+    .fc-tl { top: 9px; left: 9px; border-width: 2.5px 0 0 2.5px; }
+    .fc-tr { top: 9px; right: 9px; border-width: 2.5px 2.5px 0 0; }
+    .fc-bl { bottom: 9px; left: 9px; border-width: 0 0 2.5px 2.5px; }
+    .fc-br { bottom: 9px; right: 9px; border-width: 0 2.5px 2.5px 0; }
 
     /* Header */
     .header {
@@ -57,33 +57,33 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
       color: #1A1A1A;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
     .brand-icon {
-      width: 28px;
-      height: 28px;
+      width: 24px;
+      height: 24px;
     }
     .brand-name {
       font-family: 'Cinzel', 'Cormorant Garamond', serif;
-      font-size: 26px;
+      font-size: 22px;
       font-weight: 700;
       letter-spacing: 0.36em;
       margin-right: -0.36em;
       line-height: 1;
     }
     .kicker {
-      font-size: 11px;
+      font-size: 10px;
       letter-spacing: 0.28em;
       text-transform: uppercase;
       font-weight: 700;
       color: #8C6F52;
-      margin-bottom: 3px;
+      margin-bottom: 2px;
     }
     .main-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 46px;
+      font-size: 40px;
       font-style: italic;
       font-weight: 600;
       color: #1A1A1A;
@@ -92,26 +92,26 @@
     }
     .season-badge {
       display: inline-block;
-      margin-top: 4px;
+      margin-top: 3px;
       background: #1A1A1A;
       color: #FAF8F5;
-      font-size: 9.5px;
+      font-size: 9px;
       letter-spacing: 0.22em;
       text-transform: uppercase;
       font-weight: 700;
-      padding: 3px 14px;
+      padding: 2.5px 12px;
       border-radius: 20px;
     }
 
     /* Showcase con Podio de Estudio Limpio */
     .podium-container {
-      height: 560px;
+      height: 640px;
       margin: 4px 0 6px;
       position: relative;
       z-index: 2;
-      border-radius: 22px;
+      border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 18px 42px rgba(100, 75, 50, 0.14);
+      box-shadow: 0 16px 40px rgba(100, 75, 50, 0.14);
       border: 1.5px solid rgba(255, 255, 255, 0.95);
       background: #FFFFFF;
     }
@@ -119,7 +119,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center 52%;
+      object-position: center 50%;
       display: block;
     }
     .podium-badge {
@@ -129,8 +129,8 @@
       background: rgba(26, 26, 26, 0.88);
       backdrop-filter: blur(8px);
       color: #F4EBE2;
-      padding: 6px 14px;
-      font-size: 11px;
+      padding: 5px 13px;
+      font-size: 10px;
       font-weight: 700;
       letter-spacing: 0.18em;
       text-transform: uppercase;
@@ -142,35 +142,35 @@
     /* Promo Pill Central */
     .promo-highlight {
       text-align: center;
-      margin: 2px 0 10px;
+      margin: 0 0 6px;
       position: relative;
       z-index: 2;
     }
     .highlight-pill {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       background: #E8D5C0;
       border: 1.5px solid #C4A787;
-      padding: 9px 28px;
+      padding: 6px 22px;
       border-radius: 50px;
-      box-shadow: 0 8px 20px rgba(138, 107, 74, 0.15);
+      box-shadow: 0 6px 16px rgba(138, 107, 74, 0.15);
     }
     .pill-tag {
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 800;
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: #5D4329;
     }
     .pill-value {
-      font-size: 26px;
+      font-size: 22px;
       font-weight: 800;
       color: #1A1A1A;
       letter-spacing: -0.02em;
     }
     .pill-sub {
-      font-size: 13px;
+      font-size: 11.5px;
       font-weight: 600;
       color: #6C543D;
     }
@@ -179,8 +179,8 @@
     .promos-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-bottom: 12px;
+      gap: 12px;
+      margin-bottom: 6px;
       position: relative;
       z-index: 2;
     }
@@ -188,10 +188,10 @@
       background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(8px);
       border: 1px solid #E0CEBB;
-      border-radius: 14px;
-      padding: 13px 12px;
+      border-radius: 12px;
+      padding: 9px 10px;
       text-align: center;
-      box-shadow: 0 6px 14px rgba(100, 75, 50, 0.06);
+      box-shadow: 0 4px 12px rgba(100, 75, 50, 0.06);
     }
     .promo-box.featured {
       background: #1A1A1A;
@@ -199,28 +199,28 @@
       border-color: #1A1A1A;
     }
     .promo-method {
-      font-size: 11px;
+      font-size: 9.5px;
       text-transform: uppercase;
       letter-spacing: 0.16em;
       font-weight: 700;
       color: #8C6F52;
-      margin-bottom: 3px;
+      margin-bottom: 2px;
     }
     .promo-box.featured .promo-method {
       color: #D6BF9E;
     }
     .promo-rate {
-      font-size: 29px;
+      font-size: 24px;
       font-weight: 800;
       line-height: 1;
-      margin-bottom: 3px;
+      margin-bottom: 2px;
       letter-spacing: -0.02em;
     }
     .promo-box.featured .promo-rate {
       color: #FAF8F5;
     }
     .promo-detail {
-      font-size: 11px;
+      font-size: 9.5px;
       font-weight: 500;
       color: #555;
     }
@@ -234,18 +234,18 @@
       position: relative;
       z-index: 2;
       border-top: 1px solid rgba(184, 155, 126, 0.35);
-      padding-top: 12px;
+      padding-top: 6px;
     }
     .footer-dates {
-      font-size: 13px;
+      font-size: 11.5px;
       font-weight: 700;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: #1A1A1A;
-      margin-bottom: 3px;
+      margin-bottom: 2px;
     }
     .footer-branches {
-      font-size: 12px;
+      font-size: 10.5px;
       font-weight: 600;
       letter-spacing: 0.1em;
       color: #7A5E43;
