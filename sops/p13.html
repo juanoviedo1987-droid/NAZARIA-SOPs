@@ -73,67 +73,70 @@
         <div class="p-3.5 bg-white space-y-3">
             <p class="text-neutral-700 text-xs">Accedé directamente al material de difusión y a las clientas asignadas por cada sucursal:</p>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                <button onclick="loadSOP('p13_mensajes')" class="p-3 bg-neutral-900 hover:bg-black text-white rounded-lg border border-neutral-800 transition text-left flex flex-col justify-between shadow-sm">
+                <a href="sops/p13_mensajes.html" onclick="if(typeof loadSOP==='function'){loadSOP('p13_mensajes');return false;}" class="p-3 bg-neutral-900 hover:bg-black text-white rounded-lg border border-neutral-800 transition text-left flex flex-col justify-between shadow-sm block">
                     <span class="text-sm">💬</span>
                     <span class="font-bold text-xs mt-1">Plantillas de Mensajes</span>
-                    <span class="text-[10px] text-neutral-300">WhatsApp &amp; Emails oficiales</span>
-                </button>
-                <button onclick="loadSOP('p13_contactos_tom')" class="p-3 bg-[#FAF8F5] hover:bg-[#EFE6DB] text-neutral-900 rounded-lg border border-[#D5C2B0] transition text-left flex flex-col justify-between shadow-sm">
+                    <span class="text-[10px] text-neutral-300">WhatsApp &amp; Emails oficiales ➔</span>
+                </a>
+                <a href="sops/p13_contactos_tom.html" onclick="if(typeof loadSOP==='function'){loadSOP('p13_contactos_tom');return false;}" class="p-3 bg-[#FAF8F5] hover:bg-[#EFE6DB] text-neutral-900 rounded-lg border border-[#D5C2B0] transition text-left flex flex-col justify-between shadow-sm block">
                     <span class="text-sm">🏬</span>
                     <span class="font-bold text-xs mt-1">Contactos TOM</span>
-                    <span class="text-[10px] text-neutral-600">WhatsApp VIP &amp; Emails Tortugas</span>
-                </button>
-                <button onclick="loadSOP('p13_contactos_maschwitz')" class="p-3 bg-[#FAF8F5] hover:bg-[#EFE6DB] text-neutral-900 rounded-lg border border-[#D5C2B0] transition text-left flex flex-col justify-between shadow-sm">
+                    <span class="text-[10px] text-neutral-600">WhatsApp VIP &amp; Emails Tortugas ➔</span>
+                </a>
+                <a href="sops/p13_contactos_maschwitz.html" onclick="if(typeof loadSOP==='function'){loadSOP('p13_contactos_maschwitz');return false;}" class="p-3 bg-[#FAF8F5] hover:bg-[#EFE6DB] text-neutral-900 rounded-lg border border-[#D5C2B0] transition text-left flex flex-col justify-between shadow-sm block">
                     <span class="text-sm">🌿</span>
                     <span class="font-bold text-xs mt-1">Contactos Maschwitz</span>
-                    <span class="text-[10px] text-neutral-600">WhatsApp VIP &amp; Emails Mall</span>
-                </button>
+                    <span class="text-[10px] text-neutral-600">WhatsApp VIP &amp; Emails Mall ➔</span>
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- 5. Descarga de Flyers Oficiales -->
+    <!-- 5. Piezas Gráficas Oficiales: Vista Previa y Descarga -->
     <div class="border border-[#767680] rounded overflow-hidden shadow-sm">
         <div class="bg-[#f3f4f6] text-neutral-800 font-bold text-xs px-3.5 py-2.5 border-b border-[#767680] flex items-center space-x-2 tracking-wide uppercase">
             <span>🖼️</span>
-            <span>5. DESCARGA DE FLYERS OFICIALES (ALTA DEFINICIÓN)</span>
+            <span>5. FLYERS OFICIALES: VISTA PREVIA Y DESCARGA DIRECTA</span>
         </div>
-        <div class="p-3.5 bg-white space-y-3">
-            <p class="text-xs text-neutral-700">Descargá el archivo original directamente al dispositivo para compartir en estados o imprimir:</p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-center text-xs">
-                <button onclick="downloadFlyerFile('./flyers/feed_podium.png', 'Flyer_Nazaria_Feed_1080x1080.png')" class="p-3 bg-neutral-900 text-white rounded-lg border border-neutral-800 hover:bg-neutral-800 transition font-bold flex items-center justify-center gap-2 shadow-sm">
-                    <span>📥</span> Descargar Flyer Feed (1080x1080)
-                </button>
-                <button onclick="downloadFlyerFile('./flyers/story_podium.png', 'Flyer_Nazaria_Story_1080x1920.png')" class="p-3 bg-[#B89B7E] text-white rounded-lg border border-[#A28263] hover:bg-[#A28263] transition font-bold flex items-center justify-center gap-2 shadow-sm">
-                    <span>📥</span> Descargar Story / WhatsApp (1080x1920)
-                </button>
+        <div class="p-3.5 bg-white space-y-4">
+            <p class="text-xs text-neutral-700">Podés ver las piezas aquí mismo o descargarlas directamente para enviar o subir a estados:</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Flyer Feed -->
+                <div class="bg-neutral-50 p-3 rounded-lg border border-neutral-200 flex flex-col items-center">
+                    <span class="font-bold text-neutral-900 text-xs mb-2">📸 Flyer Feed (1080 × 1080)</span>
+                    <a href="flyers/feed_podium.png" target="_blank" title="Clic para ver en tamaño completo" class="w-full max-w-[280px] rounded-lg overflow-hidden border border-neutral-300 shadow-sm block group relative">
+                        <img src="flyers/feed_podium.png" alt="Flyer Feed Nazaria" class="w-full h-auto block group-hover:opacity-90 transition">
+                        <div class="absolute inset-0 bg-black/40 text-white flex items-center justify-center text-xs font-bold opacity-0 group-hover:opacity-100 transition">🔍 Clic para ampliar</div>
+                    </a>
+                    <div class="flex gap-2 w-full mt-3">
+                        <a href="flyers/feed_podium.png" download="Flyer_Nazaria_Feed_1080x1080.png" class="flex-1 py-2 bg-neutral-900 hover:bg-black text-white text-center rounded text-xs font-bold shadow-sm transition">
+                            📥 Descargar Feed
+                        </a>
+                        <a href="flyers/feed_podium.png" target="_blank" class="px-3 py-2 bg-neutral-200 hover:bg-neutral-300 text-neutral-800 text-center rounded text-xs font-bold transition">
+                            👁️ Ver
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Flyer Story -->
+                <div class="bg-neutral-50 p-3 rounded-lg border border-neutral-200 flex flex-col items-center">
+                    <span class="font-bold text-neutral-900 text-xs mb-2">📱 Flyer Story / WhatsApp (1080 × 1920)</span>
+                    <a href="flyers/story_podium.png" target="_blank" title="Clic para ver en tamaño completo" class="w-full max-w-[180px] rounded-lg overflow-hidden border border-neutral-300 shadow-sm block group relative">
+                        <img src="flyers/story_podium.png" alt="Flyer Story Nazaria" class="w-full h-auto block group-hover:opacity-90 transition">
+                        <div class="absolute inset-0 bg-black/40 text-white flex items-center justify-center text-xs font-bold opacity-0 group-hover:opacity-100 transition">🔍 Clic para ampliar</div>
+                    </a>
+                    <div class="flex gap-2 w-full mt-3">
+                        <a href="flyers/story_podium.png" download="Flyer_Nazaria_Story_1080x1920.png" class="flex-1 py-2 bg-[#B89B7E] hover:bg-[#A28263] text-white text-center rounded text-xs font-bold shadow-sm transition">
+                            📥 Descargar Story
+                        </a>
+                        <a href="flyers/story_podium.png" target="_blank" class="px-3 py-2 bg-neutral-200 hover:bg-neutral-300 text-neutral-800 text-center rounded text-xs font-bold transition">
+                            👁️ Ver
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
 </div>
-
-<script>
-function downloadFlyerFile(url, filename) {
-    fetch(url)
-        .then(response => {
-            if (!response.ok) throw new Error('Error al acceder al archivo');
-            return response.blob();
-        })
-        .then(blob => {
-            const blobUrl = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = blobUrl;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(blobUrl);
-            document.body.removeChild(a);
-        })
-        .catch(err => {
-            console.warn('Fallback a apertura directa:', err);
-            window.open(url, '_blank');
-        });
-}
-</script>
