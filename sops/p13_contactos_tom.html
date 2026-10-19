@@ -35,7 +35,7 @@
         📱 WhatsApp VIP (376 Clientes)
       </button>
       <button onclick="switchTab('mail')" id="tab-mail" class="px-4 py-2 font-semibold text-xs text-neutral-500 hover:text-black bg-neutral-100">
-        ✉️ Base de Emails (376 Correos)
+        ✉️ Envíos de Email por Lotes Seguros (376 Correos)
       </button>
     </div>
 
@@ -4589,19 +4589,202 @@
     
     </div>
 
-    <!-- SECCIÓN EMAILS -->
-    <div id="section-mail" class="hidden space-y-3">
-      <div class="bg-neutral-50 p-4 rounded-lg border border-neutral-200 space-y-3">
-        <div class="flex justify-between items-center">
-          <span class="font-bold text-neutral-800 text-xs">✉️ 376 Emails para Difusión de Tortugas Open Mall (TOM):</span>
-          <button onclick="copyAllEmails()" class="px-3 py-1.5 bg-neutral-900 text-white rounded text-xs font-bold hover:bg-black transition shadow-sm">
-            📋 Copiar Todos los Mails
+    <!-- SECCIÓN EMAILS POR LOTES SEGUROS (ANTI-SPAM) -->
+    <div id="section-mail" class="hidden space-y-4">
+      <div class="p-3 bg-blue-50 rounded-lg border border-blue-200 text-blue-900 text-xs space-y-1">
+        <div class="font-bold flex items-center gap-1.5 text-sm">
+          <span>🛡️</span> Protocolo Anti-Spam: Lotes de hasta 30 Destinatarios
+        </div>
+        <p class="text-[11px] leading-relaxed">
+          Para evitar bloqueos o que los correos caigan en SPAM/Promociones, <strong>la base está dividida en 13 lotes pequeños</strong>.
+          <br>
+          <strong>Instrucciones:</strong> Copiá un lote, pegalo en el campo <strong>CCO (Copia Oculta)</strong> de tu webmail, pegá el asunto y cuerpo oficial, y envialo. Dejá pasar unos minutos entre cada lote.
+        </p>
+      </div>
+
+      <div class="space-y-3">
+        
+      <div class="border border-neutral-200 rounded-lg p-3 bg-white space-y-2 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+            <span class="font-bold text-xs text-neutral-900">Lote 1 (30 destinatarios seguros)</span>
+          </div>
+          <button onclick="copyBatch('email-batch-1')" class="px-3 py-1 bg-neutral-900 hover:bg-black text-white text-[11px] font-bold rounded shadow-sm transition flex items-center gap-1">
+            <span>📋</span> Copiar Lote 1
           </button>
         </div>
-        <textarea id="emails-textarea" readonly class="w-full h-44 bg-white border border-neutral-300 rounded p-2.5 text-xs font-mono text-neutral-700 select-all">maria_jose_agostino@hotmail.com, leonardojulien100@gmail.com, yamilabaguiar@gmail.com, melu2001valeria@gmail.com, alfarotute@hotmail.com, lichialmeida@hotmail.com, mailu0503@gmail.com, mabelalvarez199@hotmail.com, alvarezyamila39@gmail.com, amarita0709@hotmail.com, zairaampuero@outlook.com, analia.sanchez23@outlook.com, priscilantunees@hotmail.com, lorearcos@hotmail.com, cordoba1206@yahoo.com.ar, anamariarevalo03@hotmail.com, alejandroarga@hotmail.com, lau.micro.tq@gmail.com, sandraarias@latefaster.com.ar, vaniartigue@gmail.com, luzromina2411@gmail.com, astemj@gmail.com, martaavila.pilar@gmail.com, lolibcastex@gmail.com, barbanijosefina@gmail.com, sofiabardelli@hotmail.com, afbarilari@gmail.com, celeste.sabrina@hotmail.com, marianalaurabattaglia@hotmail.com, patri_e.bello@hotmail.com, florbenitez2612@gmail.com, gabrielabenitez528@gmail.com, martuuubenitezz@gmail.com, omarbenvenuto@yahoo.com.ar, meb064@hotmail.com, beucicdamian@gmail.com, gisebianchi3@gmail.com, ailenbiza@hotmail.com, camila-blanco@hotmai.com, victoria.bonomi@hotmail.com, mayrajps234@gmail.com, silbourda@yahoo.com, camilabuccicardi@hotmail.com, burgosromina@hotmail.com, maky2012@icloud.com, gracaballero79@hotmail.com, florenciaabigail2787@gmail.com, jec1744@gmail.com, cabrera-paula@hotmail.com, soshy_almyy@hotmail.com, aldanacamejo@hotmail.com, oaulacanale@yshoo.es, andrea-natalia1985@hotmail.com, estudiofcanosa@gmail.com, silvina.capoble@gmail.com, fercap@gmail.com, marcelacarron@yahoo.com.ar, kitty_carp@hotmail.com, casagliaa@hotmail.com, cascojavier12@gmail.com, caseresfabiana@gmail.com, caseresnailamagali@gmail.com, mariaeugeniacastineira@gmail.com, silazucavallo@gmail.com, sivlialilcanete@gmail.com, susana.centurion2014@gmail.com, catacer123@gmail.com, chaveezaldanaa@gmail.com, karina.xtudio3@gmail.com, camycipriano@gmail.com, gustavojc1970@gmail.com, lulacolla@yahoo.com.ar, sofimagali015@gmail.com, alecondomi@icloud.com, yaelyasmin2111@gmail.com, leila.comtreraz@hotmail.com, nataliacoria78@hotmail.com, florencia_correa97@hotmail.com, juanacorreas@hotmail.com, corsilloluijan@gmail.com, luciacosentino7@gmail.com, drairenedall@iclaud.com, lucianapaula@live.com.ar, davalosabigail1@gmail.com, info@mdbseguos.com.ar, jans_dm@hotmail.com, caroladelprado2002@yahoo.com.ar, analiadelvallerotte@gmail.com, constanza.delgado0512@gmail.com, bandellepiane@gmail.com, kandeluchi87@hotmail.com, yannina_1983@hotmail.com, mcdibatista@yahoo.com.ar, gagodimarco@hotmail.com, gabrielarinardo05@gmail.com, lauradinarelli@gmaill.com, analiadominguez1@yahoo.com.ar, andydonofrio@yahoo.com.ar, marisaduartepilates@gmail.com, kcaejgiel@abc.gom.ab, fererenu@hotmail.com, micaelabelenespinosa@gmail.com, mariabelenesquivel55@gmail.com, esquivel.esttefania@gmail.com, edfateceh@hotmail.com, barbarafernandez100@gmail.com, carolineesf2010@gmail.com, macarenafernandez.21@hotmail.com, maria_cymf@hotmail.com, ye51_04@hotmail.com, fdmariss@gmail.com, lolyferrari3@hotmail.com, ferrisieliana1973@gmail.com, nahirfhilipphin@gmail.com, milagrosfigueria123@gmail.com, vivianah.fig@gmail.com, palyfranc2@gmail.com, vivifrettes@yahoo.com.ar, gabrielarodriguez1982@gmail.com, gabrielamgt@hotmail.com.ar, hileen.gaelo@gmail.com, viviquuintero1978@gmail.com, ericgalvan1212@gmail.com, maximiliano.garay.e@gmail.com, garbezzapaula@gmail.com, garciaandrea2278@gmail.com, nadia._.garcia@hotmail.com, garramonemic@gmail.com, lauragaudino@gmail.com, carlagazzano@gmail.com, normagerez375@gmail.com, paulagiles22@gmail.com, gimenacabrera164@gmail.com, elianagimenez1703@icloud.com, rominagimenez301@gmail.com, abrilgiraudi@hotmail.com, rgladys180@gmail.com, veronicaglowko@gmail.com, goipaulasoledad@gmail.com, claudiabeatrizg7@gmail.com, sofiimagalhaes@outlook.com.ar, kariborh@gmail.com, gomezzoe40@gmail.com, gc.elisa@gmail.com, fedematterson@gmail.com, ayelen.ynu@hotmail.com, marielagonzalez20@hotmail.com, aldana.fontanella@hotmail.com, yamigramajo@hotmail.com, sofifrench@hotmail.com, soledadvaleriag0@gmail.com, gabieditht@hotmail.com, laura.laturca@hotmail.com, ayelenherrera_@hotmail.com, stellamarishidalgoo@gmail.com, angeles_dai15@hotmail.com, diervolino222@gmail.com, martin@informaticavip.com.ar, caroiribas@hotmail.com, johi_medina@hotmail.com, rosanacarinajuarez@gmail.com, kalajurevich5@gamil.com, ambarkalik@gmail.com, rosanakl@hotmail.com, delfialmada00@gmail.com, gabylantero@yahoo.com.ar, larraguetacarla@gmail.com, gaby.gutierrez92@hotmail.com, gracielablauria@gmail.com, andy_70@hotmail.com, vansolloc@live.com, marcetiti26@gmail.com, kilolombardini@hotmail.com, nataliadutari@gmail.com, cristianlo937@gmail.com, estebanlopez@ahlconstructora.com, pato_villamayor@hotmail.com, valensan007@gmail.com, myrianmachado064@gmail.com, paulafernandez1424@gmail.com, vaiaradi_pi@hotmail.com, lauramak64@gmail.com, malladac@hotmail.com, vmmorgan7@hotmail.com, mamanilucia96@gmail.com, gaby1512@hotmail.com, gabygamantovani@gmail.com, aldanamazi2003@gmail.com, marita.lit@gmail.com, valeria.marcucci@gmail.com, mcvdierse@yahoo.com.ar, marypar@gmail.com, lauramariani39@hotmail.com, pmartinpacios@gmail.com, eugenia.martinez1905@gmail.com, micaela95valenzuela@gmail.com, karuumartinez1234@gmail.com, marpau74@outlook.com.ar, rociomartinez.peef@gmail.com, lorenamartinov@gmail.com, cande.masi@gmail.com, oneomat@gmail.com, carovalemat@gmail.com, alejandra.mazzutti@gmail.com, mlauramendoza@gmail.com, agustinamercado@hotmail.com.ar, micaela.salvucci@hotmail.com, julietairiemirabelli@gmail.com, yaninamino720@gmail.com, nancymolas00@gmail.com, mariamoletta13.09@gmail.com, irielmonaco9@gmail.com, vicky_mongiardo@live.com.ar, monica_carolinah@hotmail.com, monica_carolina@hotmail.com, mariumont@yahoo.com.ar, lurdesvirginiamoreiro@gmail.com, mojesfan@gmail.com, moreno_july@hotmail.com, pablomoret@yahoo.com.ar, veromuradian@hotmail.com, ssm_seba@hotmail.com, maynacimento98@gmail.com, rochynemmi@gmail.com, luznoguera3876@gmail.com, jesicanotaryio@hotmail.com, alevalensaul@hotmail.com, lauugisele.n@icloud.com, nunezmarielakarina@gmail.com, nubvaleriasoledad@gmail.com, vohaco@hotmail.com, vanessaojeda90@gmail.com, almzoe1916@gmaill.com, orellanapriscila490@gmail.com, leila.pajon@gmail.com, ba_palacio@yahoo.com.ar, martinapalacio82@gmail.com, olgaoalcm@gmail.com, valentina.mpalavecino@gmail.com, silvinapaludi@gmail.com, caripampena@hotmail.com, nataliararuiz@gmail.com, luciapastorsilvera@gmail.com, pamelapaterno@hotmail.com, yamilapau@gmail.com, claudia_pena63@hotmail.com, fernanda_pcometto@icloud.com, jorgelinaperez33@hotmail.com, mariperlau@hotmail.com, mp1991golf@gmail.com, vanesaperez3602@gmail.com, dosagradini@yahoo.com.ar, belenpietrobon3@gmail.com, mp@fahrensrl.com.ar, fiorellapipino@gmail.com, romipiñero@gmail.com, marianapla25@gmail.com, thoposi@hotmail.com, alejandrapogonza41@gmail.com, nataliajpogonza.13@gmail.com, gecrespo@yahoo.com.ar, matias.rpimavera@gmail.com, nataliapuggi@hotmail.com, teresa.raggi@gmail.com, vickyramirez91.vr@gmail.com, vickyramirez91vr@gmail.com, maflorapa@gmail.com, aylinyamilymichelle77@gmail.com, jesicavan@hotmail.com, may.gomez1998@gmail.com, silvinaflorenciarea@gmail.com, adrianaregnermg@gmail.com, emiliaremotti@gmail.com, beleniglesias47@gmail.com, caroresico@hotmail.com, vaneagosrey@hotmail.com, marialaura.rios27@gmail.com, nancy_crios87@hotmail.com, 87.estefii@gmail.com, marielamaricelrivero@gmail.com, monamarce28@gmail.com, romirode@hotmail.com, kgrodriguez00@gmail.com, ailennmagalit.m@gmail.com, r_emilce@hotmail.com, sandrayguay2016@gmail.com, marivivi1@hotmail.com, myrian890@hotmail.com, rubio_laura@yahoo.com.ar, yani.rosa8@gmail.com, silviasaavedra78@gmail.com, salalucia@yahoo.com.ar, nataliasalas1122@gmail.com, salganofelia17@gmail.com, alexia-bel@hotmail.com, mikitasalinas09@gmail.com, ivannadanielasanchez@gmail.com, graceli2011@yahoo.com.ar, stesandez123@gmail.com, cfsandler@hotmail.com, macarena.santana@gmail.com, martusantana2@oputlook.com, sofi.santelli@hotmail.com, jsaravia@gmail.com, valeriasardi39@gmail.com, azulsabastano@gmail.com, schenoneagostina@gmail.com, flachusch@yahoo.com.ar, lgschmit@gmail.com, tamaraschwab2011@gmail.com, fscriveri@gmail.com, adriseall@gmail.com, paulasevee76@yahoo.com.ar, gabyese@hotmail.com, oriisicardii@gmail.com, nancysichetti@hotmail.com, rosariosdiego@gmail.com, rubensilberg@yahoo.com.ar, silvinatabo@hotmail.com, csolaegui@hotmail.com, andreaflaviasolar@gmail.com, marcelassoldaini@hotmail.com, sotabelen@gmail.com, maximasosa866@gmail.com, aramayoezequiel59@gmail.com, lrn.s.991@gmail.com, sil1958@hotmail.com, fspin@arnetbis.com.ar, pilar.stan@gmail.com, stanisi-k@hotmail.com, sebastian@cmstravel.com.ar, stekgus@gmail.com, cami_stivala@outlook.com, manijerop@hotmail.com, natysuarez583@gmail.com, alesuppo@hotmail.com, silvanatabo@hotmail.com, morocha_abril@yahoo.com.ar, taranco765@st.derecho.uba.ar, caritello2525@gmail.com, naara.bruzuela77@yahoo.com, victoriatessa@gmail.com, soniatogno@gmail.com, julietapanebianco@hotmail.com, torresramona70@gmail.com, veronica27484@gmail.com, gabytroncoso54@gmail.com, mariaflorenciature.96@gmail.com, jaz_rivero@hotmail.com, avirlueki@gmail.com, aliciaventas09@gmail.com, monicavaldez800@gmail.com, cynthiavaldora@hotmail.com, bianthiari@yahoo.com.ar, ro_jb@hotmail.com.ar, varelafanny@hotmail.com, maro_vargas@hotmail.com, agluax@hotmail.com, giselamorocha12@live.com.ar, velascoluciana@hotmail.com, velazquezlurdes446@gmail.com, rominavera588@gmail.com, solviania2001@gmail.com, mimiviceconte@gmail.com, julivila1790@gmail.com, maricelvilaboa@gmail.com, hector666.h@gmail.com, villosladagi@gmail.com, goñivirginia@hotmail.com, jimena.vito@gmail.com, maryvinuales@gmail.com, sofia.wheeler@gmail.com, silvana.yennaccaro@gmail.com, andyzab@hotmail.com, aymi28emma@gmail.com, susanazarza@gmail.com</textarea>
-        <p class="text-[11px] text-neutral-500">
-          Pegar esta lista en el campo <strong>CCO (Copia Oculta)</strong> de tu correo para enviar la plantilla oficial sin exponer las direcciones de las clientas.
-        </p>
+        <textarea id="email-batch-1" readonly class="w-full h-16 bg-neutral-50 border border-neutral-200 rounded p-2 text-[11px] font-mono text-neutral-700 select-all leading-tight">maria_jose_agostino@hotmail.com, leonardojulien100@gmail.com, yamilabaguiar@gmail.com, melu2001valeria@gmail.com, alfarotute@hotmail.com, lichialmeida@hotmail.com, mailu0503@gmail.com, mabelalvarez199@hotmail.com, alvarezyamila39@gmail.com, amarita0709@hotmail.com, zairaampuero@outlook.com, analia.sanchez23@outlook.com, priscilantunees@hotmail.com, lorearcos@hotmail.com, cordoba1206@yahoo.com.ar, anamariarevalo03@hotmail.com, alejandroarga@hotmail.com, lau.micro.tq@gmail.com, sandraarias@latefaster.com.ar, vaniartigue@gmail.com, luzromina2411@gmail.com, astemj@gmail.com, martaavila.pilar@gmail.com, lolibcastex@gmail.com, barbanijosefina@gmail.com, sofiabardelli@hotmail.com, afbarilari@gmail.com, celeste.sabrina@hotmail.com, marianalaurabattaglia@hotmail.com, patri_e.bello@hotmail.com</textarea>
+      </div>
+    
+
+      <div class="border border-neutral-200 rounded-lg p-3 bg-white space-y-2 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+            <span class="font-bold text-xs text-neutral-900">Lote 2 (30 destinatarios seguros)</span>
+          </div>
+          <button onclick="copyBatch('email-batch-2')" class="px-3 py-1 bg-neutral-900 hover:bg-black text-white text-[11px] font-bold rounded shadow-sm transition flex items-center gap-1">
+            <span>📋</span> Copiar Lote 2
+          </button>
+        </div>
+        <textarea id="email-batch-2" readonly class="w-full h-16 bg-neutral-50 border border-neutral-200 rounded p-2 text-[11px] font-mono text-neutral-700 select-all leading-tight">florbenitez2612@gmail.com, gabrielabenitez528@gmail.com, martuuubenitezz@gmail.com, omarbenvenuto@yahoo.com.ar, meb064@hotmail.com, beucicdamian@gmail.com, gisebianchi3@gmail.com, ailenbiza@hotmail.com, camila-blanco@hotmai.com, victoria.bonomi@hotmail.com, mayrajps234@gmail.com, silbourda@yahoo.com, camilabuccicardi@hotmail.com, burgosromina@hotmail.com, maky2012@icloud.com, gracaballero79@hotmail.com, florenciaabigail2787@gmail.com, jec1744@gmail.com, cabrera-paula@hotmail.com, soshy_almyy@hotmail.com, aldanacamejo@hotmail.com, oaulacanale@yshoo.es, andrea-natalia1985@hotmail.com, estudiofcanosa@gmail.com, silvina.capoble@gmail.com, fercap@gmail.com, marcelacarron@yahoo.com.ar, kitty_carp@hotmail.com, casagliaa@hotmail.com, cascojavier12@gmail.com</textarea>
+      </div>
+    
+
+      <div class="border border-neutral-200 rounded-lg p-3 bg-white space-y-2 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+            <span class="font-bold text-xs text-neutral-900">Lote 3 (30 destinatarios seguros)</span>
+          </div>
+          <button onclick="copyBatch('email-batch-3')" class="px-3 py-1 bg-neutral-900 hover:bg-black text-white text-[11px] font-bold rounded shadow-sm transition flex items-center gap-1">
+            <span>📋</span> Copiar Lote 3
+          </button>
+        </div>
+        <textarea id="email-batch-3" readonly class="w-full h-16 bg-neutral-50 border border-neutral-200 rounded p-2 text-[11px] font-mono text-neutral-700 select-all leading-tight">caseresfabiana@gmail.com, caseresnailamagali@gmail.com, mariaeugeniacastineira@gmail.com, silazucavallo@gmail.com, sivlialilcanete@gmail.com, susana.centurion2014@gmail.com, catacer123@gmail.com, chaveezaldanaa@gmail.com, karina.xtudio3@gmail.com, camycipriano@gmail.com, gustavojc1970@gmail.com, lulacolla@yahoo.com.ar, sofimagali015@gmail.com, alecondomi@icloud.com, yaelyasmin2111@gmail.com, leila.comtreraz@hotmail.com, nataliacoria78@hotmail.com, florencia_correa97@hotmail.com, juanacorreas@hotmail.com, corsilloluijan@gmail.com, luciacosentino7@gmail.com, drairenedall@iclaud.com, lucianapaula@live.com.ar, davalosabigail1@gmail.com, info@mdbseguos.com.ar, jans_dm@hotmail.com, caroladelprado2002@yahoo.com.ar, analiadelvallerotte@gmail.com, constanza.delgado0512@gmail.com, bandellepiane@gmail.com</textarea>
+      </div>
+    
+
+      <div class="border border-neutral-200 rounded-lg p-3 bg-white space-y-2 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+            <span class="font-bold text-xs text-neutral-900">Lote 4 (30 destinatarios seguros)</span>
+          </div>
+          <button onclick="copyBatch('email-batch-4')" class="px-3 py-1 bg-neutral-900 hover:bg-black text-white text-[11px] font-bold rounded shadow-sm transition flex items-center gap-1">
+            <span>📋</span> Copiar Lote 4
+          </button>
+        </div>
+        <textarea id="email-batch-4" readonly class="w-full h-16 bg-neutral-50 border border-neutral-200 rounded p-2 text-[11px] font-mono text-neutral-700 select-all leading-tight">kandeluchi87@hotmail.com, yannina_1983@hotmail.com, mcdibatista@yahoo.com.ar, gagodimarco@hotmail.com, gabrielarinardo05@gmail.com, lauradinarelli@gmaill.com, analiadominguez1@yahoo.com.ar, andydonofrio@yahoo.com.ar, marisaduartepilates@gmail.com, kcaejgiel@abc.gom.ab, fererenu@hotmail.com, micaelabelenespinosa@gmail.com, mariabelenesquivel55@gmail.com, esquivel.esttefania@gmail.com, edfateceh@hotmail.com, barbarafernandez100@gmail.com, carolineesf2010@gmail.com, macarenafernandez.21@hotmail.com, maria_cymf@hotmail.com, ye51_04@hotmail.com, fdmariss@gmail.com, lolyferrari3@hotmail.com, ferrisieliana1973@gmail.com, nahirfhilipphin@gmail.com, milagrosfigueria123@gmail.com, vivianah.fig@gmail.com, palyfranc2@gmail.com, vivifrettes@yahoo.com.ar, gabrielarodriguez1982@gmail.com, gabrielamgt@hotmail.com.ar</textarea>
+      </div>
+    
+
+      <div class="border border-neutral-200 rounded-lg p-3 bg-white space-y-2 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+            <span class="font-bold text-xs text-neutral-900">Lote 5 (30 destinatarios seguros)</span>
+          </div>
+          <button onclick="copyBatch('email-batch-5')" class="px-3 py-1 bg-neutral-900 hover:bg-black text-white text-[11px] font-bold rounded shadow-sm transition flex items-center gap-1">
+            <span>📋</span> Copiar Lote 5
+          </button>
+        </div>
+        <textarea id="email-batch-5" readonly class="w-full h-16 bg-neutral-50 border border-neutral-200 rounded p-2 text-[11px] font-mono text-neutral-700 select-all leading-tight">hileen.gaelo@gmail.com, viviquuintero1978@gmail.com, ericgalvan1212@gmail.com, maximiliano.garay.e@gmail.com, garbezzapaula@gmail.com, garciaandrea2278@gmail.com, nadia._.garcia@hotmail.com, garramonemic@gmail.com, lauragaudino@gmail.com, carlagazzano@gmail.com, normagerez375@gmail.com, paulagiles22@gmail.com, gimenacabrera164@gmail.com, elianagimenez1703@icloud.com, rominagimenez301@gmail.com, abrilgiraudi@hotmail.com, rgladys180@gmail.com, veronicaglowko@gmail.com, goipaulasoledad@gmail.com, claudiabeatrizg7@gmail.com, sofiimagalhaes@outlook.com.ar, kariborh@gmail.com, gomezzoe40@gmail.com, gc.elisa@gmail.com, fedematterson@gmail.com, ayelen.ynu@hotmail.com, marielagonzalez20@hotmail.com, aldana.fontanella@hotmail.com, yamigramajo@hotmail.com, sofifrench@hotmail.com</textarea>
+      </div>
+    
+
+      <div class="border border-neutral-200 rounded-lg p-3 bg-white space-y-2 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+            <span class="font-bold text-xs text-neutral-900">Lote 6 (30 destinatarios seguros)</span>
+          </div>
+          <button onclick="copyBatch('email-batch-6')" class="px-3 py-1 bg-neutral-900 hover:bg-black text-white text-[11px] font-bold rounded shadow-sm transition flex items-center gap-1">
+            <span>📋</span> Copiar Lote 6
+          </button>
+        </div>
+        <textarea id="email-batch-6" readonly class="w-full h-16 bg-neutral-50 border border-neutral-200 rounded p-2 text-[11px] font-mono text-neutral-700 select-all leading-tight">soledadvaleriag0@gmail.com, gabieditht@hotmail.com, laura.laturca@hotmail.com, ayelenherrera_@hotmail.com, stellamarishidalgoo@gmail.com, angeles_dai15@hotmail.com, diervolino222@gmail.com, martin@informaticavip.com.ar, caroiribas@hotmail.com, johi_medina@hotmail.com, rosanacarinajuarez@gmail.com, kalajurevich5@gamil.com, ambarkalik@gmail.com, rosanakl@hotmail.com, delfialmada00@gmail.com, gabylantero@yahoo.com.ar, larraguetacarla@gmail.com, gaby.gutierrez92@hotmail.com, gracielablauria@gmail.com, andy_70@hotmail.com, vansolloc@live.com, marcetiti26@gmail.com, kilolombardini@hotmail.com, nataliadutari@gmail.com, cristianlo937@gmail.com, estebanlopez@ahlconstructora.com, pato_villamayor@hotmail.com, valensan007@gmail.com, myrianmachado064@gmail.com, paulafernandez1424@gmail.com</textarea>
+      </div>
+    
+
+      <div class="border border-neutral-200 rounded-lg p-3 bg-white space-y-2 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+            <span class="font-bold text-xs text-neutral-900">Lote 7 (30 destinatarios seguros)</span>
+          </div>
+          <button onclick="copyBatch('email-batch-7')" class="px-3 py-1 bg-neutral-900 hover:bg-black text-white text-[11px] font-bold rounded shadow-sm transition flex items-center gap-1">
+            <span>📋</span> Copiar Lote 7
+          </button>
+        </div>
+        <textarea id="email-batch-7" readonly class="w-full h-16 bg-neutral-50 border border-neutral-200 rounded p-2 text-[11px] font-mono text-neutral-700 select-all leading-tight">vaiaradi_pi@hotmail.com, lauramak64@gmail.com, malladac@hotmail.com, vmmorgan7@hotmail.com, mamanilucia96@gmail.com, gaby1512@hotmail.com, gabygamantovani@gmail.com, aldanamazi2003@gmail.com, marita.lit@gmail.com, valeria.marcucci@gmail.com, mcvdierse@yahoo.com.ar, marypar@gmail.com, lauramariani39@hotmail.com, pmartinpacios@gmail.com, eugenia.martinez1905@gmail.com, micaela95valenzuela@gmail.com, karuumartinez1234@gmail.com, marpau74@outlook.com.ar, rociomartinez.peef@gmail.com, lorenamartinov@gmail.com, cande.masi@gmail.com, oneomat@gmail.com, carovalemat@gmail.com, alejandra.mazzutti@gmail.com, mlauramendoza@gmail.com, agustinamercado@hotmail.com.ar, micaela.salvucci@hotmail.com, julietairiemirabelli@gmail.com, yaninamino720@gmail.com, nancymolas00@gmail.com</textarea>
+      </div>
+    
+
+      <div class="border border-neutral-200 rounded-lg p-3 bg-white space-y-2 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+            <span class="font-bold text-xs text-neutral-900">Lote 8 (30 destinatarios seguros)</span>
+          </div>
+          <button onclick="copyBatch('email-batch-8')" class="px-3 py-1 bg-neutral-900 hover:bg-black text-white text-[11px] font-bold rounded shadow-sm transition flex items-center gap-1">
+            <span>📋</span> Copiar Lote 8
+          </button>
+        </div>
+        <textarea id="email-batch-8" readonly class="w-full h-16 bg-neutral-50 border border-neutral-200 rounded p-2 text-[11px] font-mono text-neutral-700 select-all leading-tight">mariamoletta13.09@gmail.com, irielmonaco9@gmail.com, vicky_mongiardo@live.com.ar, monica_carolinah@hotmail.com, monica_carolina@hotmail.com, mariumont@yahoo.com.ar, lurdesvirginiamoreiro@gmail.com, mojesfan@gmail.com, moreno_july@hotmail.com, pablomoret@yahoo.com.ar, veromuradian@hotmail.com, ssm_seba@hotmail.com, maynacimento98@gmail.com, rochynemmi@gmail.com, luznoguera3876@gmail.com, jesicanotaryio@hotmail.com, alevalensaul@hotmail.com, lauugisele.n@icloud.com, nunezmarielakarina@gmail.com, nubvaleriasoledad@gmail.com, vohaco@hotmail.com, vanessaojeda90@gmail.com, almzoe1916@gmaill.com, orellanapriscila490@gmail.com, leila.pajon@gmail.com, ba_palacio@yahoo.com.ar, martinapalacio82@gmail.com, olgaoalcm@gmail.com, valentina.mpalavecino@gmail.com, silvinapaludi@gmail.com</textarea>
+      </div>
+    
+
+      <div class="border border-neutral-200 rounded-lg p-3 bg-white space-y-2 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+            <span class="font-bold text-xs text-neutral-900">Lote 9 (30 destinatarios seguros)</span>
+          </div>
+          <button onclick="copyBatch('email-batch-9')" class="px-3 py-1 bg-neutral-900 hover:bg-black text-white text-[11px] font-bold rounded shadow-sm transition flex items-center gap-1">
+            <span>📋</span> Copiar Lote 9
+          </button>
+        </div>
+        <textarea id="email-batch-9" readonly class="w-full h-16 bg-neutral-50 border border-neutral-200 rounded p-2 text-[11px] font-mono text-neutral-700 select-all leading-tight">caripampena@hotmail.com, nataliararuiz@gmail.com, luciapastorsilvera@gmail.com, pamelapaterno@hotmail.com, yamilapau@gmail.com, claudia_pena63@hotmail.com, fernanda_pcometto@icloud.com, jorgelinaperez33@hotmail.com, mariperlau@hotmail.com, mp1991golf@gmail.com, vanesaperez3602@gmail.com, dosagradini@yahoo.com.ar, belenpietrobon3@gmail.com, mp@fahrensrl.com.ar, fiorellapipino@gmail.com, romipiñero@gmail.com, marianapla25@gmail.com, thoposi@hotmail.com, alejandrapogonza41@gmail.com, nataliajpogonza.13@gmail.com, gecrespo@yahoo.com.ar, matias.rpimavera@gmail.com, nataliapuggi@hotmail.com, teresa.raggi@gmail.com, vickyramirez91.vr@gmail.com, vickyramirez91vr@gmail.com, maflorapa@gmail.com, aylinyamilymichelle77@gmail.com, jesicavan@hotmail.com, may.gomez1998@gmail.com</textarea>
+      </div>
+    
+
+      <div class="border border-neutral-200 rounded-lg p-3 bg-white space-y-2 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+            <span class="font-bold text-xs text-neutral-900">Lote 10 (30 destinatarios seguros)</span>
+          </div>
+          <button onclick="copyBatch('email-batch-10')" class="px-3 py-1 bg-neutral-900 hover:bg-black text-white text-[11px] font-bold rounded shadow-sm transition flex items-center gap-1">
+            <span>📋</span> Copiar Lote 10
+          </button>
+        </div>
+        <textarea id="email-batch-10" readonly class="w-full h-16 bg-neutral-50 border border-neutral-200 rounded p-2 text-[11px] font-mono text-neutral-700 select-all leading-tight">silvinaflorenciarea@gmail.com, adrianaregnermg@gmail.com, emiliaremotti@gmail.com, beleniglesias47@gmail.com, caroresico@hotmail.com, vaneagosrey@hotmail.com, marialaura.rios27@gmail.com, nancy_crios87@hotmail.com, 87.estefii@gmail.com, marielamaricelrivero@gmail.com, monamarce28@gmail.com, romirode@hotmail.com, kgrodriguez00@gmail.com, ailennmagalit.m@gmail.com, r_emilce@hotmail.com, sandrayguay2016@gmail.com, marivivi1@hotmail.com, myrian890@hotmail.com, rubio_laura@yahoo.com.ar, yani.rosa8@gmail.com, silviasaavedra78@gmail.com, salalucia@yahoo.com.ar, nataliasalas1122@gmail.com, salganofelia17@gmail.com, alexia-bel@hotmail.com, mikitasalinas09@gmail.com, ivannadanielasanchez@gmail.com, graceli2011@yahoo.com.ar, stesandez123@gmail.com, cfsandler@hotmail.com</textarea>
+      </div>
+    
+
+      <div class="border border-neutral-200 rounded-lg p-3 bg-white space-y-2 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+            <span class="font-bold text-xs text-neutral-900">Lote 11 (30 destinatarios seguros)</span>
+          </div>
+          <button onclick="copyBatch('email-batch-11')" class="px-3 py-1 bg-neutral-900 hover:bg-black text-white text-[11px] font-bold rounded shadow-sm transition flex items-center gap-1">
+            <span>📋</span> Copiar Lote 11
+          </button>
+        </div>
+        <textarea id="email-batch-11" readonly class="w-full h-16 bg-neutral-50 border border-neutral-200 rounded p-2 text-[11px] font-mono text-neutral-700 select-all leading-tight">macarena.santana@gmail.com, martusantana2@oputlook.com, sofi.santelli@hotmail.com, jsaravia@gmail.com, valeriasardi39@gmail.com, azulsabastano@gmail.com, schenoneagostina@gmail.com, flachusch@yahoo.com.ar, lgschmit@gmail.com, tamaraschwab2011@gmail.com, fscriveri@gmail.com, adriseall@gmail.com, paulasevee76@yahoo.com.ar, gabyese@hotmail.com, oriisicardii@gmail.com, nancysichetti@hotmail.com, rosariosdiego@gmail.com, rubensilberg@yahoo.com.ar, silvinatabo@hotmail.com, csolaegui@hotmail.com, andreaflaviasolar@gmail.com, marcelassoldaini@hotmail.com, sotabelen@gmail.com, maximasosa866@gmail.com, aramayoezequiel59@gmail.com, lrn.s.991@gmail.com, sil1958@hotmail.com, fspin@arnetbis.com.ar, pilar.stan@gmail.com, stanisi-k@hotmail.com</textarea>
+      </div>
+    
+
+      <div class="border border-neutral-200 rounded-lg p-3 bg-white space-y-2 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+            <span class="font-bold text-xs text-neutral-900">Lote 12 (30 destinatarios seguros)</span>
+          </div>
+          <button onclick="copyBatch('email-batch-12')" class="px-3 py-1 bg-neutral-900 hover:bg-black text-white text-[11px] font-bold rounded shadow-sm transition flex items-center gap-1">
+            <span>📋</span> Copiar Lote 12
+          </button>
+        </div>
+        <textarea id="email-batch-12" readonly class="w-full h-16 bg-neutral-50 border border-neutral-200 rounded p-2 text-[11px] font-mono text-neutral-700 select-all leading-tight">sebastian@cmstravel.com.ar, stekgus@gmail.com, cami_stivala@outlook.com, manijerop@hotmail.com, natysuarez583@gmail.com, alesuppo@hotmail.com, silvanatabo@hotmail.com, morocha_abril@yahoo.com.ar, taranco765@st.derecho.uba.ar, caritello2525@gmail.com, naara.bruzuela77@yahoo.com, victoriatessa@gmail.com, soniatogno@gmail.com, julietapanebianco@hotmail.com, torresramona70@gmail.com, veronica27484@gmail.com, gabytroncoso54@gmail.com, mariaflorenciature.96@gmail.com, jaz_rivero@hotmail.com, avirlueki@gmail.com, aliciaventas09@gmail.com, monicavaldez800@gmail.com, cynthiavaldora@hotmail.com, bianthiari@yahoo.com.ar, ro_jb@hotmail.com.ar, varelafanny@hotmail.com, maro_vargas@hotmail.com, agluax@hotmail.com, giselamorocha12@live.com.ar, velascoluciana@hotmail.com</textarea>
+      </div>
+    
+
+      <div class="border border-neutral-200 rounded-lg p-3 bg-white space-y-2 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+            <span class="font-bold text-xs text-neutral-900">Lote 13 (16 destinatarios seguros)</span>
+          </div>
+          <button onclick="copyBatch('email-batch-13')" class="px-3 py-1 bg-neutral-900 hover:bg-black text-white text-[11px] font-bold rounded shadow-sm transition flex items-center gap-1">
+            <span>📋</span> Copiar Lote 13
+          </button>
+        </div>
+        <textarea id="email-batch-13" readonly class="w-full h-16 bg-neutral-50 border border-neutral-200 rounded p-2 text-[11px] font-mono text-neutral-700 select-all leading-tight">velazquezlurdes446@gmail.com, rominavera588@gmail.com, solviania2001@gmail.com, mimiviceconte@gmail.com, julivila1790@gmail.com, maricelvilaboa@gmail.com, hector666.h@gmail.com, villosladagi@gmail.com, goñivirginia@hotmail.com, jimena.vito@gmail.com, maryvinuales@gmail.com, sofia.wheeler@gmail.com, silvana.yennaccaro@gmail.com, andyzab@hotmail.com, aymi28emma@gmail.com, susanazarza@gmail.com</textarea>
+      </div>
+    
       </div>
     </div>
 
@@ -4627,11 +4810,11 @@
       }
     }
 
-    function copyAllEmails() {
-      const el = document.getElementById('emails-textarea');
+    function copyBatch(batchId) {
+      const el = document.getElementById(batchId);
       el.select();
       navigator.clipboard.writeText(el.value).then(() => {
-        alert('¡376 direcciones de email copiadas al portapapeles!');
+        alert('¡Lote de correos copiado con éxito! Pegalo en el campo CCO de tu correo.');
       });
     }
 

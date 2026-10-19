@@ -8,7 +8,7 @@ function generateWhatsAppLink(phone, firstName, branchName) {
 }
 
 function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
-  // Dividir en 3 lotes: Lunes, Martes, Miércoles
+  // 1. Dividir WhatsApp en 3 lotes diarios: Lunes, Martes, Miércoles
   const total = clientList.length;
   const size1 = Math.ceil(total / 3);
   const size2 = Math.ceil((total - size1) / 2);
@@ -17,7 +17,13 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
   const grupo2 = clientList.slice(size1, size1 + size2);
   const grupo3 = clientList.slice(size1 + size2);
 
-  const emailListString = clientList.map(c => c.email).filter(e => e && e.includes('@')).join(', ');
+  // 2. Dividir Emails en lotes seguros de MÁXIMO 30 destinatarios para CCO
+  const validEmails = clientList.map(c => c.email).filter(e => e && e.includes('@'));
+  const EMAIL_BATCH_SIZE = 30;
+  const emailBatches = [];
+  for (let i = 0; i < validEmails.length; i += EMAIL_BATCH_SIZE) {
+    emailBatches.push(validEmails.slice(i, i + EMAIL_BATCH_SIZE));
+  }
 
   function renderGroup(title, badge, list, groupId) {
     const rows = list.map((c, i) => {
@@ -48,6 +54,26 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
       </div>
     `;
   }
+
+  // Renderizar los lotes de email seguros
+  const emailBatchesHtml = emailBatches.map((batch, index) => {
+    const batchString = batch.join(', ');
+    const batchId = `email-batch-${index + 1}`;
+    return `
+      <div class="border border-neutral-200 rounded-lg p-3 bg-white space-y-2 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+            <span class="font-bold text-xs text-neutral-900">Lote ${index + 1} (${batch.length} destinatarios seguros)</span>
+          </div>
+          <button onclick="copyBatch('${batchId}')" class="px-3 py-1 bg-neutral-900 hover:bg-black text-white text-[11px] font-bold rounded shadow-sm transition flex items-center gap-1">
+            <span>📋</span> Copiar Lote ${index + 1}
+          </button>
+        </div>
+        <textarea id="${batchId}" readonly class="w-full h-16 bg-neutral-50 border border-neutral-200 rounded p-2 text-[11px] font-mono text-neutral-700 select-all leading-tight">${batchString}</textarea>
+      </div>
+    `;
+  }).join('\n');
 
   return `<!DOCTYPE html>
 <html lang="es">
@@ -86,7 +112,7 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
         📱 WhatsApp VIP (${total} Clientes)
       </button>
       <button onclick="switchTab('mail')" id="tab-mail" class="px-4 py-2 font-semibold text-xs text-neutral-500 hover:text-black bg-neutral-100">
-        ✉️ Base de Emails (${total} Correos)
+        ✉️ Envíos de Email por Lotes Seguros (${validEmails.length} Correos)
       </button>
     </div>
 
@@ -101,19 +127,21 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
       ${renderGroup('MIÉRCOLES 21 DE OCTUBRE · GRUPO 3', 'Miércoles', grupo3, 'g3')}
     </div>
 
-    <!-- SECCIÓN EMAILS -->
-    <div id="section-mail" class="hidden space-y-3">
-      <div class="bg-neutral-50 p-4 rounded-lg border border-neutral-200 space-y-3">
-        <div class="flex justify-between items-center">
-          <span class="font-bold text-neutral-800 text-xs">✉️ ${clientList.length} Emails para Difusión de ${storeTitle}:</span>
-          <button onclick="copyAllEmails()" class="px-3 py-1.5 bg-neutral-900 text-white rounded text-xs font-bold hover:bg-black transition shadow-sm">
-            📋 Copiar Todos los Mails
-          </button>
+    <!-- SECCIÓN EMAILS POR LOTES SEGUROS (ANTI-SPAM) -->
+    <div id="section-mail" class="hidden space-y-4">
+      <div class="p-3 bg-blue-50 rounded-lg border border-blue-200 text-blue-900 text-xs space-y-1">
+        <div class="font-bold flex items-center gap-1.5 text-sm">
+          <span>🛡️</span> Protocolo Anti-Spam: Lotes de hasta 30 Destinatarios
         </div>
-        <textarea id="emails-textarea" readonly class="w-full h-44 bg-white border border-neutral-300 rounded p-2.5 text-xs font-mono text-neutral-700 select-all">${emailListString}</textarea>
-        <p class="text-[11px] text-neutral-500">
-          Pegar esta lista en el campo <strong>CCO (Copia Oculta)</strong> de tu correo para enviar la plantilla oficial sin exponer las direcciones de las clientas.
+        <p class="text-[11px] leading-relaxed">
+          Para evitar bloqueos o que los correos caigan en SPAM/Promociones, <strong>la base está dividida en ${emailBatches.length} lotes pequeños</strong>.
+          <br>
+          <strong>Instrucciones:</strong> Copiá un lote, pegalo en el campo <strong>CCO (Copia Oculta)</strong> de tu webmail, pegá el asunto y cuerpo oficial, y envialo. Dejá pasar unos minutos entre cada lote.
         </p>
+      </div>
+
+      <div class="space-y-3">
+        ${emailBatchesHtml}
       </div>
     </div>
 
@@ -139,11 +167,11 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
       }
     }
 
-    function copyAllEmails() {
-      const el = document.getElementById('emails-textarea');
+    function copyBatch(batchId) {
+      const el = document.getElementById(batchId);
       el.select();
       navigator.clipboard.writeText(el.value).then(() => {
-        alert('¡${clientList.length} direcciones de email copiadas al portapapeles!');
+        alert('¡Lote de correos copiado con éxito! Pegalo en el campo CCO de tu correo.');
       });
     }
 
@@ -178,4 +206,4 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
 fs.writeFileSync('sops/p13_contactos_tom.html', buildHtmlPage('tom', 'Tortugas Open Mall (TOM)', 'TOM', tom), 'utf8');
 fs.writeFileSync('sops/p13_contactos_maschwitz.html', buildHtmlPage('masch', 'Maschwitz Mall', 'Maschwitz Mall', maschwitz), 'utf8');
 
-console.log('Generadas con éxito las páginas de TOM y Maschwitz con la base completa.');
+console.log('Generadas con éxito las páginas de TOM y Maschwitz con lotes seguros de email de 30 contactos.');
