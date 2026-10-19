@@ -28,17 +28,26 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
   function renderGroup(title, badge, list, groupId) {
     const rows = list.map((c, i) => {
       const waUrl = generateWhatsAppLink(c.waPhone, c.firstName, branchName);
+      const cleanPhone = c.waPhone.replace(/\D/g, '');
       return `
-        <label class="flex items-center justify-between p-2 rounded bg-neutral-50 hover:bg-neutral-100 border border-neutral-200 transition">
-          <span class="flex items-center gap-2 overflow-hidden pr-2">
-            <input type="checkbox" id="chk-${groupId}-${i}" onchange="saveCheckState('${groupId}-${i}')" class="w-3.5 h-3.5 rounded text-black cursor-pointer shrink-0">
-            <span class="font-medium text-neutral-800 text-xs truncate" title="${c.fullName}">${c.fullName}</span>
-            <span class="text-[10px] text-neutral-400 font-mono hidden sm:inline">(${c.displayPhone})</span>
-          </span>
-          <a href="${waUrl}" target="_blank" onclick="markChecked('${groupId}-${i}')" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded text-[11px] shadow-sm shrink-0 flex items-center gap-1 transition">
-            <span>💬</span> Abrir Chat
-          </a>
-        </label>
+        <div class="flex items-center justify-between p-2 rounded bg-neutral-50 hover:bg-neutral-100 border border-neutral-200 transition gap-2">
+          <!-- Datos de la clienta -->
+          <div class="flex items-center gap-2 overflow-hidden flex-1 min-w-0">
+            <input type="checkbox" id="chk-${groupId}-${i}" onchange="saveCheckState('${groupId}-${i}')" title="Marcar como contactada" class="w-4 h-4 rounded text-black cursor-pointer shrink-0">
+            <span class="font-medium text-neutral-900 text-xs truncate" title="${c.fullName}">${c.fullName}</span>
+            <span class="text-[11px] text-neutral-500 font-mono shrink-0 hidden sm:inline">${c.displayPhone}</span>
+          </div>
+
+          <!-- Acciones: Copiar Número + Abrir Chat -->
+          <div class="flex items-center gap-1.5 shrink-0">
+            <button onclick="copyPhoneNumber('${cleanPhone}', this)" title="Copiar número para agendar" class="px-2 py-1 bg-white hover:bg-neutral-200 text-neutral-700 border border-neutral-300 rounded text-[11px] font-semibold flex items-center gap-1 transition shadow-2xs">
+              <span>📋</span> <span class="hidden md:inline">Copiar</span>
+            </button>
+            <a href="${waUrl}" target="_blank" onclick="markChecked('${groupId}-${i}')" title="Abrir chat en WhatsApp" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded text-[11px] shadow-sm flex items-center gap-1 transition">
+              <span>💬</span> <span>WhatsApp</span>
+            </a>
+          </div>
+        </div>
       `;
     }).join('\n');
 
@@ -48,7 +57,7 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
           <span>📌 ${title}</span>
           <span class="text-[10px] bg-white px-2 py-0.5 rounded text-neutral-700 font-semibold border border-neutral-200">${list.length} Contactos</span>
         </div>
-        <div class="p-2.5 bg-white space-y-1.5 max-h-[420px] overflow-y-auto">
+        <div class="p-2.5 bg-white space-y-1.5 max-h-[440px] overflow-y-auto">
           ${rows}
         </div>
       </div>
@@ -119,7 +128,7 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
     <!-- SECCIÓN WHATSAPP VIP -->
     <div id="section-wa" class="space-y-4">
       <div class="p-2.5 bg-amber-50 rounded border border-amber-200 text-amber-900 text-xs">
-        💡 <strong>Dinámica diaria:</strong> Enviar escalonadamente (mitad a la mañana de 10 a 12 hs y mitad a la tarde de 17 a 19 hs). Podés marcar la casilla al contactar a la clienta.
+        💡 <strong>Dinámica diaria:</strong> Podés hacer clic en <strong>"WhatsApp"</strong> para abrir el chat con el mensaje ya redactado, o en <strong>"Copiar"</strong> para copiar el número si necesitás agendarlo primero en el celular del local. La casilla de verificación te ayuda a marcar quiénes ya fueron contactadas.
       </div>
 
       ${renderGroup('LUNES 19 DE OCTUBRE · GRUPO 1', 'Lunes', grupo1, 'g1')}
@@ -175,6 +184,18 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
       });
     }
 
+    function copyPhoneNumber(phone, btn) {
+      navigator.clipboard.writeText(phone).then(() => {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<span>✅</span> <span class=\"hidden md:inline\">Copiado</span>';
+        btn.classList.add('bg-emerald-50', 'text-emerald-700', 'border-emerald-300');
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.classList.remove('bg-emerald-50', 'text-emerald-700', 'border-emerald-300');
+        }, 2000);
+      });
+    }
+
     function markChecked(key) {
       const chk = document.getElementById('chk-' + key);
       if (chk) {
@@ -206,4 +227,4 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
 fs.writeFileSync('sops/p13_contactos_tom.html', buildHtmlPage('tom', 'Tortugas Open Mall (TOM)', 'TOM', tom), 'utf8');
 fs.writeFileSync('sops/p13_contactos_maschwitz.html', buildHtmlPage('masch', 'Maschwitz Mall', 'Maschwitz Mall', maschwitz), 'utf8');
 
-console.log('Generadas con éxito las páginas de TOM y Maschwitz con lotes seguros de email de 30 contactos.');
+console.log('Generadas con éxito las páginas de TOM y Maschwitz con botón Copiar Número independiente.');
