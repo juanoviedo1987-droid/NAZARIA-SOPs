@@ -236,7 +236,20 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
         <p>1. Abrir la cuenta de correo de la sucursal en Gmail / Webmail.</p>
         <p>2. Copiar un lote seguro (máximo 30 emails por lote) y pegarlo en el campo <strong>CCO (Copia Oculta)</strong> para no filtrar los datos de las clientas.</p>
         <p>3. En el Asunto colocar: <code class="bg-white px-1.5 py-0.5 rounded border border-blue-300 font-bold">¡Date el gusto vos! 💖 5% OFF Extra en Nazaria ${branchName}</code></p>
-        <p>4. Pegar el cuerpo del mensaje y adjuntar la imagen oficial.</p>
+        <p>4. Pegar el cuerpo del mensaje y <strong>ADJUNTAR LA IMAGEN OFICIAL</strong> (descargar abajo).</p>
+      </div>
+
+      <!-- DESCARGA RÁPIDA DE IMAGEN OFICIAL PARA ADJUNTAR AL CORREO -->
+      <div class="bg-neutral-50 p-2.5 rounded border border-neutral-200 flex items-center justify-between text-xs">
+        <span class="font-semibold text-neutral-800">📸 Flyer oficial para adjuntar al correo:</span>
+        <div class="flex gap-2">
+          <a href="../flyers/feed_podium.png" download="Flyer_Promo_Nazaria_Feed.png" class="px-2.5 py-1 bg-neutral-900 hover:bg-black text-white font-bold rounded text-[11px] shadow-sm transition">
+            📥 Descargar Cuadrada (Feed)
+          </a>
+          <a href="../flyers/story_podium.png" download="Flyer_Promo_Nazaria_Story.png" class="px-2.5 py-1 bg-[#B89B7E] hover:bg-[#A28263] text-white font-bold rounded text-[11px] shadow-sm transition">
+            📥 Descargar Vertical (Story)
+          </a>
+        </div>
       </div>
 
       <div class="space-y-2">
