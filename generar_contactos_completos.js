@@ -2,20 +2,72 @@ const fs = require('fs');
 
 const { tom, maschwitz } = JSON.parse(fs.readFileSync('data/contactos_campana_procesados.json', 'utf8'));
 
+// Limpieza mejorada del primer nombre
+function getCleanFirstName(fullName, fallbackFirst) {
+  if (!fullName) return 'Hola';
+  const clean = fullName.trim();
+  if (clean.includes(',')) {
+    const afterComma = clean.split(',')[1].trim().split(/\s+/)[0];
+    if (afterComma) return afterComma.charAt(0).toUpperCase() + afterComma.slice(1).toLowerCase();
+  }
+  const parts = clean.split(/\s+/);
+  if (parts.length === 1) return parts[0].charAt(0).toUpperCase() + parts[0].slice(1).toLowerCase();
+  // Si no tiene coma pero son 2 o 3 palabras
+  const firstWord = parts[0].toLowerCase();
+  const commonSurnames = ['aguiar', 'gonzalez', 'rodriguez', 'gomez', 'fernandez', 'lopez', 'diaz', 'perez', 'garcia', 'sanchez', 'romero', 'sosa', 'torres', 'alvarez', 'ruiz', 'ramirez', 'flores', 'benitez', 'acosta', 'medina', 'herrera', 'aguirre', 'gutierrez', 'castro'];
+  if (commonSurnames.includes(firstWord) && parts.length > 1) {
+    return parts[1].charAt(0).toUpperCase() + parts[1].slice(1).toLowerCase();
+  }
+  return parts[0].charAt(0).toUpperCase() + parts[0].slice(1).toLowerCase();
+}
+
 function generateWhatsAppLink(phone, firstName, branchName) {
-  const text = `Hola ${firstName}, ¿cómo estás? Te escribo desde Nazaria ${branchName} 🌸 Esperamos que hayas tenido un lindo domingo del Día de la Madre. Te queríamos escribir especialmente porque tenés un 5% OFF EXTRA acumulable en toda la Nueva Temporada esta semana (hasta 25% OFF en efectivo o 3 cuotas sin interés + 5% OFF directo). ¡Avisame si querés que te separe talle o modelo! 💕`;
+  // Mensaje único oficial personalizado
+  const text = `Hola ${firstName}, ¿cómo estás? Te escribimos de Nazaria ${branchName} 🌸
+
+Te compartimos la imagen de nuestra promo especial de la semana: ¡Date el gusto vos! ✨
+
+Tenés un 5% OFF EXTRA acumulable en toda la Nueva Temporada SS26:
+• 25% OFF abonando en Efectivo (20% habitual + 5% extra).
+• 15% OFF abonando con Débito / QR.
+• 3 Cuotas sin Interés + 5% OFF directo con Crédito.
+
+Presentando este flyer en caja te lo aplicamos en el momento. ¡Avisanos si querés que te reservemos talle o modelo! 💕`;
+
   return `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
 }
 
 function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
-  // 1. Dividir WhatsApp en 3 lotes diarios: Lunes, Martes, Miércoles
   const total = clientList.length;
-  const size1 = Math.ceil(total / 3);
-  const size2 = Math.ceil((total - size1) / 2);
 
-  const grupo1 = clientList.slice(0, size1);
-  const grupo2 = clientList.slice(size1, size1 + size2);
-  const grupo3 = clientList.slice(size1 + size2);
+  // Días de la semana: Lunes 19 al Viernes 23 de Octubre
+  const days = [
+    { name: 'Lunes 19 de Octubre', key: 'lun' },
+    { name: 'Martes 20 de Octubre', key: 'mar' },
+    { name: 'Miércoles 21 de Octubre', key: 'mie' },
+    { name: 'Jueves 22 de Octubre', key: 'jue' },
+    { name: 'Viernes 23 de Octubre', key: 'vie' }
+  ];
+
+  // Dividir equitativamente en 5 días
+  const perDay = Math.ceil(total / 5);
+  const dailyGroups = [];
+  for (let d = 0; d < 5; d++) {
+    const start = d * perDay;
+    const end = Math.min(start + perDay, total);
+    const dayClients = clientList.slice(start, end);
+    
+    // Dentro de cada día, dividir en Tanda Mañana y Tanda Tarde (máx 18-20 c/u)
+    const mid = Math.ceil(dayClients.length / 2);
+    const tandaManana = dayClients.slice(0, mid);
+    const tandaTarde = dayClients.slice(mid);
+
+    dailyGroups.push({
+      day: days[d],
+      tanda1: tandaManana,
+      tanda2: tandaTarde
+    });
+  }
 
   // 2. Dividir Emails en lotes seguros de MÁXIMO 30 destinatarios para CCO
   const validEmails = clientList.map(c => c.email).filter(e => e && e.includes('@'));
@@ -25,17 +77,17 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
     emailBatches.push(validEmails.slice(i, i + EMAIL_BATCH_SIZE));
   }
 
-  function renderGroup(title, badge, list, groupId) {
-    const rows = list.map((c, i) => {
-      const waUrl = generateWhatsAppLink(c.waPhone, c.firstName, branchName);
-      const cleanPhone = c.waPhone.replace(/\D/g, '');
-      return `
+  function renderClientRow(c, i, batchId) {
+    const cleanFirst = getCleanFirstName(c.fullName, c.firstName);
+    const waUrl = generateWhatsAppLink(c.waPhone, cleanFirst, branchName);
+    const cleanPhone = c.waPhone.replace(/\D/g, '');
+    return `
         <div class="flex items-center justify-between p-2 rounded bg-neutral-50 hover:bg-neutral-100 border border-neutral-200 transition gap-2">
           <!-- Datos de la clienta -->
           <div class="flex items-center gap-2 overflow-hidden flex-1 min-w-0">
-            <input type="checkbox" id="chk-${groupId}-${i}" onchange="saveCheckState('${groupId}-${i}')" title="Marcar como contactada" class="w-4 h-4 rounded text-black cursor-pointer shrink-0">
+            <input type="checkbox" id="chk-${batchId}-${i}" onchange="saveCheckState('${batchId}-${i}')" title="Marcar como contactada" class="w-4 h-4 rounded text-black cursor-pointer shrink-0">
             <span class="font-medium text-neutral-900 text-xs truncate" title="${c.fullName}">${c.fullName}</span>
-            <span class="text-[11px] text-neutral-500 font-mono shrink-0 hidden sm:inline">${c.displayPhone}</span>
+            <span class="text-[10px] bg-neutral-200 text-neutral-700 px-1.5 py-0.2 rounded font-semibold shrink-0">Hola ${cleanFirst}</span>
           </div>
 
           <!-- Acciones: Copiar Número + Abrir Chat -->
@@ -43,45 +95,59 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
             <button onclick="copyPhoneNumber('${cleanPhone}', this)" title="Copiar número para agendar" class="px-2 py-1 bg-white hover:bg-neutral-200 text-neutral-700 border border-neutral-300 rounded text-[11px] font-semibold flex items-center gap-1 transition shadow-2xs">
               <span>📋</span> <span class="hidden md:inline">Copiar</span>
             </button>
-            <a href="${waUrl}" target="_blank" onclick="markChecked('${groupId}-${i}')" title="Abrir chat en WhatsApp" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded text-[11px] shadow-sm flex items-center gap-1 transition">
+            <a href="${waUrl}" target="_blank" onclick="markChecked('${batchId}-${i}')" title="Abrir chat en WhatsApp" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded text-[11px] shadow-sm flex items-center gap-1 transition">
               <span>💬</span> <span>WhatsApp</span>
             </a>
           </div>
-        </div>
-      `;
-    }).join('\n');
-
-    return `
-      <div class="border border-neutral-200 rounded-lg overflow-hidden shadow-sm mb-3">
-        <div class="bg-neutral-100 px-3.5 py-2 text-xs font-bold text-neutral-800 flex justify-between items-center border-b border-neutral-200">
-          <span>📌 ${title}</span>
-          <span class="text-[10px] bg-white px-2 py-0.5 rounded text-neutral-700 font-semibold border border-neutral-200">${list.length} Contactos</span>
-        </div>
-        <div class="p-2.5 bg-white space-y-1.5 max-h-[440px] overflow-y-auto">
-          ${rows}
-        </div>
-      </div>
-    `;
+        </div>`;
   }
 
-  // Renderizar los lotes de email seguros
-  const emailBatchesHtml = emailBatches.map((batch, index) => {
-    const batchString = batch.join(', ');
-    const batchId = `email-batch-${index + 1}`;
+  function renderTandaBlock(title, shiftLabel, icon, list, batchId) {
+    const rows = list.map((c, i) => renderClientRow(c, i, batchId)).join('\n');
     return `
-      <div class="border border-neutral-200 rounded-lg p-3 bg-white space-y-2 shadow-sm">
+          <div class="bg-white border border-neutral-200 rounded p-2.5 space-y-1.5">
+            <div class="flex items-center justify-between pb-1.5 border-b border-neutral-100 mb-1">
+              <span class="font-bold text-[11px] text-neutral-800 flex items-center gap-1">
+                <span>${icon}</span> ${shiftLabel}
+              </span>
+              <span class="text-[10px] bg-neutral-100 px-2 py-0.5 rounded text-neutral-600 font-semibold border border-neutral-200">
+                ${list.length} contactos
+              </span>
+            </div>
+            <div class="space-y-1 max-h-[300px] overflow-y-auto pr-1">
+              ${rows}
+            </div>
+          </div>`;
+  }
+
+  const daysHtml = dailyGroups.map((g, idx) => {
+    const totalDay = g.tanda1.length + g.tanda2.length;
+    return `
+      <!-- DÍA: ${g.day.name.toUpperCase()} -->
+      <div class="border border-neutral-300 rounded-lg overflow-hidden shadow-sm mb-3">
+        <div class="bg-neutral-800 text-white px-3.5 py-2 text-xs font-bold flex justify-between items-center">
+          <span>📅 ${g.day.name.toUpperCase()}</span>
+          <span class="text-[10px] bg-white/20 px-2 py-0.5 rounded text-white font-semibold">${totalDay} contactos en 2 tandas</span>
+        </div>
+        <div class="p-2.5 bg-neutral-100 grid grid-cols-1 md:grid-cols-2 gap-2.5">
+          ${renderTandaBlock(g.day.name, 'Tanda 1: Mañana / Mediodía (11:00 a 13:00 hs)', '☀️', g.tanda1, `${g.day.key}-t1`)}
+          ${renderTandaBlock(g.day.name, 'Tanda 2: Tarde / Cierre (16:30 a 19:00 hs)', '🌙', g.tanda2, `${g.day.key}-t2`)}
+        </div>
+      </div>`;
+  }).join('\n');
+
+  const emailBatchesHtml = emailBatches.map((batch, idx) => {
+    const emailString = batch.join('; ');
+    return `
+      <div class="bg-white p-3 rounded-lg border border-neutral-200 space-y-2">
         <div class="flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
-            <span class="font-bold text-xs text-neutral-900">Lote ${index + 1} (${batch.length} destinatarios seguros)</span>
-          </div>
-          <button onclick="copyBatch('${batchId}')" class="px-3 py-1 bg-neutral-900 hover:bg-black text-white text-[11px] font-bold rounded shadow-sm transition flex items-center gap-1">
-            <span>📋</span> Copiar Lote ${index + 1}
+          <span class="font-bold text-xs text-neutral-800">Lote ${idx + 1} (${batch.length} destinatarios CCO)</span>
+          <button onclick="copyToClipboard('batch-email-${idx}', this)" class="px-2.5 py-1 bg-neutral-900 hover:bg-black text-white text-[11px] font-bold rounded flex items-center gap-1 transition shadow-sm">
+            <span>📋</span> Copiar Lote ${idx + 1}
           </button>
         </div>
-        <textarea id="${batchId}" readonly class="w-full h-16 bg-neutral-50 border border-neutral-200 rounded p-2 text-[11px] font-mono text-neutral-700 select-all leading-tight">${batchString}</textarea>
-      </div>
-    `;
+        <textarea id="batch-email-${idx}" readonly class="w-full h-16 p-2 text-[11px] font-mono bg-neutral-50 border border-neutral-300 rounded resize-none select-all focus:outline-none">${emailString}</textarea>
+      </div>`;
   }).join('\n');
 
   return `<!DOCTYPE html>
@@ -118,7 +184,7 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
     <!-- Pestañas de Vista -->
     <div class="flex border-b border-neutral-300 gap-2 mb-4">
       <button onclick="switchTab('wa')" id="tab-wa" class="px-4 py-2 font-bold text-xs border-b-2 border-black text-black bg-white">
-        📱 WhatsApp VIP (${total} Clientes)
+        📱 WhatsApp VIP (${total} Clientes en Tandas Seguras)
       </button>
       <button onclick="switchTab('mail')" id="tab-mail" class="px-4 py-2 font-semibold text-xs text-neutral-500 hover:text-black bg-neutral-100">
         ✉️ Envíos de Email por Lotes Seguros (${validEmails.length} Correos)
@@ -127,29 +193,53 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
 
     <!-- SECCIÓN WHATSAPP VIP -->
     <div id="section-wa" class="space-y-4">
-      <div class="p-2.5 bg-amber-50 rounded border border-amber-200 text-amber-900 text-xs">
-        💡 <strong>Dinámica diaria:</strong> Podés hacer clic en <strong>"WhatsApp"</strong> para abrir el chat con el mensaje ya redactado, o en <strong>"Copiar"</strong> para copiar el número si necesitás agendarlo primero en el celular del local. La casilla de verificación te ayuda a marcar quiénes ya fueron contactadas.
+      
+      <!-- PROTOCOLO OBLIGATORIO ANTI-BANEO -->
+      <div class="p-3 bg-amber-50 rounded-lg border-2 border-amber-300 text-amber-950 text-xs space-y-2">
+        <div class="font-bold flex items-center gap-1.5 text-amber-900 text-xs uppercase tracking-wide">
+          <span>🛡️</span> PROTOCOLO OBLIGATORIO ANTI-BANEO DE WHATSAPP
+        </div>
+        <p class="leading-relaxed">
+          Para cuidar la línea de la sucursal y evitar restricciones automáticas de Meta, respetar estrictamente estas 3 reglas:
+        </p>
+        <ul class="list-disc pl-4 space-y-1 font-medium">
+          <li><strong>1. Mensaje Personalizado:</strong> El botón verde ya abre el chat saludando a la clienta por su nombre de pila. ¡Nunca enviar texto genérico masivo!</li>
+          <li><strong>2. Adjuntar la Imagen Oficial:</strong> Al abrirse el chat en WhatsApp, <strong>adjuntar siempre el flyer de la promo</strong> (Feed o Story) para que el mensaje sea visual y profesional.</li>
+          <li><strong>3. Envíos en 2 Tandas Diarias (Máx 15 a 20 por tanda):</strong> Enviar la primera tanda al mediodía y la segunda a la tarde. <strong>Hacer una pausa de 2 a 3 horas entre tandas</strong> y dejar pasar 30 a 60 segundos entre cada clienta.</li>
+        </ul>
       </div>
 
-      ${renderGroup('LUNES 19 DE OCTUBRE · GRUPO 1', 'Lunes', grupo1, 'g1')}
-      ${renderGroup('MARTES 20 DE OCTUBRE · GRUPO 2', 'Martes', grupo2, 'g2')}
-      ${renderGroup('MIÉRCOLES 21 DE OCTUBRE · GRUPO 3', 'Miércoles', grupo3, 'g3')}
+      <!-- DESCARGA RÁPIDA DE IMAGEN OFICIAL PARA ADJUNTAR -->
+      <div class="bg-neutral-50 p-2.5 rounded border border-neutral-200 flex items-center justify-between text-xs">
+        <span class="font-semibold text-neutral-800">📸 Flyer oficial para adjuntar:</span>
+        <div class="flex gap-2">
+          <a href="../flyers/feed_podium.png" download="Flyer_Promo_Nazaria_Feed.png" class="px-2.5 py-1 bg-neutral-900 hover:bg-black text-white font-bold rounded text-[11px] shadow-sm transition">
+            📥 Descargar Cuadrada (Feed)
+          </a>
+          <a href="../flyers/story_podium.png" download="Flyer_Promo_Nazaria_Story.png" class="px-2.5 py-1 bg-[#B89B7E] hover:bg-[#A28263] text-white font-bold rounded text-[11px] shadow-sm transition">
+            📥 Descargar Vertical (Story)
+          </a>
+        </div>
+      </div>
+
+      <!-- LISTA DE DÍAS Y TANDAS -->
+      ${daysHtml}
+
     </div>
 
-    <!-- SECCIÓN EMAILS POR LOTES SEGUROS (ANTI-SPAM) -->
-    <div id="section-mail" class="hidden space-y-4">
-      <div class="p-3 bg-blue-50 rounded-lg border border-blue-200 text-blue-900 text-xs space-y-1">
-        <div class="font-bold flex items-center gap-1.5 text-sm">
-          <span>🛡️</span> Protocolo Anti-Spam: Lotes de hasta 30 Destinatarios
+    <!-- SECCIÓN EMAILS EN LOTES SEGUROS -->
+    <div id="section-mail" class="space-y-4 hidden">
+      <div class="p-3 bg-blue-50 rounded border border-blue-200 text-blue-900 text-xs space-y-1">
+        <div class="font-bold flex items-center gap-1 text-xs">
+          <span>✉️</span> INSTRUCCIONES DE ENVÍO DE EMAIL ANTI-SPAM (CCO)
         </div>
-        <p class="text-[11px] leading-relaxed">
-          Para evitar bloqueos o que los correos caigan en SPAM/Promociones, <strong>la base está dividida en ${emailBatches.length} lotes pequeños</strong>.
-          <br>
-          <strong>Instrucciones:</strong> Copiá un lote, pegalo en el campo <strong>CCO (Copia Oculta)</strong> de tu webmail, pegá el asunto y cuerpo oficial, y envialo. Dejá pasar unos minutos entre cada lote.
-        </p>
+        <p>1. Abrir la cuenta de correo de la sucursal en Gmail / Webmail.</p>
+        <p>2. Copiar un lote seguro (máximo 30 emails por lote) y pegarlo en el campo <strong>CCO (Copia Oculta)</strong> para no filtrar los datos de las clientas.</p>
+        <p>3. En el Asunto colocar: <code class="bg-white px-1.5 py-0.5 rounded border border-blue-300 font-bold">¡Date el gusto vos! 💖 5% OFF Extra en Nazaria ${branchName}</code></p>
+        <p>4. Pegar el cuerpo del mensaje y adjuntar la imagen oficial.</p>
       </div>
 
-      <div class="space-y-3">
+      <div class="space-y-2">
         ${emailBatchesHtml}
       </div>
     </div>
@@ -157,66 +247,74 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
   </div>
 
   <script>
-    function switchTab(t) {
-      const wa = document.getElementById('section-wa');
-      const mail = document.getElementById('section-mail');
-      const tabWa = document.getElementById('tab-wa');
-      const tabMail = document.getElementById('tab-mail');
+    function switchTab(type) {
+      const waTab = document.getElementById('tab-wa');
+      const mailTab = document.getElementById('tab-mail');
+      const waSec = document.getElementById('section-wa');
+      const mailSec = document.getElementById('section-mail');
 
-      if (t === 'wa') {
-        wa.classList.remove('hidden');
-        mail.classList.add('hidden');
-        tabWa.className = "px-4 py-2 font-bold text-xs border-b-2 border-black text-black bg-white";
-        tabMail.className = "px-4 py-2 font-semibold text-xs text-neutral-500 hover:text-black bg-neutral-100";
+      if (type === 'wa') {
+        waTab.className = 'px-4 py-2 font-bold text-xs border-b-2 border-black text-black bg-white';
+        mailTab.className = 'px-4 py-2 font-semibold text-xs text-neutral-500 hover:text-black bg-neutral-100';
+        waSec.classList.remove('hidden');
+        mailSec.classList.add('hidden');
       } else {
-        wa.classList.add('hidden');
-        mail.classList.remove('hidden');
-        tabMail.className = "px-4 py-2 font-bold text-xs border-b-2 border-black text-black bg-white";
-        tabWa.className = "px-4 py-2 font-semibold text-xs text-neutral-500 hover:text-black bg-neutral-100";
+        mailTab.className = 'px-4 py-2 font-bold text-xs border-b-2 border-black text-black bg-white';
+        waTab.className = 'px-4 py-2 font-semibold text-xs text-neutral-500 hover:text-black bg-neutral-100';
+        mailSec.classList.remove('hidden');
+        waSec.classList.add('hidden');
       }
     }
 
-    function copyBatch(batchId) {
-      const el = document.getElementById(batchId);
-      el.select();
-      navigator.clipboard.writeText(el.value).then(() => {
-        alert('¡Lote de correos copiado con éxito! Pegalo en el campo CCO de tu correo.');
-      });
+    function saveCheckState(id) {
+      const chk = document.getElementById('chk-' + id);
+      if (chk) {
+        localStorage.setItem('nazaria_chk_' + id, chk.checked ? '1' : '0');
+      }
+    }
+
+    function markChecked(id) {
+      const chk = document.getElementById('chk-' + id);
+      if (chk) {
+        chk.checked = true;
+        saveCheckState(id);
+      }
     }
 
     function copyPhoneNumber(phone, btn) {
       navigator.clipboard.writeText(phone).then(() => {
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<span>✅</span> <span class=\"hidden md:inline\">Copiado</span>';
-        btn.classList.add('bg-emerald-50', 'text-emerald-700', 'border-emerald-300');
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<span>✅</span> <span class="hidden md:inline">¡Copiado!</span>';
+        btn.classList.add('bg-emerald-50', 'text-emerald-800', 'border-emerald-300');
         setTimeout(() => {
-          btn.innerHTML = originalText;
-          btn.classList.remove('bg-emerald-50', 'text-emerald-700', 'border-emerald-300');
-        }, 2000);
+          btn.innerHTML = orig;
+          btn.classList.remove('bg-emerald-50', 'text-emerald-800', 'border-emerald-300');
+        }, 1800);
       });
     }
 
-    function markChecked(key) {
-      const chk = document.getElementById('chk-' + key);
-      if (chk) {
-        chk.checked = true;
-        saveCheckState(key);
+    function copyToClipboard(elementId, btn) {
+      const el = document.getElementById(elementId);
+      if (el) {
+        navigator.clipboard.writeText(el.value || el.innerText).then(() => {
+          const orig = btn.innerHTML;
+          btn.innerHTML = '<span>✅</span> ¡Lote Copiado!';
+          btn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
+          setTimeout(() => {
+            btn.innerHTML = orig;
+            btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+          }, 2000);
+        });
       }
     }
 
-    function saveCheckState(key) {
-      const chk = document.getElementById('chk-' + key);
-      if (chk) {
-        localStorage.setItem('${storeKey}_chk_' + key, chk.checked ? '1' : '0');
-      }
-    }
-
-    // Cargar estados guardados
+    // Restaurar checkboxes guardados
     window.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('input[type="checkbox"]').forEach(chk => {
-        const key = chk.id.replace('chk-', '');
-        const saved = localStorage.getItem('${storeKey}_chk_' + key);
-        if (saved === '1') chk.checked = true;
+        const id = chk.id.replace('chk-', '');
+        if (localStorage.getItem('nazaria_chk_' + id) === '1') {
+          chk.checked = true;
+        }
       });
     });
   </script>
@@ -224,7 +322,12 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
 </html>`;
 }
 
-fs.writeFileSync('sops/p13_contactos_tom.html', buildHtmlPage('tom', 'Tortugas Open Mall (TOM)', 'TOM', tom), 'utf8');
-fs.writeFileSync('sops/p13_contactos_maschwitz.html', buildHtmlPage('masch', 'Maschwitz Mall', 'Maschwitz Mall', maschwitz), 'utf8');
+// Generar TOM
+const tomHtml = buildHtmlPage('tom', 'Tortugas Open Mall (TOM)', 'TOM', tom);
+fs.writeFileSync('sops/p13_contactos_tom.html', tomHtml, 'utf8');
+console.log('p13_contactos_tom.html actualizado.');
 
-console.log('Generadas con éxito las páginas de TOM y Maschwitz con botón Copiar Número independiente.');
+// Generar Maschwitz
+const maschwitzHtml = buildHtmlPage('maschwitz', 'Maschwitz Mall', 'Maschwitz Mall', maschwitz);
+fs.writeFileSync('sops/p13_contactos_maschwitz.html', maschwitzHtml, 'utf8');
+console.log('p13_contactos_maschwitz.html actualizado.');
