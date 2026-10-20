@@ -27,7 +27,7 @@ function generateWhatsAppLink(phone, firstName, branchName) {
 
 Te compartimos la imagen de nuestra promo especial de la semana: ¡Date el gusto vos! ✨
 
-Tenés un 5% OFF EXTRA acumulable en toda la Nueva Temporada SS26:
+Tenés un 5% OFF EXTRA acumulable en toda la Nueva Temporada SS27:
 • 25% OFF abonando en Efectivo (20% habitual + 5% extra).
 • 15% OFF abonando con Débito / QR.
 • 3 Cuotas sin Interés + 5% OFF directo con Crédito.
