@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const { tom, maschwitz } = JSON.parse(fs.readFileSync('data/contactos_campana_procesados.json', 'utf8'));
 
-// Limpieza mejorada del primer nombre
+// Limpieza de nombre
 function getCleanFirstName(fullName, fallbackFirst) {
   if (!fullName) return 'Hola';
   const clean = fullName.trim();
@@ -12,7 +12,6 @@ function getCleanFirstName(fullName, fallbackFirst) {
   }
   const parts = clean.split(/\s+/);
   if (parts.length === 1) return parts[0].charAt(0).toUpperCase() + parts[0].slice(1).toLowerCase();
-  // Si no tiene coma pero son 2 o 3 palabras
   const firstWord = parts[0].toLowerCase();
   const commonSurnames = ['aguiar', 'gonzalez', 'rodriguez', 'gomez', 'fernandez', 'lopez', 'diaz', 'perez', 'garcia', 'sanchez', 'romero', 'sosa', 'torres', 'alvarez', 'ruiz', 'ramirez', 'flores', 'benitez', 'acosta', 'medina', 'herrera', 'aguirre', 'gutierrez', 'castro'];
   if (commonSurnames.includes(firstWord) && parts.length > 1) {
@@ -22,7 +21,6 @@ function getCleanFirstName(fullName, fallbackFirst) {
 }
 
 function generateWhatsAppLink(phone, firstName, branchName) {
-  // Mensaje único oficial personalizado
   const text = `Hola ${firstName}, ¿cómo estás? Te escribimos de Nazaria ${branchName} 🌸
 
 Te compartimos la imagen de nuestra promo especial de la semana: ¡Date el gusto vos! ✨
@@ -40,7 +38,7 @@ Presentando este flyer en caja te lo aplicamos en el momento. ¡Avisanos si quer
 function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
   const total = clientList.length;
 
-  // Días de la semana: Lunes 19 al Viernes 23 de Octubre
+  // Días de la semana
   const days = [
     { name: 'Lunes 19 de Octubre', key: 'lun' },
     { name: 'Martes 20 de Octubre', key: 'mar' },
@@ -49,23 +47,31 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
     { name: 'Viernes 23 de Octubre', key: 'vie' }
   ];
 
-  // Dividir equitativamente en 5 días
+  // Configuración de las 4 tandas por día
+  const tandasConfig = [
+    { label: 'Tanda 1: Apertura / Mañana (11:00 hs)', icon: '☀️', key: 't1' },
+    { label: 'Tanda 2: Mediodía (13:30 hs)', icon: '🥪', key: 't2' },
+    { label: 'Tanda 3: Tarde / Merienda (16:30 hs)', icon: '☕', key: 't3' },
+    { label: 'Tanda 4: Atardecer / Cierre (19:00 hs)', icon: '🌙', key: 't4' }
+  ];
+
+  // Dividir clientList en 5 días
   const perDay = Math.ceil(total / 5);
   const dailyGroups = [];
   for (let d = 0; d < 5; d++) {
     const start = d * perDay;
     const end = Math.min(start + perDay, total);
     const dayClients = clientList.slice(start, end);
-    
-    // Dentro de cada día, dividir en Tanda Mañana y Tanda Tarde (máx 18-20 c/u)
-    const mid = Math.ceil(dayClients.length / 2);
-    const tandaManana = dayClients.slice(0, mid);
-    const tandaTarde = dayClients.slice(mid);
+
+    // Dividir los contactos del día en 4 tandas
+    const tandas = [[], [], [], []];
+    dayClients.forEach((c, idx) => {
+      tandas[idx % 4].push(c);
+    });
 
     dailyGroups.push({
       day: days[d],
-      tanda1: tandaManana,
-      tanda2: tandaTarde
+      tandas: tandas
     });
   }
 
@@ -102,7 +108,7 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
         </div>`;
   }
 
-  function renderTandaBlock(title, shiftLabel, icon, list, batchId) {
+  function renderTandaBlock(shiftLabel, icon, list, batchId) {
     const rows = list.map((c, i) => renderClientRow(c, i, batchId)).join('\n');
     return `
           <div class="bg-white border border-neutral-200 rounded p-2.5 space-y-1.5">
@@ -110,28 +116,30 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
               <span class="font-bold text-[11px] text-neutral-800 flex items-center gap-1">
                 <span>${icon}</span> ${shiftLabel}
               </span>
-              <span class="text-[10px] bg-neutral-100 px-2 py-0.5 rounded text-neutral-600 font-semibold border border-neutral-200">
-                ${list.length} contactos
+              <span class="text-[10px] bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded font-bold">
+                ${list.length} clientas
               </span>
             </div>
-            <div class="space-y-1 max-h-[300px] overflow-y-auto pr-1">
+            <div class="space-y-1 max-h-[260px] overflow-y-auto pr-1">
               ${rows}
             </div>
           </div>`;
   }
 
   const daysHtml = dailyGroups.map((g, idx) => {
-    const totalDay = g.tanda1.length + g.tanda2.length;
+    const totalDay = g.tandas.reduce((acc, t) => acc + t.length, 0);
     return `
       <!-- DÍA: ${g.day.name.toUpperCase()} -->
       <div class="border border-neutral-300 rounded-lg overflow-hidden shadow-sm mb-3">
         <div class="bg-neutral-800 text-white px-3.5 py-2 text-xs font-bold flex justify-between items-center">
           <span>📅 ${g.day.name.toUpperCase()}</span>
-          <span class="text-[10px] bg-white/20 px-2 py-0.5 rounded text-white font-semibold">${totalDay} contactos en 2 tandas</span>
+          <span class="text-[10px] bg-white/20 px-2 py-0.5 rounded text-white font-semibold">${totalDay} contactos en 4 micro-tandas</span>
         </div>
-        <div class="p-2.5 bg-neutral-100 grid grid-cols-1 md:grid-cols-2 gap-2.5">
-          ${renderTandaBlock(g.day.name, 'Tanda 1: Mañana / Mediodía (11:00 a 13:00 hs)', '☀️', g.tanda1, `${g.day.key}-t1`)}
-          ${renderTandaBlock(g.day.name, 'Tanda 2: Tarde / Cierre (16:30 a 19:00 hs)', '🌙', g.tanda2, `${g.day.key}-t2`)}
+        <div class="p-2.5 bg-neutral-100 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          ${renderTandaBlock(tandasConfig[0].label, tandasConfig[0].icon, g.tandas[0], `${g.day.key}-t1`)}
+          ${renderTandaBlock(tandasConfig[1].label, tandasConfig[1].icon, g.tandas[1], `${g.day.key}-t2`)}
+          ${renderTandaBlock(tandasConfig[2].label, tandasConfig[2].icon, g.tandas[2], `${g.day.key}-t3`)}
+          ${renderTandaBlock(tandasConfig[3].label, tandasConfig[3].icon, g.tandas[3], `${g.day.key}-t4`)}
         </div>
       </div>`;
   }).join('\n');
@@ -184,7 +192,7 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
     <!-- Pestañas de Vista -->
     <div class="flex border-b border-neutral-300 gap-2 mb-4">
       <button onclick="switchTab('wa')" id="tab-wa" class="px-4 py-2 font-bold text-xs border-b-2 border-black text-black bg-white">
-        📱 WhatsApp VIP (${total} Clientes en Tandas Seguras)
+        📱 WhatsApp VIP (${total} Clientes · 4 Tandas Diarias)
       </button>
       <button onclick="switchTab('mail')" id="tab-mail" class="px-4 py-2 font-semibold text-xs text-neutral-500 hover:text-black bg-neutral-100">
         ✉️ Envíos de Email por Lotes Seguros (${validEmails.length} Correos)
@@ -197,15 +205,21 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
       <!-- PROTOCOLO OBLIGATORIO ANTI-BANEO -->
       <div class="p-3 bg-amber-50 rounded-lg border-2 border-amber-300 text-amber-950 text-xs space-y-2">
         <div class="font-bold flex items-center gap-1.5 text-amber-900 text-xs uppercase tracking-wide">
-          <span>🛡️</span> PROTOCOLO OBLIGATORIO ANTI-BANEO DE WHATSAPP
+          <span>🛡️</span> PROTOCOLO OBLIGATORIO ANTI-BANEO (4 TANDAS DIARIAS)
         </div>
         <p class="leading-relaxed">
-          Para cuidar la línea de la sucursal y evitar restricciones automáticas de Meta, respetar estrictamente estas 3 reglas:
+          Para cuidar la línea de la sucursal y evitar bloqueos automáticos de Meta, <strong>el envío diario se divide en 4 micro-tandas de 15 a 19 clientas</strong>:
         </p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] font-semibold bg-white p-2 rounded border border-amber-200">
+          <div>☀️ <strong>11:00 hs:</strong> Tanda 1</div>
+          <div>🥪 <strong>13:30 hs:</strong> Tanda 2</div>
+          <div>☕ <strong>16:30 hs:</strong> Tanda 3</div>
+          <div>🌙 <strong>19:00 hs:</strong> Tanda 4</div>
+        </div>
         <ul class="list-disc pl-4 space-y-1 font-medium">
-          <li><strong>1. Mensaje Personalizado:</strong> El botón verde ya abre el chat saludando a la clienta por su nombre de pila. ¡Nunca enviar texto genérico masivo!</li>
-          <li><strong>2. Adjuntar la Imagen Oficial:</strong> Al abrirse el chat en WhatsApp, <strong>adjuntar siempre el flyer de la promo</strong> (Feed o Story) para que el mensaje sea visual y profesional.</li>
-          <li><strong>3. Envíos en 2 Tandas Diarias (Máx 15 a 20 por tanda):</strong> Enviar la primera tanda al mediodía y la segunda a la tarde. <strong>Hacer una pausa de 2 a 3 horas entre tandas</strong> y dejar pasar 30 a 60 segundos entre cada clienta.</li>
+          <li><strong>Mensaje Personalizado:</strong> El botón verde ya abre el chat saludando con el nombre de la clienta.</li>
+          <li><strong>Adjuntar Imagen Obligatoria:</strong> Al abrir el chat, adjuntar siempre el flyer oficial antes de presionar Enviar.</li>
+          <li><strong>Ritmo Humano:</strong> Dejar entre 30 y 60 segundos entre cada envío (nunca enviar en ráfaga continua).</li>
         </ul>
       </div>
 
@@ -321,7 +335,6 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
       }
     }
 
-    // Restaurar checkboxes guardados
     window.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('input[type="checkbox"]').forEach(chk => {
         const id = chk.id.replace('chk-', '');
@@ -338,9 +351,9 @@ function buildHtmlPage(storeKey, storeTitle, branchName, clientList) {
 // Generar TOM
 const tomHtml = buildHtmlPage('tom', 'Tortugas Open Mall (TOM)', 'TOM', tom);
 fs.writeFileSync('sops/p13_contactos_tom.html', tomHtml, 'utf8');
-console.log('p13_contactos_tom.html actualizado.');
+console.log('p13_contactos_tom.html actualizado con 4 tandas.');
 
 // Generar Maschwitz
 const maschwitzHtml = buildHtmlPage('maschwitz', 'Maschwitz Mall', 'Maschwitz Mall', maschwitz);
 fs.writeFileSync('sops/p13_contactos_maschwitz.html', maschwitzHtml, 'utf8');
-console.log('p13_contactos_maschwitz.html actualizado.');
+console.log('p13_contactos_maschwitz.html actualizado con 4 tandas.');
