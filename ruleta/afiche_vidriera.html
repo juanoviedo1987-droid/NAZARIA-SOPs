@@ -2,6 +2,9 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cartel de Vidriera · Ruleta Nazaria (Celular Protagónico)</title>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -166,16 +169,33 @@
         </div>
 
         <!-- Mini Ruleta 3D Decorativa -->
-        <div class="relative w-28 h-28 my-1 flex items-center justify-center">
-          <!-- Aro dorado -->
-          <div class="w-26 h-26 rounded-full border-3 border-[#C4A482] shadow-sm flex items-center justify-center bg-gradient-to-tr from-[#EADECE] via-white to-[#DECBC0]">
-            <!-- Centro abombado -->
-            <div class="w-7 h-7 rounded-full bg-[#8C6A48] border-2 border-white flex items-center justify-center shadow-inner">
-              <img src="nazaria_emblem.png" alt="NZ" class="h-3 w-auto invert brightness-200">
+        <div class="relative w-32 h-32 my-1 flex items-center justify-center">
+          <!-- Aro exterior Royal dorado -->
+          <div class="w-32 h-32 rounded-full p-2 bg-gradient-to-tr from-[#9E7A54] via-[#F7EFE5] to-[#C4A482] shadow-md flex items-center justify-center">
+            <!-- Gajos en abanico de 8 sectores -->
+            <div class="w-28 h-28 rounded-full shadow-inner flex items-center justify-center relative overflow-hidden"
+              style="background: conic-gradient(
+                #FFFFFF 0deg 45deg,
+                #DECBC0 45deg 90deg,
+                #FFFFFF 90deg 135deg,
+                #DECBC0 135deg 180deg,
+                #FFFFFF 180deg 225deg,
+                #DECBC0 225deg 270deg,
+                #FFFFFF 270deg 315deg,
+                #DECBC0 315deg 360deg
+              ); border: 2px solid #C4A482;">
+              <!-- Centro abombado con runa Nazaria -->
+              <div class="w-8 h-8 rounded-full bg-[#8C6A48] border-2 border-white flex items-center justify-center shadow-md z-10">
+                <img src="nazaria_emblem.png" alt="NZ" class="h-3.5 w-auto invert brightness-200">
+              </div>
             </div>
           </div>
-          <!-- Aguja superior -->
-          <div class="absolute -top-0.5 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[10px] border-t-amber-600"></div>
+          <!-- Aguja superior 3D -->
+          <div class="absolute -top-1 left-1/2 -translate-x-1/2 drop-shadow-md z-20">
+            <svg width="20" height="24" viewBox="0 0 20 24" fill="none">
+              <path d="M10 23L2 5C1 3 2.5 1 5 1H15C17.5 1 19 3 18 5L10 23Z" fill="#B8860B" stroke="#FFF" stroke-width="1.5"/>
+            </svg>
+          </div>
         </div>
 
         <!-- CÓDIGO QR BOUTIQUE CENTRAL DENTRO DEL TELÉFONO -->
