@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Ruleta de Premios · Nazaria Zapatos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background-color: #141416;
+      color: #FAF9F6;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .font-brand {
+      font-family: 'Cinzel', Georgia, serif;
+    }
+    .bg-nazaria-card {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+      border: 1px solid rgba(229, 213, 195, 0.2);
+      backdrop-filter: blur(12px);
+    }
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #F3E7D7 0%, #D8BE9E 50%, #B89B7E 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .gold-button {
+      background: linear-gradient(135deg, #E5D5C3 0%, #C4A482 100%);
+      color: #141416;
+      box-shadow: 0 4px 20px rgba(196, 164, 130, 0.35);
+    }
+    .gold-button:active {
+      transform: scale(0.97);
+    }
+    /* Estilos Ruleta */
+    #wheel-canvas {
+      filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.65));
+      transition: transform 6s cubic-bezier(0.12, 0.8, 0.2, 1);
+    }
+    .ticker-needle {
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.7));
+    }
+    /* Pulsación suave para el temporizador */
+    @keyframes timerPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.85; transform: scale(1.02); }
+    }
+    .timer-glow {
+      animation: timerPulse 2s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between p-3 sm:p-5 max-w-md mx-auto selection:bg-[#E5D5C3] selection:text-black">
+
+  <!-- CABECERA DE MARCA -->
+  <header class="text-center pt-2 pb-1">
+    <div class="inline-block px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] tracking-[0.25em] uppercase text-[#E5D5C3] mb-1 font-semibold">
+      EXPERIENCIA EN TIENDA
+    </div>
+    <h1 class="font-brand text-2xl sm:text-3xl font-extrabold tracking-widest gold-gradient-text">
+      NAZARIA
+    </h1>
+    <p class="text-[11px] text-neutral-400 tracking-wide mt-0.5">
+      Girá la ruleta y descubrí tu beneficio exclusivo de hoy
+    </p>
+  </header>
+
+  <!-- CONTENEDOR PRINCIPAL INTERACTIVO -->
+  <main class="flex-1 flex flex-col justify-center my-auto py-2">
+
+    <!-- PANTALLA 1: INGRESO RÁPIDO (CERO FRICCIÓN) -->
+    <div id="screen-input" class="bg-nazaria-card rounded-2xl p-5 shadow-2xl space-y-4">
+      <div class="text-center space-y-1">
+        <div class="text-3xl">✨</div>
+        <h2 class="font-brand text-lg font-bold text-white tracking-wide">¿A quién tenemos el gusto de premiar?</h2>
+        <p class="text-xs text-neutral-400">Ingresá tu nombre o apodo para activar tu giro de hoy:</p>
+      </div>
+
+      <div class="space-y-3 pt-1">
+        <div>
+          <label class="block text-[11px] font-semibold text-[#E5D5C3] uppercase tracking-wider mb-1">Tu Nombre o Apodo</label>
+          <input type="text" id="user-name-input" placeholder="Ej: Sofía, Pau, Flor..." maxlength="25" autocomplete="given-name"
+            class="w-full bg-black/40 border border-[#E5D5C3]/30 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-[#E5D5C3] focus:ring-1 focus:ring-[#E5D5C3] transition text-center font-medium">
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-semibold text-[#E5D5C3] uppercase tracking-wider mb-1">¿En qué sucursal estás?</label>
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" onclick="selectStore('TOM')" id="btn-store-tom"
+              class="py-2.5 px-3 rounded-xl border border-white/15 bg-white/5 text-xs font-semibold text-neutral-300 hover:border-[#E5D5C3] transition text-center">
+              🛍️ Tortugas (TOM)
+            </button>
+            <button type="button" onclick="selectStore('MASCHWITZ')" id="btn-store-masch"
+              class="py-2.5 px-3 rounded-xl border border-white/15 bg-white/5 text-xs font-semibold text-neutral-300 hover:border-[#E5D5C3] transition text-center">
+              🌿 Maschwitz Mall
+            </button>
+          </div>
+        </div>
+
+        <button type="button" onclick="goToWheel()"
+          class="w-full py-3.5 mt-2 rounded-xl gold-button font-bold text-xs uppercase tracking-widest transition flex items-center justify-center gap-2">
+          <span>🎰</span> Continuar a la Ruleta
+        </button>
+      </div>
+
+      <p class="text-[10px] text-center text-neutral-400 pt-1">
+        🔒 Válido para 1 giro por persona hoy. Premios aplicables al instante en caja.
+      </p>
+    </div>
+
+    <!-- PANTALLA 2: LA RULETA GIRATORIA -->
+    <div id="screen-wheel" class="hidden flex flex-col items-center justify-center space-y-3">
+      
+      <!-- Mensaje personalizado -->
+      <div class="text-center">
+        <span class="text-xs text-neutral-400">Jugando:</span>
+        <span id="player-display-name" class="text-sm font-bold text-[#E5D5C3] ml-1 font-brand"></span>
+      </div>
+
+      <!-- Contenedor Visual de la Ruleta -->
+      <div class="relative w-[310px] h-[310px] sm:w-[330px] sm:h-[330px] flex items-center justify-center">
+        
+        <!-- Aguja Marcadora Superior -->
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2 z-20 ticker-needle">
+          <svg width="34" height="42" viewBox="0 0 34 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 40L3 10C1.5 7 3.5 2 7 2H27C30.5 2 32.5 7 31 10L17 40Z" fill="#E5D5C3" stroke="#141416" stroke-width="2"/>
+            <circle cx="17" cy="12" r="5" fill="#141416"/>
+          </svg>
+        </div>
+
+        <!-- Canvas de la Ruleta -->
+        <canvas id="wheel-canvas" width="600" height="600" class="w-full h-full rounded-full"></canvas>
+
+        <!-- Botón Central / Centro Dorado -->
+        <div class="absolute z-10 w-16 h-16 rounded-full bg-gradient-to-tr from-[#141416] via-[#2A2A2E] to-[#141416] border-2 border-[#E5D5C3] shadow-lg flex items-center justify-center pointer-events-none">
+          <span class="font-brand text-[11px] font-bold text-[#E5D5C3] tracking-widest text-center leading-tight">
+            NZ<br><span class="text-[8px] tracking-normal text-white/70">SPIN</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Botón de Giro -->
+      <div class="w-full max-w-[280px] pt-2">
+        <button id="spin-button" onclick="spinWheel()"
+          class="w-full py-3.5 rounded-xl gold-button font-bold text-xs uppercase tracking-widest transition flex items-center justify-center gap-2">
+          <span>💫</span> ¡GIRAR RULETA AHORA!
+        </button>
+      </div>
+
+      <div class="text-[10px] text-neutral-400 text-center flex items-center justify-center gap-1">
+        <span>🍀</span> Todos los giros tienen premio garantizado
+      </div>
+    </div>
+
+    <!-- PANTALLA 3: CUPÓN GANADOR & CUENTA REGRESIVA -->
+    <div id="screen-prize" class="hidden bg-nazaria-card rounded-2xl p-5 shadow-2xl space-y-4 border border-[#E5D5C3]/40">
+      
+      <div class="text-center space-y-1">
+        <div class="inline-block px-3 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold uppercase tracking-widest">
+          ¡Premio Ganador! 🎉
+        </div>
+        <h2 class="font-brand text-xl font-extrabold text-white">¡Felicitaciones, <span id="winner-name" class="text-[#E5D5C3]"></span>!</h2>
+        <p class="text-xs text-neutral-300">Te ganaste un beneficio exclusivo para estrenar hoy:</p>
+      </div>
+
+      <!-- Tarjeta del Premio -->
+      <div class="bg-gradient-to-br from-[#262422] to-[#171615] p-4 rounded-xl border border-[#E5D5C3]/40 text-center space-y-2 shadow-inner">
+        <div class="text-xs text-[#E5D5C3] uppercase tracking-wider font-semibold">Tu Premio Obtenido:</div>
+        <div id="prize-title" class="font-brand text-lg sm:text-xl font-bold text-white leading-tight"></div>
+        <div id="prize-condition" class="text-[11px] text-amber-200/90 font-medium bg-black/40 py-1 px-2.5 rounded-lg inline-block border border-amber-300/20"></div>
+      </div>
+
+      <!-- Reloj Regresivo de 2 Horas -->
+      <div class="bg-black/50 p-3 rounded-xl border border-white/10 text-center space-y-1 timer-glow">
+        <div class="text-[10px] uppercase font-bold text-neutral-400 tracking-wider">Vence hoy en el local en:</div>
+        <div id="countdown-timer" class="font-mono text-2xl font-extrabold text-amber-300 tracking-widest">02:00:00</div>
+        <div class="text-[10px] text-neutral-400">Mostrá esta pantalla en caja antes de que finalice el tiempo</div>
+      </div>
+
+      <!-- Código Único de Cupón -->
+      <div class="flex items-center justify-between p-2.5 bg-white/5 rounded-xl border border-white/10 text-xs">
+        <span class="text-neutral-400 font-medium">Código de Canje:</span>
+        <span id="coupon-code" class="font-mono font-bold text-sm bg-black/60 text-[#E5D5C3] px-2.5 py-1 rounded border border-[#E5D5C3]/30"></span>
+      </div>
+
+      <!-- Botón de Canje de la Vendedora -->
+      <div class="pt-1">
+        <button id="redeem-button" onclick="confirmRedeem()"
+          class="w-full py-3 rounded-xl bg-white/10 hover:bg-white/20 text-neutral-200 border border-white/20 text-[11px] font-bold tracking-wider uppercase transition">
+          🔒 Botón exclusivo para la vendedora en caja: Validar Canje
+        </button>
+      </div>
+
+      <!-- Indicaciones al cliente -->
+      <div class="p-2.5 bg-white/5 rounded-lg text-[10px] text-neutral-400 text-center leading-relaxed">
+        Acercate al mostrador de <strong>Nazaria <span id="winner-store"></span></strong> con tu calzado elegido y presentá esta pantalla para activar tu beneficio.
+      </div>
+    </div>
+
+    <!-- PANTALLA 4: CANJEADO CON ÉXITO -->
+    <div id="screen-redeemed" class="hidden bg-nazaria-card rounded-2xl p-6 shadow-2xl text-center space-y-4 border border-emerald-500/30">
+      <div class="w-16 h-16 mx-auto rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center text-3xl">
+        ✅
+      </div>
+      <div class="space-y-1">
+        <h2 class="font-brand text-xl font-bold text-white">¡Cupón Canjeado con Éxito!</h2>
+        <p class="text-xs text-neutral-300">El descuento fue aplicado en tu compra.</p>
+      </div>
+      <div class="p-3 bg-black/40 rounded-xl border border-white/10 text-xs text-neutral-300 space-y-1">
+        <div>Clienta: <strong id="redeemed-name" class="text-white"></strong></div>
+        <div>Código: <strong id="redeemed-code" class="font-mono text-[#E5D5C3]"></strong></div>
+        <div>Fecha y hora: <span id="redeemed-time" class="text-neutral-400 font-mono"></span></div>
+      </div>
+      <p class="text-[11px] text-[#E5D5C3] font-brand tracking-wide">
+        ¡Gracias por elegir Nazaria Zapatos! 🌸
+      </p>
+    </div>
+
+  </main>
+
+  <!-- PIE DE PÁGINA -->
+  <footer class="text-center py-2 text-[10px] text-neutral-400 border-t border-white/10">
+    Nazaria Zapatos · Tortugas Open Mall & Maschwitz Mall
+  </footer>
+
+  <script>
+    // -------------------------------------------------------------
+    // POOL MAESTRO DE PREMIOS Y ASIGNACIÓN DE 8 GAJOS
+    // -------------------------------------------------------------
+    let selectedStore = 'TOM';
+
+    // Lista de premios disponibles adaptados a la matriz de precios
+    const PRIZE_POOL_TOM = [
+      { id: 'p1', title: '$5.000 de Regalo', condition: 'En compras mayores a $80.000 en temporada nueva', color: '#1E1D1B', textColor: '#F3E7D7' },
+      { id: 'p2', title: '25% OFF Efectivo', condition: '20% habitual + 5% extra en temporada nueva', color: '#2B2621', textColor: '#E5D5C3' },
+      { id: 'p3', title: '$10.000 de Regalo', condition: 'En compras mayores a $130.000 en temporada nueva', color: '#1E1D1B', textColor: '#F3E7D7' },
+      { id: 'p4', title: '3 Cuotas + 5% OFF', condition: 'Sin interés con crédito bancario en temporada nueva', color: '#2B2621', textColor: '#E5D5C3' },
+      { id: 'p5', title: '20% OFF en 2da Unidad', condition: 'En el par de menor valor de temporada nueva', color: '#1E1D1B', textColor: '#F3E7D7' },
+      { id: 'p6', title: '15% OFF Débito / QR', condition: '10% habitual + 5% extra en temporada nueva', color: '#2B2621', textColor: '#E5D5C3' },
+      { id: 'p7', title: '$15.000 de Regalo', condition: 'En compras mayores a $180.000 en temporada nueva', color: '#1E1D1B', textColor: '#F3E7D7' },
+      { id: 'p8', title: '5% OFF EXTRA Directo', condition: 'Acumulable con todas las formas de pago', color: '#2B2621', textColor: '#E5D5C3' }
+    ];
+
+    const PRIZE_POOL_MASCHWITZ = [
+      { id: 'p1', title: '$5.000 de Regalo', condition: 'En compras mayores a $80.000 en temporada nueva', color: '#1E1D1B', textColor: '#F3E7D7' },
+      { id: 'p2', title: '25% OFF Efectivo', condition: '20% habitual + 5% extra en temporada nueva', color: '#2B2621', textColor: '#E5D5C3' },
+      { id: 'p3', title: '$10.000 de Regalo', condition: 'En compras mayores a $130.000 en temporada nueva', color: '#1E1D1B', textColor: '#F3E7D7' },
+      { id: 'p4', title: '6 Cuotas Galicia Nave', condition: 'Sin interés con Galicia Visa/Mastercard (Exclusivo Jueves)', color: '#2B2621', textColor: '#E5D5C3' },
+      { id: 'p5', title: '20% OFF en 2da Unidad', condition: 'En el par de menor valor de temporada nueva', color: '#1E1D1B', textColor: '#F3E7D7' },
+      { id: 'p6', title: '15% OFF Débito / QR', condition: '10% habitual + 5% extra en temporada nueva', color: '#2B2621', textColor: '#E5D5C3' },
+      { id: 'p7', title: '$15.000 de Regalo', condition: 'En compras mayores a $180.000 en temporada nueva', color: '#1E1D1B', textColor: '#F3E7D7' },
+      { id: 'p8', title: '5% OFF EXTRA Directo', condition: 'Acumulable con todas las formas de pago', color: '#2B2621', textColor: '#E5D5C3' }
+    ];
+
+    let currentSlices = PRIZE_POOL_TOM;
+    let playerName = '';
+    let hasSpun = false;
+    let timerInterval = null;
+
+    // Verificar si ya giró hoy (Anti-fraude básico de cookie local)
+    window.addEventListener('DOMContentLoaded', () => {
+      checkExistingPrize();
+      selectStore('TOM');
+    });
+
+    function selectStore(store) {
+      selectedStore = store;
+      const btnTom = document.getElementById('btn-store-tom');
+      const btnMasch = document.getElementById('btn-store-masch');
+      if (store === 'TOM') {
+        btnTom.className = 'py-2.5 px-3 rounded-xl border border-[#E5D5C3] bg-[#E5D5C3]/20 text-xs font-bold text-white text-center shadow-sm';
+        btnMasch.className = 'py-2.5 px-3 rounded-xl border border-white/15 bg-white/5 text-xs font-semibold text-neutral-300 hover:border-[#E5D5C3] transition text-center';
+        currentSlices = PRIZE_POOL_TOM;
+      } else {
+        btnMasch.className = 'py-2.5 px-3 rounded-xl border border-[#E5D5C3] bg-[#E5D5C3]/20 text-xs font-bold text-white text-center shadow-sm';
+        btnTom.className = 'py-2.5 px-3 rounded-xl border border-white/15 bg-white/5 text-xs font-semibold text-neutral-300 hover:border-[#E5D5C3] transition text-center';
+        currentSlices = PRIZE_POOL_MASCHWITZ;
+      }
+      drawWheel();
+    }
+
+    function goToWheel() {
+      const input = document.getElementById('user-name-input');
+      const name = input.value.trim();
+      if (!name) {
+        alert('Por favor ingresá tu nombre o apodo para jugar.');
+        input.focus();
+        return;
+      }
+      playerName = name.charAt(0).toUpperCase() + name.slice(1);
+      document.getElementById('player-display-name').innerText = playerName;
+      document.getElementById('screen-input').classList.add('hidden');
+      document.getElementById('screen-wheel').classList.remove('hidden');
+      drawWheel();
+    }
+
+    // -------------------------------------------------------------
+    // DIBUJO DEL CANVAS DE LA RULETA (8 GAJOS EXACTOS)
+    // -------------------------------------------------------------
+    function drawWheel() {
+      const canvas = document.getElementById('wheel-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const numSlices = currentSlices.length;
+      const arc = (2 * Math.PI) / numSlices;
+      const radius = canvas.width / 2;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < numSlices; i++) {
+        const angle = i * arc;
+        const slice = currentSlices[i];
+
+        // Dibujar el gajo
+        ctx.beginPath();
+        ctx.fillStyle = slice.color;
+        ctx.moveTo(radius, radius);
+        ctx.arc(radius, radius, radius - 8, angle, angle + arc);
+        ctx.lineTo(radius, radius);
+        ctx.fill();
+
+        // Borde dorado fino entre gajos
+        ctx.strokeStyle = 'rgba(229, 213, 195, 0.4)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Texto del gajo
+        ctx.save();
+        ctx.translate(radius, radius);
+        ctx.rotate(angle + arc / 2);
+        ctx.textAlign = 'right';
+        ctx.fillStyle = slice.textColor;
+        ctx.font = 'bold 22px Inter, sans-serif';
+        
+        // Ajustar posición del texto en el gajo
+        ctx.fillText(slice.title, radius - 45, 8);
+        ctx.restore();
+      }
+
+      // Anillo dorado exterior
+      ctx.beginPath();
+      ctx.arc(radius, radius, radius - 8, 0, 2 * Math.PI);
+      ctx.strokeStyle = '#E5D5C3';
+      ctx.lineWidth = 8;
+      ctx.stroke();
+    }
+
+    // -------------------------------------------------------------
+    // ANIMACIÓN DE GIRO DE LA RULETA
+    // -------------------------------------------------------------
+    function spinWheel() {
+      if (hasSpun) return;
+      hasSpun = true;
+      const spinBtn = document.getElementById('spin-button');
+      spinBtn.disabled = true;
+      spinBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+      const numSlices = currentSlices.length;
+      const sliceDeg = 360 / numSlices;
+
+      // Elegir un índice aleatorio (probabilidad equilibrada)
+      const winningIndex = Math.floor(Math.random() * numSlices);
+      const prize = currentSlices[winningIndex];
+
+      // La aguja está fija arriba (a 270 grados en canvas estándar)
+      // Calculamos las vueltas (entre 5 y 7 vueltas completas) + ángulo justo
+      const baseRounds = 360 * 6; // 6 giros completos
+      const prizeAngleTarget = 270 - (winningIndex * sliceDeg + sliceDeg / 2);
+      const totalRotation = baseRounds + (prizeAngleTarget % 360) + (Math.random() * 8 - 4); // leve variación orgánica
+
+      const canvas = document.getElementById('wheel-canvas');
+      canvas.style.transform = `rotate(${totalRotation}deg)`;
+
+      // Sonido de giro mediante Web Audio API sintetizado (sencillo y sin cargar mp3 pesados)
+      playSpinSound();
+
+      // Cuando termina el giro (6 segundos)
+      setTimeout(() => {
+        triggerConfetti();
+        showPrize(prize);
+      }, 6200);
+    }
+
+    function playSpinSound() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        for (let i = 0; i < 30; i++) {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(600 - (i * 12), audioCtx.currentTime + (i * 0.18));
+          gain.gain.setValueAtTime(0.08, audioCtx.currentTime + (i * 0.18));
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (i * 0.18) + 0.05);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(audioCtx.currentTime + (i * 0.18));
+          osc.stop(audioCtx.currentTime + (i * 0.18) + 0.06);
+        }
+      } catch (e) {
+        // En caso de bloqueo de audio del navegador, continúa normalmente
+      }
+    }
+
+    function triggerConfetti() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 120,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#E5D5C3', '#C4A482', '#FFFFFF', '#F59E0B']
+        });
+      }
+    }
+
+    // -------------------------------------------------------------
+    // PANTALLA DE PREMIO Y TEMPORIZADOR
+    // -------------------------------------------------------------
+    function showPrize(prize) {
+      document.getElementById('screen-wheel').classList.add('hidden');
+      document.getElementById('screen-prize').classList.remove('hidden');
+
+      const randomCode = 'NZ-' + Math.floor(1000 + Math.random() * 9000);
+      const expireTime = Date.now() + 2 * 60 * 60 * 1000; // 2 horas exactas
+
+      document.getElementById('winner-name').innerText = playerName;
+      document.getElementById('prize-title').innerText = prize.title;
+      document.getElementById('prize-condition').innerText = prize.condition;
+      document.getElementById('coupon-code').innerText = randomCode;
+      document.getElementById('winner-store').innerText = (selectedStore === 'TOM') ? 'Tortugas Open Mall' : 'Maschwitz Mall';
+
+      // Guardar en localStorage para persistencia y anti-fraude
+      const savedData = {
+        name: playerName,
+        prizeTitle: prize.title,
+        prizeCondition: prize.condition,
+        couponCode: randomCode,
+        expireTime: expireTime,
+        store: selectedStore,
+        redeemed: false
+      };
+      localStorage.setItem('nazaria_active_coupon', JSON.stringify(savedData));
+
+      startCountdown(expireTime);
+    }
+
+    function startCountdown(expireTime) {
+      if (timerInterval) clearInterval(timerInterval);
+
+      function update() {
+        const now = Date.now();
+        const diff = expireTime - now;
+
+        if (diff <= 0) {
+          clearInterval(timerInterval);
+          document.getElementById('countdown-timer').innerText = "VENCIDO";
+          document.getElementById('countdown-timer').classList.add('text-red-500');
+          document.getElementById('redeem-button').disabled = true;
+          document.getElementById('redeem-button').innerText = "CUPÓN EXPIRADO";
+          return;
+        }
+
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        const pad = (n) => String(n).padStart(2, '0');
+        document.getElementById('countdown-timer').innerText = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+      }
+
+      update();
+      timerInterval = setInterval(update, 1000);
+    }
+
+    function confirmRedeem() {
+      const confirmAction = confirm("¿Confirmás la validación y canje de este cupón en caja?");
+      if (!confirmAction) return;
+
+      const raw = localStorage.getItem('nazaria_active_coupon');
+      if (raw) {
+        const data = JSON.parse(raw);
+        data.redeemed = true;
+        data.redeemedAt = new Date().toLocaleString('es-AR');
+        localStorage.setItem('nazaria_active_coupon', JSON.stringify(data));
+
+        document.getElementById('screen-prize').classList.add('hidden');
+        document.getElementById('screen-redeemed').classList.remove('hidden');
+
+        document.getElementById('redeemed-name').innerText = data.name;
+        document.getElementById('redeemed-code').innerText = data.couponCode;
+        document.getElementById('redeemed-time').innerText = data.redeemedAt;
+      }
+    }
+
+    function checkExistingPrize() {
+      const raw = localStorage.getItem('nazaria_active_coupon');
+      if (!raw) return;
+
+      try {
+        const data = JSON.parse(raw);
+        if (data.redeemed) {
+          document.getElementById('screen-input').classList.add('hidden');
+          document.getElementById('screen-redeemed').classList.remove('hidden');
+          document.getElementById('redeemed-name').innerText = data.name;
+          document.getElementById('redeemed-code').innerText = data.couponCode;
+          document.getElementById('redeemed-time').innerText = data.redeemedAt || 'Hoy';
+          return;
+        }
+
+        if (data.expireTime && data.expireTime > Date.now()) {
+          // Cupón aún válido: mostrar directamente el cupón con su reloj
+          playerName = data.name;
+          selectedStore = data.store || 'TOM';
+          document.getElementById('screen-input').classList.add('hidden');
+          document.getElementById('screen-prize').classList.remove('hidden');
+
+          document.getElementById('winner-name').innerText = data.name;
+          document.getElementById('prize-title').innerText = data.prizeTitle;
+          document.getElementById('prize-condition').innerText = data.prizeCondition;
+          document.getElementById('coupon-code').innerText = data.couponCode;
+          document.getElementById('winner-store').innerText = (selectedStore === 'TOM') ? 'Tortugas Open Mall' : 'Maschwitz Mall';
+
+          startCountdown(data.expireTime);
+        }
+      } catch (e) {
+        localStorage.removeItem('nazaria_active_coupon');
+      }
+    }
+  </script>
+</body>
+</html>
