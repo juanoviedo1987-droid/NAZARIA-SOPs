@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cartel de Vidriera · Ruleta Nazaria</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    @page { size: A4 portrait; margin: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #EFE9E2;
+      color: #1A1A1A;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .font-brand { font-family: 'Cinzel', Georgia, serif; }
+
+    /* Marco gráfico con proporción A4 (210mm x 297mm) */
+    .poster-canvas {
+      width: 794px;
+      height: 1123px;
+      background: radial-gradient(circle at 50% 15%, #FFFFFF 0%, #FAF8F5 50%, #ECE3D8 100%);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 48px 52px;
+      box-sizing: border-box;
+    }
+
+    /* Filete perimetral dorado boutique */
+    .outer-border {
+      position: absolute;
+      inset: 20px;
+      border: 2px solid #D4C6B6;
+      border-radius: 24px;
+      pointer-events: none;
+    }
+    .inner-border {
+      position: absolute;
+      inset: 26px;
+      border: 1px solid rgba(196, 164, 130, 0.45);
+      border-radius: 18px;
+      pointer-events: none;
+    }
+
+    /* Marco dorado del QR */
+    .qr-frame {
+      background: #FFFFFF;
+      padding: 18px;
+      border-radius: 32px;
+      border: 3px solid #C4A482;
+      box-shadow: 
+        0 20px 45px rgba(158, 122, 84, 0.25),
+        0 6px 16px rgba(0, 0, 0, 0.08);
+      position: relative;
+    }
+
+    .title-shadow {
+      text-shadow: 0 2px 0 #D4C6B6, 0 4px 14px rgba(184, 155, 126, 0.4);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="poster-canvas">
+    
+    <!-- Marcos decorativos arquitectónicos -->
+    <div class="outer-border"></div>
+    <div class="inner-border"></div>
+
+    <!-- CABECERA: LOGO OFICIAL & EPÍGRAFE -->
+    <div class="text-center pt-2 z-10 space-y-3">
+      <div class="flex justify-center items-center">
+        <img src="logo_nazaria_pure_transparent.png" alt="Nazaria Zapatos" class="h-14 w-auto object-contain">
+      </div>
+      <div class="inline-block px-4 py-1 rounded-full bg-[#1A1A1A] text-white text-[11px] font-extrabold tracking-widest uppercase shadow-sm">
+        BENEFICIO EXCLUSIVO EN VIDRIERA
+      </div>
+    </div>
+
+    <!-- CUERPO PRINCIPAL: TÍTULO + QR PROTAGONISTA -->
+    <div class="text-center z-10 space-y-5 my-auto">
+      
+      <div class="space-y-1.5">
+        <h1 class="font-brand text-5xl font-black tracking-wider text-[#1A1A1A] title-shadow uppercase leading-tight">
+          ¡GIRÁ Y GANÁ!
+        </h1>
+        <p class="text-base font-bold text-neutral-600 max-w-md mx-auto">
+          Descubrí tu beneficio de temporada antes de entrar al local
+        </p>
+      </div>
+
+      <!-- QR CODE BOUTIQUE CENTRAL -->
+      <div class="flex justify-center my-3">
+        <div class="qr-frame inline-block">
+          <img src="qr_nazaria_oficial.png" alt="Escanear QR Ruleta" class="w-64 h-64 object-contain rounded-2xl">
+          <div class="mt-2.5 pt-2 border-t border-neutral-100 flex items-center justify-center gap-2">
+            <span class="text-xs">📸</span>
+            <span class="text-xs font-black uppercase tracking-wider text-neutral-800">
+              Escaneá con la cámara de tu celular
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 PASOS SIMPLES -->
+      <div class="grid grid-cols-3 gap-3 max-w-lg mx-auto pt-1 text-left">
+        
+        <div class="bg-white/80 backdrop-blur-sm p-3 rounded-2xl border border-[#D4C6B6]/80 shadow-2xs">
+          <div class="text-base font-black text-[#A88665]">1. ESCANEÁ</div>
+          <div class="text-[11px] text-neutral-600 font-semibold mt-0.5 leading-snug">
+            Apuntá tu cámara al código QR.
+          </div>
+        </div>
+
+        <div class="bg-white/80 backdrop-blur-sm p-3 rounded-2xl border border-[#D4C6B6]/80 shadow-2xs">
+          <div class="text-base font-black text-[#A88665]">2. GIRÁ</div>
+          <div class="text-[11px] text-neutral-600 font-semibold mt-0.5 leading-snug">
+            Girá la ruleta. ¡100% tienen premio!
+          </div>
+        </div>
+
+        <div class="bg-white/80 backdrop-blur-sm p-3 rounded-2xl border border-[#D4C6B6]/80 shadow-2xs">
+          <div class="text-base font-black text-[#A88665]">3. CANJEÁ</div>
+          <div class="text-[11px] text-neutral-600 font-semibold mt-0.5 leading-snug">
+            Mostrá tu pantalla en caja al pagar.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- PIE DEL CARTEL: LOCALES AUTORIZADOS & CONDICIONES -->
+    <div class="text-center z-10 pt-2 border-t border-[#D4C6B6]/60 space-y-2">
+      <div class="flex items-center justify-center gap-6">
+        <div class="flex items-center gap-2">
+          <img src="tom_badge.png" alt="Tortugas Open Mall" class="h-7 w-auto object-contain">
+          <span class="text-xs font-bold text-neutral-800">Tortugas Open Mall</span>
+        </div>
+        <span class="text-neutral-300 font-bold">•</span>
+        <div class="flex items-center gap-2">
+          <img src="maschwitz_badge.png" alt="Maschwitz Mall" class="h-7 w-auto object-contain">
+          <span class="text-xs font-bold text-neutral-800">Maschwitz Mall</span>
+        </div>
+      </div>
+      <p class="text-[10px] text-neutral-400 font-medium">
+        Promoción válida únicamente para compras presenciales en locales adheridos · Verano 2027
+      </p>
+    </div>
+
+  </div>
+
+</body>
+</html>
