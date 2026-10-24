@@ -13,7 +13,7 @@
   <style>
     body {
       font-family: 'Inter', -apple-system, sans-serif;
-      background-color: #FAF9F6;
+      background-color: #FAF9F8;
       color: #1A1A1A;
       -webkit-tap-highlight-color: transparent;
     }
@@ -22,28 +22,28 @@
     }
     .bg-nazaria-card {
       background: #FFFFFF;
-      border: 1px solid #E6D5C3;
-      box-shadow: 0 10px 30px -5px rgba(184, 155, 126, 0.15);
+      border: 1px solid #D4C6B6;
+      box-shadow: 0 12px 35px -8px rgba(184, 155, 126, 0.22);
     }
     .nazaria-pill {
-      background-color: #E6D5C3;
+      background-color: #D4C6B6;
       color: #1A1A1A;
     }
     .gold-button {
       background: linear-gradient(135deg, #2A2A2A 0%, #141416 100%);
-      color: #FAF9F6;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      color: #FAF9F8;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
     }
     .gold-button:active {
       transform: scale(0.98);
     }
     /* Estilos Ruleta */
     #wheel-canvas {
-      filter: drop-shadow(0 8px 24px rgba(184, 155, 126, 0.35));
-      transition: transform 6s cubic-bezier(0.12, 0.8, 0.2, 1);
+      filter: drop-shadow(0 10px 28px rgba(184, 155, 126, 0.38));
+      transition: transform 9s cubic-bezier(0.12, 0.9, 0.18, 1);
     }
     .ticker-needle {
-      filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3));
+      filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.35));
     }
     /* Pulsación del temporizador */
     @keyframes timerPulse {
@@ -55,21 +55,19 @@
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between p-3 sm:p-5 max-w-md mx-auto selection:bg-[#E6D5C3] selection:text-black">
+<body class="min-h-screen flex flex-col justify-between p-3 sm:p-5 max-w-md mx-auto selection:bg-[#D4C6B6] selection:text-black">
 
-  <!-- CABECERA DE MARCA LUMINOSA -->
-  <header class="text-center pt-2 pb-1">
-    <div class="inline-block px-3 py-1 rounded-full nazaria-pill text-[10px] tracking-[0.2em] uppercase font-bold mb-1.5 shadow-2xs">
+  <!-- CABECERA CON LOGOTIPO OFICIAL NAZARIA -->
+  <header class="text-center pt-2 pb-1 space-y-1">
+    <div class="inline-block px-3 py-1 rounded-full nazaria-pill text-[10px] tracking-[0.2em] uppercase font-bold shadow-2xs">
       BENEFICIO EXCLUSIVO EN TIENDA
     </div>
     
-    <!-- Logo tipográfico oficial -->
-    <div class="flex items-center justify-center gap-2">
-      <h1 class="font-brand text-2xl sm:text-3xl font-extrabold tracking-widest text-[#1A1A1A]">
-        NAZARIA
-      </h1>
+    <!-- Logotipo Oficial Limpio -->
+    <div class="flex items-center justify-center pt-1">
+      <img src="LOGOS NAZARIA REDES-2-LOGO NAZARIA.png" alt="Nazaria Zapatos" class="h-10 sm:h-12 w-auto object-contain">
     </div>
-    <p class="text-[11px] text-neutral-500 tracking-wide mt-0.5">
+    <p class="text-[11px] text-neutral-500 tracking-wide">
       Girá la ruleta y descubrí tu beneficio exclusivo para hoy
     </p>
   </header>
@@ -77,14 +75,14 @@
   <!-- CONTENEDOR PRINCIPAL INTERACTIVO -->
   <main class="flex-1 flex flex-col justify-center my-auto py-2">
 
-    <!-- PANTALLA 1: INGRESO RÁPIDO (CERO FRICCIÓN) -->
+    <!-- PANTALLA 1: INGRESO RÁPIDO CON LOGOS DE SHOPPINGS -->
     <div id="screen-input" class="bg-nazaria-card rounded-2xl p-5 space-y-4">
       
-      <!-- Mini Showcase de Temporada -->
-      <div class="w-full h-28 rounded-xl overflow-hidden relative shadow-inner border border-[#E6D5C3]">
-        <img src="../img/podium_compact.jpg" alt="Nueva Temporada Nazaria" class="w-full h-full object-cover">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent flex items-end p-2.5">
-          <span class="text-white text-xs font-bold font-brand tracking-wider">NUEVA COLECCIÓN SS27</span>
+      <!-- Showcase de Calzado Nueva Temporada -->
+      <div class="w-full h-32 rounded-xl overflow-hidden relative shadow-inner border border-[#D4C6B6]">
+        <img src="podium_compact.jpg" alt="Nueva Temporada Nazaria" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-3">
+          <span class="text-white text-xs font-bold font-brand tracking-widest">NUEVA COLECCIÓN SS27</span>
         </div>
       </div>
 
@@ -97,20 +95,31 @@
         <div>
           <label class="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider mb-1">Tu Nombre o Apodo</label>
           <input type="text" id="user-name-input" placeholder="Ej: Sofía, Pau, Flor..." maxlength="25" autocomplete="given-name"
-            class="w-full bg-[#FAF9F6] border border-[#E6D5C3] rounded-xl px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition text-center font-semibold">
+            class="w-full bg-[#FAF9F8] border border-[#D4C6B6] rounded-xl px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition text-center font-semibold">
         </div>
 
         <div>
-          <label class="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider mb-1">¿En qué sucursal estás?</label>
-          <div class="grid grid-cols-2 gap-2">
+          <label class="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider mb-1.5">¿En qué sucursal estás hoy?</label>
+          <div class="grid grid-cols-2 gap-2.5">
+            
+            <!-- Botón TOM con Logo Oficial -->
             <button type="button" onclick="selectStore('TOM')" id="btn-store-tom"
-              class="py-2.5 px-3 rounded-xl border border-black bg-neutral-900 text-xs font-bold text-white text-center shadow-sm">
-              🛍️ Tortugas (TOM)
+              class="p-2.5 rounded-xl border-2 border-black bg-white flex flex-col items-center justify-center gap-1.5 shadow-sm transition hover:scale-[1.02]">
+              <div class="h-8 flex items-center justify-center">
+                <img src="logo_tom.png" alt="Tortugas Open Mall" class="max-h-7 max-w-full object-contain">
+              </div>
+              <span class="text-[10px] font-bold text-neutral-900 tracking-wide">Tortugas (TOM)</span>
             </button>
+
+            <!-- Botón Maschwitz Mall con Logo Oficial -->
             <button type="button" onclick="selectStore('MASCHWITZ')" id="btn-store-masch"
-              class="py-2.5 px-3 rounded-xl border border-neutral-300 bg-[#FAF9F6] text-xs font-semibold text-neutral-700 hover:border-black transition text-center">
-              🌿 Maschwitz Mall
+              class="p-2.5 rounded-xl border border-neutral-300 bg-neutral-50 flex flex-col items-center justify-center gap-1.5 transition hover:border-neutral-500 hover:scale-[1.02]">
+              <div class="h-8 flex items-center justify-center">
+                <img src="logo_maschwitz_mall.png" alt="Maschwitz Mall" class="max-h-7 max-w-full object-contain">
+              </div>
+              <span class="text-[10px] font-semibold text-neutral-600 tracking-wide">Maschwitz Mall</span>
             </button>
+
           </div>
         </div>
 
@@ -125,13 +134,14 @@
       </p>
     </div>
 
-    <!-- PANTALLA 2: LA RULETA GIRATORIA -->
+    <!-- PANTALLA 2: LA RULETA GIRATORIA (TIEMPO DE GIRO EXPANDIDO) -->
     <div id="screen-wheel" class="hidden flex flex-col items-center justify-center space-y-3">
       
-      <!-- Mensaje personalizado -->
-      <div class="text-center">
-        <span class="text-xs text-neutral-500">Gira por su beneficio:</span>
-        <span id="player-display-name" class="text-sm font-bold text-neutral-900 ml-1 font-brand"></span>
+      <!-- Mensaje personalizado con logo del local -->
+      <div class="flex items-center justify-center gap-2 bg-white px-3 py-1 rounded-full border border-neutral-200 shadow-2xs">
+        <span class="text-xs text-neutral-500">Gira por su premio:</span>
+        <span id="player-display-name" class="text-sm font-bold text-neutral-900 font-brand"></span>
+        <span id="player-store-badge" class="text-[10px] bg-[#D4C6B6] text-neutral-900 px-2 py-0.2 rounded font-bold"></span>
       </div>
 
       <!-- Contenedor Visual de la Ruleta -->
@@ -140,15 +150,15 @@
         <!-- Aguja Marcadora Superior -->
         <div class="absolute -top-3 left-1/2 -translate-x-1/2 z-20 ticker-needle">
           <svg width="34" height="42" viewBox="0 0 34 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17 40L3 10C1.5 7 3.5 2 7 2H27C30.5 2 32.5 7 31 10L17 40Z" fill="#1A1A1A" stroke="#E6D5C3" stroke-width="2"/>
-            <circle cx="17" cy="12" r="5" fill="#E6D5C3"/>
+            <path d="M17 40L3 10C1.5 7 3.5 2 7 2H27C30.5 2 32.5 7 31 10L17 40Z" fill="#1A1A1A" stroke="#D4C6B6" stroke-width="2"/>
+            <circle cx="17" cy="12" r="5" fill="#D4C6B6"/>
           </svg>
         </div>
 
         <!-- Canvas de la Ruleta -->
         <canvas id="wheel-canvas" width="600" height="600" class="w-full h-full rounded-full"></canvas>
 
-        <!-- Botón Central / Centro Elegante -->
+        <!-- Botón Central con Monograma NZ -->
         <div class="absolute z-10 w-16 h-16 rounded-full bg-white border-2 border-[#1A1A1A] shadow-md flex items-center justify-center pointer-events-none">
           <span class="font-brand text-[11px] font-bold text-neutral-900 tracking-widest text-center leading-tight">
             NZ<br><span class="text-[8px] tracking-normal text-neutral-500">SPIN</span>
@@ -157,7 +167,7 @@
       </div>
 
       <!-- Botón de Giro -->
-      <div class="w-full max-w-[280px] pt-2">
+      <div class="w-full max-w-[280px] pt-1">
         <button id="spin-button" onclick="spinWheel()"
           class="w-full py-3.5 rounded-xl gold-button font-bold text-xs uppercase tracking-widest transition flex items-center justify-center gap-2">
           <span>💫</span> ¡GIRAR RULETA AHORA!
@@ -165,12 +175,12 @@
       </div>
 
       <div class="text-[10px] text-neutral-500 text-center flex items-center justify-center gap-1 font-medium">
-        <span>🍀</span> Todos los giros tienen premio garantizado
+        <span>🍀</span> Todos los giros tienen beneficio garantizado
       </div>
     </div>
 
-    <!-- PANTALLA 3: CUPÓN GANADOR & CUENTA REGRESIVA -->
-    <div id="screen-prize" class="hidden bg-nazaria-card rounded-2xl p-5 space-y-3.5 border-2 border-[#E6D5C3]">
+    <!-- PANTALLA 3: CUPÓN GANADOR & CUENTA REGRESIVA DE 2 HORAS -->
+    <div id="screen-prize" class="hidden bg-nazaria-card rounded-2xl p-5 space-y-3.5 border-2 border-[#D4C6B6]">
       
       <div class="text-center space-y-1">
         <div class="inline-block px-3 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 text-[10px] font-bold uppercase tracking-widest">
@@ -181,23 +191,23 @@
       </div>
 
       <!-- Tarjeta del Premio en Tono Arena -->
-      <div class="bg-[#FAF9F6] p-4 rounded-xl border border-[#E6D5C3] text-center space-y-1.5 shadow-xs">
+      <div class="bg-[#FAF9F8] p-4 rounded-xl border border-[#D4C6B6] text-center space-y-1.5 shadow-xs">
         <div class="text-xs text-neutral-500 uppercase tracking-wider font-semibold">Tu Premio Obtenido:</div>
         <div id="prize-title" class="font-brand text-xl font-bold text-neutral-900 leading-tight"></div>
-        <div id="prize-condition" class="text-[11px] text-amber-950 font-semibold bg-[#E6D5C3]/40 py-1 px-3 rounded-lg inline-block border border-[#E6D5C3]"></div>
+        <div id="prize-condition" class="text-[11px] text-amber-950 font-semibold bg-[#D4C6B6]/50 py-1 px-3 rounded-lg inline-block border border-[#D4C6B6]"></div>
       </div>
 
       <!-- Reloj Regresivo de 2 Horas -->
       <div class="bg-neutral-900 text-white p-3 rounded-xl text-center space-y-0.5 timer-glow shadow-sm">
-        <div class="text-[10px] uppercase font-bold text-[#E6D5C3] tracking-wider">Vence hoy en el local en:</div>
+        <div class="text-[10px] uppercase font-bold text-[#D4C6B6] tracking-wider">Vence hoy en el local en:</div>
         <div id="countdown-timer" class="font-mono text-2xl font-extrabold text-white tracking-widest">02:00:00</div>
         <div class="text-[10px] text-neutral-400">Presentá esta pantalla en caja antes de que finalice el tiempo</div>
       </div>
 
       <!-- Código Único de Cupón -->
-      <div class="flex items-center justify-between p-2.5 bg-[#FAF9F6] rounded-xl border border-neutral-200 text-xs">
+      <div class="flex items-center justify-between p-2.5 bg-[#FAF9F8] rounded-xl border border-neutral-200 text-xs">
         <span class="text-neutral-600 font-medium">Código de Canje:</span>
-        <span id="coupon-code" class="font-mono font-bold text-sm bg-white text-neutral-900 px-2.5 py-1 rounded border border-[#E6D5C3]"></span>
+        <span id="coupon-code" class="font-mono font-bold text-sm bg-white text-neutral-900 px-2.5 py-1 rounded border border-[#D4C6B6]"></span>
       </div>
 
       <!-- Botón de Canje de la Vendedora -->
@@ -208,8 +218,8 @@
         </button>
       </div>
 
-      <!-- Indicaciones al cliente -->
-      <div class="p-2.5 bg-[#FAF9F6] rounded-lg text-[10px] text-neutral-600 text-center leading-relaxed border border-neutral-200">
+      <!-- Indicaciones al cliente con el local seleccionado -->
+      <div class="p-2.5 bg-[#FAF9F8] rounded-lg text-[10px] text-neutral-600 text-center leading-relaxed border border-neutral-200">
         Acercate al mostrador de <strong>Nazaria <span id="winner-store"></span></strong> con tu calzado elegido y presentá esta pantalla para activar tu beneficio.
       </div>
     </div>
@@ -223,7 +233,7 @@
         <h2 class="font-brand text-xl font-bold text-neutral-900">¡Cupón Canjeado con Éxito!</h2>
         <p class="text-xs text-neutral-600">El descuento fue aplicado en tu compra.</p>
       </div>
-      <div class="p-3 bg-[#FAF9F6] rounded-xl border border-neutral-200 text-xs text-neutral-700 space-y-1">
+      <div class="p-3 bg-[#FAF9F8] rounded-xl border border-neutral-200 text-xs text-neutral-700 space-y-1">
         <div>Clienta: <strong id="redeemed-name" class="text-neutral-900"></strong></div>
         <div>Código: <strong id="redeemed-code" class="font-mono text-neutral-900"></strong></div>
         <div>Fecha y hora: <span id="redeemed-time" class="text-neutral-500 font-mono"></span></div>
@@ -246,9 +256,8 @@
     // -------------------------------------------------------------
     let selectedStore = 'TOM';
 
-    // Colores elegantes de los 8 gajos
-    const COLOR_1 = '#FAF9F6'; // Lino marfil
-    const COLOR_2 = '#E6D5C3'; // Arena Nazaria
+    const COLOR_1 = '#FAF9F8'; // Lino marfil
+    const COLOR_2 = '#D4C6B6'; // Beige Rainy Day oficial
     const TEXT_DARK = '#1A1A1A';
 
     const PRIZE_POOL_TOM = [
@@ -287,13 +296,14 @@
       selectedStore = store;
       const btnTom = document.getElementById('btn-store-tom');
       const btnMasch = document.getElementById('btn-store-masch');
+      
       if (store === 'TOM') {
-        btnTom.className = 'py-2.5 px-3 rounded-xl border border-black bg-neutral-900 text-xs font-bold text-white text-center shadow-sm';
-        btnMasch.className = 'py-2.5 px-3 rounded-xl border border-neutral-300 bg-[#FAF9F6] text-xs font-semibold text-neutral-700 hover:border-black transition text-center';
+        btnTom.className = 'p-2.5 rounded-xl border-2 border-black bg-white flex flex-col items-center justify-center gap-1.5 shadow-sm transition hover:scale-[1.02]';
+        btnMasch.className = 'p-2.5 rounded-xl border border-neutral-300 bg-neutral-50 flex flex-col items-center justify-center gap-1.5 transition hover:border-neutral-500 hover:scale-[1.02]';
         currentSlices = PRIZE_POOL_TOM;
       } else {
-        btnMasch.className = 'py-2.5 px-3 rounded-xl border border-black bg-neutral-900 text-xs font-bold text-white text-center shadow-sm';
-        btnTom.className = 'py-2.5 px-3 rounded-xl border border-neutral-300 bg-[#FAF9F6] text-xs font-semibold text-neutral-700 hover:border-black transition text-center';
+        btnMasch.className = 'p-2.5 rounded-xl border-2 border-black bg-white flex flex-col items-center justify-center gap-1.5 shadow-sm transition hover:scale-[1.02]';
+        btnTom.className = 'p-2.5 rounded-xl border border-neutral-300 bg-neutral-50 flex flex-col items-center justify-center gap-1.5 transition hover:border-neutral-500 hover:scale-[1.02]';
         currentSlices = PRIZE_POOL_MASCHWITZ;
       }
       drawWheel();
@@ -309,13 +319,14 @@
       }
       playerName = name.charAt(0).toUpperCase() + name.slice(1);
       document.getElementById('player-display-name').innerText = playerName;
+      document.getElementById('player-store-badge').innerText = (selectedStore === 'TOM') ? 'TOM' : 'Maschwitz';
       document.getElementById('screen-input').classList.add('hidden');
       document.getElementById('screen-wheel').classList.remove('hidden');
       drawWheel();
     }
 
     // -------------------------------------------------------------
-    // DIBUJO DEL CANVAS EN PALETA LUMINOSA NAZARIA
+    // DIBUJO DEL CANVAS
     // -------------------------------------------------------------
     function drawWheel() {
       const canvas = document.getElementById('wheel-canvas');
@@ -331,7 +342,6 @@
         const angle = i * arc;
         const slice = currentSlices[i];
 
-        // Dibujar el gajo
         ctx.beginPath();
         ctx.fillStyle = slice.color;
         ctx.moveTo(radius, radius);
@@ -339,12 +349,10 @@
         ctx.lineTo(radius, radius);
         ctx.fill();
 
-        // Borde fino entre gajos
-        ctx.strokeStyle = '#D8BE9E';
+        ctx.strokeStyle = '#D4C6B6';
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        // Texto del gajo
         ctx.save();
         ctx.translate(radius, radius);
         ctx.rotate(angle + arc / 2);
@@ -355,7 +363,6 @@
         ctx.restore();
       }
 
-      // Anillo exterior color Arena Nazaria
       ctx.beginPath();
       ctx.arc(radius, radius, radius - 8, 0, 2 * Math.PI);
       ctx.strokeStyle = '#B89B7E';
@@ -364,7 +371,7 @@
     }
 
     // -------------------------------------------------------------
-    // ANIMACIÓN DE GIRO
+    // ANIMACIÓN DE GIRO EXTENDIDA (MÁS SUSPENSO: 9 SEGUNDOS, 10 GIROS)
     // -------------------------------------------------------------
     function spinWheel() {
       if (hasSpun) return;
@@ -379,7 +386,8 @@
       const winningIndex = Math.floor(Math.random() * numSlices);
       const prize = currentSlices[winningIndex];
 
-      const baseRounds = 360 * 6;
+      // 10 vueltas completas para un giro más extendido y con suspenso
+      const baseRounds = 360 * 10;
       const prizeAngleTarget = 270 - (winningIndex * sliceDeg + sliceDeg / 2);
       const totalRotation = baseRounds + (prizeAngleTarget % 360) + (Math.random() * 8 - 4);
 
@@ -391,23 +399,23 @@
       setTimeout(() => {
         triggerConfetti();
         showPrize(prize);
-      }, 6200);
+      }, 9200);
     }
 
     function playSpinSound() {
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        for (let i = 0; i < 30; i++) {
+        for (let i = 0; i < 48; i++) {
           const osc = audioCtx.createOscillator();
           const gain = audioCtx.createGain();
           osc.type = 'triangle';
-          osc.frequency.setValueAtTime(650 - (i * 12), audioCtx.currentTime + (i * 0.18));
-          gain.gain.setValueAtTime(0.06, audioCtx.currentTime + (i * 0.18));
-          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (i * 0.18) + 0.05);
+          osc.frequency.setValueAtTime(700 - (i * 10), audioCtx.currentTime + (i * 0.19));
+          gain.gain.setValueAtTime(0.06, audioCtx.currentTime + (i * 0.19));
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (i * 0.19) + 0.05);
           osc.connect(gain);
           gain.connect(audioCtx.destination);
-          osc.start(audioCtx.currentTime + (i * 0.18));
-          osc.stop(audioCtx.currentTime + (i * 0.18) + 0.06);
+          osc.start(audioCtx.currentTime + (i * 0.19));
+          osc.stop(audioCtx.currentTime + (i * 0.19) + 0.06);
         }
       } catch (e) {}
     }
@@ -415,10 +423,10 @@
     function triggerConfetti() {
       if (typeof confetti === 'function') {
         confetti({
-          particleCount: 100,
-          spread: 70,
+          particleCount: 110,
+          spread: 75,
           origin: { y: 0.6 },
-          colors: ['#E6D5C3', '#B89B7E', '#1A1A1A', '#D8BE9E']
+          colors: ['#D4C6B6', '#B89B7E', '#1A1A1A', '#F9F9F8']
         });
       }
     }
