@@ -1,6 +1,6 @@
 <h1 class="sop-title-1">P-14 · Campaña Vidriera: Ruleta Interactiva & Operación en Mostrador</h1>
 <p class="sop-text" style="margin-bottom: 12pt !important;">
-    <strong>Objetivo:</strong> Protocolo operativo de control y línea de caja para la activación de la "Ruleta de Premios Nazaria" (control de vencimiento de 2 hs, tabla de premios vigentes por local, filtro de datos para facturación y canje seguro).
+    <strong>Objetivo:</strong> Protocolo operativo de control y línea de caja para la activación de la "Ruleta de Premios Nazaria" (código unificado NTM-XXXX, control de vencimiento de 2 hs, tabla de 8 premios vigentes, filtro de datos para facturación y canje seguro sin contacto).
 </p>
 <hr class="sop-divider" style="margin-top: 0px !important; margin-bottom: 16pt !important;">
 
@@ -11,13 +11,13 @@
         <div class="bg-[#E5D7C7] text-[#1b1b20] font-bold text-xs px-3.5 py-2.5 border-b border-[#767680] flex items-center justify-between tracking-wide uppercase">
             <span class="flex items-center space-x-2">
                 <span>🎰</span>
-                <span>1. PREMIOS ACTIVOS EN LA RULETA (MATRIZ DE DESCUENTOS)</span>
+                <span>1. PREMIOS ACTIVOS EN LA RULETA (MATRIZ OFICIAL DE 8 BENEFICIOS)</span>
             </span>
             <span class="text-[10px] bg-white px-2 py-0.5 rounded text-neutral-800 font-bold border border-neutral-300">Vigente</span>
         </div>
         <div class="p-3 bg-white space-y-2">
             <p class="text-neutral-700 text-xs">
-                Estos son los 8 premios que giran actualmente en el celular de la clienta al escanear el QR:
+                Estos son los 8 premios configurados en la ruleta web al escanear el QR de vidriera:
             </p>
 
             <div class="overflow-x-auto">
@@ -27,36 +27,36 @@
                             <th class="p-2 border-r border-neutral-200">Premio</th>
                             <th class="p-2 border-r border-neutral-200">Condición Excluyente</th>
                             <th class="p-2 border-r border-neutral-200">Locales</th>
-                            <th class="p-2">Cómo se carga</th>
+                            <th class="p-2">Cómo se carga en Dux ERP</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-neutral-200 text-neutral-800">
                         <tr class="hover:bg-neutral-50">
-                            <td class="p-2 font-bold text-emerald-900 border-r border-neutral-200 bg-emerald-50/50">🎟️ $5.000 de Regalo</td>
+                            <td class="p-2 font-bold text-emerald-900 border-r border-neutral-200 bg-emerald-50/50">🎟️ $5.000 Regalo</td>
                             <td class="p-2 border-r border-neutral-200">Compras mayores a <strong>$80.000</strong> en temporada nueva</td>
                             <td class="p-2 border-r border-neutral-200 font-semibold">TOM y Maschwitz</td>
                             <td class="p-2">Bonificación fija de <strong>$5.000</strong> en el ticket</td>
                         </tr>
                         <tr class="hover:bg-neutral-50">
-                            <td class="p-2 font-bold text-emerald-900 border-r border-neutral-200 bg-emerald-50/50">🎟️ $10.000 de Regalo</td>
+                            <td class="p-2 font-bold text-emerald-900 border-r border-neutral-200 bg-emerald-50/50">🎟️ $10.000 Regalo</td>
                             <td class="p-2 border-r border-neutral-200">Compras mayores a <strong>$130.000</strong> en temporada nueva</td>
                             <td class="p-2 border-r border-neutral-200 font-semibold">TOM y Maschwitz</td>
                             <td class="p-2">Bonificación fija de <strong>$10.000</strong> en el ticket</td>
                         </tr>
                         <tr class="hover:bg-neutral-50">
-                            <td class="p-2 font-bold text-emerald-900 border-r border-neutral-200 bg-emerald-50/50">🎟️ $15.000 de Regalo</td>
+                            <td class="p-2 font-bold text-emerald-900 border-r border-neutral-200 bg-emerald-50/50">🎟️ $15.000 Regalo</td>
                             <td class="p-2 border-r border-neutral-200">Compras mayores a <strong>$180.000</strong> en temporada nueva</td>
                             <td class="p-2 border-r border-neutral-200 font-semibold">TOM y Maschwitz</td>
                             <td class="p-2">Bonificación fija de <strong>$15.000</strong> en el ticket</td>
                         </tr>
                         <tr class="hover:bg-neutral-50">
-                            <td class="p-2 font-bold text-blue-900 border-r border-neutral-200 bg-blue-50/50">🎟️ 20% en 2da Unidad</td>
+                            <td class="p-2 font-bold text-blue-900 border-r border-neutral-200 bg-blue-50/50">🎟️ 20% OFF 2da Unidad</td>
                             <td class="p-2 border-r border-neutral-200">Llevando 2 pares de temporada (aplica al par de <strong>menor valor</strong>)</td>
                             <td class="p-2 border-r border-neutral-200 font-semibold">TOM y Maschwitz</td>
                             <td class="p-2">Aplicar 20% de descuento solo al 2do par</td>
                         </tr>
                         <tr class="hover:bg-neutral-50">
-                            <td class="p-2 font-bold text-neutral-900 border-r border-neutral-200">🎟️ 25% OFF en Efectivo</td>
+                            <td class="p-2 font-bold text-neutral-900 border-r border-neutral-200">🎟️ 25% OFF Efectivo</td>
                             <td class="p-2 border-r border-neutral-200">Abonando en efectivo (20% habitual + 5% extra del cupón)</td>
                             <td class="p-2 border-r border-neutral-200 font-semibold">TOM y Maschwitz</td>
                             <td class="p-2">Cargar 25% de descuento en forma de pago Efectivo</td>
@@ -69,18 +69,12 @@
                         </tr>
                         <tr class="hover:bg-neutral-50">
                             <td class="p-2 font-bold text-purple-900 border-r border-neutral-200 bg-purple-50/40">🎟️ 3 Cuotas + 5% OFF</td>
-                            <td class="p-2 border-r border-neutral-200">Tarjetas de crédito bancarias Visa/Mastercard</td>
-                            <td class="p-2 border-r border-neutral-200 font-bold text-amber-800">Solo TOM</td>
+                            <td class="p-2 border-r border-neutral-200">Tarjetas de crédito bancarias Visa/Mastercard en temporada nueva</td>
+                            <td class="p-2 border-r border-neutral-200 font-semibold">TOM y Maschwitz</td>
                             <td class="p-2">Cobrar en 3 cuotas sin interés y aplicar 5% de descuento</td>
                         </tr>
                         <tr class="hover:bg-neutral-50">
-                            <td class="p-2 font-bold text-purple-900 border-r border-neutral-200 bg-purple-50/40">🎟️ 6 Cuotas Galicia Nave</td>
-                            <td class="p-2 border-r border-neutral-200">Tarjetas Galicia Crédito vía terminal NAVE (Jueves)</td>
-                            <td class="p-2 border-r border-neutral-200 font-bold text-blue-800">Solo Maschwitz</td>
-                            <td class="p-2">Cobrar en 6 cuotas s/interés en terminal NAVE</td>
-                        </tr>
-                        <tr class="hover:bg-neutral-50">
-                            <td class="p-2 font-bold text-neutral-900 border-r border-neutral-200">🎟️ 5% OFF Directo</td>
+                            <td class="p-2 font-bold text-neutral-900 border-r border-neutral-200">🎟️ 5% EXTRA Directo</td>
                             <td class="p-2 border-r border-neutral-200">Acumulable con cualquier medio de pago en temporada nueva</td>
                             <td class="p-2 border-r border-neutral-200 font-semibold">TOM y Maschwitz</td>
                             <td class="p-2">Sumar 5% extra al descuento habitual</td>
@@ -95,11 +89,11 @@
     <div class="border border-[#767680] rounded overflow-hidden shadow-sm">
         <div class="bg-[#fef3c7] text-[#78350f] font-bold text-xs px-3.5 py-2.5 border-b border-[#767680] flex items-center space-x-2 tracking-wide uppercase">
             <span>⏱️</span>
-            <span>2. CONTROL OBLIGATORIO DE VENCIMIENTO (RELOJ DE 2 HORAS)</span>
+            <span>2. CONTROL OBLIGATORIO DE VENCIMIENTO (RELOJ DE 2 HORAS EN VIVO)</span>
         </div>
         <div class="p-3.5 bg-white space-y-3">
             <p class="text-neutral-700 text-xs">
-                Antes de aplicar cualquier descuento, la cajera debe verificar en la pantalla del celular de la clienta los siguientes <strong>3 puntos de control</strong>:
+                Antes de aplicar el beneficio en Dux ERP, la cajera debe verificar visualmente en la pantalla del celular de la clienta los siguientes <strong>3 puntos de control</strong> (sin tocar su teléfono):
             </p>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5">
@@ -108,25 +102,25 @@
                         <span>1️⃣</span> Reloj Activo (No Vencido)
                     </div>
                     <div class="text-[11px] text-neutral-600 mt-1">
-                        El temporizador en pantalla debe estar corriendo (ej: <code>01:42:15</code>). Si dice en rojo <strong>"VENCIDO"</strong> o <strong>"CUPÓN EXPIRADO"</strong>, el beneficio ya no es aplicable.
+                        El temporizador en pantalla debe estar corriendo (ej: <code>01:42:15</code>). Si dice en rojo <strong>"VENCIDO"</strong>, el beneficio ya caducó y no se aplica.
                     </div>
                 </div>
 
                 <div class="p-2.5 bg-neutral-50 rounded border border-neutral-200">
                     <div class="font-bold text-neutral-900 text-xs flex items-center gap-1">
-                        <span>2️⃣</span> Código Único Visible por Local
+                        <span>2️⃣</span> Código Unificado NTM
                     </div>
                     <div class="text-[11px] text-neutral-600 mt-1">
-                        Debe figurar un código con el prefijo oficial de la sucursal: <strong class="font-mono bg-white px-1 py-0.5 rounded border border-neutral-300">TOM-XXXX</strong> para Tortugas o <strong class="font-mono bg-white px-1 py-0.5 rounded border border-neutral-300">MAS-XXXX</strong> para Maschwitz.
+                        Debe figurar el código unificado con prefijo oficial: <strong class="font-mono bg-white px-1 py-0.5 rounded border border-neutral-300">NTM-XXXX</strong> (Nazaria - TOM - Maschwitz).
                     </div>
                 </div>
 
                 <div class="p-2.5 bg-neutral-50 rounded border border-neutral-200">
                     <div class="font-bold text-neutral-900 text-xs flex items-center gap-1">
-                        <span>3️⃣</span> Canje del Cupón Frente a la Cajera
+                        <span>3️⃣</span> Validación No Invasiva
                     </div>
                     <div class="text-[11px] text-neutral-600 mt-1">
-                        La propia clienta presiona el botón negro <strong>"✨ Canjear Cupón en Caja"</strong> en su celular frente a la vendedora. La pantalla cambia automáticamente a verde ("¡Cupón Canjeado con Éxito!") confirmando que no podrá reutilizarse. La vendedora nunca necesita tocar el celular de la clienta.
+                        La clienta solo muestra la pantalla. La vendedora <strong>nunca toma el celular</strong>. Al asentar el código en las observaciones de la venta en Dux ERP, el cupón queda consumido.
                     </div>
                 </div>
             </div>
@@ -137,7 +131,7 @@
     <div class="border border-[#767680] rounded overflow-hidden shadow-sm">
         <div class="bg-[#dfe0f8] text-[#1b1b20] font-bold text-xs px-3.5 py-2.5 border-b border-[#767680] flex items-center space-x-2 tracking-wide uppercase">
             <span>💻</span>
-            <span>3. PROTOCOLO DE FACTURACIÓN &amp; CAPTURA DE DATOS</span>
+            <span>3. PROTOCOLO DE FACTURACIÓN &amp; CAPTURA DE DATOS EN DUX ERP</span>
         </div>
         <div class="p-3.5 bg-white space-y-3">
             <div class="p-2.5 bg-amber-50 rounded border border-amber-300 text-amber-950 font-semibold text-xs">
@@ -151,16 +145,16 @@
                         <strong>Solicitar los datos para la factura:</strong> Solicitar DNI, Nombre completo, Teléfono/WhatsApp y Correo electrónico de la clienta.
                     </li>
                     <li>
-                        <strong>Cargar o verificar la ficha:</strong> Crear o actualizar el cliente en el sistema.
+                        <strong>Cargar o verificar la ficha:</strong> Crear o actualizar el cliente en Dux ERP.
                     </li>
                     <li>
                         <strong>Aplicar el descuento:</strong> Ingresar el porcentaje o monto correspondiente en el campo de bonificación según el premio obtenido y la compra mínima requerida.
                     </li>
                     <li>
-                        <strong>Asentar el código de cupón:</strong> En el campo <em>Observaciones</em> o <em>Leyenda</em> de la venta, ingresar obligatoriamente el código: <span class="bg-[#1b1b20] text-amber-300 font-mono font-bold px-1.5 py-0.5 rounded">TOM-XXXX</span> o <span class="bg-[#1b1b20] text-amber-300 font-mono font-bold px-1.5 py-0.5 rounded">MAS-XXXX</span>.
+                        <strong>Asentar el código de cupón:</strong> En el campo <em>Observaciones</em> o <em>Leyenda</em> de la venta en Dux ERP, ingresar obligatoriamente el código: <span class="bg-[#1b1b20] text-amber-300 font-mono font-bold px-1.5 py-0.5 rounded">NTM-XXXX</span>. Esto previene reusar el mismo cupón en otra compra.
                     </li>
                     <li>
-                        <strong>Validar el Canje (Sin tocar el celular):</strong> Pedirle a la clienta que toque ella misma el botón <em>"✨ Canjear Cupón en Caja"</em> en su pantalla. La interfaz se pondrá en verde con el sello de canjeado, garantizando que el cupón queda consumido.
+                        <strong>Agradecer y felicitar:</strong> Entregar el ticket con el beneficio aplicado, confirmando la validez del beneficio.
                     </li>
                 </ol>
             </div>

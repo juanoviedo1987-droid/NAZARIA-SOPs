@@ -3,60 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Preview Ruleta 3D · Nazaria</title>
+  <title>Ruleta de Premios · Nazaria Zapatos</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Canvas Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <style>
     body {
       font-family: 'Inter', -apple-system, sans-serif;
-      background: radial-gradient(circle at 50% 30%, #FFFFFF 0%, #FAF9F6 50%, #ECE6DF 100%);
+      background: radial-gradient(circle at 50% 20%, #FFFFFF 0%, #FAF8F5 50%, #ECE3D8 100%);
       color: #1A1A1A;
       overflow-x: hidden;
       min-height: 100vh;
+      -webkit-tap-highlight-color: transparent;
     }
     .font-brand { font-family: 'Cinzel', Georgia, serif; }
 
     /* Efecto Titular 3D de Alto Impacto */
     .title-pop {
-      text-shadow: 0 2px 0 #D4C6B6, 0 4px 10px rgba(184, 155, 126, 0.4);
+      text-shadow: 0 2px 0 #D4C6B6, 0 4px 12px rgba(184, 155, 126, 0.45);
     }
 
     /* Aro exterior 3D estilo Royal metálico */
     .wheel-outer-ring {
       background: conic-gradient(
-        #F3E7D7, #C4A482, #F3E7D7, #A88665,
-        #F3E7D7, #C4A482, #F3E7D7, #A88665,
-        #F3E7D7
+        #FBF6EF, #C4A482, #FBF6EF, #9E7A54,
+        #FBF6EF, #C4A482, #FBF6EF, #9E7A54,
+        #FBF6EF
       );
-      padding: 14px;
+      padding: 12px;
       border-radius: 9999px;
       box-shadow: 
-        0 15px 35px rgba(168, 134, 101, 0.45),
-        0 5px 15px rgba(0, 0, 0, 0.15),
-        inset 0 2px 4px rgba(255, 255, 255, 0.8),
-        inset 0 -3px 6px rgba(0, 0, 0, 0.3);
+        0 18px 40px rgba(158, 122, 84, 0.45),
+        0 6px 16px rgba(0, 0, 0, 0.15),
+        inset 0 2px 4px rgba(255, 255, 255, 0.9),
+        inset 0 -3px 6px rgba(0, 0, 0, 0.35);
       position: relative;
     }
 
     /* Luces LED perimetrales */
     .led-bulb {
       position: absolute;
-      width: 8px;
-      height: 8px;
+      width: 9px;
+      height: 9px;
       background: #FFFFFF;
       border-radius: 9999px;
-      box-shadow: 0 0 6px 2px #FFE6A3, 0 0 10px 4px #D4C6B6;
+      box-shadow: 0 0 7px 2px #FFE599, 0 0 12px 4px #D4C6B6;
       animation: ledPulse 1.2s infinite alternate;
     }
     @keyframes ledPulse {
-      0% { opacity: 0.6; transform: scale(0.9); }
-      100% { opacity: 1; transform: scale(1.15); filter: drop-shadow(0 0 4px #FFF); }
+      0% { opacity: 0.6; transform: scale(0.85); }
+      100% { opacity: 1; transform: scale(1.2); filter: drop-shadow(0 0 5px #FFF); }
     }
 
-    /* Flecha marcadora 3D con goteo de sombra */
+    /* Flecha marcadora 3D Superior */
     .ticker-3d {
       filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.4));
       z-index: 40;
@@ -66,12 +68,12 @@
     .wheel-center-dome {
       background: radial-gradient(circle at 35% 30%, #FFFFFF 0%, #E6D5C3 45%, #8C6A48 100%);
       box-shadow: 
-        0 8px 20px rgba(0, 0, 0, 0.35),
+        0 8px 18px rgba(0, 0, 0, 0.35),
         inset 0 2px 3px rgba(255, 255, 255, 0.9),
         inset 0 -3px 6px rgba(0, 0, 0, 0.4);
     }
 
-    /* Botón Shimmer de Acción Inmediata */
+    /* Botón Shimmer de Acción */
     .btn-action-glow {
       background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 50%, #111111 100%);
       position: relative;
@@ -85,7 +87,7 @@
       left: -60%;
       width: 40%;
       height: 200%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
       transform: rotate(25deg);
       animation: shimmer 3s infinite;
     }
@@ -106,59 +108,82 @@
       50% { opacity: 0.8; }
       100% { transform: translateY(-80px) rotate(90deg) scale(1); opacity: 0; }
     }
+
+    /* Animación flotante para la caja de regalo */
+    @keyframes giftBob {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(2deg); }
+    }
+    .gift-float {
+      animation: giftBob 3s ease-in-out infinite;
+    }
+
+    /* Pulsación del temporizador */
+    @keyframes timerPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.93; transform: scale(1.02); }
+    }
+    .timer-glow {
+      animation: timerPulse 2s ease-in-out infinite;
+    }
   </style>
 </head>
 <body class="flex flex-col justify-between items-center min-h-screen p-3 sm:p-5 max-w-md mx-auto select-none relative">
 
-  <!-- Partículas flotantes decorativas estilo boutique -->
-  <div class="sparkle text-amber-300 text-xs" style="left: 12%; top: 20%; animation-delay: 0s;">✦</div>
-  <div class="sparkle text-[#D4C6B6] text-sm" style="right: 15%; top: 25%; animation-delay: 1.5s;">★</div>
-  <div class="sparkle text-amber-200 text-xs" style="left: 20%; bottom: 30%; animation-delay: 2.2s;">✦</div>
-  <div class="sparkle text-[#D4C6B6] text-sm" style="right: 18%; bottom: 25%; animation-delay: 0.8s;">★</div>
+  <!-- Partículas decorativas de fondo -->
+  <div class="sparkle text-amber-300 text-xs" style="left: 8%; top: 16%; animation-delay: 0s;">✦</div>
+  <div class="sparkle text-[#D4C6B6] text-sm" style="right: 10%; top: 20%; animation-delay: 1.5s;">★</div>
+  <div class="sparkle text-amber-200 text-xs" style="left: 15%; bottom: 24%; animation-delay: 2.2s;">✦</div>
+  <div class="sparkle text-[#D4C6B6] text-sm" style="right: 14%; bottom: 18%; animation-delay: 0.8s;">★</div>
 
-  <!-- CABECERA DE MARCA LUMINOSA -->
-  <header class="text-center pt-2 z-10 w-full space-y-1">
-    <div class="flex items-center justify-center">
-      <img src="logo_nazaria_tight.png" alt="Nazaria Zapatos" class="h-9 w-auto object-contain drop-shadow-xs">
+  <!-- CABECERA: LOGO TRANSPARENTE LIMPIO & TÍTULO LLAMATIVO -->
+  <header class="text-center pt-1 z-10 w-full space-y-1">
+    
+    <!-- Logo Oficial 100% Transparente sin fondo gris -->
+    <div class="flex items-center justify-center min-h-[44px]">
+      <img src="logo_nazaria_pure_transparent.png" alt="Nazaria Zapatos" class="h-9 sm:h-10 w-auto object-contain drop-shadow-xs">
     </div>
     
-    <!-- TÍTULO ESTILO APP (Impacto & Gamificación) -->
-    <div class="pt-1">
-      <h1 class="font-brand text-3xl sm:text-4xl font-black tracking-wider text-[#1A1A1A] title-pop uppercase">
+    <!-- Título de Alto Impacto -->
+    <div class="pt-0.5">
+      <h1 class="font-brand text-3xl sm:text-4xl font-black tracking-wider text-[#1A1A1A] title-pop uppercase leading-tight">
         ¡GIRÁ Y GANÁ!
       </h1>
-      <p class="text-xs font-semibold text-neutral-600 mt-0.5 tracking-wide">
-        Tu beneficio exclusivo en tienda para hoy
+      <p class="text-xs font-bold text-neutral-600 tracking-wide mt-0.5">
+        Beneficio exclusivo para canjear hoy en tu compra
       </p>
+    </div>
+
+    <!-- Muestra informativa de locales autorizados (Logos nítidos y grandes, sin botones de selección) -->
+    <div class="pt-1 flex items-center justify-center gap-2">
+      <span class="text-[10px] uppercase font-extrabold text-neutral-400 tracking-wider">Válido en:</span>
+      <div class="inline-flex items-center gap-3.5 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-[#D4C6B6] shadow-sm">
+        <div class="flex items-center gap-1.5" title="Tortugas Open Mall">
+          <img src="tom_badge.png" alt="Tortugas Open Mall" class="h-5 sm:h-6 w-auto object-contain">
+          <span class="text-[11px] font-black text-neutral-800">TOM</span>
+        </div>
+        <span class="text-neutral-300 font-bold">•</span>
+        <div class="flex items-center gap-1.5" title="Maschwitz Mall">
+          <img src="maschwitz_badge.png" alt="Maschwitz Mall" class="h-5 sm:h-6 w-auto object-contain">
+          <span class="text-[11px] font-black text-neutral-800">Maschwitz</span>
+        </div>
+      </div>
     </div>
   </header>
 
-  <!-- SECCIÓN CENTRAL: RULETA PROTAGONISTA -->
-  <main class="w-full flex flex-col items-center justify-center my-auto py-2 z-10">
+  <!-- SECCIÓN CENTRAL: RULETA 3D PROTAGONISTA -->
+  <main class="w-full flex flex-col items-center justify-center my-auto py-1 z-10">
 
-    <!-- SELECTOR DE SUCURSAL SUPERIOR (RÁPIDO) -->
-    <div class="flex items-center justify-center gap-2 mb-3 bg-white/80 backdrop-blur-md p-1 rounded-2xl border border-[#D4C6B6]/60 shadow-xs">
-      <button onclick="changeStore('TOM')" id="pill-tom" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-neutral-900 text-white shadow-xs">
-        <img src="tom_clean.png" class="h-3.5 w-auto object-contain brightness-0 invert">
-        <span>TOM</span>
-      </button>
-      <button onclick="changeStore('MASCHWITZ')" id="pill-masch" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 text-neutral-600 hover:text-black">
-        <img src="maschwitz_clean.png" class="h-3.5 w-auto object-contain">
-        <span>Maschwitz</span>
-      </button>
-    </div>
-
-    <!-- RULETA 3D CON ARO REAL METÁLICO & LUCES -->
     <div class="relative w-[320px] h-[320px] sm:w-[340px] sm:h-[340px] flex items-center justify-center">
       
       <!-- Flecha marcadora 3D Superior -->
-      <div class="absolute -top-4 left-1/2 -translate-x-1/2 ticker-3d" id="wheel-ticker">
+      <div class="absolute -top-4 left-1/2 -translate-x-1/2 ticker-3d">
         <svg width="40" height="48" viewBox="0 0 40 48" fill="none">
           <path d="M20 46L5 12C3 8 6 3 10 3H30C34 3 37 8 35 12L20 46Z" fill="url(#tickerGold)" stroke="#FFFFFF" stroke-width="2.5"/>
           <circle cx="20" cy="14" r="6" fill="#1A1A1A" stroke="#FFFFFF" stroke-width="1.5"/>
           <defs>
             <linearGradient id="tickerGold" x1="5" y1="3" x2="35" y2="46" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#FFF2DC"/>
+              <stop stop-color="#FFF5E5"/>
               <stop offset="0.5" stop-color="#D4C6B6"/>
               <stop offset="1" stop-color="#9C7753"/>
             </linearGradient>
@@ -166,9 +191,8 @@
         </svg>
       </div>
 
-      <!-- Aro Metálico con Luces LED incrustadas -->
+      <!-- Aro Metálico con Luces LED -->
       <div class="wheel-outer-ring">
-        <!-- 12 Luces LED alrededor -->
         <div class="led-bulb" style="top: 2px; left: 50%; transform: translateX(-50%);"></div>
         <div class="led-bulb" style="top: 14%; right: 14%;"></div>
         <div class="led-bulb" style="top: 50%; right: 2px; transform: translateY(-50%);"></div>
@@ -179,43 +203,50 @@
         <div class="led-bulb" style="top: 14%; left: 14%;"></div>
 
         <!-- Canvas de la Ruleta -->
-        <canvas id="wheel-canvas" width="600" height="600" class="w-[285px] h-[285px] sm:w-[305px] sm:h-[305px] rounded-full"></canvas>
+        <canvas id="wheel-canvas" width="600" height="600" class="w-[288px] h-[288px] sm:w-[308px] sm:h-[308px] rounded-full"></canvas>
       </div>
 
-      <!-- Centro 3D abombado con monograma de marca -->
-      <div class="absolute z-30 w-16 h-16 rounded-full wheel-center-dome flex items-center justify-center pointer-events-none border-2 border-white">
-        <span class="font-brand text-xs font-black text-white tracking-widest drop-shadow-md text-center leading-tight">
-          NZ<br><span class="text-[8px] font-sans tracking-normal opacity-90">SPIN</span>
+      <!-- Centro 3D compacto con logo NZ -->
+      <div class="absolute z-30 w-12 h-12 rounded-full wheel-center-dome flex items-center justify-center pointer-events-none border-2 border-white">
+        <span class="font-brand text-[11px] font-black text-white tracking-widest drop-shadow-md">
+          NZ
         </span>
       </div>
     </div>
 
-    <!-- PANEL INFERIOR DE ACCIÓN DIRECTA -->
-    <div id="play-panel" class="w-full max-w-[320px] mt-4 space-y-2.5">
+    <!-- PANEL INFERIOR DE ACCIÓN -->
+    <div id="play-panel" class="w-full max-w-[320px] mt-3 space-y-2.5">
       <div class="relative">
         <input type="text" id="player-input" placeholder="Ingresá tu nombre o apodo..." maxlength="25"
-          class="w-full bg-white/90 border-2 border-[#D4C6B6] rounded-2xl px-4 py-3 text-sm text-center font-bold text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black shadow-inner transition">
+          class="w-full bg-white border-2 border-[#D4C6B6] rounded-2xl px-4 py-3 text-sm text-center font-bold text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black shadow-inner transition">
       </div>
 
+      <!-- CTA Principal Atractivo con Shimmer -->
       <button id="spin-btn" onclick="triggerSpin()"
         class="w-full py-4 rounded-2xl btn-action-glow text-white font-black text-sm uppercase tracking-widest transition active:scale-95 flex items-center justify-center gap-2">
         <span class="text-base">🎰</span>
-        <span>¡GIRAR RULETA AHORA!</span>
+        <span>¡GIRAR Y DESCUBRIR MI PREMIO!</span>
       </button>
 
       <p class="text-[10px] text-center text-neutral-500 font-medium">
-        ✨ 100% de los giros tienen premio para canjear hoy en el local
+        ✨ 100% de los giros tienen beneficio asegurado para canjear hoy
       </p>
     </div>
 
-    <!-- MODAL / PANTALLA GANADORA (POP-UP CON RECOMPENSA) -->
-    <div id="prize-modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div class="bg-white rounded-3xl p-6 max-w-sm w-full space-y-4 shadow-2xl border-2 border-[#D4C6B6] text-center transform scale-95 transition-all">
-        <div class="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 text-[10px] font-extrabold uppercase tracking-widest">
-          ¡Premio Ganador! 🎉
+    <!-- PANTALLA GANADORA: REGALO 3D + CUPÓN ACTIVO INMEDIATO + RELOJ 2 HORAS -->
+    <div id="prize-modal" class="hidden fixed inset-0 bg-black/65 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div class="bg-white rounded-3xl p-6 max-w-sm w-full space-y-3.5 shadow-2xl border-2 border-[#D4C6B6] text-center transform scale-95 transition-all relative">
+        
+        <!-- Ilustración Boutique de Regalo Flotante -->
+        <div class="flex justify-center -mt-2">
+          <img src="gift_box_boutique.png" alt="Regalo Exclusivo" class="w-20 h-20 object-contain gift-float drop-shadow-md">
         </div>
         
-        <h2 class="font-brand text-2xl font-black text-neutral-900">
+        <div class="inline-block px-3 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 text-[10px] font-extrabold uppercase tracking-widest">
+          ¡Premio Desbloqueado! 🎉
+        </div>
+        
+        <h2 class="font-brand text-2xl font-black text-neutral-900 leading-tight">
           ¡Felicitaciones, <span id="winner-name-txt" class="text-[#A88665]"></span>!
         </h2>
 
@@ -226,87 +257,63 @@
           <div id="prize-desc-txt" class="text-xs text-amber-950 font-semibold bg-[#D4C6B6]/50 py-1 px-3 rounded-lg inline-block border border-[#D4C6B6] mt-1"></div>
         </div>
 
-        <!-- Reloj Regresivo de 2 Horas -->
-        <div class="bg-neutral-900 text-white p-3 rounded-2xl space-y-0.5">
+        <!-- Reloj Regresivo Activo de 2 Horas -->
+        <div class="bg-neutral-900 text-white p-3 rounded-2xl space-y-0.5 timer-glow">
           <div class="text-[10px] uppercase font-bold text-[#D4C6B6] tracking-wider">Vence hoy en el local en:</div>
           <div id="countdown-clock" class="font-mono text-2xl font-black text-white tracking-widest">02:00:00</div>
-          <div class="text-[10px] text-neutral-400">Presentá esta pantalla en caja antes del vencimiento</div>
+          <div class="text-[10px] text-neutral-400">Mostrá esta pantalla en caja antes del vencimiento</div>
         </div>
 
-        <!-- Código de Cupón -->
+        <!-- Código de Cupón Unificado NTM (Nazaria - TOM - Maschwitz) -->
         <div class="flex items-center justify-between p-2.5 bg-[#FAF9F6] rounded-xl border border-neutral-200 text-xs">
           <span class="text-neutral-600 font-bold">Código de Canje:</span>
-          <span id="coupon-code-txt" class="font-mono font-black text-base text-neutral-900 px-2 py-0.5 rounded bg-white border border-[#D4C6B6]"></span>
+          <span id="coupon-code-txt" class="font-mono font-black text-base text-neutral-900 px-2.5 py-0.5 rounded bg-white border border-[#D4C6B6]"></span>
         </div>
 
-        <!-- Botón Canje de la Clienta -->
-        <button onclick="claimPrize()" class="w-full py-3.5 rounded-2xl bg-black text-white font-black text-xs uppercase tracking-widest shadow-md hover:bg-neutral-800 transition">
-          ✨ Canjear Cupón en Caja
-        </button>
+        <!-- Indicación de canje transparente (no invasiva) -->
+        <div class="p-2.5 bg-[#FAF9F8] rounded-xl border border-neutral-200 text-[11px] text-neutral-700 leading-relaxed">
+          Mostrá esta pantalla en el mostrador de <strong>TOM</strong> o <strong>Maschwitz Mall</strong>. La vendedora registrará tu código en la factura.
+        </div>
 
-        <button onclick="closePrizeDemo()" class="text-[11px] text-neutral-400 underline hover:text-black block mx-auto pt-1">
-          Cerrar vista previa demo
-        </button>
+        <!-- Botón de Reinicio para Demo / Test -->
+        <div class="pt-1">
+          <button onclick="resetDemo()" class="text-[11px] text-neutral-400 hover:text-black underline transition">
+            🔄 Probar otro giro (Modo Demo / Test)
+          </button>
+        </div>
       </div>
     </div>
 
   </main>
 
-  <footer class="text-center py-1 text-[10px] text-neutral-400 z-10">
-    Nazaria Zapatos · Tortugas Open Mall & Maschwitz Mall
+  <footer class="text-center py-1 text-[10px] text-neutral-400 z-10 flex items-center justify-between w-full px-2">
+    <span>Nazaria Zapatos · Verano 2027</span>
+    <button onclick="resetDemo()" class="text-[9px] text-neutral-400 hover:text-black underline">
+      Reset Test
+    </button>
   </footer>
 
   <script>
-    let activeStore = 'TOM';
     let isSpinning = false;
+    let timerInterval = null;
 
-    // Matriz de premios con iconos visuales
-    const PRIZES_TOM = [
-      { title: "$5.000", sub: "Regalo", icon: "🎁", condition: "En compras mayores a $80.000", bg1: "#FFFFFF", bg2: "#F6F1EA" },
-      { title: "25% OFF", sub: "Efectivo", icon: "💵", condition: "20% habitual + 5% extra en temporada", bg1: "#E8DACD", bg2: "#D4C6B6" },
-      { title: "$10.000", sub: "Regalo", icon: "🎁", condition: "En compras mayores a $130.000", bg1: "#FFFFFF", bg2: "#F6F1EA" },
-      { title: "3 Cuotas", sub: "+ 5% OFF", icon: "💳", condition: "Sin interés con tarjetas bancarias", bg1: "#E8DACD", bg2: "#D4C6B6" },
-      { title: "20% OFF", sub: "2da Unidad", icon: "💎", condition: "En el par de menor valor", bg1: "#FFFFFF", bg2: "#F6F1EA" },
-      { title: "15% OFF", sub: "Débito/QR", icon: "📱", condition: "10% habitual + 5% extra", bg1: "#E8DACD", bg2: "#D4C6B6" },
-      { title: "$15.000", sub: "Regalo", icon: "⭐", condition: "En compras mayores a $180.000", bg1: "#FFFFFF", bg2: "#F6F1EA" },
-      { title: "5% EXTRA", sub: "Directo", icon: "🏷️", condition: "Acumulable con todas las formas de pago", bg1: "#E8DACD", bg2: "#D4C6B6" }
+    // 8 Premios Oficiales con montos claros e iconos grandes
+    const PRIZES = [
+      { title: "$5.000", sub: "Regalo", icon: "🎁", condition: "En compras mayores a $80.000 en temporada nueva", bg1: "#FFFFFF", bg2: "#F8F4EE" },
+      { title: "25% OFF", sub: "Efectivo", icon: "💵", condition: "20% habitual + 5% extra en temporada nueva", bg1: "#EDE1D5", bg2: "#DECBC0" },
+      { title: "$10.000", sub: "Regalo", icon: "🎁", condition: "En compras mayores a $130.000 en temporada nueva", bg1: "#FFFFFF", bg2: "#F8F4EE" },
+      { title: "3 Cuotas", sub: "+ 5% OFF", icon: "💳", condition: "Sin interés con tarjeta de crédito bancaria", bg1: "#EDE1D5", bg2: "#DECBC0" },
+      { title: "20% OFF", sub: "2da Unidad", icon: "💎", condition: "En el par de menor valor de temporada nueva", bg1: "#FFFFFF", bg2: "#F8F4EE" },
+      { title: "15% OFF", sub: "Débito/QR", icon: "📱", condition: "10% habitual + 5% extra en temporada nueva", bg1: "#EDE1D5", bg2: "#DECBC0" },
+      { title: "$15.000", sub: "Regalo", icon: "⭐", condition: "En compras mayores a $180.000 en temporada nueva", bg1: "#FFFFFF", bg2: "#F8F4EE" },
+      { title: "5% EXTRA", sub: "Directo", icon: "🏷️", condition: "Acumulable con todas las formas de pago", bg1: "#EDE1D5", bg2: "#DECBC0" }
     ];
 
-    const PRIZES_MASCHWITZ = [
-      { title: "$5.000", sub: "Regalo", icon: "🎁", condition: "En compras mayores a $80.000", bg1: "#FFFFFF", bg2: "#F6F1EA" },
-      { title: "25% OFF", sub: "Efectivo", icon: "💵", condition: "20% habitual + 5% extra en temporada", bg1: "#E8DACD", bg2: "#D4C6B6" },
-      { title: "$10.000", sub: "Regalo", icon: "🎁", condition: "En compras mayores a $130.000", bg1: "#FFFFFF", bg2: "#F6F1EA" },
-      { title: "6 Cuotas", sub: "Galicia", icon: "💳", condition: "Sin interés vía NAVE (Jueves)", bg1: "#E8DACD", bg2: "#D4C6B6" },
-      { title: "20% OFF", sub: "2da Unidad", icon: "💎", condition: "En el par de menor valor", bg1: "#FFFFFF", bg2: "#F6F1EA" },
-      { title: "15% OFF", sub: "Débito/QR", icon: "📱", condition: "10% habitual + 5% extra", bg1: "#E8DACD", bg2: "#D4C6B6" },
-      { title: "$15.000", sub: "Regalo", icon: "⭐", condition: "En compras mayores a $180.000", bg1: "#FFFFFF", bg2: "#F6F1EA" },
-      { title: "5% EXTRA", sub: "Directo", icon: "🏷️", condition: "Acumulable con todas las formas de pago", bg1: "#E8DACD", bg2: "#D4C6B6" }
-    ];
-
-    let currentPrizeList = PRIZES_TOM;
-
-    function changeStore(store) {
-      if (isSpinning) return;
-      activeStore = store;
-      const pTom = document.getElementById('pill-tom');
-      const pMasch = document.getElementById('pill-masch');
-      if (store === 'TOM') {
-        pTom.className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-neutral-900 text-white shadow-xs';
-        pMasch.className = 'px-3.5 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 text-neutral-600 hover:text-black';
-        currentPrizeList = PRIZES_TOM;
-      } else {
-        pMasch.className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-neutral-900 text-white shadow-xs';
-        pTom.className = 'px-3.5 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 text-neutral-600 hover:text-black';
-        currentPrizeList = PRIZES_MASCHWITZ;
-      }
-      renderWheel3D();
-    }
-
-    // DIBUJADO DE RULETA 3D CON GRADIENTES E ICONOS
+    // DIBUJO DE RULETA 3D CON TEXTOS TANGENCIALES NÍTIDOS, AMPLIOS Y SIN COLISIÓN
     function renderWheel3D() {
       const canvas = document.getElementById('wheel-canvas');
       const ctx = canvas.getContext('2d');
-      const num = currentPrizeList.length;
+      const num = PRIZES.length;
       const arc = (2 * Math.PI) / num;
       const radius = canvas.width / 2;
 
@@ -314,9 +321,9 @@
 
       for (let i = 0; i < num; i++) {
         const angle = i * arc;
-        const prize = currentPrizeList[i];
+        const prize = PRIZES[i];
 
-        // Gradiente radial para cada gajo dando sensación 3D
+        // Gradiente radial 3D por gajo
         const grad = ctx.createRadialGradient(radius, radius, 30, radius, radius, radius);
         grad.addColorStop(0, prize.bg1);
         grad.addColorStop(1, prize.bg2);
@@ -330,34 +337,37 @@
 
         // Borde dorado entre gajos
         ctx.strokeStyle = '#C4A482';
-        ctx.lineWidth = 2.5;
+        ctx.lineWidth = 3;
         ctx.stroke();
 
-        // Contenido del Gajo: Ícono + Título + Bajada
+        // Contenido con orientación tangencial (perfectamente horizontal al caer arriba)
         ctx.save();
         ctx.translate(radius, radius);
         ctx.rotate(angle + arc / 2);
+        ctx.translate(195, 0);
+        ctx.rotate(Math.PI / 2);
 
-        // Ícono grande cerca del borde
-        ctx.font = '24px Inter, sans-serif';
+        // Ícono grande y centrado
+        ctx.font = '26px sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText(prize.icon, radius - 40, -6);
+        ctx.textBaseline = 'middle';
+        ctx.fillText(prize.icon, 0, -22);
 
-        // Texto principal en negrita
-        ctx.font = '900 19px Inter, sans-serif';
+        // Monto principal grande, nítido y legible
+        ctx.font = '900 24px Inter, -apple-system, sans-serif';
         ctx.fillStyle = '#1A1A1A';
-        ctx.fillText(prize.title, radius - 40, 16);
+        ctx.fillText(prize.title, 0, 7);
 
-        // Subtítulo pequeño
-        ctx.font = '700 10px Inter, sans-serif';
+        // Subtítulo con peso visual
+        ctx.font = '700 13px Inter, -apple-system, sans-serif';
         ctx.fillStyle = '#73573D';
-        ctx.fillText(prize.sub, radius - 40, 29);
+        ctx.fillText(prize.sub, 0, 27);
 
         ctx.restore();
       }
     }
 
-    // GIRO REALISTA DE 10 SEGUNDOS
+    // GIRO REALISTA DE 10 SEGUNDOS (11 VUELTAS)
     function triggerSpin() {
       if (isSpinning) return;
       const input = document.getElementById('player-input');
@@ -374,12 +384,11 @@
       btn.disabled = true;
       btn.classList.add('opacity-50');
 
-      const num = currentPrizeList.length;
+      const num = PRIZES.length;
       const sliceDeg = 360 / num;
       const winningIdx = Math.floor(Math.random() * num);
-      const prize = currentPrizeList[winningIdx];
+      const prize = PRIZES[winningIdx];
 
-      // 10 segundos y 11 vueltas completas
       const totalRounds = 360 * 11;
       const targetDeg = 270 - (winningIdx * sliceDeg + sliceDeg / 2);
       const finalRotation = totalRounds + (targetDeg % 360) + (Math.random() * 6 - 3);
@@ -388,12 +397,11 @@
       canvas.style.transition = 'transform 10s cubic-bezier(0.12, 0.95, 0.15, 1)';
       canvas.style.transform = `rotate(${finalRotation}deg)`;
 
-      // Sonido de clics
       playWheelTicks();
 
       setTimeout(() => {
         if (typeof confetti === 'function') {
-          confetti({ particleCount: 130, spread: 80, origin: { y: 0.6 }, colors: ['#E6D5C3', '#D4C6B6', '#1A1A1A', '#FFD700'] });
+          confetti({ particleCount: 140, spread: 85, origin: { y: 0.6 }, colors: ['#E6D5C3', '#D4C6B6', '#1A1A1A', '#FFD700'] });
         }
         showPrizePopup(name, prize);
       }, 10300);
@@ -402,25 +410,26 @@
     function playWheelTicks() {
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 52; i++) {
           const osc = audioCtx.createOscillator();
           const gain = audioCtx.createGain();
           osc.type = 'triangle';
-          osc.frequency.setValueAtTime(680 - (i * 8), audioCtx.currentTime + (i * 0.2));
-          gain.gain.setValueAtTime(0.05, audioCtx.currentTime + (i * 0.2));
-          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (i * 0.2) + 0.04);
+          osc.frequency.setValueAtTime(700 - (i * 8), audioCtx.currentTime + (i * 0.19));
+          gain.gain.setValueAtTime(0.05, audioCtx.currentTime + (i * 0.19));
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (i * 0.19) + 0.04);
           osc.connect(gain);
           gain.connect(audioCtx.destination);
-          osc.start(audioCtx.currentTime + (i * 0.2));
-          osc.stop(audioCtx.currentTime + (i * 0.2) + 0.05);
+          osc.start(audioCtx.currentTime + (i * 0.19));
+          osc.stop(audioCtx.currentTime + (i * 0.19) + 0.05);
         }
       } catch (e) {}
     }
 
     function showPrizePopup(name, prize) {
       const modal = document.getElementById('prize-modal');
-      const prefix = (activeStore === 'TOM') ? 'TOM' : 'MAS';
-      const code = prefix + '-' + Math.floor(1000 + Math.random() * 9000);
+      // Código unificado NTM (Nazaria TOM Maschwitz)
+      const code = 'NTM-' + Math.floor(1000 + Math.random() * 9000);
+      const expireTime = Date.now() + 2 * 60 * 60 * 1000;
 
       document.getElementById('winner-name-txt').innerText = name.toUpperCase();
       document.getElementById('prize-title-txt').innerText = prize.title + ' ' + prize.sub;
@@ -428,22 +437,51 @@
       document.getElementById('coupon-code-txt').innerText = code;
 
       modal.classList.remove('hidden');
+      startCountdown(expireTime);
     }
 
-    function closePrizeDemo() {
+    function startCountdown(expireTime) {
+      if (timerInterval) clearInterval(timerInterval);
+
+      function update() {
+        const now = Date.now();
+        const diff = expireTime - now;
+
+        if (diff <= 0) {
+          clearInterval(timerInterval);
+          document.getElementById('countdown-clock').innerText = "VENCIDO";
+          document.getElementById('countdown-clock').classList.add('text-red-400');
+          return;
+        }
+
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        const pad = (n) => String(n).padStart(2, '0');
+        document.getElementById('countdown-clock').innerText = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+      }
+
+      update();
+      timerInterval = setInterval(update, 1000);
+    }
+
+    function resetDemo() {
       document.getElementById('prize-modal').classList.add('hidden');
       isSpinning = false;
+      if (timerInterval) clearInterval(timerInterval);
+
       const btn = document.getElementById('spin-btn');
       btn.disabled = false;
       btn.classList.remove('opacity-50');
+
       const canvas = document.getElementById('wheel-canvas');
       canvas.style.transition = 'none';
       canvas.style.transform = 'none';
-    }
 
-    function claimPrize() {
-      alert("¡Cupón validado con éxito!");
-      closePrizeDemo();
+      const input = document.getElementById('player-input');
+      input.value = '';
+      input.focus();
     }
 
     window.onload = function() {
