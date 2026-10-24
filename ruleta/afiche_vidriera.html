@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cartel de Vidriera · Ruleta Nazaria</title>
+  <title>Cartel de Vidriera · Ruleta Nazaria (Alta Conversión)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,11 +11,11 @@
   <style>
     @page { size: A4 portrait; margin: 0; }
     body {
-      font-family: 'Inter', sans-serif;
-      background-color: #EFE9E2;
+      font-family: 'Inter', -apple-system, sans-serif;
+      background-color: #DED6CB;
       color: #1A1A1A;
       margin: 0;
-      padding: 0;
+      padding: 24px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -23,51 +23,84 @@
     }
     .font-brand { font-family: 'Cinzel', Georgia, serif; }
 
-    /* Marco gráfico con proporción A4 (210mm x 297mm) */
+    /* Canvas A4 vertical exacto: 794px x 1123px (proporción 1 : 1.414) */
     .poster-canvas {
       width: 794px;
       height: 1123px;
-      background: radial-gradient(circle at 50% 15%, #FFFFFF 0%, #FAF8F5 50%, #ECE3D8 100%);
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+      background: radial-gradient(circle at 50% 12%, #FFFFFF 0%, #FAF8F5 45%, #EADECE 100%);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
       position: relative;
       overflow: hidden;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 48px 52px;
+      padding: 44px 48px;
       box-sizing: border-box;
+      border-radius: 4px;
     }
 
-    /* Filete perimetral dorado boutique */
-    .outer-border {
+    /* Marcos perimetrales arquitectónicos */
+    .border-gold-outer {
       position: absolute;
-      inset: 20px;
-      border: 2px solid #D4C6B6;
-      border-radius: 24px;
+      inset: 18px;
+      border: 2px solid #C4A482;
+      border-radius: 20px;
       pointer-events: none;
     }
-    .inner-border {
+    .border-gold-inner {
       position: absolute;
-      inset: 26px;
-      border: 1px solid rgba(196, 164, 130, 0.45);
-      border-radius: 18px;
+      inset: 24px;
+      border: 1px solid rgba(196, 164, 130, 0.4);
+      border-radius: 14px;
       pointer-events: none;
+    }
+
+    /* Brillo en titulares */
+    .title-pop {
+      text-shadow: 0 2px 0 #D4C6B6, 0 4px 16px rgba(184, 155, 126, 0.45);
     }
 
     /* Marco dorado del QR */
     .qr-frame {
       background: #FFFFFF;
-      padding: 18px;
-      border-radius: 32px;
+      padding: 16px;
+      border-radius: 28px;
       border: 3px solid #C4A482;
       box-shadow: 
-        0 20px 45px rgba(158, 122, 84, 0.25),
-        0 6px 16px rgba(0, 0, 0, 0.08);
+        0 18px 45px rgba(158, 122, 84, 0.3),
+        0 4px 12px rgba(0, 0, 0, 0.08);
       position: relative;
     }
 
-    .title-shadow {
-      text-shadow: 0 2px 0 #D4C6B6, 0 4px 14px rgba(184, 155, 126, 0.4);
+    /* Mockup de Celular con la Ruleta */
+    .phone-mockup {
+      width: 210px;
+      height: 380px;
+      background: #111111;
+      border-radius: 36px;
+      padding: 8px;
+      box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.45),
+        0 0 0 2px #444444;
+      position: relative;
+      transform: rotate(-3deg);
+    }
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 30%, #FFFFFF 0%, #FAF8F5 60%, #ECE3D8 100%);
+      border-radius: 28px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 10px;
+    }
+
+    .badge-ribbon {
+      background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     }
   </style>
 </head>
@@ -75,88 +108,123 @@
 
   <div class="poster-canvas">
     
-    <!-- Marcos decorativos arquitectónicos -->
-    <div class="outer-border"></div>
-    <div class="inner-border"></div>
+    <div class="border-gold-outer"></div>
+    <div class="border-gold-inner"></div>
 
-    <!-- CABECERA: LOGO OFICIAL & EPÍGRAFE -->
-    <div class="text-center pt-2 z-10 space-y-3">
+    <!-- CABECERA: LOGO LIMPIO & PROMO HEADER -->
+    <div class="text-center z-10 space-y-2.5">
       <div class="flex justify-center items-center">
-        <img src="logo_nazaria_pure_transparent.png" alt="Nazaria Zapatos" class="h-14 w-auto object-contain">
+        <img src="logo_nazaria_pure_transparent.png" alt="Nazaria Zapatos" class="h-13 w-auto object-contain">
       </div>
-      <div class="inline-block px-4 py-1 rounded-full bg-[#1A1A1A] text-white text-[11px] font-extrabold tracking-widest uppercase shadow-sm">
-        BENEFICIO EXCLUSIVO EN VIDRIERA
+      
+      <div class="inline-flex items-center gap-2 badge-ribbon text-white px-5 py-1.5 rounded-full text-xs font-black tracking-widest uppercase border border-[#C4A482]/60">
+        <span class="text-amber-300">★</span>
+        <span>BENEFICIO EXCLUSIVO EN VIDRIERA</span>
+        <span class="text-amber-300">★</span>
       </div>
     </div>
 
-    <!-- CUERPO PRINCIPAL: TÍTULO + QR PROTAGONISTA -->
-    <div class="text-center z-10 space-y-5 my-auto">
+    <!-- TITULAR DE MÁXIMO IMPACTO COMERCIAL -->
+    <div class="text-center z-10 space-y-2 my-1">
+      <div class="text-sm uppercase font-black tracking-widest text-[#9E7A54]">
+        Antes de ingresar al local
+      </div>
+      <h1 class="font-brand text-5xl font-black tracking-wider text-[#1A1A1A] title-pop uppercase leading-none">
+        ¡GIRÁ Y GANÁ!
+      </h1>
+      <div class="inline-block bg-[#1A1A1A] text-amber-200 px-6 py-2 rounded-2xl font-brand text-2xl font-black tracking-wide shadow-md">
+        HASTA $15.000 DE REGALO
+      </div>
+      <p class="text-sm font-extrabold text-neutral-600 max-w-md mx-auto pt-1">
+        ✨ 100% de los giros tienen beneficio garantizado para tu compra de hoy
+      </p>
+    </div>
+
+    <!-- CUERPO VISUAL: MOCKUP INTERACTIVO + QR PROTAGONISTA -->
+    <div class="z-10 flex items-center justify-center gap-8 my-auto">
       
-      <div class="space-y-1.5">
-        <h1 class="font-brand text-5xl font-black tracking-wider text-[#1A1A1A] title-shadow uppercase leading-tight">
-          ¡GIRÁ Y GANÁ!
-        </h1>
-        <p class="text-base font-bold text-neutral-600 max-w-md mx-auto">
-          Descubrí tu beneficio de temporada antes de entrar al local
-        </p>
+      <!-- Mockup Visual del Celular para que la mente entienda en 1 segundo -->
+      <div class="phone-mockup flex-shrink-0">
+        <div class="phone-screen text-center">
+          <!-- Mini notch -->
+          <div class="w-16 h-3 bg-black rounded-full mb-1"></div>
+          
+          <div class="text-[9px] font-black tracking-widest text-neutral-800 uppercase font-brand">
+            NAZARIA
+          </div>
+          
+          <!-- Mini ruleta visual -->
+          <div class="relative w-36 h-36 my-auto flex items-center justify-center">
+            <div class="w-34 h-34 rounded-full border-4 border-[#C4A482] shadow-md flex items-center justify-center bg-gradient-to-tr from-[#EADECE] via-white to-[#DECBC0]">
+              <div class="w-8 h-8 rounded-full bg-[#8C6A48] border-2 border-white flex items-center justify-center shadow-inner">
+                <span class="font-brand text-[8px] font-black text-white">NZ</span>
+              </div>
+            </div>
+            <!-- Mini Ticker -->
+            <div class="absolute -top-1 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[12px] border-t-amber-600"></div>
+          </div>
+
+          <div class="w-full space-y-1">
+            <div class="bg-black text-white text-[9px] font-black py-1.5 px-2 rounded-xl">
+              ¡GIRAR Y DESCUBRIR!
+            </div>
+            <div class="text-[7px] text-neutral-500 font-bold">Válido hoy en mostrador</div>
+          </div>
+        </div>
       </div>
 
-      <!-- QR CODE BOUTIQUE CENTRAL -->
-      <div class="flex justify-center my-3">
-        <div class="qr-frame inline-block">
-          <img src="qr_nazaria_oficial.png" alt="Escanear QR Ruleta" class="w-64 h-64 object-contain rounded-2xl">
-          <div class="mt-2.5 pt-2 border-t border-neutral-100 flex items-center justify-center gap-2">
-            <span class="text-xs">📸</span>
-            <span class="text-xs font-black uppercase tracking-wider text-neutral-800">
-              Escaneá con la cámara de tu celular
+      <!-- Lado Derecho: QR Oficial con Isotipo Real -->
+      <div class="flex flex-col items-center space-y-3">
+        <div class="qr-frame">
+          <img src="qr_nazaria_oficial.png" alt="Código QR Ruleta Nazaria" class="w-60 h-60 object-contain rounded-2xl">
+          <div class="mt-2.5 pt-2 border-t border-neutral-100 flex items-center justify-center gap-1.5">
+            <span class="text-sm">📸</span>
+            <span class="text-[11px] font-black uppercase tracking-wider text-neutral-900">
+              Apuntá con tu cámara de fotos
             </span>
           </div>
         </div>
-      </div>
 
-      <!-- 3 PASOS SIMPLES -->
-      <div class="grid grid-cols-3 gap-3 max-w-lg mx-auto pt-1 text-left">
-        
-        <div class="bg-white/80 backdrop-blur-sm p-3 rounded-2xl border border-[#D4C6B6]/80 shadow-2xs">
-          <div class="text-base font-black text-[#A88665]">1. ESCANEÁ</div>
-          <div class="text-[11px] text-neutral-600 font-semibold mt-0.5 leading-snug">
-            Apuntá tu cámara al código QR.
+        <div class="text-center space-y-0.5">
+          <div class="text-xs font-black text-neutral-800 uppercase tracking-wide">
+            Sin apps • Sin registro previo
+          </div>
+          <div class="text-[11px] text-neutral-500 font-semibold">
+            Escaneás, jugás y mostrás tu cupón en caja
           </div>
         </div>
-
-        <div class="bg-white/80 backdrop-blur-sm p-3 rounded-2xl border border-[#D4C6B6]/80 shadow-2xs">
-          <div class="text-base font-black text-[#A88665]">2. GIRÁ</div>
-          <div class="text-[11px] text-neutral-600 font-semibold mt-0.5 leading-snug">
-            Girá la ruleta. ¡100% tienen premio!
-          </div>
-        </div>
-
-        <div class="bg-white/80 backdrop-blur-sm p-3 rounded-2xl border border-[#D4C6B6]/80 shadow-2xs">
-          <div class="text-base font-black text-[#A88665]">3. CANJEÁ</div>
-          <div class="text-[11px] text-neutral-600 font-semibold mt-0.5 leading-snug">
-            Mostrá tu pantalla en caja al pagar.
-          </div>
-        </div>
-
       </div>
 
     </div>
 
-    <!-- PIE DEL CARTEL: LOCALES AUTORIZADOS & CONDICIONES -->
-    <div class="text-center z-10 pt-2 border-t border-[#D4C6B6]/60 space-y-2">
-      <div class="flex items-center justify-center gap-6">
-        <div class="flex items-center gap-2">
-          <img src="tom_badge.png" alt="Tortugas Open Mall" class="h-7 w-auto object-contain">
-          <span class="text-xs font-bold text-neutral-800">Tortugas Open Mall</span>
-        </div>
-        <span class="text-neutral-300 font-bold">•</span>
-        <div class="flex items-center gap-2">
-          <img src="maschwitz_badge.png" alt="Maschwitz Mall" class="h-7 w-auto object-contain">
-          <span class="text-xs font-bold text-neutral-800">Maschwitz Mall</span>
-        </div>
+    <!-- PASOS SIMPLES DE ALTA CONVERSIÓN -->
+    <div class="z-10 grid grid-cols-3 gap-3 max-w-lg mx-auto w-full pt-1">
+      <div class="bg-white/85 backdrop-blur-sm p-3 rounded-2xl border border-[#D4C6B6] text-center shadow-2xs">
+        <div class="text-lg">📱</div>
+        <div class="text-xs font-black text-neutral-900 mt-1">1. ESCANEÁ</div>
+        <div class="text-[10px] text-neutral-600 font-medium mt-0.5">Abrí la cámara de tu celular</div>
       </div>
+
+      <div class="bg-white/85 backdrop-blur-sm p-3 rounded-2xl border border-[#D4C6B6] text-center shadow-2xs">
+        <div class="text-lg">🎰</div>
+        <div class="text-xs font-black text-neutral-900 mt-1">2. GIRÁ</div>
+        <div class="text-[10px] text-neutral-600 font-medium mt-0.5">Descubrí tu beneficio exclusivo</div>
+      </div>
+
+      <div class="bg-white/85 backdrop-blur-sm p-3 rounded-2xl border border-[#D4C6B6] text-center shadow-2xs">
+        <div class="text-lg">🛍️</div>
+        <div class="text-xs font-black text-neutral-900 mt-1">3. CANJEÁ</div>
+        <div class="text-[10px] text-neutral-600 font-medium mt-0.5">Mostrá tu pantalla en caja</div>
+      </div>
+    </div>
+
+    <!-- PIE DEL CARTEL: INSTITUCIONAL Y SEGURO (Sin logotipos cruzados de shoppings) -->
+    <div class="text-center z-10 pt-3 border-t border-[#D4C6B6]/60 space-y-1">
+      <p class="text-xs font-extrabold text-neutral-800 uppercase tracking-wider">
+        Válido exclusivamente para compras presenciales en este local
+      </p>
       <p class="text-[10px] text-neutral-400 font-medium">
-        Promoción válida únicamente para compras presenciales en locales adheridos · Verano 2027
+        Nazaria Zapatos · Colección Verano 2027 · Los beneficios tienen una vigencia de 2 hs desde el giro.
       </p>
     </div>
 
