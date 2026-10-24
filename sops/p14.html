@@ -1,94 +1,166 @@
 <h1 class="sop-title-1">P-14 · Campaña Vidriera: Ruleta Interactiva & Operación en Mostrador</h1>
 <p class="sop-text" style="margin-bottom: 12pt !important;">
-    <strong>Objetivo:</strong> Protocolo operativo de atención en salón y línea de caja para la activación de la "Ruleta de Premios Nazaria" (escaneo de QR en vidriera, validación de cupones con cuenta regresiva, filtro de datos para facturación y canje seguro).
+    <strong>Objetivo:</strong> Protocolo operativo de control y línea de caja para la activación de la "Ruleta de Premios Nazaria" (control de vencimiento de 2 hs, tabla de premios vigentes por local, filtro de datos para facturación y canje seguro).
 </p>
 <hr class="sop-divider" style="margin-top: 0px !important; margin-bottom: 16pt !important;">
 
 <div class="space-y-4 text-xs font-['Inter',Arial,sans-serif] leading-tight">
 
-    <!-- 1. El Concepto y Dinámica en Vidriera -->
+    <!-- 1. Tabla Oficial de Premios Vigentes en la Ruleta -->
     <div class="border border-[#767680] rounded overflow-hidden shadow-sm">
-        <div class="bg-[#dfe0f8] text-[#1b1b20] font-bold text-xs px-3.5 py-2.5 border-b border-[#767680] flex items-center space-x-2 tracking-wide uppercase">
-            <span>👁️</span>
-            <span>1. DINÁMICA DE LA ACCIÓN (DE VIDRIERA AL SALÓN)</span>
+        <div class="bg-[#E5D7C7] text-[#1b1b20] font-bold text-xs px-3.5 py-2.5 border-b border-[#767680] flex items-center justify-between tracking-wide uppercase">
+            <span class="flex items-center space-x-2">
+                <span>🎰</span>
+                <span>1. PREMIOS ACTIVOS EN LA RULETA (MATRIZ DE DESCUENTOS)</span>
+            </span>
+            <span class="text-[10px] bg-white px-2 py-0.5 rounded text-neutral-800 font-bold border border-neutral-300">Vigente</span>
         </div>
-        <div class="p-3.5 bg-white space-y-2">
-            <p class="text-neutral-800 text-xs">
-                En la vidriera de cada local (TOM y Maschwitz) se exhibe un cartel con un código QR que invita al público a jugar: <em>"¡Girá la ruleta y ganá tu beneficio para hoy!"</em>.
+        <div class="p-3 bg-white space-y-2">
+            <p class="text-neutral-700 text-xs">
+                Estos son los 8 premios que giran actualmente en el celular de la clienta al escanear el QR:
             </p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 pt-1">
-                <div class="bg-neutral-50 p-2.5 rounded border border-neutral-200">
-                    <div class="font-bold text-neutral-900 text-xs">1. Escaneo Inmediato</div>
-                    <div class="text-[11px] text-neutral-600 mt-0.5">La clienta escanea con su celular y pone solo su nombre o apodo (cero demora).</div>
-                </div>
-                <div class="bg-neutral-50 p-2.5 rounded border border-neutral-200">
-                    <div class="font-bold text-neutral-900 text-xs">2. Giro &amp; Premio</div>
-                    <div class="text-[11px] text-neutral-600 mt-0.5">La ruleta gira y le otorga un premio exclusivo con un código (ej: <code>NZ-8419</code>).</div>
-                </div>
-                <div class="bg-neutral-50 p-2.5 rounded border border-neutral-200">
-                    <div class="font-bold text-neutral-900 text-xs">3. Urgencia (2 Horas)</div>
-                    <div class="text-[11px] text-neutral-600 mt-0.5">Tiene un reloj regresivo de 2 horas para entrar y canjearlo en el momento.</div>
-                </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse border border-neutral-200 text-xs">
+                    <thead>
+                        <tr class="bg-neutral-100 text-neutral-800 font-bold border-b border-neutral-200">
+                            <th class="p-2 border-r border-neutral-200">Premio</th>
+                            <th class="p-2 border-r border-neutral-200">Condición Excluyente</th>
+                            <th class="p-2 border-r border-neutral-200">Locales</th>
+                            <th class="p-2">Cómo se carga</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-neutral-200 text-neutral-800">
+                        <tr class="hover:bg-neutral-50">
+                            <td class="p-2 font-bold text-emerald-900 border-r border-neutral-200 bg-emerald-50/50">🎟️ $5.000 de Regalo</td>
+                            <td class="p-2 border-r border-neutral-200">Compras mayores a <strong>$80.000</strong> en temporada nueva</td>
+                            <td class="p-2 border-r border-neutral-200 font-semibold">TOM y Maschwitz</td>
+                            <td class="p-2">Bonificación fija de <strong>$5.000</strong> en el ticket</td>
+                        </tr>
+                        <tr class="hover:bg-neutral-50">
+                            <td class="p-2 font-bold text-emerald-900 border-r border-neutral-200 bg-emerald-50/50">🎟️ $10.000 de Regalo</td>
+                            <td class="p-2 border-r border-neutral-200">Compras mayores a <strong>$130.000</strong> en temporada nueva</td>
+                            <td class="p-2 border-r border-neutral-200 font-semibold">TOM y Maschwitz</td>
+                            <td class="p-2">Bonificación fija de <strong>$10.000</strong> en el ticket</td>
+                        </tr>
+                        <tr class="hover:bg-neutral-50">
+                            <td class="p-2 font-bold text-emerald-900 border-r border-neutral-200 bg-emerald-50/50">🎟️ $15.000 de Regalo</td>
+                            <td class="p-2 border-r border-neutral-200">Compras mayores a <strong>$180.000</strong> en temporada nueva</td>
+                            <td class="p-2 border-r border-neutral-200 font-semibold">TOM y Maschwitz</td>
+                            <td class="p-2">Bonificación fija de <strong>$15.000</strong> en el ticket</td>
+                        </tr>
+                        <tr class="hover:bg-neutral-50">
+                            <td class="p-2 font-bold text-blue-900 border-r border-neutral-200 bg-blue-50/50">🎟️ 20% en 2da Unidad</td>
+                            <td class="p-2 border-r border-neutral-200">Llevando 2 pares de temporada (aplica al par de <strong>menor valor</strong>)</td>
+                            <td class="p-2 border-r border-neutral-200 font-semibold">TOM y Maschwitz</td>
+                            <td class="p-2">Aplicar 20% de descuento solo al 2do par</td>
+                        </tr>
+                        <tr class="hover:bg-neutral-50">
+                            <td class="p-2 font-bold text-neutral-900 border-r border-neutral-200">🎟️ 25% OFF en Efectivo</td>
+                            <td class="p-2 border-r border-neutral-200">Abonando en efectivo (20% habitual + 5% extra del cupón)</td>
+                            <td class="p-2 border-r border-neutral-200 font-semibold">TOM y Maschwitz</td>
+                            <td class="p-2">Cargar 25% de descuento en forma de pago Efectivo</td>
+                        </tr>
+                        <tr class="hover:bg-neutral-50">
+                            <td class="p-2 font-bold text-neutral-900 border-r border-neutral-200">🎟️ 15% OFF Débito / QR</td>
+                            <td class="p-2 border-r border-neutral-200">Abonando con Débito o QR (10% habitual + 5% extra)</td>
+                            <td class="p-2 border-r border-neutral-200 font-semibold">TOM y Maschwitz</td>
+                            <td class="p-2">Cargar 15% de descuento en Débito/QR</td>
+                        </tr>
+                        <tr class="hover:bg-neutral-50">
+                            <td class="p-2 font-bold text-purple-900 border-r border-neutral-200 bg-purple-50/40">🎟️ 3 Cuotas + 5% OFF</td>
+                            <td class="p-2 border-r border-neutral-200">Tarjetas de crédito bancarias Visa/Mastercard</td>
+                            <td class="p-2 border-r border-neutral-200 font-bold text-amber-800">Solo TOM</td>
+                            <td class="p-2">Cobrar en 3 cuotas sin interés y aplicar 5% de descuento</td>
+                        </tr>
+                        <tr class="hover:bg-neutral-50">
+                            <td class="p-2 font-bold text-purple-900 border-r border-neutral-200 bg-purple-50/40">🎟️ 6 Cuotas Galicia Nave</td>
+                            <td class="p-2 border-r border-neutral-200">Tarjetas Galicia Crédito vía terminal NAVE (Jueves)</td>
+                            <td class="p-2 border-r border-neutral-200 font-bold text-blue-800">Solo Maschwitz</td>
+                            <td class="p-2">Cobrar en 6 cuotas s/interés en terminal NAVE</td>
+                        </tr>
+                        <tr class="hover:bg-neutral-50">
+                            <td class="p-2 font-bold text-neutral-900 border-r border-neutral-200">🎟️ 5% OFF Directo</td>
+                            <td class="p-2 border-r border-neutral-200">Acumulable con cualquier medio de pago en temporada nueva</td>
+                            <td class="p-2 border-r border-neutral-200 font-semibold">TOM y Maschwitz</td>
+                            <td class="p-2">Sumar 5% extra al descuento habitual</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
-    <!-- 2. Atención en Salón: Bienvenida a la Clienta con Ruleta -->
+    <!-- 2. Cómo Controlar el Cupón en Caja (Vencimiento de 2 Horas) -->
     <div class="border border-[#767680] rounded overflow-hidden shadow-sm">
-        <div class="bg-[#dcfce7] text-[#14532d] font-bold text-xs px-3.5 py-2.5 border-b border-[#767680] flex items-center space-x-2 tracking-wide uppercase">
-            <span>👠</span>
-            <span>2. RECEPCIÓN EN EL SALÓN DE VENTAS</span>
+        <div class="bg-[#fef3c7] text-[#78350f] font-bold text-xs px-3.5 py-2.5 border-b border-[#767680] flex items-center space-x-2 tracking-wide uppercase">
+            <span>⏱️</span>
+            <span>2. CONTROL OBLIGATORIO DE VENCIMIENTO (RELOJ DE 2 HORAS)</span>
         </div>
-        <div class="p-3.5 bg-white space-y-2">
-            <p class="text-neutral-800 text-xs">
-                Cuando una clienta ingresa con el celular en la mano mostrando la pantalla de la ruleta:
+        <div class="p-3.5 bg-white space-y-3">
+            <p class="text-neutral-700 text-xs">
+                Antes de aplicar cualquier descuento, la cajera debe verificar en la pantalla del celular de la clienta los siguientes <strong>3 puntos de control</strong>:
             </p>
-            <div class="bg-emerald-50 p-3 rounded border border-emerald-200 text-emerald-950 space-y-1">
-                <div class="font-bold text-xs">💬 Speech de Bienvenida Obligatorio:</div>
-                <p class="italic">
-                    "¡Hola! ¡Qué bueno que giraste la ruleta! ¿Qué premio te tocó? Pasá a mirar la Nueva Temporada que te acompaño a buscar tu talle para aprovecharlo."
-                </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5">
+                <div class="p-2.5 bg-neutral-50 rounded border border-neutral-200">
+                    <div class="font-bold text-neutral-900 text-xs flex items-center gap-1">
+                        <span>1️⃣</span> Reloj Activo (No Vencido)
+                    </div>
+                    <div class="text-[11px] text-neutral-600 mt-1">
+                        El temporizador en pantalla debe estar corriendo (ej: <code>01:42:15</code>). Si dice en rojo <strong>"VENCIDO"</strong> o <strong>"CUPÓN EXPIRADO"</strong>, el beneficio ya no es aplicable.
+                    </div>
+                </div>
+
+                <div class="p-2.5 bg-neutral-50 rounded border border-neutral-200">
+                    <div class="font-bold text-neutral-900 text-xs flex items-center gap-1">
+                        <span>2️⃣</span> Código Único Visible
+                    </div>
+                    <div class="text-[11px] text-neutral-600 mt-1">
+                        Debe figurar un código con el formato <strong class="font-mono bg-white px-1 py-0.5 rounded border border-neutral-300">NZ-XXXX</strong> (ej: <code>NZ-8319</code>).
+                    </div>
+                </div>
+
+                <div class="p-2.5 bg-neutral-50 rounded border border-neutral-200">
+                    <div class="font-bold text-neutral-900 text-xs flex items-center gap-1">
+                        <span>3️⃣</span> Botón Sin Canjear
+                    </div>
+                    <div class="text-[11px] text-neutral-600 mt-1">
+                        La pantalla debe mostrar el botón gris: <em>"🔒 Botón exclusivo para la vendedora en caja: Validar Canje"</em>. Si ya está en pantalla verde de "Canjeado con Éxito", ya fue utilizado.
+                    </div>
+                </div>
             </div>
-            <p class="text-[11px] text-neutral-600">
-                La vendedora debe verificar visualmente que el reloj no esté en cero ("Vencido") antes de comenzar a asesorarla.
-            </p>
         </div>
     </div>
 
     <!-- 3. Protocolo en Caja & Filtro de Datos Obligatorio -->
     <div class="border border-[#767680] rounded overflow-hidden shadow-sm">
-        <div class="bg-[#fef3c7] text-[#78350f] font-bold text-xs px-3.5 py-2.5 border-b border-[#767680] flex items-center space-x-2 tracking-wide uppercase">
+        <div class="bg-[#dfe0f8] text-[#1b1b20] font-bold text-xs px-3.5 py-2.5 border-b border-[#767680] flex items-center space-x-2 tracking-wide uppercase">
             <span>💻</span>
-            <span>3. PROTOCOLO EN LÍNEA DE CAJA &amp; CARGA DE DATOS</span>
+            <span>3. PROTOCOLO DE FACTURACIÓN &amp; CAPTURA DE DATOS</span>
         </div>
         <div class="p-3.5 bg-white space-y-3">
             <div class="p-2.5 bg-amber-50 rounded border border-amber-300 text-amber-950 font-semibold text-xs">
-                ⚠️ <strong>REGLA DE ORO DE CAPTURA DE DATOS:</strong> En la ruleta de vidriera la clienta no cargó datos personales. Por lo tanto, <strong>EN CAJA ES OBLIGATORIO SOLICITAR SUS DATOS</strong> para crear su ficha en el sistema de facturación.
+                ⚠️ <strong>FILTRO OBLIGATORIO DE DATOS:</strong> Como la clienta solo ingresó su nombre para girar en la vidriera, <strong>ES CONDICIÓN OBLIGATORIA PEDIR DNI, TELÉFONO Y MAIL EN EL MOSTRADOR</strong> para registrarla en el sistema de facturación.
             </div>
 
             <div class="space-y-1.5 text-xs text-neutral-800">
-                <div class="font-bold text-neutral-900">Pasos exactos al cobrar:</div>
+                <div class="font-bold text-neutral-900">Pasos al facturar:</div>
                 <ol class="list-decimal pl-4 space-y-1.5">
                     <li>
-                        <strong>Pedir los datos amablemente para el ticket/factura:</strong><br>
-                        <em>"¡Felicitaciones por el premio! Para poder aplicarte el beneficio en el sistema y entregarte la factura, ¿me decís tu DNI, teléfono y correo electrónico?"</em>
+                        <strong>Solicitar los datos para la factura:</strong> Solicitar DNI, Nombre completo, Teléfono/WhatsApp y Correo electrónico de la clienta.
                     </li>
                     <li>
-                        <strong>Cargar o verificar el cliente en el sistema:</strong> Dar de alta o actualizar su ficha con DNI, Nombre completo, WhatsApp y Mail.
+                        <strong>Cargar o verificar la ficha:</strong> Crear o actualizar el cliente en el sistema.
                     </li>
                     <li>
-                        <strong>Aplicar el descuento del premio obtenido:</strong>
-                        <ul class="list-disc pl-4 mt-1 space-y-0.5 text-neutral-600">
-                            <li>Si es <strong>$5.000 / $10.000 / $15.000 de Regalo:</strong> Se descuenta el importe exacto en bonificación verificando el monto mínimo de compra.</li>
-                            <li>Si es <strong>20% en 2da Unidad:</strong> Se aplica el 20% sobre el par de menor valor del ticket.</li>
-                            <li>Si es <strong>5% Extra:</strong> Se suma a la bonificación de la forma de pago elegida.</li>
-                        </ul>
+                        <strong>Aplicar el descuento:</strong> Ingresar el porcentaje o monto correspondiente en el campo de bonificación según el premio obtenido y la compra mínima requerida.
                     </li>
                     <li>
-                        <strong>Registrar el código del cupón:</strong> En el campo <em>Observaciones</em> o <em>Leyenda</em> de la venta, escribir el código de la pantalla (ej: <code>NZ-4912</code>).
+                        <strong>Asentar el código de cupón:</strong> En el campo <em>Observaciones</em> o <em>Leyenda</em> de la venta, ingresar obligatoriamente el código: <span class="bg-[#1b1b20] text-amber-300 font-mono font-bold px-1.5 py-0.5 rounded">NZ-XXXX</span>.
                     </li>
                     <li>
-                        <strong>Validar el Canje en el celular de la clienta:</strong> Frente a ella, presionar el botón: <strong>"🔒 Botón exclusivo para la vendedora en caja: Validar Canje"</strong>. La pantalla se pondrá en verde confirmando el canje y evitando que vuelva a usarse.
+                        <strong>Validar el Canje en el celular:</strong> Frente a la clienta, presionar el botón de la pantalla <em>"Validar Canje"</em>. La pantalla se pondrá en verde confirmando el canje.
                     </li>
                 </ol>
             </div>
@@ -103,7 +175,7 @@
         </div>
         <div class="p-3.5 bg-white space-y-2">
             <p class="text-neutral-700 text-xs">
-                Para consultar el funcionamiento de la aplicación o asistir a una clienta:
+                Para verificar el funcionamiento en vivo o probar la experiencia:
             </p>
             <div class="flex items-center gap-2">
                 <a href="https://juanoviedo1987-droid.github.io/NAZARIA-SOPs/ruleta/" target="_blank" class="px-3.5 py-2 bg-neutral-900 hover:bg-black text-white font-bold rounded text-xs transition inline-flex items-center gap-1.5 shadow-sm">
