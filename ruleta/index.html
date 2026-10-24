@@ -23,29 +23,28 @@
     .bg-nazaria-card {
       background: #FFFFFF;
       border: 1px solid #D4C6B6;
-      box-shadow: 0 12px 35px -8px rgba(184, 155, 126, 0.22);
+      box-shadow: 0 14px 40px -10px rgba(184, 155, 126, 0.28);
     }
     .nazaria-pill {
       background-color: #D4C6B6;
       color: #1A1A1A;
     }
     .gold-button {
-      background: linear-gradient(135deg, #2A2A2A 0%, #141416 100%);
+      background: linear-gradient(135deg, #222222 0%, #111111 100%);
       color: #FAF9F8;
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     }
     .gold-button:active {
       transform: scale(0.98);
     }
     /* Estilos Ruleta */
     #wheel-canvas {
-      filter: drop-shadow(0 10px 28px rgba(184, 155, 126, 0.38));
-      transition: transform 9s cubic-bezier(0.12, 0.9, 0.18, 1);
+      filter: drop-shadow(0 12px 30px rgba(184, 155, 126, 0.45));
+      transition: transform 10s cubic-bezier(0.1, 0.92, 0.15, 1);
     }
     .ticker-needle {
       filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.35));
     }
-    /* Pulsación del temporizador */
     @keyframes timerPulse {
       0%, 100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.9; transform: scale(1.02); }
@@ -63,9 +62,13 @@
       BENEFICIO EXCLUSIVO EN TIENDA
     </div>
     
-    <!-- Logotipo Oficial Limpio -->
-    <div class="flex items-center justify-center pt-1">
-      <img src="LOGOS NAZARIA REDES-2-LOGO NAZARIA.png" alt="Nazaria Zapatos" class="h-10 sm:h-12 w-auto object-contain">
+    <!-- Logotipo Oficial Seguro con Fallback -->
+    <div class="flex items-center justify-center pt-1 min-h-[44px]">
+      <img src="logo_nazaria.png" alt="Nazaria Zapatos" class="h-10 sm:h-12 w-auto object-contain"
+        onerror="this.style.display='none'; document.getElementById('logo-text-fallback').style.display='block';">
+      <h1 id="logo-text-fallback" class="font-brand text-2xl sm:text-3xl font-extrabold tracking-widest text-[#1A1A1A] hidden">
+        NAZARIA
+      </h1>
     </div>
     <p class="text-[11px] text-neutral-500 tracking-wide">
       Girá la ruleta y descubrí tu beneficio exclusivo para hoy
@@ -75,15 +78,12 @@
   <!-- CONTENEDOR PRINCIPAL INTERACTIVO -->
   <main class="flex-1 flex flex-col justify-center my-auto py-2">
 
-    <!-- PANTALLA 1: INGRESO RÁPIDO CON LOGOS DE SHOPPINGS -->
+    <!-- PANTALLA 1: INGRESO RÁPIDO CON LOGOS GRANDES -->
     <div id="screen-input" class="bg-nazaria-card rounded-2xl p-5 space-y-4">
       
-      <!-- Showcase de Calzado Nueva Temporada -->
+      <!-- Banner Visual de Calzado Especial -->
       <div class="w-full h-32 rounded-xl overflow-hidden relative shadow-inner border border-[#D4C6B6]">
-        <img src="podium_compact.jpg" alt="Nueva Temporada Nazaria" class="w-full h-full object-cover">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-3">
-          <span class="text-white text-xs font-bold font-brand tracking-widest">NUEVA COLECCIÓN SS27</span>
-        </div>
+        <img src="hero_banner.jpg" alt="Colección Nazaria Zapatos" class="w-full h-full object-cover">
       </div>
 
       <div class="text-center space-y-1">
@@ -102,22 +102,22 @@
           <label class="block text-[11px] font-semibold text-neutral-700 uppercase tracking-wider mb-1.5">¿En qué sucursal estás hoy?</label>
           <div class="grid grid-cols-2 gap-2.5">
             
-            <!-- Botón TOM con Logo Oficial -->
+            <!-- Botón TOM con Logo Oficial Visible -->
             <button type="button" onclick="selectStore('TOM')" id="btn-store-tom"
-              class="p-2.5 rounded-xl border-2 border-black bg-white flex flex-col items-center justify-center gap-1.5 shadow-sm transition hover:scale-[1.02]">
-              <div class="h-8 flex items-center justify-center">
-                <img src="logo_tom.png" alt="Tortugas Open Mall" class="max-h-7 max-w-full object-contain">
+              class="p-3 rounded-xl border-2 border-black bg-white flex flex-col items-center justify-center gap-1.5 shadow-sm transition hover:scale-[1.02]">
+              <div class="h-10 w-full flex items-center justify-center px-1">
+                <img src="tom_clean.png" alt="Tortugas Open Mall" class="max-h-9 max-w-full object-contain">
               </div>
-              <span class="text-[10px] font-bold text-neutral-900 tracking-wide">Tortugas (TOM)</span>
+              <span class="text-[11px] font-bold text-neutral-900 tracking-wide">Tortugas (TOM)</span>
             </button>
 
-            <!-- Botón Maschwitz Mall con Logo Oficial -->
+            <!-- Botón Maschwitz Mall con Logo Oficial Visible -->
             <button type="button" onclick="selectStore('MASCHWITZ')" id="btn-store-masch"
-              class="p-2.5 rounded-xl border border-neutral-300 bg-neutral-50 flex flex-col items-center justify-center gap-1.5 transition hover:border-neutral-500 hover:scale-[1.02]">
-              <div class="h-8 flex items-center justify-center">
-                <img src="logo_maschwitz_mall.png" alt="Maschwitz Mall" class="max-h-7 max-w-full object-contain">
+              class="p-3 rounded-xl border border-neutral-300 bg-neutral-50 flex flex-col items-center justify-center gap-1.5 transition hover:border-neutral-500 hover:scale-[1.02]">
+              <div class="h-10 w-full flex items-center justify-center px-1">
+                <img src="maschwitz_clean.png" alt="Maschwitz Mall" class="max-h-9 max-w-full object-contain">
               </div>
-              <span class="text-[10px] font-semibold text-neutral-600 tracking-wide">Maschwitz Mall</span>
+              <span class="text-[11px] font-semibold text-neutral-600 tracking-wide">Maschwitz Mall</span>
             </button>
 
           </div>
@@ -134,7 +134,7 @@
       </p>
     </div>
 
-    <!-- PANTALLA 2: LA RULETA GIRATORIA (TIEMPO DE GIRO EXPANDIDO) -->
+    <!-- PANTALLA 2: LA RULETA GIRATORIA (10 SEGUNDOS DE SUSPENSO & BOTÓN COMPACTO) -->
     <div id="screen-wheel" class="hidden flex flex-col items-center justify-center space-y-3">
       
       <!-- Mensaje personalizado con logo del local -->
@@ -155,13 +155,13 @@
           </svg>
         </div>
 
-        <!-- Canvas de la Ruleta -->
+        <!-- Canvas de la Ruleta (Radio 600) -->
         <canvas id="wheel-canvas" width="600" height="600" class="w-full h-full rounded-full"></canvas>
 
-        <!-- Botón Central con Monograma NZ -->
-        <div class="absolute z-10 w-16 h-16 rounded-full bg-white border-2 border-[#1A1A1A] shadow-md flex items-center justify-center pointer-events-none">
-          <span class="font-brand text-[11px] font-bold text-neutral-900 tracking-widest text-center leading-tight">
-            NZ<br><span class="text-[8px] tracking-normal text-neutral-500">SPIN</span>
+        <!-- Botón Central Compacto (Para no tapar texto) -->
+        <div class="absolute z-10 w-11 h-11 rounded-full bg-white border-2 border-[#1A1A1A] shadow-md flex items-center justify-center pointer-events-none">
+          <span class="font-brand text-[10px] font-bold text-neutral-900 tracking-wider">
+            NZ
           </span>
         </div>
       </div>
@@ -222,6 +222,13 @@
       <div class="p-2.5 bg-[#FAF9F8] rounded-lg text-[10px] text-neutral-600 text-center leading-relaxed border border-neutral-200">
         Acercate al mostrador de <strong>Nazaria <span id="winner-store"></span></strong> con tu calzado elegido y presentá esta pantalla para activar tu beneficio.
       </div>
+
+      <!-- Botón de Prueba / Test (Permite reiniciar y probar de nuevo) -->
+      <div class="text-center pt-2">
+        <button type="button" onclick="resetCouponForTesting()" class="text-[10px] text-neutral-400 hover:text-black underline transition">
+          🔄 Probar otro giro (Modo Test / Demo)
+        </button>
+      </div>
     </div>
 
     <!-- PANTALLA 4: CANJEADO CON ÉXITO -->
@@ -241,13 +248,23 @@
       <p class="text-xs text-neutral-800 font-brand font-bold tracking-wide">
         ¡Gracias por elegir Nazaria Zapatos! 🌸
       </p>
+      
+      <!-- Reiniciar en Test -->
+      <div class="pt-2">
+        <button type="button" onclick="resetCouponForTesting()" class="text-[10px] text-neutral-400 hover:text-black underline transition">
+          🔄 Reiniciar ruleta (Modo Test / Demo)
+        </button>
+      </div>
     </div>
 
   </main>
 
   <!-- PIE DE PÁGINA -->
-  <footer class="text-center py-2 text-[10px] text-neutral-500 border-t border-neutral-200">
-    Nazaria Zapatos · Tortugas Open Mall & Maschwitz Mall
+  <footer class="text-center py-2 text-[10px] text-neutral-500 border-t border-neutral-200 flex items-center justify-between px-2">
+    <span>Nazaria Zapatos</span>
+    <button onclick="resetCouponForTesting()" title="Reiniciar cupones guardados" class="text-[9px] text-neutral-400 hover:text-neutral-800 underline">
+      Reset Test
+    </button>
   </footer>
 
   <script>
@@ -265,7 +282,7 @@
       { id: 'p2', title: '25% OFF Efectivo', condition: '20% habitual + 5% extra en temporada nueva', color: COLOR_2, textColor: TEXT_DARK },
       { id: 'p3', title: '$10.000 Regalo', condition: 'En compras mayores a $130.000 en temporada nueva', color: COLOR_1, textColor: TEXT_DARK },
       { id: 'p4', title: '3 Cuotas + 5% OFF', condition: 'Sin interés con crédito bancario en temporada nueva', color: COLOR_2, textColor: TEXT_DARK },
-      { id: 'p5', title: '20% en 2da Unidad', condition: 'En el par de menor valor de temporada nueva', color: COLOR_1, textColor: TEXT_DARK },
+      { id: 'p5', title: '20% 2da Unidad', condition: 'En el par de menor valor de temporada nueva', color: COLOR_1, textColor: TEXT_DARK },
       { id: 'p6', title: '15% OFF Débito/QR', condition: '10% habitual + 5% extra en temporada nueva', color: COLOR_2, textColor: TEXT_DARK },
       { id: 'p7', title: '$15.000 Regalo', condition: 'En compras mayores a $180.000 en temporada nueva', color: COLOR_1, textColor: TEXT_DARK },
       { id: 'p8', title: '5% OFF Directo', condition: 'Acumulable con todas las formas de pago', color: COLOR_2, textColor: TEXT_DARK }
@@ -276,7 +293,7 @@
       { id: 'p2', title: '25% OFF Efectivo', condition: '20% habitual + 5% extra en temporada nueva', color: COLOR_2, textColor: TEXT_DARK },
       { id: 'p3', title: '$10.000 Regalo', condition: 'En compras mayores a $130.000 en temporada nueva', color: COLOR_1, textColor: TEXT_DARK },
       { id: 'p4', title: '6 Cuotas Galicia', condition: 'Sin interés con Galicia Visa/Mastercard (Exclusivo Jueves)', color: COLOR_2, textColor: TEXT_DARK },
-      { id: 'p5', title: '20% en 2da Unidad', condition: 'En el par de menor valor de temporada nueva', color: COLOR_1, textColor: TEXT_DARK },
+      { id: 'p5', title: '20% 2da Unidad', condition: 'En el par de menor valor de temporada nueva', color: COLOR_1, textColor: TEXT_DARK },
       { id: 'p6', title: '15% OFF Débito/QR', condition: '10% habitual + 5% extra en temporada nueva', color: COLOR_2, textColor: TEXT_DARK },
       { id: 'p7', title: '$15.000 Regalo', condition: 'En compras mayores a $180.000 en temporada nueva', color: COLOR_1, textColor: TEXT_DARK },
       { id: 'p8', title: '5% OFF Directo', condition: 'Acumulable con todas las formas de pago', color: COLOR_2, textColor: TEXT_DARK }
@@ -298,12 +315,12 @@
       const btnMasch = document.getElementById('btn-store-masch');
       
       if (store === 'TOM') {
-        btnTom.className = 'p-2.5 rounded-xl border-2 border-black bg-white flex flex-col items-center justify-center gap-1.5 shadow-sm transition hover:scale-[1.02]';
-        btnMasch.className = 'p-2.5 rounded-xl border border-neutral-300 bg-neutral-50 flex flex-col items-center justify-center gap-1.5 transition hover:border-neutral-500 hover:scale-[1.02]';
+        btnTom.className = 'p-3 rounded-xl border-2 border-black bg-white flex flex-col items-center justify-center gap-1.5 shadow-sm transition hover:scale-[1.02]';
+        btnMasch.className = 'p-3 rounded-xl border border-neutral-300 bg-neutral-50 flex flex-col items-center justify-center gap-1.5 transition hover:border-neutral-500 hover:scale-[1.02]';
         currentSlices = PRIZE_POOL_TOM;
       } else {
-        btnMasch.className = 'p-2.5 rounded-xl border-2 border-black bg-white flex flex-col items-center justify-center gap-1.5 shadow-sm transition hover:scale-[1.02]';
-        btnTom.className = 'p-2.5 rounded-xl border border-neutral-300 bg-neutral-50 flex flex-col items-center justify-center gap-1.5 transition hover:border-neutral-500 hover:scale-[1.02]';
+        btnMasch.className = 'p-3 rounded-xl border-2 border-black bg-white flex flex-col items-center justify-center gap-1.5 shadow-sm transition hover:scale-[1.02]';
+        btnTom.className = 'p-3 rounded-xl border border-neutral-300 bg-neutral-50 flex flex-col items-center justify-center gap-1.5 transition hover:border-neutral-500 hover:scale-[1.02]';
         currentSlices = PRIZE_POOL_MASCHWITZ;
       }
       drawWheel();
@@ -326,7 +343,7 @@
     }
 
     // -------------------------------------------------------------
-    // DIBUJO DEL CANVAS
+    // DIBUJO DEL CANVAS (TEXTOS PEGADOS AL BORDE EXTERIOR)
     // -------------------------------------------------------------
     function drawWheel() {
       const canvas = document.getElementById('wheel-canvas');
@@ -358,8 +375,9 @@
         ctx.rotate(angle + arc / 2);
         ctx.textAlign = 'right';
         ctx.fillStyle = slice.textColor;
-        ctx.font = 'bold 22px Inter, sans-serif';
-        ctx.fillText(slice.title, radius - 45, 8);
+        ctx.font = 'bold 20px Inter, sans-serif';
+        // Texto colocado a 30px del borde exterior para nunca chocar con el centro
+        ctx.fillText(slice.title, radius - 30, 7);
         ctx.restore();
       }
 
@@ -371,7 +389,7 @@
     }
 
     // -------------------------------------------------------------
-    // ANIMACIÓN DE GIRO EXTENDIDA (MÁS SUSPENSO: 9 SEGUNDOS, 10 GIROS)
+    // ANIMACIÓN DE GIRO DE 10 SEGUNDOS (MÁXIMO SUSPENSO)
     // -------------------------------------------------------------
     function spinWheel() {
       if (hasSpun) return;
@@ -386,8 +404,8 @@
       const winningIndex = Math.floor(Math.random() * numSlices);
       const prize = currentSlices[winningIndex];
 
-      // 10 vueltas completas para un giro más extendido y con suspenso
-      const baseRounds = 360 * 10;
+      // 10 segundos exactos y 11 vueltas completas
+      const baseRounds = 360 * 11;
       const prizeAngleTarget = 270 - (winningIndex * sliceDeg + sliceDeg / 2);
       const totalRotation = baseRounds + (prizeAngleTarget % 360) + (Math.random() * 8 - 4);
 
@@ -399,17 +417,17 @@
       setTimeout(() => {
         triggerConfetti();
         showPrize(prize);
-      }, 9200);
+      }, 10200);
     }
 
     function playSpinSound() {
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        for (let i = 0; i < 48; i++) {
+        for (let i = 0; i < 52; i++) {
           const osc = audioCtx.createOscillator();
           const gain = audioCtx.createGain();
           osc.type = 'triangle';
-          osc.frequency.setValueAtTime(700 - (i * 10), audioCtx.currentTime + (i * 0.19));
+          osc.frequency.setValueAtTime(720 - (i * 9), audioCtx.currentTime + (i * 0.19));
           gain.gain.setValueAtTime(0.06, audioCtx.currentTime + (i * 0.19));
           gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (i * 0.19) + 0.05);
           osc.connect(gain);
@@ -423,8 +441,8 @@
     function triggerConfetti() {
       if (typeof confetti === 'function') {
         confetti({
-          particleCount: 110,
-          spread: 75,
+          particleCount: 120,
+          spread: 80,
           origin: { y: 0.6 },
           colors: ['#D4C6B6', '#B89B7E', '#1A1A1A', '#F9F9F8']
         });
@@ -541,6 +559,34 @@
       } catch (e) {
         localStorage.removeItem('nazaria_active_coupon');
       }
+    }
+
+    // Función de testeo: Permite reiniciar la ruleta para probar
+    function resetCouponForTesting() {
+      localStorage.removeItem('nazaria_active_coupon');
+      hasSpun = false;
+      if (timerInterval) clearInterval(timerInterval);
+      
+      const canvas = document.getElementById('wheel-canvas');
+      if (canvas) canvas.style.transform = 'none';
+
+      const spinBtn = document.getElementById('spin-button');
+      if (spinBtn) {
+        spinBtn.disabled = false;
+        spinBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+      }
+
+      document.getElementById('screen-prize').classList.add('hidden');
+      document.getElementById('screen-redeemed').classList.add('hidden');
+      document.getElementById('screen-wheel').classList.add('hidden');
+      document.getElementById('screen-input').classList.remove('hidden');
+
+      const nameInput = document.getElementById('user-name-input');
+      if (nameInput) {
+        nameInput.value = '';
+        nameInput.focus();
+      }
+      selectStore('TOM');
     }
   </script>
 </body>
