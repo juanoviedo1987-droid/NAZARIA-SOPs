@@ -206,17 +206,17 @@
         <span id="coupon-code" class="font-mono font-bold text-sm bg-white text-neutral-900 px-2.5 py-1 rounded border border-[#D4C6B6]"></span>
       </div>
 
-      <!-- Botón de Canje de la Vendedora -->
-      <div class="pt-0.5">
-        <button id="redeem-button" onclick="confirmRedeem()"
-          class="w-full py-3 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-800 border border-neutral-300 text-[11px] font-bold tracking-wider uppercase transition">
-          🔒 Botón exclusivo para la vendedora en caja: Validar Canje
-        </button>
-      </div>
-
       <!-- Indicaciones al cliente con el local seleccionado -->
       <div class="p-2.5 bg-[#FAF9F8] rounded-lg text-[10px] text-neutral-600 text-center leading-relaxed border border-neutral-200">
-        Acercate al mostrador de <strong>Nazaria <span id="winner-store"></span></strong> con tu calzado elegido y presentá esta pantalla para activar tu beneficio.
+        Acercate al mostrador de <strong>Nazaria <span id="winner-store"></span></strong> con tu calzado elegido y mostrá esta pantalla a la vendedora para activar tu beneficio.
+      </div>
+
+      <!-- Botón de Canje Presionado por la Propia Clienta -->
+      <div class="pt-0.5">
+        <button id="redeem-button" onclick="confirmRedeem()"
+          class="w-full py-3 rounded-xl bg-neutral-900 hover:bg-black text-white text-[11px] font-bold tracking-wider uppercase transition shadow-sm flex items-center justify-center gap-1.5">
+          <span>✨</span> Canjear Cupón en Caja
+        </button>
       </div>
 
       <!-- Botón de Prueba / Test (Permite reiniciar y probar de nuevo) -->
