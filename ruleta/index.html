@@ -103,11 +103,11 @@
   <!-- CABECERA COMPACTA: LOGO & TÍTULO -->
   
   <!-- Toast animado para CHANCE EXTRA / TIRÁ DE NUEVO -->
-  <div id="respin-toast" class="hidden fixed top-8 left-1/2 -translate-x-1/2 z-50 bg-[#1A1A1A] text-white px-5 py-3 rounded-2xl border-2 border-amber-400 shadow-2xl flex items-center gap-3 transition-all select-none">
-    <span class="text-2xl">🎰</span>
+  <div id="respin-toast" class="hidden fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-[#1A1A1A] text-white px-5 py-3 rounded-2xl border-2 border-amber-400 shadow-2xl flex items-center gap-3 transition-all select-none animate-bounce">
+    <span class="text-3xl">🎰</span>
     <div>
-      <div class="text-xs font-black text-amber-300 uppercase tracking-wider">¡CHANCE EXTRA!</div>
-      <div class="text-[11px] font-bold text-neutral-200">La ruleta vuelve a girar gratis...</div>
+      <div class="text-xs font-black text-amber-300 uppercase tracking-wider">¡CHANCE EXTRA DESBLOQUEADA!</div>
+      <div class="text-[11px] font-bold text-neutral-200">Presioná el botón abajo para tu premio definitivo 👇</div>
     </div>
   </div>
 
@@ -419,8 +419,22 @@
     }
 
         // MOTOR FÍSICO REAL EN REQUESTANIMATIONFRAME: AGUJA Y PINES 100% SINCRONIZADOS
+    let pendingRespin = null;
+
     function triggerSpin() {
       if (isSpinning) return;
+
+      if (pendingRespin) {
+        const { name, currentRotation } = pendingRespin;
+        pendingRespin = null;
+        const toast = document.getElementById('respin-toast');
+        if (toast) toast.classList.add('hidden');
+        const btn = document.getElementById('spin-btn');
+        btn.classList.remove('ring-4', 'ring-amber-400', 'ring-offset-2', 'animate-pulse');
+        runSpinAnimation(name, true, currentRotation);
+        return;
+      }
+
       const input = document.getElementById('player-input');
       const name = input.value.trim();
       if (!name) {
@@ -526,18 +540,24 @@
       requestAnimationFrame(physicsLoop);
     }
 
-    // Manejo de TIRÁ DE NUEVO con aviso flotante y segundo tiro automático
+    // Manejo de TIRÁ DE NUEVO: aviso en pantalla y habilitación manual del botón para el usuario
     function handleRespin(name, currentRotation) {
-      playPinClickSound(1);
+      playVictoryJingle();
+      pendingRespin = { name, currentRotation };
+
       const toast = document.getElementById('respin-toast');
       if (toast) {
         toast.classList.remove('hidden');
       }
 
-      setTimeout(() => {
-        if (toast) toast.classList.add('hidden');
-        runSpinAnimation(name, true, currentRotation);
-      }, 2000);
+      const btn = document.getElementById('spin-btn');
+      btn.disabled = false;
+      btn.classList.remove('opacity-50');
+      btn.classList.add('ring-4', 'ring-amber-400', 'ring-offset-2', 'animate-pulse');
+      btn.innerHTML = `
+        <span class="text-base leading-none">🎰</span>
+        <span class="whitespace-nowrap leading-none">¡TOCÁ PARA GIRAR TU CHANCE EXTRA!</span>
+      `;
     }
 
     // Jingle Triunfal de Victoria

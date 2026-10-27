@@ -1,83 +1,70 @@
 <h1 class="sop-title-1">P-14 · Campaña Vidriera: Ruleta Interactiva & Operación en Mostrador</h1>
 <p class="sop-text" style="margin-bottom: 12pt !important;">
-    <strong>Objetivo:</strong> Protocolo operativo de control y línea de caja para la activación de la "Ruleta de Premios Nazaria" (código unificado NTM-XXXX, control de vencimiento de 2 hs, tabla de 8 premios vigentes, filtro de datos para facturación y canje seguro sin contacto).
+    <strong>Objetivo:</strong> Guía rápida para la verificación y carga de cupones de vidriera (<strong class="font-mono">NTM-XXXX</strong>) en la línea de caja de TOM y Maschwitz.
 </p>
 <hr class="sop-divider" style="margin-top: 0px !important; margin-bottom: 16pt !important;">
 
 <div class="space-y-4 text-xs font-['Inter',Arial,sans-serif] leading-tight">
 
-    <!-- 1. Tabla Oficial de Premios Vigentes en la Ruleta -->
+    <!-- 1. Matriz de Premios & Carga en Dux ERP -->
     <div class="border border-[#767680] rounded overflow-hidden shadow-sm">
         <div class="bg-[#E5D7C7] text-[#1b1b20] font-bold text-xs px-3.5 py-2.5 border-b border-[#767680] flex items-center justify-between tracking-wide uppercase">
             <span class="flex items-center space-x-2">
                 <span>🎰</span>
-                <span>1. PREMIOS ACTIVOS EN LA RULETA (MATRIZ OFICIAL DE 8 BENEFICIOS)</span>
+                <span>1. PREMIOS DE VIDRIERA &amp; CARGA EN DUX ERP</span>
             </span>
             <span class="text-[10px] bg-white px-2 py-0.5 rounded text-neutral-800 font-bold border border-neutral-300">Vigente</span>
         </div>
-        <div class="p-3 bg-white space-y-2">
-            <p class="text-neutral-700 text-xs">
-                Estos son los 8 premios configurados en la ruleta web al escanear el QR de vidriera:
-            </p>
-
+        <div class="p-3 bg-white">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse border border-neutral-200 text-xs">
                     <thead>
                         <tr class="bg-neutral-100 text-neutral-800 font-bold border-b border-neutral-200">
-                            <th class="p-2 border-r border-neutral-200">Premio en Ruleta</th>
-                            <th class="p-2 border-r border-neutral-200">Condición Operativa</th>
-                            <th class="p-2 border-r border-neutral-200">Prob.</th>
-                            <th class="p-2">Cómo se carga en Dux ERP</th>
+                            <th class="p-2 border-r border-neutral-200 w-1/4">Premio en Pantalla</th>
+                            <th class="p-2 border-r border-neutral-200 w-2/5">Condición de Aplicación</th>
+                            <th class="p-2 w-1/3">Cómo se Carga en Dux ERP</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-neutral-200 text-neutral-800">
                         <tr class="hover:bg-neutral-50">
                             <td class="p-2 font-bold text-emerald-900 border-r border-neutral-200 bg-emerald-50/50">🎟️ $15.000 Regalo</td>
-                            <td class="p-2 border-r border-neutral-200">En cualquier calzado de <strong>Temporada Nueva</strong> (Jackpot oficial)</td>
-                            <td class="p-2 border-r border-neutral-200 font-bold text-emerald-800 text-center">1%</td>
+                            <td class="p-2 border-r border-neutral-200">En cualquier calzado de <strong>Temporada Nueva</strong></td>
                             <td class="p-2">Bonificación fija directa de <strong>$15.000</strong> en el ticket</td>
                         </tr>
                         <tr class="hover:bg-neutral-50">
                             <td class="p-2 font-bold text-amber-900 border-r border-neutral-200 bg-amber-50/50">🎟️ 20% OFF 2da Unidad</td>
-                            <td class="p-2 border-r border-neutral-200">Llevando 2 pares de temporada (aplica sobre el par de <strong>menor valor a precio lista</strong>)</td>
-                            <td class="p-2 border-r border-neutral-200 font-bold text-center">8%</td>
+                            <td class="p-2 border-r border-neutral-200">Llevando 2 pares de temporada (aplica sobre el de <strong>menor valor</strong>)</td>
                             <td class="p-2">Aplicar 20% de descuento solo al par más económico</td>
                         </tr>
                         <tr class="hover:bg-neutral-50">
                             <td class="p-2 font-bold text-orange-900 border-r border-neutral-200 bg-orange-50/50">🎟️ 10% EXTRA Directo</td>
-                            <td class="p-2 border-r border-neutral-200">Acumulable con cualquier medio de pago habitual en temporada nueva</td>
-                            <td class="p-2 border-r border-neutral-200 font-bold text-center">8%</td>
-                            <td class="p-2">Sumar 10% extra al medio de pago (ej: Efectivo 30%, QR 20%)</td>
+                            <td class="p-2 border-r border-neutral-200">Acumulable con el medio de pago habitual (Efectivo, Débito o Crédito)</td>
+                            <td class="p-2">Sumar 10% extra (ej: Efectivo pasa de 20% a 30% OFF)</td>
                         </tr>
                         <tr class="hover:bg-neutral-50">
                             <td class="p-2 font-bold text-blue-900 border-r border-neutral-200 bg-blue-50/50">🎟️ $10.000 Regalo</td>
                             <td class="p-2 border-r border-neutral-200">En cualquier calzado de <strong>Temporada Nueva</strong></td>
-                            <td class="p-2 border-r border-neutral-200 font-bold text-center">3%</td>
                             <td class="p-2">Bonificación fija directa de <strong>$10.000</strong> en el ticket</td>
                         </tr>
                         <tr class="hover:bg-neutral-50">
                             <td class="p-2 font-bold text-purple-900 border-r border-neutral-200 bg-purple-50/50">🎰 ¡TIRÁ DE NUEVO!</td>
-                            <td class="p-2 border-r border-neutral-200">Chance extra: la ruleta gira automáticamente de nuevo en el celular</td>
-                            <td class="p-2 border-r border-neutral-200 font-bold text-center">15%</td>
-                            <td class="p-2 text-neutral-500 font-medium">No se canjea en caja. La clienta recibe su tiro gratis en la app.</td>
+                            <td class="p-2 border-r border-neutral-200">Tiro gratis: la ruleta le da una chance extra en el celular</td>
+                            <td class="p-2 text-neutral-500 font-medium">No se canjea. La clienta vuelve a girar para su premio final.</td>
                         </tr>
                         <tr class="hover:bg-neutral-50">
                             <td class="p-2 font-bold text-amber-900 border-r border-neutral-200 bg-amber-50/50">🎟️ 10% OFF 2da Unidad</td>
-                            <td class="p-2 border-r border-neutral-200">Llevando 2 pares de temporada (aplica sobre el par de <strong>menor valor a precio lista</strong>)</td>
-                            <td class="p-2 border-r border-neutral-200 font-bold text-center">20%</td>
+                            <td class="p-2 border-r border-neutral-200">Llevando 2 pares de temporada (aplica sobre el de <strong>menor valor</strong>)</td>
                             <td class="p-2">Aplicar 10% de descuento solo al par más económico</td>
                         </tr>
                         <tr class="hover:bg-neutral-50">
                             <td class="p-2 font-bold text-emerald-900 border-r border-neutral-200 bg-emerald-50/50">🎟️ $5.000 Regalo</td>
                             <td class="p-2 border-r border-neutral-200">En cualquier calzado de <strong>Temporada Nueva</strong></td>
-                            <td class="p-2 border-r border-neutral-200 font-bold text-center">15%</td>
                             <td class="p-2">Bonificación fija directa de <strong>$5.000</strong> en el ticket</td>
                         </tr>
                         <tr class="hover:bg-neutral-50">
                             <td class="p-2 font-bold text-blue-900 border-r border-neutral-200 bg-blue-50/50">🎟️ 5% EXTRA Directo</td>
-                            <td class="p-2 border-r border-neutral-200">Acumulable con cualquier medio de pago habitual en temporada nueva</td>
-                            <td class="p-2 border-r border-neutral-200 font-bold text-center">30%</td>
-                            <td class="p-2">Sumar 5% extra al medio de pago (ej: Efectivo 25%, QR 15%)</td>
+                            <td class="p-2 border-r border-neutral-200">Acumulable con el medio de pago habitual (Efectivo, Débito o Crédito)</td>
+                            <td class="p-2">Sumar 5% extra (ej: Efectivo pasa de 20% a 25% OFF)</td>
                         </tr>
                     </tbody>
                 </table>
@@ -85,115 +72,57 @@
         </div>
     </div>
 
-    <!-- 2. Cómo Controlar el Cupón en Caja (Vencimiento de 2 Horas) -->
+    <!-- 2. Reglas Clave de Control en Mostrador -->
     <div class="border border-[#767680] rounded overflow-hidden shadow-sm">
-        <div class="bg-[#fef3c7] text-[#78350f] font-bold text-xs px-3.5 py-2.5 border-b border-[#767680] flex items-center space-x-2 tracking-wide uppercase">
-            <span>⏱️</span>
-            <span>2. CONTROL OBLIGATORIO DE VENCIMIENTO (RELOJ DE 2 HORAS EN VIVO)</span>
+        <div class="bg-[#ffd16e] text-[#402c00] font-bold text-xs px-3.5 py-2.5 border-b border-[#ffd16e] flex items-center space-x-2 tracking-wide uppercase">
+            <span>⚠</span>
+            <span>2. REGLAS OBLIGATORIAS DE CONTROL EN CAJA</span>
         </div>
         <div class="p-3.5 bg-white space-y-3">
-            <p class="text-neutral-700 text-xs">
-                Antes de aplicar el beneficio en Dux ERP, la cajera debe verificar visualmente en la pantalla del celular de la clienta los siguientes <strong>3 puntos de control</strong> (sin tocar su teléfono):
-            </p>
-
             <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5">
                 <div class="p-2.5 bg-neutral-50 rounded border border-neutral-200">
-                    <div class="font-bold text-neutral-900 text-xs flex items-center gap-1">
-                        <span>1️⃣</span> Reloj Activo (En Vivo, No Captura)
+                    <div class="font-bold text-neutral-900 text-xs flex items-center gap-1.5">
+                        <span>⏱️</span> Reloj en Vivo (2 hs)
                     </div>
-                    <div class="text-[11px] text-neutral-600 mt-1">
-                        El temporizador en pantalla debe estar <strong>corriendo segundo a segundo</strong> (ej: <code>01:42:15</code>). Si los segundos están congelados (es una captura de pantalla) o si dice en rojo <strong>"VENCIDO"</strong>, el cupón carece de validez.
-                    </div>
-                </div>
-
-                <div class="p-2.5 bg-neutral-50 rounded border border-neutral-200">
-                    <div class="font-bold text-neutral-900 text-xs flex items-center gap-1">
-                        <span>2️⃣</span> Código Unificado NTM
-                    </div>
-                    <div class="text-[11px] text-neutral-600 mt-1">
-                        Debe figurar el código unificado con prefijo oficial: <strong class="font-mono bg-white px-1 py-0.5 rounded border border-neutral-300">NTM-XXXX</strong> (Nazaria - TOM - Maschwitz).
+                    <div class="text-[11px] text-neutral-600 mt-1 leading-relaxed">
+                        El segundero debe estar <strong>corriendo en vivo</strong> en el navegador de la clienta. <strong>Rechazar capturas de pantalla, fotos o textos de WhatsApp.</strong>
                     </div>
                 </div>
 
                 <div class="p-2.5 bg-neutral-50 rounded border border-neutral-200">
-                    <div class="font-bold text-neutral-900 text-xs flex items-center gap-1">
-                        <span>3️⃣</span> Validación No Invasiva
+                    <div class="font-bold text-neutral-900 text-xs flex items-center gap-1.5">
+                        <span>🏷️</span> Solo Temporada Nueva
                     </div>
-                    <div class="text-[11px] text-neutral-600 mt-1">
-                        La clienta solo muestra la pantalla. La vendedora <strong>nunca toma el celular</strong>. Al asentar el código en las observaciones de la venta en Dux ERP, el cupón queda consumido.
+                    <div class="text-[11px] text-neutral-600 mt-1 leading-relaxed">
+                        Aplica exclusivamente a calzados de temporada. <strong>No aplica a productos en liquidación, outlet ni composturas.</strong> Máximo 1 cupón por compra.
+                    </div>
+                </div>
+
+                <div class="p-2.5 bg-neutral-50 rounded border border-neutral-200">
+                    <div class="font-bold text-neutral-900 text-xs flex items-center gap-1.5">
+                        <span>💻</span> Cargar en Dux ERP
+                    </div>
+                    <div class="text-[11px] text-neutral-600 mt-1 leading-relaxed">
+                        Pedir DNI y teléfono para la ficha del cliente. Asentar el código <strong class="font-mono bg-white px-1 py-0.5 rounded border border-neutral-300">NTM-XXXX</strong> en las observaciones de la venta para quemarlo.
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 3. Protocolo en Caja & Filtro de Datos Obligatorio -->
+    <!-- 3. Enlaces Oficiales -->
     <div class="border border-[#767680] rounded overflow-hidden shadow-sm">
-        <div class="bg-[#dfe0f8] text-[#1b1b20] font-bold text-xs px-3.5 py-2.5 border-b border-[#767680] flex items-center space-x-2 tracking-wide uppercase">
-            <span>💻</span>
-            <span>3. PROTOCOLO DE FACTURACIÓN &amp; CAPTURA DE DATOS EN DUX ERP</span>
-        </div>
-        <div class="p-3.5 bg-white space-y-3">
-            <div class="p-2.5 bg-amber-50 rounded border border-amber-300 text-amber-950 font-semibold text-xs">
-                ⚠️ <strong>FILTRO OBLIGATORIO DE DATOS:</strong> Como la clienta solo ingresó su nombre para girar en la vidriera, <strong>ES CONDICIÓN OBLIGATORIA PEDIR DNI, TELÉFONO Y MAIL EN EL MOSTRADOR</strong> para registrarla en el sistema de facturación.
-            </div>
-
-            <div class="space-y-1.5 text-xs text-neutral-800">
-                <div class="font-bold text-neutral-900">Pasos al facturar:</div>
-                <ol class="list-decimal pl-4 space-y-1.5">
-                    <li>
-                        <strong>Solicitar los datos para la factura:</strong> Solicitar DNI, Nombre completo, Teléfono/WhatsApp y Correo electrónico de la clienta.
-                    </li>
-                    <li>
-                        <strong>Cargar o verificar la ficha:</strong> Crear o actualizar el cliente en Dux ERP.
-                    </li>
-                    <li>
-                        <strong>Aplicar el descuento:</strong> Ingresar el porcentaje o monto correspondiente en el campo de bonificación según el premio obtenido y la compra mínima requerida.
-                    </li>
-                    <li>
-                        <strong>Asentar el código de cupón:</strong> En el campo <em>Observaciones</em> o <em>Leyenda</em> de la venta en Dux ERP, ingresar obligatoriamente el código: <span class="bg-[#1b1b20] text-amber-300 font-mono font-bold px-1.5 py-0.5 rounded">NTM-XXXX</span>. Esto previene reusar el mismo cupón en otra compra.
-                    </li>
-                    <li>
-                        <strong>Agradecer y felicitar:</strong> Entregar el ticket con el beneficio aplicado, confirmando la validez del beneficio.
-                    </li>
-                </ol>
-            </div>
-        </div>
-    </div>
-
-    <!-- 4. Reglas Comerciales de Exclusión & Cambios -->
-    <div class="border border-[#767680] rounded overflow-hidden shadow-sm">
-        <div class="bg-[#fef2f2] text-[#991b1b] font-bold text-xs px-3.5 py-2.5 border-b border-[#767680] flex items-center space-x-2 tracking-wide uppercase">
-            <span>🛡️</span>
-            <span>4. EXCLUSIONES COMERCIALES Y POLÍTICA DE CAMBIOS</span>
-        </div>
-        <div class="p-3.5 bg-white space-y-2 text-xs text-neutral-800">
-            <ul class="list-disc pl-4 space-y-1">
-                <li><strong>Exclusivo Temporada Nueva:</strong> Los premios aplican únicamente a calzados y carteras de la colección vigente (Verano 2027). <em>No acumulable con productos en liquidación final, outlet, 2da selección ni composturas.</em></li>
-                <li><strong>Un (1) cupón por ticket de compra:</strong> No se pueden combinar dos cupones de ruleta en una misma operación.</li>
-                <li><strong>Política de Cambios:</strong> En caso de cambio o nota de crédito posterior, se tomará como crédito a favor el <em>valor efectivamente abonado neto del descuento</em> que figura en la factura fiscal.</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- 5. Enlaces Oficiales de la Aplicación y Cartel -->
-    <div class="border border-[#767680] rounded overflow-hidden shadow-sm">
-        <div class="bg-[#f3f4f6] text-neutral-800 font-bold text-xs px-3.5 py-2.5 border-b border-[#767680] flex items-center space-x-2 tracking-wide uppercase">
+        <div class="bg-[#f3f4f6] text-neutral-800 font-bold text-xs px-3.5 py-2 border-b border-[#767680] flex items-center space-x-2 tracking-wide uppercase">
             <span>🔗</span>
-            <span>5. ENLACES OFICIALES (EN VIVO EN VERCEL)</span>
+            <span>3. ACCESOS DIRECTOS</span>
         </div>
-        <div class="p-3.5 bg-white space-y-3">
-            <p class="text-neutral-700 text-xs">
-                Accesos oficiales independientes para el personal y para imprimir el material gráfico de vidriera:
-            </p>
-            <div class="flex flex-wrap items-center gap-2.5">
-                <a href="https://premios-nazaria.vercel.app" target="_blank" class="px-3.5 py-2 bg-neutral-900 hover:bg-black text-white font-bold rounded text-xs transition inline-flex items-center gap-1.5 shadow-sm">
-                    <span>🎰</span> Abrir Ruleta Web App Oficial ➔
-                </a>
-                <a href="https://premios-nazaria.vercel.app/afiche_vidriera.html" target="_blank" class="px-3.5 py-2 bg-white hover:bg-neutral-100 text-neutral-900 font-bold rounded text-xs transition inline-flex items-center gap-1.5 border border-neutral-300 shadow-sm">
-                    <span>🖨️</span> Abrir Afiche de Vidriera Imprimible (A4) ➔
-                </a>
-            </div>
+        <div class="p-3 bg-white flex flex-wrap items-center gap-2.5">
+            <a href="https://premios-nazaria.vercel.app" target="_blank" class="px-3 py-1.5 bg-neutral-900 hover:bg-black text-white font-bold rounded text-xs transition inline-flex items-center gap-1.5 shadow-sm">
+                <span>🎰</span> Probar Ruleta Oficial ➔
+            </a>
+            <a href="https://premios-nazaria.vercel.app/afiche_vidriera.html" target="_blank" class="px-3 py-1.5 bg-white hover:bg-neutral-100 text-neutral-900 font-bold rounded text-xs transition inline-flex items-center gap-1.5 border border-neutral-300 shadow-sm">
+                <span>🖨️</span> Ver Afiche Imprimible A4 ➔
+            </a>
         </div>
     </div>
 
