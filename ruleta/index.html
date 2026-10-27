@@ -39,10 +39,10 @@
       background: radial-gradient(circle at 35% 30%, #FFFFFF 0%, #F8F9FA 55%, #E9ECEF 85%, #DEE2E6 100%);
       padding: 10px;
       border-radius: 9999px;
-      border: 3px solid #FFFFFF;
+      border: 3.5px solid #FFFFFF;
       box-shadow: 
-        0 14px 32px rgba(0, 0, 0, 0.16),
-        0 4px 10px rgba(0, 0, 0, 0.08),
+        0 16px 36px rgba(0, 0, 0, 0.16),
+        0 4px 12px rgba(0, 0, 0, 0.08),
         inset 0 2px 4px rgba(255, 255, 255, 1),
         inset 0 -3px 5px rgba(0, 0, 0, 0.12);
       position: relative;
@@ -50,20 +50,11 @@
 
     /* Aguja marcadora superior: Rotación física pura */
     .ticker-needle {
-      width: 40px;
-      height: 48px;
-      transform-origin: 20px 6px;
+      width: 42px;
+      height: 50px;
+      transform-origin: 21px 6px;
       filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
       will-change: transform;
-    }
-
-    /* Centro 3D con Isologo Oficial */
-    .wheel-center-dome {
-      background: radial-gradient(circle at 35% 30%, #FFFFFF 0%, #F5EFEB 50%, #D8C3B0 100%);
-      box-shadow: 
-        0 8px 18px rgba(0, 0, 0, 0.28),
-        inset 0 2px 3px rgba(255, 255, 255, 0.95),
-        inset 0 -2px 5px rgba(0, 0, 0, 0.2);
     }
 
     /* Botón Shimmer de Acción */
@@ -104,15 +95,15 @@
 <body class="h-screen h-[100dvh] max-h-[100dvh] overflow-hidden flex flex-col justify-between items-center p-2.5 sm:p-4 select-none">
 
   <!-- Partículas decorativas de fondo -->
-  <div class="sparkle text-amber-300 text-xs" style="left: 8%; top: 12%; animation-delay: 0s;">✦</div>
-  <div class="sparkle text-[#D4C6B6] text-sm" style="right: 10%; top: 15%; animation-delay: 1.5s;">★</div>
-  <div class="sparkle text-amber-200 text-xs" style="left: 14%; bottom: 20%; animation-delay: 2.2s;">✦</div>
-  <div class="sparkle text-[#D4C6B6] text-sm" style="right: 12%; bottom: 16%; animation-delay: 0.8s;">★</div>
+  <div class="sparkle text-amber-300 text-xs" style="left: 8%; top: 10%; animation-delay: 0s;">✦</div>
+  <div class="sparkle text-[#D4C6B6] text-sm" style="right: 10%; top: 12%; animation-delay: 1.5s;">★</div>
+  <div class="sparkle text-amber-200 text-xs" style="left: 14%; bottom: 18%; animation-delay: 2.2s;">✦</div>
+  <div class="sparkle text-[#D4C6B6] text-sm" style="right: 12%; bottom: 14%; animation-delay: 0.8s;">★</div>
 
-  <!-- CABECERA COMPACTA: LOGO & TÍTULO (ENCIMA DE LA RULETA) -->
+  <!-- CABECERA COMPACTA: LOGO & TÍTULO -->
   <header class="text-center pt-0.5 z-10 w-full space-y-1 shrink-0">
     <!-- Logo Oficial 100% Transparente -->
-    <div class="flex items-center justify-center min-h-[36px]">
+    <div class="flex items-center justify-center min-h-[34px]">
       <img src="logo_nazaria_pure_transparent.png" alt="Nazaria Zapatos" class="h-8 sm:h-9 w-auto object-contain drop-shadow-xs">
     </div>
     
@@ -143,15 +134,15 @@
     </div>
   </header>
 
-  <!-- SECCIÓN CENTRAL: RULETA 3D (EQUIDISTANTE ENTRE LA CABECERA Y EL PANEL DE ABAJO) -->
+  <!-- SECCIÓN CENTRAL: RULETA PROTAGONISTA MÁS GRANDE (CENTRADA CON PRECISIÓN) -->
   <main class="w-full flex-1 flex items-center justify-center py-1 z-10 min-h-0">
 
-    <div class="relative w-[285px] h-[285px] sm:w-[310px] sm:h-[310px] flex items-center justify-center">
+    <div class="relative w-[320px] h-[320px] sm:w-[350px] sm:h-[350px] flex items-center justify-center">
       
       <!-- Flecha marcadora 3D Superior: Wrapper fijo + Aguja con física sincronizada -->
       <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 z-40 pointer-events-none">
         <div id="ticker-needle" class="ticker-needle">
-          <svg width="40" height="48" viewBox="0 0 40 48" fill="none">
+          <svg width="42" height="50" viewBox="0 0 40 48" fill="none">
             <path d="M20 46L5 12C3 8 6 3 10 3H30C34 3 37 8 35 12L20 46Z" fill="url(#tickerCoralAmber)" stroke="#FFFFFF" stroke-width="2.5"/>
             <circle cx="20" cy="14" r="6" fill="#1A1A1A" stroke="#FFFFFF" stroke-width="1.5"/>
             <defs>
@@ -165,10 +156,10 @@
         </div>
       </div>
 
-      <!-- Aro Metálico Blanco Laqueado Limpio (Sin puntos estáticos desalineados) -->
+      <!-- Aro Metálico Blanco Laqueado Limpio -->
       <div class="wheel-outer-ring">
         <!-- Canvas de la Ruleta: Pines y líneas girando 100% sincronizados -->
-        <canvas id="wheel-canvas" width="600" height="600" class="w-[265px] h-[265px] sm:w-[290px] sm:h-[290px] rounded-full"></canvas>
+        <canvas id="wheel-canvas" width="600" height="600" class="w-[300px] h-[300px] sm:w-[330px] sm:h-[330px] rounded-full"></canvas>
       </div>
 
       <!-- Centro 3D con Isologo Oficial Nazaria Centrado Matemáticamente -->
@@ -179,21 +170,22 @@
 
   </main>
 
-  <!-- PANEL INFERIOR DE ACCIÓN: SIEMPRE VISIBLE SIN SCROLL -->
-  <div id="play-panel" class="w-full max-w-[310px] pb-1 space-y-1.5 z-10 shrink-0">
+  <!-- PANEL INFERIOR DE ACCIÓN: BOTÓN ALINEADO Y TEXTO EN 1 SOLA LÍNEA -->
+  <div id="play-panel" class="w-full max-w-[360px] pb-1 space-y-1.5 z-10 shrink-0 px-2 sm:px-0">
     <div class="relative">
       <input type="text" id="player-input" placeholder="Ingresá tu nombre o apodo..." maxlength="25"
         class="w-full bg-white border-2 border-[#D4C6B6] rounded-2xl px-4 py-2.5 text-sm text-center font-bold text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black shadow-inner transition">
     </div>
 
-    <!-- CTA Principal Atractivo con Shimmer -->
+    <!-- CTA Principal Atractivo con Shimmer (Alineación Perfecta) -->
     <button id="spin-btn" onclick="triggerSpin()"
-      class="w-full py-3.5 rounded-2xl btn-action-glow text-white font-black text-sm uppercase tracking-widest transition active:scale-95 flex items-center justify-center gap-2">
-      <span class="text-base">🎰</span>
-      <span>¡GIRAR Y DESCUBRIR MI PREMIO!</span>
+      class="w-full py-3.5 px-4 rounded-2xl btn-action-glow text-white font-black text-sm uppercase tracking-wider transition active:scale-95 flex items-center justify-center gap-2 shadow-lg">
+      <span class="text-base leading-none">🎰</span>
+      <span class="whitespace-nowrap leading-none">¡GIRAR Y DESCUBRIR MI PREMIO!</span>
     </button>
 
-    <p class="text-[10px] text-center text-neutral-500 font-medium">
+    <!-- Texto Informativo en 1 Sola Línea Impecable (Sin cortes) -->
+    <p class="text-[9.5px] sm:text-[10.5px] text-center text-neutral-500 font-semibold tracking-tight whitespace-nowrap">
       ✨ 100% de los giros tienen beneficio asegurado para canjear hoy
     </p>
   </div>
@@ -262,16 +254,16 @@
     let timerInterval = null;
     let audioCtx = null;
 
-    // 8 Premios Oficiales con Paleta Boutique Pop Verano SS27 y Probabilidades Ponderadas
+    // 8 Premios Oficiales Ordenados Armónicamente sin superposiciones
     const PRIZES = [
-      { title: "$5.000", sub: "Regalo", icon: "🎁", condition: "En compras mayores a $80.000 en temporada nueva", bg1: "#F28482", bg2: "#E76F51", weight: 25 },       // Coral Terracota
-      { title: "25% OFF", sub: "Efectivo", icon: "💵", condition: "20% habitual + 5% extra en temporada nueva", bg1: "#FAD089", bg2: "#F4A261", weight: 4 },        // Amarillo Sol
-      { title: "$10.000", sub: "Regalo", icon: "🎁", condition: "En compras mayores a $130.000 en temporada nueva", bg1: "#52B788", bg2: "#2A9D8F", weight: 12 },     // Verde Esmeralda
-      { title: "3 Cuotas", sub: "+ 5% OFF", icon: "💳", condition: "Sin interés con tarjeta de crédito bancaria", bg1: "#6BA4B8", bg2: "#457B9D", weight: 10 },       // Azul Mediterráneo
-      { title: "20% OFF", sub: "2da Unidad", icon: "💎", condition: "En el par de menor valor de temporada nueva", bg1: "#F28482", bg2: "#E76F51", weight: 12 },     // Coral Terracota
-      { title: "15% OFF", sub: "Débito/QR", icon: "📱", condition: "10% habitual + 5% extra en temporada nueva", bg1: "#FAD089", bg2: "#F4A261", weight: 12 },       // Amarillo Sol
-      { title: "$15.000", sub: "Regalo", icon: "⭐", condition: "En compras mayores a $180.000 en temporada nueva", bg1: "#52B788", bg2: "#2A9D8F", weight: 2 },       // Verde Esmeralda
-      { title: "5% EXTRA", sub: "Directo", icon: "🏷️", condition: "Acumulable con todas las formas de pago", bg1: "#6BA4B8", bg2: "#457B9D", weight: 23 }        // Azul Mediterráneo
+      { title: "$15.000", sub: "REGALO", condition: "En compras mayores a $180.000 en temporada nueva", bg1: "#52B788", bg2: "#2A9D8F", weight: 2 },        // Verde Esmeralda (Premio Estrella)
+      { title: "25% OFF", sub: "EFECTIVO", condition: "20% habitual + 5% extra en temporada nueva", bg1: "#FAD089", bg2: "#F4A261", weight: 4 },          // Amarillo Sol
+      { title: "$10.000", sub: "REGALO", condition: "En compras mayores a $130.000 en temporada nueva", bg1: "#F28482", bg2: "#E76F51", weight: 12 },      // Coral Terracota
+      { title: "3 CUOTAS", sub: "S/INTERÉS", condition: "Sin interés con tarjeta de crédito bancaria", bg1: "#6BA4B8", bg2: "#457B9D", weight: 10 },      // Azul Mediterráneo
+      { title: "$5.000", sub: "REGALO", condition: "En compras mayores a $80.000 en temporada nueva", bg1: "#52B788", bg2: "#2A9D8F", weight: 25 },         // Verde Esmeralda
+      { title: "20% OFF", sub: "2da UNIDAD", condition: "En el par de menor valor de temporada nueva", bg1: "#FAD089", bg2: "#F4A261", weight: 12 },       // Amarillo Sol
+      { title: "15% OFF", sub: "DÉBITO/QR", condition: "10% habitual + 5% extra en temporada nueva", bg1: "#F28482", bg2: "#E76F51", weight: 12 },        // Coral Terracota
+      { title: "5% EXTRA", sub: "DIRECTO", condition: "Acumulable con todas las formas de pago", bg1: "#6BA4B8", bg2: "#457B9D", weight: 23 }          // Azul Mediterráneo
     ];
 
     // Algoritmo Ponderado de Selección de Premios
@@ -304,7 +296,7 @@
       ctx.closePath();
     }
 
-    // DIBUJO DE RULETA 3D: PINES EXACTAMENTE EN LAS LÍNEAS DIVISORIAS Y PASTILLAS CENTRADAS
+    // DIBUJO DE RULETA: PASTILLAS CENTRADAS SIN COLISIONES Y ALEJADAS DEL CENTRO
     function renderWheel3D() {
       const canvas = document.getElementById('wheel-canvas');
       const ctx = canvas.getContext('2d');
@@ -319,7 +311,7 @@
         const prize = PRIZES[i];
 
         // 1. Gradiente radial por gajo con los colores vivos Boutique Pop
-        const grad = ctx.createRadialGradient(radius, radius, 25, radius, radius, radius);
+        const grad = ctx.createRadialGradient(radius, radius, 30, radius, radius, radius);
         grad.addColorStop(0, prize.bg1);
         grad.addColorStop(1, prize.bg2);
 
@@ -330,23 +322,23 @@
         ctx.lineTo(radius, radius);
         ctx.fill();
 
-        // 2. Línea divisoria blanca entre gajos
+        // 2. Línea divisoria blanca nítida
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.95)';
         ctx.lineWidth = 3;
         ctx.stroke();
 
-        // 3. Pastilla vertical alargada perfectamente centrada a lo largo del radio
+        // 3. Pastilla vertical alargada (de x=105 a x=253: 53px de aire libre respecto al domo central de 52px)
         ctx.save();
         ctx.translate(radius, radius);
         ctx.rotate(angle + arc / 2);
 
         const pw = 148;
         const ph = 50;
-        const px = 82;
+        const px = 105;
         const py = -ph / 2;
 
         ctx.save();
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.28)';
         ctx.shadowBlur = 6;
         ctx.shadowOffsetY = 2.5;
 
@@ -359,22 +351,17 @@
         ctx.stroke();
         ctx.restore();
 
-        // Ícono en la pastilla
-        ctx.font = '21px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(prize.icon, px + 23, 0);
-
-        // Monto principal grande en negro puro
-        ctx.font = '900 22px Montserrat, Inter, sans-serif';
+        // Título del premio: Centrado en la pastilla, grande y sin emojis que se superpongan
+        ctx.font = '900 23px Montserrat, Inter, sans-serif';
         ctx.fillStyle = '#111111';
         ctx.textAlign = 'center';
-        ctx.fillText(prize.title, px + 86, -4);
+        ctx.textBaseline = 'middle';
+        ctx.fillText(prize.title, px + pw / 2, -4);
 
-        // Subtítulo nítido
+        // Subtítulo con peso visual
         ctx.font = '800 11px Montserrat, Inter, sans-serif';
         ctx.fillStyle = '#666666';
-        ctx.fillText(prize.sub, px + 86, 14);
+        ctx.fillText(prize.sub, px + pw / 2, 14);
 
         ctx.restore();
 
@@ -472,33 +459,26 @@
         canvas.style.transform = `rotate(${currentRot}deg)`;
 
         // CÁLCULO FÍSICO EXACTO DE LA AGUJA:
-        // Los pines están a 0°, 45°, 90°, 135°, 180°, 225°, 270°, 315°.
-        // El ticker está arriba en 270°. Un pin cruza el ticker cuando:
-        // (i * 45 + currentRot) % 360 = 270
-        // Progreso de pines cruzados:
         const pinProgress = (currentRot + (360 - 270)) / 45;
         const currentPinIndex = Math.floor(pinProgress);
-        const frac = pinProgress - currentPinIndex; // 0.0 a 1.0 dentro del intervalo del gajo
+        const frac = pinProgress - currentPinIndex;
 
         let needleAngle = 0;
-        // Cuando el pin se acerca a la aguja (último 20% del gajo): la aguja es empujada físicamente
         if (frac > 0.80) {
-          const push = (frac - 0.80) / 0.20; // 0 a 1
+          const push = (frac - 0.80) / 0.20;
           needleAngle = -28 * Math.sin(push * Math.PI / 2);
         } else if (frac < 0.16) {
-          // Rebote elástico hacia adelante inmediatamente después del cruce
           const snap = frac / 0.16;
           needleAngle = 8 * (1 - snap);
         }
 
         needle.style.transform = `rotate(${needleAngle}deg)`;
 
-        // Al cruzar cada pin: reproducir click acústico y vibración háptica
+        // Al cruzar cada pin: sonido y vibración
         if (currentPinIndex !== lastPinPassed) {
           lastPinPassed = currentPinIndex;
           const speedFactor = 1 - p;
           playPinClickSound(speedFactor);
-          // Vibración en los últimos 4 pines antes de frenar
           if (p > 0.88 && window.navigator && window.navigator.vibrate) {
             window.navigator.vibrate(22);
           }
@@ -507,7 +487,6 @@
         if (p < 1) {
           requestAnimationFrame(physicsLoop);
         } else {
-          // Detención total precisa
           needle.style.transform = 'rotate(0deg)';
           isSpinning = false;
 
