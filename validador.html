@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Nazaria · Validador de Cupones en Caja</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #FAF9F6;
+      color: #1A1A1A;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-between p-3 sm:p-6">
+
+  <!-- ENCABEZADO OFICIAL -->
+  <header class="w-full max-w-lg text-center space-y-2 mb-4">
+    <div class="flex items-center justify-between border-b border-neutral-200 pb-3">
+      <div class="flex items-center gap-2">
+        <span class="text-xl">🎰</span>
+        <div class="text-left">
+          <h1 class="font-bold text-sm sm:text-base text-neutral-900 leading-tight">Validador de Cupones de Ruleta</h1>
+          <p class="text-[11px] text-neutral-500">Línea de Caja · TOM & Maschwitz</p>
+        </div>
+      </div>
+      <a href="index.html#p14" class="text-[11px] font-bold text-neutral-600 hover:text-black underline">
+        📖 Ver SOP P-14
+      </a>
+    </div>
+
+    <!-- Selector de Sucursal Activa -->
+    <div class="flex items-center justify-center gap-2 pt-1">
+      <span class="text-xs font-bold text-neutral-600">Mi Sucursal:</span>
+      <div class="inline-flex rounded-lg border border-neutral-300 p-0.5 bg-white shadow-xs">
+        <button id="btn-branch-tom" onclick="setBranch('TOM')" class="px-3 py-1 rounded-md text-xs font-black transition bg-black text-white shadow-xs">
+          🛍️ TOM
+        </button>
+        <button id="btn-branch-maschwitz" onclick="setBranch('MASCHWITZ')" class="px-3 py-1 rounded-md text-xs font-bold transition text-neutral-600 hover:text-black">
+          🛍️ MASCHWITZ
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENEDOR PRINCIPAL DEL VALIDADOR -->
+  <main class="w-full max-w-lg bg-white rounded-2xl border border-neutral-200 p-4 sm:p-6 shadow-sm space-y-4 my-auto">
+    
+    <div>
+      <label for="code-input" class="block text-xs font-bold text-neutral-700 uppercase tracking-wider mb-1">
+        Ingresar Código del Cupón de la Clienta:
+      </label>
+      <div class="relative flex items-center">
+        <span class="absolute left-3.5 font-mono font-bold text-neutral-400 text-base select-none pointer-events-none">
+          NTM-
+        </span>
+        <input type="text" id="code-input" placeholder="4821" maxlength="9" autofocus autocomplete="off"
+          class="w-full pl-16 pr-24 py-3 bg-neutral-50 border-2 border-neutral-300 rounded-xl font-mono text-xl font-black text-neutral-900 tracking-wider focus:bg-white focus:outline-none focus:border-black transition"
+          onkeydown="if(event.key==='Enter') searchCoupon()">
+        <button onclick="searchCoupon()" class="absolute right-2 px-3 py-2 bg-neutral-900 hover:bg-black text-white text-xs font-bold rounded-lg transition shadow-xs">
+          Verificar ➔
+        </button>
+      </div>
+      <p class="text-[11px] text-neutral-400 mt-1">
+        💡 Tip: Podés tipear solo los 4 números (ej: <code>4821</code>) y presionar <strong>Enter</strong>.
+      </p>
+    </div>
+
+    <!-- SPINNER DE CARGA -->
+    <div id="loader" class="hidden text-center py-6 space-y-2">
+      <div class="w-6 h-6 border-2 border-black border-t-transparent rounded-full animate-spin mx-auto"></div>
+      <p class="text-xs text-neutral-500 font-semibold">Consultando base central...</p>
+    </div>
+
+    <!-- TARJETA: RESULTADO DE LA BÚSQUEDA -->
+    <div id="result-card" class="hidden"></div>
+
+  </main>
+
+  <!-- HISTORIAL RECIENTE DEL DÍA -->
+  <footer class="w-full max-w-lg mt-4 space-y-2">
+    <div class="flex items-center justify-between text-xs font-bold text-neutral-700">
+      <span class="flex items-center gap-1.5">
+        <span>📋</span> Cupones Canjeados Hoy en <span id="branch-label-footer">TOM</span>
+      </span>
+      <button onclick="loadRedeemedToday()" class="text-[11px] text-neutral-500 hover:text-black underline">
+        Actualizar lista 🔄
+      </button>
+    </div>
+    
+    <div id="recent-list-container" class="bg-white rounded-xl border border-neutral-200 p-2.5 max-h-48 overflow-y-auto text-xs divide-y divide-neutral-100">
+      <p class="text-[11px] text-neutral-400 text-center py-2">Cargando registros...</p>
+    </div>
+  </footer>
+
+  <script>
+    const SUPABASE_URL = 'https://hlvovocufifroigdlhmv.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhsdm92b2N1Zmlmcm9pZ2RsaG12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxMDM3MjksImV4cCI6MjEwNTY3OTcyOX0.7KGejvoqjyTAZhEGYODz_Jm2DpddYiLUyIKdhhLxsr0';
+
+    let currentBranch = localStorage.getItem('nz_cashier_branch') || 'TOM';
+    let currentCouponRecord = null;
+
+    window.onload = function() {
+      setBranch(currentBranch);
+      document.getElementById('code-input').focus();
+    };
+
+    function setBranch(branch) {
+      currentBranch = branch;
+      localStorage.setItem('nz_cashier_branch', branch);
+
+      const btnTom = document.getElementById('btn-branch-tom');
+      const btnMaschwitz = document.getElementById('btn-branch-maschwitz');
+      const footerLabel = document.getElementById('branch-label-footer');
+
+      if (branch === 'TOM') {
+        btnTom.className = "px-3 py-1 rounded-md text-xs font-black transition bg-black text-white shadow-xs";
+        btnMaschwitz.className = "px-3 py-1 rounded-md text-xs font-bold transition text-neutral-600 hover:text-black";
+      } else {
+        btnMaschwitz.className = "px-3 py-1 rounded-md text-xs font-black transition bg-black text-white shadow-xs";
+        btnTom.className = "px-3 py-1 rounded-md text-xs font-bold transition text-neutral-600 hover:text-black";
+      }
+
+      footerLabel.innerText = branch;
+      loadRedeemedToday();
+    }
+
+    function normalizeCode(raw) {
+      let code = raw.trim().toUpperCase();
+      if (!code) return "";
+      if (/^\\d{4}$/.test(code)) {
+        code = "NTM-" + code;
+      }
+      return code;
+    }
+
+    async function searchCoupon() {
+      const input = document.getElementById('code-input');
+      const raw = input.value;
+      const code = normalizeCode(raw);
+
+      if (!code) {
+        input.focus();
+        return;
+      }
+
+      const loader = document.getElementById('loader');
+      const resultCard = document.getElementById('result-card');
+
+      loader.classList.remove('hidden');
+      resultCard.classList.add('hidden');
+      resultCard.innerHTML = "";
+
+      try {
+        const res = await fetch(\`\${SUPABASE_URL}/rest/v1/fechas_especiales?evento=eq.CUPON_RULETA&manana=eq.\${encodeURIComponent(code)}&select=*\`, {
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_KEY
+          }
+        });
+
+        const data = await res.json();
+        loader.classList.add('hidden');
+        resultCard.classList.remove('hidden');
+
+        if (!data || data.length === 0) {
+          renderNotFound(code);
+          return;
+        }
+
+        const record = data[0];
+        currentCouponRecord = record;
+        renderCouponState(record);
+
+      } catch (err) {
+        loader.classList.add('hidden');
+        resultCard.classList.remove('hidden');
+        resultCard.innerHTML = \`
+          <div class="p-3 bg-red-50 text-red-800 rounded-xl border border-red-200 text-xs">
+            Error de conexión con la base central. Reintentar.
+          </div>
+        \`;
+      }
+    }
+
+    function renderNotFound(code) {
+      const resultCard = document.getElementById('result-card');
+      resultCard.innerHTML = \`
+        <div class="p-4 bg-amber-50 border-2 border-amber-300 rounded-xl text-center space-y-2">
+          <div class="w-10 h-10 mx-auto rounded-full bg-amber-100 text-amber-900 flex items-center justify-center text-xl font-bold">
+            ❓
+          </div>
+          <div class="font-black text-sm text-neutral-900 uppercase">
+            CÓDIGO NO REGISTRADO (\${code})
+          </div>
+          <p class="text-xs text-neutral-600 leading-snug">
+            Este código no figura en la base de la ruleta oficial. Verificá si la clienta lo anotó bien o si corresponde a otra promoción.
+          </p>
+        </div>
+      \`;
+    }
+
+    function renderCouponState(record) {
+      const resultCard = document.getElementById('result-card');
+      let details = {};
+      try { details = JSON.parse(record.observacion || "{}"); } catch(e) {}
+
+      const isRedeemed = (record.tarde === 'CANJEADO');
+      const now = Date.now();
+      const expiresAt = details.couponExpiresAt || (new Date(record.creado_en).getTime() + 2 * 3600 * 1000);
+      const isExpired = (!isRedeemed && expiresAt < now);
+
+      // CASO 1: YA CANJEADO
+      if (isRedeemed) {
+        const redeemedDate = details.redeemedAt ? new Date(details.redeemedAt) : new Date(record.creado_en);
+        const timeStr = redeemedDate.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+        const dateStr = redeemedDate.toLocaleDateString('es-AR');
+
+        resultCard.innerHTML = \`
+          <div class="p-4 bg-red-50 border-2 border-red-400 rounded-xl space-y-3 text-center">
+            <div class="w-12 h-12 mx-auto rounded-full bg-red-100 text-red-700 flex items-center justify-center text-2xl font-black">
+              ✕
+            </div>
+            <div>
+              <span class="bg-red-600 text-white font-black text-[11px] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                CUPÓN YA UTILIZADO
+              </span>
+              <h2 class="text-base font-black text-red-950 mt-1.5 font-mono">
+                \${record.manana}
+              </h2>
+            </div>
+            <div class="p-3 bg-white rounded-lg border border-red-200 text-xs space-y-1 text-neutral-800 text-left">
+              <div>• <strong>Canjeado en:</strong> Sucursal \${record.sucursal_codigo}</div>
+              <div>• <strong>Fecha y Hora:</strong> \${dateStr} a las \${timeStr} hs</div>
+              <div>• <strong>Clienta:</strong> \${details.name || 'No informada'}</div>
+              <div>• <strong>Premio Original:</strong> \${details.prizeTitle || ''} \${details.prizeSub || ''}</div>
+            </div>
+            <div class="p-2 bg-red-100/70 rounded-lg text-[11px] font-black text-red-900 uppercase">
+              ⛔ NO APLICAR DESCUENTO (YA CONSUMIDO)
+            </div>
+          </div>
+        \`;
+        return;
+      }
+
+      // CASO 2: VENCIDO (> 2 HORAS)
+      if (isExpired) {
+        const expDate = new Date(expiresAt).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+        resultCard.innerHTML = \`
+          <div class="p-4 bg-amber-50 border-2 border-amber-300 rounded-xl space-y-2 text-center">
+            <div class="text-2xl">⏱️</div>
+            <span class="bg-amber-200 text-amber-900 font-black text-[11px] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+              CUPÓN VENCIDO
+            </span>
+            <div class="font-mono text-base font-black text-neutral-900">
+              \${record.manana}
+            </div>
+            <p class="text-xs text-neutral-600">
+              El plazo límite de 2 horas expiró hoy a las <strong>\${expDate} hs</strong>. El beneficio ya no tiene validez.
+            </p>
+          </div>
+        \`;
+        return;
+      }
+
+      // CASO 3: VÁLIDO Y ACTIVO (LISTO PARA CANJEAR)
+      const diffMs = expiresAt - now;
+      const minLeft = Math.floor(diffMs / (60 * 1000));
+
+      resultCard.innerHTML = \`
+        <div class="p-4 bg-emerald-50 border-2 border-emerald-400 rounded-xl space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="bg-emerald-600 text-white font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+              ✓ CUPÓN VÁLIDO & ACTIVO
+            </span>
+            <span class="text-xs font-bold text-emerald-800">
+              ⏱️ Quedan \${minLeft} min
+            </span>
+          </div>
+
+          <!-- Detalle del Beneficio -->
+          <div class="bg-white p-3.5 rounded-xl border border-emerald-200 shadow-xs space-y-1">
+            <div class="text-[10px] font-bold text-neutral-400 uppercase tracking-widest font-mono">
+              CÓDIGO: \${record.manana}
+            </div>
+            <div class="text-xl font-black text-neutral-900 leading-tight">
+              \${details.prizeTitle || ''} \${details.prizeSub || ''}
+            </div>
+            <div class="text-xs font-semibold text-neutral-700 bg-emerald-50/70 p-1.5 rounded-md border border-emerald-200/60">
+              \${details.condition || 'Temporada Nueva'}
+            </div>
+            <div class="text-[11px] text-neutral-500 pt-0.5">
+              Clienta: <strong class="text-neutral-800">\${details.name || 'Sin nombre'}</strong>
+            </div>
+          </div>
+
+          <!-- Botón de Canje Inmediato -->
+          <button id="btn-redeem-action" onclick="redeemCouponNow('\${record.id}')"
+            class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 active:scale-98 text-white font-black text-sm rounded-xl transition shadow-md flex items-center justify-center gap-2">
+            <span>✓</span>
+            <span>MARCAR COMO CANJEADO EN DUX</span>
+          </button>
+
+          <p class="text-[10.5px] text-neutral-500 text-center">
+            Al tocar el botón, el código queda quemado en la nube para que nadie más pueda usarlo.
+          </p>
+        </div>
+      \`;
+
+      // Foco en el botón para permitir enter inmediato
+      setTimeout(() => {
+        const btn = document.getElementById('btn-redeem-action');
+        if (btn) btn.focus();
+      }, 100);
+    }
+
+    async function redeemCouponNow(recordId) {
+      if (!currentCouponRecord) return;
+
+      const btn = document.getElementById('btn-redeem-action');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerText = "Registrando canje en el sistema...";
+      }
+
+      let details = {};
+      try { details = JSON.parse(currentCouponRecord.observacion || "{}"); } catch(e) {}
+      details.redeemedAt = Date.now();
+      details.redeemedBranch = currentBranch;
+
+      try {
+        await fetch(\`\${SUPABASE_URL}/rest/v1/fechas_especiales?id=eq.\${recordId}\`, {
+          method: 'PATCH',
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({
+            tarde: 'CANJEADO',
+            sucursal_codigo: currentBranch,
+            observacion: JSON.stringify(details)
+          })
+        });
+
+        // Actualizar UI con éxito
+        const resultCard = document.getElementById('result-card');
+        resultCard.innerHTML = \`
+          <div class="p-4 bg-neutral-900 text-white rounded-xl text-center space-y-2 border border-neutral-700 shadow-md">
+            <div class="text-3xl">🎉</div>
+            <h2 class="text-sm font-black text-emerald-400 uppercase tracking-wider">
+              ¡CUPÓN CANJEADO EXITOSAMENTE!
+            </h2>
+            <div class="font-mono text-base font-bold text-amber-200">
+              \${currentCouponRecord.manana}
+            </div>
+            <p class="text-xs text-neutral-300">
+              Registrado para sucursal <strong>\${currentBranch}</strong>.<br>
+              Cargar la bonificación correspondiente en <strong>Dux ERP</strong> asentando el código en observaciones.
+            </p>
+            <button onclick="resetSearch()" class="mt-2 py-1.5 px-4 bg-white text-neutral-900 font-bold text-xs rounded-lg hover:bg-neutral-100 transition">
+              Validar otro cupón ➔
+            </button>
+          </div>
+        \`;
+
+        loadRedeemedToday();
+
+      } catch (err) {
+        alert("Error al actualizar estado en la nube. Reintentar.");
+        if (btn) {
+          btn.disabled = false;
+          btn.innerText = "Reintentar Canje";
+        }
+      }
+    }
+
+    function resetSearch() {
+      document.getElementById('result-card').classList.add('hidden');
+      document.getElementById('code-input').value = "";
+      document.getElementById('code-input').focus();
+    }
+
+    async function loadRedeemedToday() {
+      const listContainer = document.getElementById('recent-list-container');
+      try {
+        const res = await fetch(\`\${SUPABASE_URL}/rest/v1/fechas_especiales?evento=eq.CUPON_RULETA&tarde=eq.CANJEADO&sucursal_codigo=eq.\${currentBranch}&order=creado_en.desc&limit=10\`, {
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_KEY
+          }
+        });
+
+        const list = await res.json();
+        if (!list || list.length === 0) {
+          listContainer.innerHTML = \`<p class="text-[11px] text-neutral-400 text-center py-2">No hay cupones canjeados hoy en \${currentBranch}.</p>\`;
+          return;
+        }
+
+        listContainer.innerHTML = list.map(item => {
+          let det = {};
+          try { det = JSON.parse(item.observacion || "{}"); } catch(e) {}
+          const time = det.redeemedAt ? new Date(det.redeemedAt).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }) : '--:--';
+          return \`
+            <div class="py-2 flex items-center justify-between">
+              <div>
+                <span class="font-mono font-bold text-neutral-900">\${item.manana}</span>
+                <span class="text-neutral-500 text-[11px] ml-1.5">\${det.prizeTitle || ''} \${det.prizeSub || ''}</span>
+              </div>
+              <div class="text-[11px] font-semibold text-neutral-400">
+                \${time} hs
+              </div>
+            </div>
+          \`;
+        }).join('');
+
+      } catch (e) {
+        listContainer.innerHTML = \`<p class="text-[11px] text-red-500 text-center py-2">No se pudo cargar la lista.</p>\`;
+      }
+    }
+  </script>
+</body>
+</html>

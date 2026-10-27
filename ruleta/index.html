@@ -726,7 +726,49 @@
     // ==========================================
     // MOSTRAR PREMIO & CUENTA REGRESIVA
     // ==========================================
+    
+    // ==========================================
+    // SINCRONIZACIÓN CENTRAL EN SUPABASE (NAZARIA)
+    // ==========================================
+    const SUPABASE_URL = 'https://hlvovocufifroigdlhmv.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhsdm92b2N1Zmlmcm9pZ2RsaG12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxMDM3MjksImV4cCI6MjEwNTY3OTcyOX0.7KGejvoqjyTAZhEGYODz_Jm2DpddYiLUyIKdhhLxsr0';
+
+    async function registerCouponInSupabase(session) {
+      if (!session || !session.code || session.isSecondSpinPending) return;
+      try {
+        const payload = {
+          sucursal_codigo: 'WEB',
+          periodo: new Date().toISOString().slice(0, 7),
+          evento: 'CUPON_RULETA',
+          manana: session.code,
+          tarde: 'ACTIVO',
+          observacion: JSON.stringify({
+            name: session.name,
+            prizeTitle: session.prize.title,
+            prizeSub: session.prize.sub,
+            condition: session.prize.condition,
+            spunAt: session.spunAt,
+            couponExpiresAt: session.couponExpiresAt
+          })
+        };
+
+        await fetch(`${SUPABASE_URL}/rest/v1/fechas_especiales`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify(payload)
+        });
+      } catch (e) {
+        console.warn('Sync cloud fallback:', e);
+      }
+    }
+
     function showPrizePopup(session) {
+      registerCouponInSupabase(session);
       const modal = document.getElementById('prize-modal');
       document.getElementById('winner-name-txt').innerText = session.name.toUpperCase();
       document.getElementById('prize-title-txt').innerText = session.prize.title + ' ' + session.prize.sub;
