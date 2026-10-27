@@ -26,31 +26,29 @@
       text-shadow: 0 2px 0 #D4C6B6, 0 4px 12px rgba(184, 155, 126, 0.45);
     }
 
-    /* Aro exterior 3D estilo Royal metálico */
+    /* Aro exterior Blanco Laqueado Glossy - Opción A */
     .wheel-outer-ring {
-      background: conic-gradient(
-        #FBF6EF, #C4A482, #FBF6EF, #9E7A54,
-        #FBF6EF, #C4A482, #FBF6EF, #9E7A54,
-        #FBF6EF
-      );
-      padding: 12px;
+      background: radial-gradient(circle at 35% 30%, #FFFFFF 0%, #F8F9FA 55%, #E9ECEF 85%, #DEE2E6 100%);
+      padding: 13px;
       border-radius: 9999px;
+      border: 3.5px solid #FFFFFF;
       box-shadow: 
-        0 18px 40px rgba(158, 122, 84, 0.45),
-        0 6px 16px rgba(0, 0, 0, 0.15),
-        inset 0 2px 4px rgba(255, 255, 255, 0.9),
-        inset 0 -3px 6px rgba(0, 0, 0, 0.35);
+        0 18px 40px rgba(0, 0, 0, 0.16),
+        0 4px 12px rgba(0, 0, 0, 0.08),
+        inset 0 2px 4px rgba(255, 255, 255, 1),
+        inset 0 -3px 6px rgba(0, 0, 0, 0.12);
       position: relative;
     }
 
-    /* Luces LED perimetrales */
+    /* Luces LED perimetrales con brillo cálido veraniego */
     .led-bulb {
       position: absolute;
-      width: 9px;
-      height: 9px;
-      background: #FFFFFF;
+      width: 10px;
+      height: 10px;
+      background: #FFFDF5;
+      border: 1.5px solid #F4A261;
       border-radius: 9999px;
-      box-shadow: 0 0 7px 2px #FFE599, 0 0 12px 4px #D4C6B6;
+      box-shadow: 0 0 8px 3px rgba(244, 162, 97, 0.75), 0 0 14px 4px rgba(231, 111, 81, 0.3);
       animation: ledPulse 1.2s infinite alternate;
     }
     @keyframes ledPulse {
@@ -74,13 +72,13 @@
       100% { transform: rotate(0deg); }
     }
 
-    /* Centro 3D abombado con logotipo NZ */
+    /* Centro 3D abombado con Isologo Oficial */
     .wheel-center-dome {
-      background: radial-gradient(circle at 35% 30%, #FFFFFF 0%, #E6D5C3 45%, #8C6A48 100%);
+      background: radial-gradient(circle at 35% 30%, #FFFFFF 0%, #F5EFEB 50%, #D8C3B0 100%);
       box-shadow: 
-        0 8px 18px rgba(0, 0, 0, 0.35),
-        inset 0 2px 3px rgba(255, 255, 255, 0.9),
-        inset 0 -3px 6px rgba(0, 0, 0, 0.4);
+        0 8px 18px rgba(0, 0, 0, 0.28),
+        inset 0 2px 3px rgba(255, 255, 255, 0.95),
+        inset 0 -2px 5px rgba(0, 0, 0, 0.2);
     }
 
     /* Botón Shimmer de Acción */
@@ -213,14 +211,12 @@
         <div class="led-bulb" style="top: 14%; left: 14%;"></div>
 
         <!-- Canvas de la Ruleta -->
-        <canvas id="wheel-canvas" width="600" height="600" class="w-[288px] h-[288px] sm:w-[308px] sm:h-[308px] rounded-full"></canvas>
+        <canvas id="wheel-canvas" width="600" height="600" class="w-[304px] h-[304px] sm:w-[324px] sm:h-[324px] rounded-full"></canvas>
       </div>
 
-      <!-- Centro 3D compacto con logo NZ -->
-      <div class="absolute z-30 w-12 h-12 rounded-full wheel-center-dome flex items-center justify-center pointer-events-none border-2 border-white">
-        <span class="font-brand text-[11px] font-black text-white tracking-widest drop-shadow-md">
-          NZ
-        </span>
+      <!-- Centro 3D con Isologo Oficial de Nazaria -->
+      <div class="absolute z-30 w-13 h-13 rounded-full wheel-center-dome flex items-center justify-center pointer-events-none border-2 border-white shadow-lg" style="width: 52px; height: 52px;">
+        <img src="nazaria_emblem.png" alt="Nazaria" class="w-7 h-7 object-contain drop-shadow" />
       </div>
     </div>
 
@@ -375,71 +371,65 @@
         ctx.lineTo(radius, radius);
         ctx.fill();
 
-        // Borde dorado de división entre gajos
-        ctx.strokeStyle = '#D4AF37';
+        // Borde blanco sutil y limpio entre gajos
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
         ctx.lineWidth = 3;
         ctx.stroke();
 
-        // Contenido con orientación tangencial
+        // Contenido con orientación tangencial y pastilla GRANDE de máxima legibilidad
         ctx.save();
         ctx.translate(radius, radius);
         ctx.rotate(angle + arc / 2);
-        ctx.translate(195, 0);
+        ctx.translate(192, 0);
         ctx.rotate(Math.PI / 2);
 
-        // Ícono grande arriba de la pastilla
-        ctx.font = '24px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(prize.icon, 0, -32);
-
-        // Pastilla blanca con sombra y borde como en la foto de referencia
-        const pw = 116;
-        const ph = 46;
-        const pr = 14;
+        // Pastilla blanca ampliada para visibilidad contundente
+        const pw = 138;
+        const ph = 52;
+        const pr = 16;
 
         ctx.save();
         ctx.shadowColor = 'rgba(0, 0, 0, 0.28)';
-        ctx.shadowBlur = 6;
+        ctx.shadowBlur = 7;
         ctx.shadowOffsetY = 3;
 
         ctx.fillStyle = '#FFFFFF';
-        drawPill(ctx, -pw / 2, -10, pw, ph, pr);
+        drawPill(ctx, -pw / 2, -ph / 2, pw, ph, pr);
         ctx.fill();
 
-        ctx.strokeStyle = '#EDE1D5';
-        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = 'rgba(230, 230, 230, 0.8)';
+        ctx.lineWidth = 1;
         ctx.stroke();
         ctx.restore();
 
-        // Monto principal grande, nítido y legible en negro sobre la pastilla
-        ctx.font = '900 20px Inter, -apple-system, sans-serif';
-        ctx.fillStyle = '#1A1A1A';
+        // Monto principal grande, nítido y legible en negro puro extra bold
+        ctx.font = '900 24px Montserrat, Inter, -apple-system, sans-serif';
+        ctx.fillStyle = '#111111';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(prize.title, 0, 8);
+        ctx.fillText(prize.title, 0, -7);
 
-        // Subtítulo con peso visual
-        ctx.font = '700 11px Inter, -apple-system, sans-serif';
-        ctx.fillStyle = '#73573D';
-        ctx.fillText(prize.sub, 0, 24);
+        // Subtítulo con contraste fuerte
+        ctx.font = '800 11px Montserrat, Inter, -apple-system, sans-serif';
+        ctx.fillStyle = '#555555';
+        ctx.fillText(prize.sub, 0, 14);
 
         ctx.restore();
 
-        // Clavija / Pin metálico perimetral exterior
+        // Clavija / Pin metálico perimetral exterior plateado pulido
         const pinAngle = angle;
-        const pinRadius = radius - 14;
+        const pinRadius = radius - 13;
         const pinX = radius + pinRadius * Math.cos(pinAngle);
         const pinY = radius + pinRadius * Math.sin(pinAngle);
         ctx.save();
         ctx.beginPath();
-        ctx.arc(pinX, pinY, 4.5, 0, 2 * Math.PI);
+        ctx.arc(pinX, pinY, 5, 0, 2 * Math.PI);
         ctx.fillStyle = '#FFFFFF';
         ctx.shadowColor = 'rgba(0, 0, 0, 0.35)';
         ctx.shadowBlur = 4;
         ctx.fill();
-        ctx.strokeStyle = '#C4A482';
-        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#DEE2E6';
+        ctx.lineWidth = 1.5;
         ctx.stroke();
         ctx.restore();
       }
