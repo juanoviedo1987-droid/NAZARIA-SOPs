@@ -56,19 +56,20 @@
       100% { opacity: 1; transform: scale(1.2); filter: drop-shadow(0 0 5px #FFF); }
     }
 
-    /* Flecha marcadora 3D Superior con cabeceo mecánico */
+    /* Flecha marcadora 3D Superior con cabeceo mecánico elástico realista */
     .ticker-container {
       filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.4));
       z-index: 40;
-      transform-origin: 20px 4px;
-      transition: transform 0.05s ease-out;
+      transform-origin: 20px 6px;
+      transition: transform 0.04s cubic-bezier(0.1, 0.9, 0.2, 1);
     }
     .ticker-flick {
-      animation: tickerFlick 0.09s ease-in-out;
+      animation: tickerFlick 0.12s cubic-bezier(0.17, 0.89, 0.32, 1.28);
     }
     @keyframes tickerFlick {
       0% { transform: rotate(0deg); }
-      50% { transform: rotate(-13deg); }
+      35% { transform: rotate(-24deg) scale(1.04); }
+      70% { transform: rotate(6deg); }
       100% { transform: rotate(0deg); }
     }
 
@@ -239,51 +240,59 @@
       </p>
     </div>
 
-    <!-- PANTALLA GANADORA: REGALO 3D + CUPÓN ACTIVO INMEDIATO + RELOJ 2 HORAS -->
-    <div id="prize-modal" class="hidden fixed inset-0 bg-black/65 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div class="bg-white rounded-3xl p-6 max-w-sm w-full space-y-3 shadow-2xl border-2 border-[#D4C6B6] text-center transform scale-95 transition-all relative">
+    <!-- PANTALLA GANADORA: GOLDEN TICKET BOUTIQUE POP VERANO (OPCIÓN 1) -->
+    <div id="prize-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-3 select-none">
+      <div class="bg-white rounded-[28px] p-5 max-w-[340px] w-full space-y-2.5 shadow-2xl border border-neutral-200 text-center transform scale-95 transition-all relative overflow-hidden">
         
-        <!-- Ilustración Boutique de Regalo Flotante -->
-        <div class="flex justify-center -mt-2">
-          <img src="gift_box_boutique.png" alt="Regalo Exclusivo" class="w-18 h-18 sm:w-20 sm:h-20 object-contain gift-float drop-shadow-md">
+        <!-- Barra superior vibrante con la paleta de la ruleta -->
+        <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#E76F51] via-[#F4A261] via-[#2A9D8F] to-[#457B9D]"></div>
+
+        <!-- Ícono Destacado de Celebración -->
+        <div class="flex justify-center pt-1">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#FFF3EE] to-[#FFE5DC] border border-[#E76F51]/30 flex items-center justify-center text-3xl shadow-sm">
+            🎁
+          </div>
         </div>
         
-        <div class="inline-block px-3 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 text-[10px] font-extrabold uppercase tracking-widest">
-          ¡Premio Desbloqueado! 🎉
-        </div>
-        
-        <h2 class="font-brand text-2xl font-black text-neutral-900 leading-tight">
-          ¡Felicitaciones, <span id="winner-name-txt" class="text-[#A88665]"></span>!
-        </h2>
-
-        <!-- Tarjeta del Premio -->
-        <div class="bg-[#FAF9F6] p-3.5 rounded-2xl border border-[#D4C6B6] space-y-1 shadow-inner">
-          <div class="text-[11px] text-neutral-500 uppercase tracking-wider font-bold">Tu Beneficio Obtenido:</div>
-          <div id="prize-title-txt" class="font-brand text-2xl font-black text-neutral-900 leading-tight"></div>
-          <div id="prize-desc-txt" class="text-xs text-amber-950 font-semibold bg-[#D4C6B6]/50 py-1 px-3 rounded-lg inline-block border border-[#D4C6B6] mt-0.5"></div>
+        <div>
+          <span class="inline-block px-3 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-300 text-[10px] font-black uppercase tracking-wider">
+            ✓ ¡Premio Desbloqueado!
+          </span>
+          <h2 class="font-brand text-2xl font-black text-neutral-900 mt-1 leading-tight">
+            ¡Felicitaciones, <span id="winner-name-txt" class="text-[#E76F51]"></span>!
+          </h2>
         </div>
 
-        <!-- Reloj Regresivo Activo de 2 Horas -->
-        <div class="bg-neutral-900 text-white p-3 rounded-2xl space-y-0.5 timer-glow">
-          <div class="text-[10px] uppercase font-bold text-[#D4C6B6] tracking-wider">Vence hoy en el local en:</div>
-          <div id="countdown-clock" class="font-mono text-2xl font-black text-white tracking-widest">02:00:00</div>
-          <div class="text-[10px] text-neutral-400">Mostrá esta pantalla en caja antes del vencimiento</div>
+        <!-- Tarjeta Cupón Troquelado Golden Ticket con borde punteado de valor -->
+        <div class="bg-gradient-to-b from-[#FFFDF9] to-[#FAF5EC] p-3.5 rounded-2xl border-2 border-dashed border-[#F4A261] relative shadow-sm space-y-1">
+          <div class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">Tu Beneficio Obtenido:</div>
+          <div id="prize-title-txt" class="font-brand text-3xl font-black text-neutral-900 leading-none py-0.5"></div>
+          <div id="prize-desc-txt" class="text-[11px] font-bold text-neutral-800 bg-amber-100/80 py-1 px-3 rounded-lg inline-block border border-amber-200/90 leading-tight"></div>
         </div>
 
-        <!-- Código de Cupón Unificado NTM -->
-        <div class="flex items-center justify-between p-2.5 bg-[#FAF9F6] rounded-xl border border-neutral-200 text-xs">
-          <span class="text-neutral-600 font-bold">Código Oficial:</span>
-          <span id="coupon-code-txt" class="font-mono font-black text-lg text-neutral-900 px-3 py-0.5 rounded bg-white border border-[#D4C6B6] tracking-wider"></span>
+        <!-- Reloj Regresivo y Código Unificado en Bloque Satinado -->
+        <div class="bg-neutral-900 text-white p-3 rounded-2xl space-y-1 shadow-md">
+          <div class="flex justify-between items-center text-[10px]">
+            <span class="text-neutral-400 font-bold uppercase tracking-wider">Canje en caja:</span>
+            <span class="text-amber-300 font-extrabold flex items-center gap-1">
+              <span>⏱️ Vence en:</span>
+              <span id="countdown-clock" class="font-mono text-xs font-black text-white">02:00:00</span>
+            </span>
+          </div>
+          <div class="flex items-center justify-between bg-neutral-800/90 p-2 rounded-xl border border-neutral-700/80">
+            <span class="text-[10px] text-neutral-400 font-bold">CÓDIGO OFICIAL:</span>
+            <span id="coupon-code-txt" class="font-mono font-black text-base text-amber-200 tracking-widest"></span>
+          </div>
         </div>
 
-        <!-- Indicación de canje transparente (no invasiva) -->
-        <div class="p-2.5 bg-[#FAF9F8] rounded-xl border border-neutral-200 text-[11px] text-neutral-700 leading-relaxed">
-          Mostrá esta pantalla en el mostrador de <strong>TOM</strong> o <strong>Maschwitz Mall</strong>. La vendedora registrará tu código en la factura.
+        <!-- Indicación de canje transparente -->
+        <div class="p-2 bg-[#FAF8F5] rounded-xl border border-neutral-200 text-[10.5px] text-neutral-700 leading-snug">
+          Mostrá esta pantalla en caja de <strong>TOM</strong> o <strong>Maschwitz Mall</strong> para aplicar tu beneficio en el acto.
         </div>
 
         <!-- Botón de Reinicio para Demo / Test -->
-        <div class="pt-1">
-          <button onclick="resetDemo()" class="text-[11px] text-neutral-400 hover:text-black underline transition">
+        <div class="pt-0.5">
+          <button onclick="resetDemo()" class="text-[10px] text-neutral-400 hover:text-black underline transition">
             🔄 Probar otro giro (Modo Demo / Test)
           </button>
         </div>
@@ -381,10 +390,10 @@
         ctx.translate(radius, radius);
         ctx.rotate(angle + arc / 2);
 
-        // Pastilla vertical alargada tipo cápsula: de x=75 a x=225 (150px de recorrido)
+        // Pastilla vertical alargada perfectamente centrada: de x=84 a x=234
         const pw = 150;
         const ph = 50;
-        const px = 74;
+        const px = 84;
         const py = -ph / 2;
 
         ctx.save();
@@ -481,39 +490,43 @@
       }, 10300);
     }
 
-    // Audio síntesis + Cabeceo físico sincronizado con la desaceleración real
+    // Audio síntesis + Cabeceo físico elástico sincronizado con la desaceleración real + Háptico
     function playWheelTicksAndFlick() {
       const ticker = document.getElementById('ticker-el');
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const totalDuration = 10.0;
-        const totalTicks = 60; // cantidad de pines que atraviesa
+        const totalTicks = 64; // cantidad de clavijas que golpea
 
         for (let i = 1; i <= totalTicks; i++) {
           const p = i / totalTicks;
-          // Curva de desaceleración física: veloz al inicio, espaciándose progresivamente hasta el freno
-          const progressTime = (1 - Math.pow(1 - p, 1 / 3.2)) * totalDuration;
+          // Curva de desaceleración cúbica natural: ultra veloz -> desacelera progresivamente -> casi se traba al final
+          const progressTime = (1 - Math.pow(1 - p, 1 / 3.1)) * totalDuration;
           const time = audioCtx.currentTime + progressTime;
 
-          // Sonido: frecuencia baja sutilmente con la inercia
+          // Sonido mecánico de clavija tipo ruleta de madera/metal
           const osc = audioCtx.createOscillator();
           const gain = audioCtx.createGain();
           osc.type = 'triangle';
-          const freq = Math.max(300, 820 - (i * 7));
+          const freq = Math.max(320, 880 - (i * 8.5));
           osc.frequency.setValueAtTime(freq, time);
-          gain.gain.setValueAtTime(0.045, time);
-          gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.035);
+          gain.gain.setValueAtTime(0.05, time);
+          gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.038);
           osc.connect(gain);
           gain.connect(audioCtx.destination);
           osc.start(time);
-          osc.stop(time + 0.04);
+          osc.stop(time + 0.045);
 
-          // Cabeceo visual de la aguja sincronizado exactamente con cada clack
+          // Cabeceo visual elástico sincronizado al milisegundo
           setTimeout(() => {
             if (ticker) {
               ticker.classList.remove('ticker-flick');
-              void ticker.offsetWidth; // reiniciar animación CSS
+              void ticker.offsetWidth; // forzar reflujo para reiniciar keyframe
               ticker.classList.add('ticker-flick');
+            }
+            // Feedback táctil sutil en los últimos 6 rebotes antes de detenerse
+            if (i > totalTicks - 6 && window.navigator && window.navigator.vibrate) {
+              window.navigator.vibrate(18);
             }
           }, progressTime * 1000);
         }
