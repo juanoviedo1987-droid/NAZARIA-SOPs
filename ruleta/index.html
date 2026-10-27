@@ -56,21 +56,38 @@
       100% { opacity: 1; transform: scale(1.2); filter: drop-shadow(0 0 5px #FFF); }
     }
 
-    /* Flecha marcadora 3D Superior con cabeceo mecánico elástico realista */
-    .ticker-container {
-      filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.4));
-      z-index: 40;
-      transform-origin: 20px 2px;
-      pointer-events: none;
+    /* Flecha marcadora 3D: Rotación pura desacoplada del posicionamiento */
+    .ticker-needle {
+      width: 40px;
+      height: 48px;
+      transform-origin: 20px 6px;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+      transition: transform 0.05s ease-out;
     }
-    .ticker-flick {
-      animation: tickerFlick 0.11s cubic-bezier(0.18, 0.89, 0.32, 1.25);
+    /* Giro rápido (0s a 6s): vibración continua ultra visible contra clavijas */
+    .ticker-needle.spinning-fast {
+      animation: tickerFastVibe 0.055s infinite alternate ease-in-out !important;
     }
-    @keyframes tickerFlick {
-      0% { transform: rotate(0deg); }
-      35% { transform: rotate(-28deg) scale(1.05); }
-      70% { transform: rotate(7deg); }
+    @keyframes tickerFastVibe {
+      0%   { transform: rotate(-14deg); }
+      100% { transform: rotate(-32deg); }
+    }
+    /* Frenado paso a paso (6s a 10s): golpe mecánico individual con rebote elástico */
+    .ticker-needle.tick-heavy {
+      animation: tickerHeavyStrike 0.16s cubic-bezier(0.18, 0.9, 0.32, 1.3) !important;
+    }
+    @keyframes tickerHeavyStrike {
+      0%   { transform: rotate(0deg); }
+      35%  { transform: rotate(-32deg) scale(1.05); }
+      75%  { transform: rotate(8deg); }
       100% { transform: rotate(0deg); }
+    }
+
+    /* Banner flotante de cupón activo (2.1) */
+    .banner-coupon-glow {
+      background: linear-gradient(135deg, #FFFDF8 0%, #FFF5E8 100%);
+      border: 1.5px solid #F4A261;
+      box-shadow: 0 4px 16px rgba(244, 162, 97, 0.25);
     }
 
     /* Centro 3D abombado con Isologo Oficial */
@@ -180,24 +197,40 @@
     </div>
   </header>
 
-  <!-- SECCIÓN CENTRAL: RULETA 3D PROTAGONISTA -->
-  <main class="w-full flex flex-col items-center justify-center my-auto py-1 z-10">
+  <!-- BANNER FLOTANTE DE CUPÓN ACTIVO (PUNTO 2.1) -->
+  <div id="active-coupon-banner" class="hidden w-full max-w-[330px] my-1 px-3 py-2 rounded-2xl banner-coupon-glow flex items-center justify-between text-xs z-30 transition-all">
+    <div class="flex items-center gap-2">
+      <span class="text-base">🎁</span>
+      <div class="text-left">
+        <div class="font-black text-neutral-900 leading-tight" id="banner-prize-txt">Premio activo</div>
+        <div class="text-[10px] text-amber-900 font-bold" id="banner-timer-txt">Vence en 02:00:00</div>
+      </div>
+    </div>
+    <button onclick="reopenActiveCoupon()" class="px-3 py-1.5 rounded-xl bg-neutral-900 text-amber-200 font-black text-[11px] uppercase tracking-wider shadow-xs hover:scale-105 active:scale-95 transition">
+      Ver Cupón
+    </button>
+  </div>
+
+  <!-- SECCIÓN CENTRAL: RULETA 3D PROTAGONISTA (CENTRADA CON PRECISIÓN RESPECTO A TEXTOS Y PANEL) -->
+  <main class="w-full flex-1 flex items-center justify-center py-2 z-10">
 
     <div class="relative w-[320px] h-[320px] sm:w-[340px] sm:h-[340px] flex items-center justify-center">
       
-      <!-- Flecha marcadora 3D Superior con cabeceo físico interactivo -->
-      <div id="ticker-el" class="absolute -top-1 left-1/2 -translate-x-1/2 ticker-container">
-        <svg width="40" height="48" viewBox="0 0 40 48" fill="none">
-          <path d="M20 46L5 12C3 8 6 3 10 3H30C34 3 37 8 35 12L20 46Z" fill="url(#tickerCoralAmber)" stroke="#FFFFFF" stroke-width="2.5"/>
-          <circle cx="20" cy="14" r="6" fill="#1A1A1A" stroke="#FFFFFF" stroke-width="1.5"/>
-          <defs>
-            <linearGradient id="tickerCoralAmber" x1="5" y1="3" x2="35" y2="46" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#E76F51"/>
-              <stop offset="0.5" stop-color="#F4A261"/>
-              <stop offset="1" stop-color="#E76F51"/>
-            </linearGradient>
-          </defs>
-        </svg>
+      <!-- Flecha marcadora 3D: Wrapper fijo exterior con punta en contacto real -->
+      <div class="absolute -top-3 left-1/2 -translate-x-1/2 z-40 pointer-events-none">
+        <div id="ticker-needle" class="ticker-needle">
+          <svg width="40" height="48" viewBox="0 0 40 48" fill="none">
+            <path d="M20 46L5 12C3 8 6 3 10 3H30C34 3 37 8 35 12L20 46Z" fill="url(#tickerCoralAmber)" stroke="#FFFFFF" stroke-width="2.5"/>
+            <circle cx="20" cy="14" r="6" fill="#1A1A1A" stroke="#FFFFFF" stroke-width="1.5"/>
+            <defs>
+              <linearGradient id="tickerCoralAmber" x1="5" y1="3" x2="35" y2="46" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#E76F51"/>
+                <stop offset="0.5" stop-color="#F4A261"/>
+                <stop offset="1" stop-color="#E76F51"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
       </div>
 
       <!-- Aro Metálico con Luces LED -->
@@ -221,24 +254,26 @@
       </div>
     </div>
 
-    <!-- PANEL INFERIOR DE ACCIÓN -->
-    <div id="play-panel" class="w-full max-w-[320px] mt-3 space-y-2.5">
-      <div class="relative">
-        <input type="text" id="player-input" placeholder="Ingresá tu nombre o apodo..." maxlength="25"
-          class="w-full bg-white border-2 border-[#D4C6B6] rounded-2xl px-4 py-3 text-sm text-center font-bold text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black shadow-inner transition">
-      </div>
+  </main>
 
-      <!-- CTA Principal Atractivo con Shimmer -->
-      <button id="spin-btn" onclick="triggerSpin()"
-        class="w-full py-4 rounded-2xl btn-action-glow text-white font-black text-sm uppercase tracking-widest transition active:scale-95 flex items-center justify-center gap-2">
-        <span class="text-base">🎰</span>
-        <span>¡GIRAR Y DESCUBRIR MI PREMIO!</span>
-      </button>
-
-      <p class="text-[10px] text-center text-neutral-500 font-medium">
-        ✨ 100% de los giros tienen beneficio asegurado para canjear hoy
-      </p>
+  <!-- PANEL INFERIOR DE ACCIÓN (UBICADO DEBAJO DE MAIN, DANDO EQUIDISTANCIA A LA RULETA) -->
+  <div id="play-panel" class="w-full max-w-[320px] pb-2 space-y-2 z-10 shrink-0">
+    <div class="relative">
+      <input type="text" id="player-input" placeholder="Ingresá tu nombre o apodo..." maxlength="25"
+        class="w-full bg-white border-2 border-[#D4C6B6] rounded-2xl px-4 py-3 text-sm text-center font-bold text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black shadow-inner transition">
     </div>
+
+    <!-- CTA Principal Atractivo con Shimmer -->
+    <button id="spin-btn" onclick="triggerSpin()"
+      class="w-full py-4 rounded-2xl btn-action-glow text-white font-black text-sm uppercase tracking-widest transition active:scale-95 flex items-center justify-center gap-2">
+      <span class="text-base">🎰</span>
+      <span>¡GIRAR Y DESCUBRIR MI PREMIO!</span>
+    </button>
+
+    <p class="text-[10px] text-center text-neutral-500 font-medium">
+      ✨ 100% de los giros tienen beneficio asegurado para canjear hoy
+    </p>
+  </div>
 
     <!-- PANTALLA GANADORA: GOLDEN TICKET BOUTIQUE POP VERANO (OPCIÓN 1) -->
     <div id="prize-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-3 select-none">
@@ -290,11 +325,16 @@
           Mostrá esta pantalla en caja de <strong>TOM</strong> o <strong>Maschwitz Mall</strong> para aplicar tu beneficio en el acto.
         </div>
 
-        <!-- Botón de Reinicio para Demo / Test -->
-        <div class="pt-0.5">
-          <button onclick="resetDemo()" class="text-[10px] text-neutral-400 hover:text-black underline transition">
-            🔄 Probar otro giro (Modo Demo / Test)
+        <!-- Botón para cerrar y volver a ver la tienda / app sin perder el cupón -->
+        <div class="pt-1 space-y-1.5">
+          <button onclick="closePrizeModal()" class="w-full py-2.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-800 font-extrabold text-xs transition">
+            ✕ Seguir mirando zapatos (Tu cupón sigue activo)
           </button>
+          <div>
+            <button onclick="resetDemo()" class="text-[10px] text-neutral-400 hover:text-black underline transition">
+              🔄 Probar otro giro (Modo Demo / Test)
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -479,6 +519,7 @@
       canvas.style.transition = 'transform 10s cubic-bezier(0.12, 0.95, 0.15, 1)';
       canvas.style.transform = `rotate(${finalRotation}deg)`;
 
+      // Iniciar cabeceo elástico físico infalible
       playWheelTicksAndFlick();
 
       setTimeout(() => {
@@ -490,47 +531,80 @@
       }, 10300);
     }
 
-    // Audio síntesis + Cabeceo físico elástico sincronizado con la desaceleración real + Háptico
+    // FÍSICA Y AUDIO INFALIBLE DE LA FLECHA (CABACEO CONTINUO EN VELOCIDAD + TICKS LENTOS AL FRENAR)
     function playWheelTicksAndFlick() {
-      const ticker = document.getElementById('ticker-el');
+      const needle = document.getElementById('ticker-needle');
+      if (!needle) return;
+
+      // Fase 1 (0s a 6s): Giro a máxima velocidad -> cabeceo vibratorio continuo ultra visible
+      needle.className = 'ticker-needle spinning-fast';
+
+      let audioCtx = null;
       try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const totalDuration = 10.0;
-        const totalTicks = 64; // cantidad de clavijas que golpea
-
-        for (let i = 1; i <= totalTicks; i++) {
-          const p = i / totalTicks;
-          // Curva de desaceleración cúbica natural: ultra veloz -> desacelera progresivamente -> casi se traba al final
-          const progressTime = (1 - Math.pow(1 - p, 1 / 3.1)) * totalDuration;
-          const time = audioCtx.currentTime + progressTime;
-
-          // Sonido mecánico de clavija tipo ruleta de madera/metal
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
-          osc.type = 'triangle';
-          const freq = Math.max(320, 880 - (i * 8.5));
-          osc.frequency.setValueAtTime(freq, time);
-          gain.gain.setValueAtTime(0.05, time);
-          gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.038);
-          osc.connect(gain);
-          gain.connect(audioCtx.destination);
-          osc.start(time);
-          osc.stop(time + 0.045);
-
-          // Cabeceo visual elástico sincronizado al milisegundo
-          setTimeout(() => {
-            if (ticker) {
-              ticker.classList.remove('ticker-flick');
-              void ticker.offsetWidth; // forzar reflujo para reiniciar keyframe
-              ticker.classList.add('ticker-flick');
-            }
-            // Feedback táctil sutil en los últimos 6 rebotes antes de detenerse
-            if (i > totalTicks - 6 && window.navigator && window.navigator.vibrate) {
-              window.navigator.vibrate(18);
-            }
-          }, progressTime * 1000);
-        }
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       } catch (e) {}
+
+      // Audio durante el giro rápido
+      if (audioCtx) {
+        for (let i = 1; i <= 24; i++) {
+          const time = audioCtx.currentTime + (i * 0.22);
+          try {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(680, time);
+            gain.gain.setValueAtTime(0.04, time);
+            gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.03);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(time);
+            osc.stop(time + 0.035);
+          } catch(err) {}
+        }
+      }
+
+      // Fase 2 (6.2s a 10s): Desaceleración dramática -> ticks pesados individuales y espaciados
+      setTimeout(() => {
+        needle.className = 'ticker-needle';
+
+        const slowTickMoments = [300, 950, 1600, 2250, 2850, 3350, 3750];
+        slowTickMoments.forEach((delay, idx) => {
+          setTimeout(() => {
+            needle.className = 'ticker-needle';
+            void needle.offsetWidth;
+            needle.className = 'ticker-needle tick-heavy';
+
+            // Click acústico mecánico
+            if (audioCtx) {
+              try {
+                const now = audioCtx.currentTime;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'triangle';
+                const f = Math.max(300, 520 - (idx * 28));
+                osc.frequency.setValueAtTime(f, now);
+                gain.gain.setValueAtTime(0.06, now);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.045);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 0.05);
+              } catch(err) {}
+            }
+
+            // Háptico en los últimos 3 rebotes
+            if (idx >= 4 && window.navigator && window.navigator.vibrate) {
+              window.navigator.vibrate(25);
+            }
+          }, delay);
+        });
+
+        // Detener aguja alineada a 0deg al freno
+        setTimeout(() => {
+          needle.className = 'ticker-needle';
+        }, 4000);
+
+      }, 6200);
     }
 
     // Jingle Triunfal de Victoria (Acorde Boutique Arpegiado)
@@ -624,6 +698,41 @@
       input.focus();
     }
 
+    // Cerrar modal de premio manteniendo banner flotante activo
+    function closePrizeModal() {
+      document.getElementById('prize-modal').classList.add('hidden');
+      updateFloatingBanner();
+    }
+
+    // Reabrir modal desde el banner flotante
+    function reopenActiveCoupon() {
+      try {
+        const saved = localStorage.getItem('nz_active_coupon');
+        if (saved) {
+          const data = JSON.parse(saved);
+          if (data && data.expireTime > Date.now()) {
+            showPrizePopup(data.name, data.prize, data.code, data.expireTime);
+          }
+        }
+      } catch (e) {}
+    }
+
+    // Actualizar o mostrar banner flotante de cupón activo
+    function updateFloatingBanner() {
+      try {
+        const raw = localStorage.getItem('nz_active_coupon');
+        const banner = document.getElementById('active-coupon-banner');
+        if (!raw || !banner) return;
+        const data = JSON.parse(raw);
+        if (data && data.expireTime > Date.now()) {
+          document.getElementById('banner-prize-txt').innerText = `${data.prize.title} ${data.prize.sub} activo`;
+          banner.classList.remove('hidden');
+        } else {
+          banner.classList.add('hidden');
+        }
+      } catch (e) {}
+    }
+
     // Verificar si hay un cupón activo al abrir la página
     window.onload = function() {
       renderWheel3D();
@@ -633,7 +742,9 @@
         if (saved) {
           const data = JSON.parse(saved);
           if (data && data.expireTime > Date.now()) {
-            showPrizePopup(data.name, data.prize, data.code, data.expireTime);
+            // Mostrar banner flotante en lugar de tapar la pantalla abruptamente
+            updateFloatingBanner();
+            startCountdown(data.expireTime);
           } else {
             localStorage.removeItem('nz_active_coupon');
           }
