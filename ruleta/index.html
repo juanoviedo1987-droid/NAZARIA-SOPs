@@ -2,95 +2,62 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Ruleta de Premios · Nazaria Zapatos</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Montserrat:wght@400;600;700;800;900&family=JetBrains+Mono:wght@700;800&display=swap" rel="stylesheet">
   <!-- Canvas Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <style>
+    * { box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      height: 100dvh;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
     body {
-      font-family: 'Inter', -apple-system, sans-serif;
-      background: radial-gradient(circle at 50% 20%, #FFFFFF 0%, #FAF8F5 50%, #ECE3D8 100%);
+      font-family: 'Montserrat', -apple-system, sans-serif;
+      background: radial-gradient(circle at 50% 15%, #FFFFFF 0%, #FAF8F5 50%, #ECE3D8 100%);
       color: #1A1A1A;
-      overflow-x: hidden;
-      min-height: 100vh;
       -webkit-tap-highlight-color: transparent;
+      user-select: none;
     }
     .font-brand { font-family: 'Cinzel', Georgia, serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
 
-    /* Efecto Titular 3D de Alto Impacto */
+    /* Efecto Titular de Alto Impacto */
     .title-pop {
       text-shadow: 0 2px 0 #D4C6B6, 0 4px 12px rgba(184, 155, 126, 0.45);
     }
 
-    /* Aro exterior Blanco Laqueado Glossy - Opción A */
+    /* Aro exterior Blanco Laqueado Glossy con Bisel Fino */
     .wheel-outer-ring {
       background: radial-gradient(circle at 35% 30%, #FFFFFF 0%, #F8F9FA 55%, #E9ECEF 85%, #DEE2E6 100%);
-      padding: 13px;
+      padding: 10px;
       border-radius: 9999px;
-      border: 3.5px solid #FFFFFF;
+      border: 3px solid #FFFFFF;
       box-shadow: 
-        0 18px 40px rgba(0, 0, 0, 0.16),
-        0 4px 12px rgba(0, 0, 0, 0.08),
+        0 14px 32px rgba(0, 0, 0, 0.16),
+        0 4px 10px rgba(0, 0, 0, 0.08),
         inset 0 2px 4px rgba(255, 255, 255, 1),
-        inset 0 -3px 6px rgba(0, 0, 0, 0.12);
+        inset 0 -3px 5px rgba(0, 0, 0, 0.12);
       position: relative;
     }
 
-    /* Luces LED perimetrales con brillo cálido veraniego */
-    .led-bulb {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background: #FFFDF5;
-      border: 1.5px solid #F4A261;
-      border-radius: 9999px;
-      box-shadow: 0 0 8px 3px rgba(244, 162, 97, 0.75), 0 0 14px 4px rgba(231, 111, 81, 0.3);
-      animation: ledPulse 1.2s infinite alternate;
-    }
-    @keyframes ledPulse {
-      0% { opacity: 0.6; transform: scale(0.85); }
-      100% { opacity: 1; transform: scale(1.2); filter: drop-shadow(0 0 5px #FFF); }
-    }
-
-    /* Flecha marcadora 3D: Rotación pura desacoplada del posicionamiento */
+    /* Aguja marcadora superior: Rotación física pura */
     .ticker-needle {
       width: 40px;
       height: 48px;
       transform-origin: 20px 6px;
-      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
-      transition: transform 0.05s ease-out;
-    }
-    /* Giro rápido (0s a 6s): vibración continua ultra visible contra clavijas */
-    .ticker-needle.spinning-fast {
-      animation: tickerFastVibe 0.055s infinite alternate ease-in-out !important;
-    }
-    @keyframes tickerFastVibe {
-      0%   { transform: rotate(-14deg); }
-      100% { transform: rotate(-32deg); }
-    }
-    /* Frenado paso a paso (6s a 10s): golpe mecánico individual con rebote elástico */
-    .ticker-needle.tick-heavy {
-      animation: tickerHeavyStrike 0.16s cubic-bezier(0.18, 0.9, 0.32, 1.3) !important;
-    }
-    @keyframes tickerHeavyStrike {
-      0%   { transform: rotate(0deg); }
-      35%  { transform: rotate(-32deg) scale(1.05); }
-      75%  { transform: rotate(8deg); }
-      100% { transform: rotate(0deg); }
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
+      will-change: transform;
     }
 
-    /* Banner flotante de cupón activo (2.1) */
-    .banner-coupon-glow {
-      background: linear-gradient(135deg, #FFFDF8 0%, #FFF5E8 100%);
-      border: 1.5px solid #F4A261;
-      box-shadow: 0 4px 16px rgba(244, 162, 97, 0.25);
-    }
-
-    /* Centro 3D abombado con Isologo Oficial */
+    /* Centro 3D con Isologo Oficial */
     .wheel-center-dome {
       background: radial-gradient(circle at 35% 30%, #FFFFFF 0%, #F5EFEB 50%, #D8C3B0 100%);
       box-shadow: 
@@ -110,114 +77,79 @@
       content: '';
       position: absolute;
       top: -50%;
-      left: -60%;
-      width: 40%;
+      left: -50%;
+      width: 200%;
       height: 200%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-      transform: rotate(25deg);
-      animation: shimmer 3s infinite;
+      background: linear-gradient(60deg, transparent, rgba(255,255,255,0.18), transparent);
+      transform: rotate(30deg);
+      animation: shimmerBtn 3.2s infinite;
     }
-    @keyframes shimmer {
-      0% { left: -60%; }
-      35% { left: 130%; }
-      100% { left: 130%; }
+    @keyframes shimmerBtn {
+      0% { transform: translateX(-100%) rotate(30deg); }
+      30%, 100% { transform: translateX(100%) rotate(30deg); }
     }
 
-    /* Partículas sutiles de fondo */
+    /* Partículas de brillo de fondo */
     .sparkle {
       position: absolute;
       pointer-events: none;
-      animation: floatUp 4s linear infinite;
+      animation: sparkleFade 3s infinite ease-in-out;
     }
-    @keyframes floatUp {
-      0% { transform: translateY(0) rotate(0deg) scale(0.6); opacity: 0; }
-      50% { opacity: 0.8; }
-      100% { transform: translateY(-80px) rotate(90deg) scale(1); opacity: 0; }
-    }
-
-    /* Animación flotante para la caja de regalo */
-    @keyframes giftBob {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-6px) rotate(2deg); }
-    }
-    .gift-float {
-      animation: giftBob 3s ease-in-out infinite;
-    }
-
-    /* Pulsación del temporizador */
-    @keyframes timerPulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.93; transform: scale(1.02); }
-    }
-    .timer-glow {
-      animation: timerPulse 2s ease-in-out infinite;
+    @keyframes sparkleFade {
+      0%, 100% { opacity: 0.2; transform: scale(0.85); }
+      50% { opacity: 0.9; transform: scale(1.15); }
     }
   </style>
 </head>
-<body class="flex flex-col justify-between items-center min-h-screen p-3 sm:p-5 max-w-md mx-auto select-none relative">
+<body class="h-screen h-[100dvh] max-h-[100dvh] overflow-hidden flex flex-col justify-between items-center p-2.5 sm:p-4 select-none">
 
   <!-- Partículas decorativas de fondo -->
-  <div class="sparkle text-amber-300 text-xs" style="left: 8%; top: 16%; animation-delay: 0s;">✦</div>
-  <div class="sparkle text-[#D4C6B6] text-sm" style="right: 10%; top: 20%; animation-delay: 1.5s;">★</div>
-  <div class="sparkle text-amber-200 text-xs" style="left: 15%; bottom: 24%; animation-delay: 2.2s;">✦</div>
-  <div class="sparkle text-[#D4C6B6] text-sm" style="right: 14%; bottom: 18%; animation-delay: 0.8s;">★</div>
+  <div class="sparkle text-amber-300 text-xs" style="left: 8%; top: 12%; animation-delay: 0s;">✦</div>
+  <div class="sparkle text-[#D4C6B6] text-sm" style="right: 10%; top: 15%; animation-delay: 1.5s;">★</div>
+  <div class="sparkle text-amber-200 text-xs" style="left: 14%; bottom: 20%; animation-delay: 2.2s;">✦</div>
+  <div class="sparkle text-[#D4C6B6] text-sm" style="right: 12%; bottom: 16%; animation-delay: 0.8s;">★</div>
 
-  <!-- CABECERA: LOGO TRANSPARENTE LIMPIO & TÍTULO LLAMATIVO -->
-  <header class="text-center pt-1 z-10 w-full space-y-1">
-    
-    <!-- Logo Oficial 100% Transparente sin fondo gris -->
-    <div class="flex items-center justify-center min-h-[44px]">
-      <img src="logo_nazaria_pure_transparent.png" alt="Nazaria Zapatos" class="h-9 sm:h-10 w-auto object-contain drop-shadow-xs">
+  <!-- CABECERA COMPACTA: LOGO & TÍTULO (ENCIMA DE LA RULETA) -->
+  <header class="text-center pt-0.5 z-10 w-full space-y-1 shrink-0">
+    <!-- Logo Oficial 100% Transparente -->
+    <div class="flex items-center justify-center min-h-[36px]">
+      <img src="logo_nazaria_pure_transparent.png" alt="Nazaria Zapatos" class="h-8 sm:h-9 w-auto object-contain drop-shadow-xs">
     </div>
     
     <!-- Título de Alto Impacto -->
-    <div class="pt-0.5">
-      <h1 class="font-brand text-3xl sm:text-4xl font-black tracking-wider text-[#1A1A1A] title-pop uppercase leading-tight">
+    <div>
+      <h1 class="font-brand text-2xl sm:text-3xl font-black tracking-wider text-[#1A1A1A] title-pop uppercase leading-tight">
         ¡GIRÁ Y GANÁ!
       </h1>
-      <p class="text-xs font-bold text-neutral-600 tracking-wide mt-0.5">
+      <p class="text-[11px] font-bold text-neutral-600 tracking-wide mt-0.5">
         Beneficio exclusivo para canjear hoy en tu compra
       </p>
     </div>
 
-    <!-- Muestra informativa de locales autorizados (Logos nítidos y grandes, sin botones de selección) -->
-    <div class="pt-1 flex items-center justify-center gap-2">
-      <span class="text-[10px] uppercase font-extrabold text-neutral-400 tracking-wider">Válido en:</span>
-      <div class="inline-flex items-center gap-3.5 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-[#D4C6B6] shadow-sm">
+    <!-- Muestra informativa de locales autorizados -->
+    <div class="pt-0.5 flex items-center justify-center gap-1.5">
+      <span class="text-[9px] uppercase font-extrabold text-neutral-400 tracking-wider">Válido en:</span>
+      <div class="inline-flex items-center gap-2.5 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full border border-[#D4C6B6] shadow-xs">
         <div class="flex items-center gap-1.5" title="Tortugas Open Mall">
-          <img src="tom_badge.png" alt="Tortugas Open Mall" class="h-5 sm:h-6 w-auto object-contain">
-          <span class="text-[11px] font-black text-neutral-800">TOM</span>
+          <img src="tom_badge.png" alt="Tortugas Open Mall" class="h-4 sm:h-5 w-auto object-contain">
+          <span class="text-[10px] font-black text-neutral-800">TOM</span>
         </div>
         <span class="text-neutral-300 font-bold">•</span>
         <div class="flex items-center gap-1.5" title="Maschwitz Mall">
-          <img src="maschwitz_badge.png" alt="Maschwitz Mall" class="h-5 sm:h-6 w-auto object-contain">
-          <span class="text-[11px] font-black text-neutral-800">Maschwitz</span>
+          <img src="maschwitz_badge.png" alt="Maschwitz Mall" class="h-4 sm:h-5 w-auto object-contain">
+          <span class="text-[10px] font-black text-neutral-800">Maschwitz</span>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- BANNER FLOTANTE DE CUPÓN ACTIVO (PUNTO 2.1) -->
-  <div id="active-coupon-banner" class="hidden w-full max-w-[330px] my-1 px-3 py-2 rounded-2xl banner-coupon-glow flex items-center justify-between text-xs z-30 transition-all">
-    <div class="flex items-center gap-2">
-      <span class="text-base">🎁</span>
-      <div class="text-left">
-        <div class="font-black text-neutral-900 leading-tight" id="banner-prize-txt">Premio activo</div>
-        <div class="text-[10px] text-amber-900 font-bold" id="banner-timer-txt">Vence en 02:00:00</div>
-      </div>
-    </div>
-    <button onclick="reopenActiveCoupon()" class="px-3 py-1.5 rounded-xl bg-neutral-900 text-amber-200 font-black text-[11px] uppercase tracking-wider shadow-xs hover:scale-105 active:scale-95 transition">
-      Ver Cupón
-    </button>
-  </div>
+  <!-- SECCIÓN CENTRAL: RULETA 3D (EQUIDISTANTE ENTRE LA CABECERA Y EL PANEL DE ABAJO) -->
+  <main class="w-full flex-1 flex items-center justify-center py-1 z-10 min-h-0">
 
-  <!-- SECCIÓN CENTRAL: RULETA 3D PROTAGONISTA (CENTRADA CON PRECISIÓN RESPECTO A TEXTOS Y PANEL) -->
-  <main class="w-full flex-1 flex items-center justify-center py-2 z-10">
-
-    <div class="relative w-[320px] h-[320px] sm:w-[340px] sm:h-[340px] flex items-center justify-center">
+    <div class="relative w-[285px] h-[285px] sm:w-[310px] sm:h-[310px] flex items-center justify-center">
       
-      <!-- Flecha marcadora 3D: Wrapper fijo exterior con punta en contacto real -->
-      <div class="absolute -top-3 left-1/2 -translate-x-1/2 z-40 pointer-events-none">
+      <!-- Flecha marcadora 3D Superior: Wrapper fijo + Aguja con física sincronizada -->
+      <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 z-40 pointer-events-none">
         <div id="ticker-needle" class="ticker-needle">
           <svg width="40" height="48" viewBox="0 0 40 48" fill="none">
             <path d="M20 46L5 12C3 8 6 3 10 3H30C34 3 37 8 35 12L20 46Z" fill="url(#tickerCoralAmber)" stroke="#FFFFFF" stroke-width="2.5"/>
@@ -233,39 +165,30 @@
         </div>
       </div>
 
-      <!-- Aro Metálico con Luces LED -->
+      <!-- Aro Metálico Blanco Laqueado Limpio (Sin puntos estáticos desalineados) -->
       <div class="wheel-outer-ring">
-        <div class="led-bulb" style="top: 2px; left: 50%; transform: translateX(-50%);"></div>
-        <div class="led-bulb" style="top: 14%; right: 14%;"></div>
-        <div class="led-bulb" style="top: 50%; right: 2px; transform: translateY(-50%);"></div>
-        <div class="led-bulb" style="bottom: 14%; right: 14%;"></div>
-        <div class="led-bulb" style="bottom: 2px; left: 50%; transform: translateX(-50%);"></div>
-        <div class="led-bulb" style="bottom: 14%; left: 14%;"></div>
-        <div class="led-bulb" style="top: 50%; left: 2px; transform: translateY(-50%);"></div>
-        <div class="led-bulb" style="top: 14%; left: 14%;"></div>
-
-        <!-- Canvas de la Ruleta -->
-        <canvas id="wheel-canvas" width="600" height="600" class="w-[304px] h-[304px] sm:w-[324px] sm:h-[324px] rounded-full"></canvas>
+        <!-- Canvas de la Ruleta: Pines y líneas girando 100% sincronizados -->
+        <canvas id="wheel-canvas" width="600" height="600" class="w-[265px] h-[265px] sm:w-[290px] sm:h-[290px] rounded-full"></canvas>
       </div>
 
       <!-- Centro 3D con Isologo Oficial Nazaria Centrado Matemáticamente -->
-      <div class="absolute z-30 w-14 h-14 rounded-full flex items-center justify-center pointer-events-none shadow-xl" style="width: 56px; height: 56px;">
+      <div class="absolute z-30 w-13 h-13 rounded-full flex items-center justify-center pointer-events-none shadow-xl" style="width: 52px; height: 52px;">
         <img src="isologo_nazaria_center.svg" alt="Nazaria" class="w-full h-full object-contain" />
       </div>
     </div>
 
   </main>
 
-  <!-- PANEL INFERIOR DE ACCIÓN (UBICADO DEBAJO DE MAIN, DANDO EQUIDISTANCIA A LA RULETA) -->
-  <div id="play-panel" class="w-full max-w-[320px] pb-2 space-y-2 z-10 shrink-0">
+  <!-- PANEL INFERIOR DE ACCIÓN: SIEMPRE VISIBLE SIN SCROLL -->
+  <div id="play-panel" class="w-full max-w-[310px] pb-1 space-y-1.5 z-10 shrink-0">
     <div class="relative">
       <input type="text" id="player-input" placeholder="Ingresá tu nombre o apodo..." maxlength="25"
-        class="w-full bg-white border-2 border-[#D4C6B6] rounded-2xl px-4 py-3 text-sm text-center font-bold text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black shadow-inner transition">
+        class="w-full bg-white border-2 border-[#D4C6B6] rounded-2xl px-4 py-2.5 text-sm text-center font-bold text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black shadow-inner transition">
     </div>
 
     <!-- CTA Principal Atractivo con Shimmer -->
     <button id="spin-btn" onclick="triggerSpin()"
-      class="w-full py-4 rounded-2xl btn-action-glow text-white font-black text-sm uppercase tracking-widest transition active:scale-95 flex items-center justify-center gap-2">
+      class="w-full py-3.5 rounded-2xl btn-action-glow text-white font-black text-sm uppercase tracking-widest transition active:scale-95 flex items-center justify-center gap-2">
       <span class="text-base">🎰</span>
       <span>¡GIRAR Y DESCUBRIR MI PREMIO!</span>
     </button>
@@ -275,82 +198,69 @@
     </p>
   </div>
 
-    <!-- PANTALLA GANADORA: GOLDEN TICKET BOUTIQUE POP VERANO (OPCIÓN 1) -->
-    <div id="prize-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-3 select-none">
-      <div class="bg-white rounded-[28px] p-5 max-w-[340px] w-full space-y-2.5 shadow-2xl border border-neutral-200 text-center transform scale-95 transition-all relative overflow-hidden">
-        
-        <!-- Barra superior vibrante con la paleta de la ruleta -->
-        <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#E76F51] via-[#F4A261] via-[#2A9D8F] to-[#457B9D]"></div>
+  <!-- PANTALLA GANADORA: GOLDEN TICKET BOUTIQUE POP VERANO -->
+  <div id="prize-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-3 select-none">
+    <div class="bg-white rounded-[28px] p-5 max-w-[340px] w-full space-y-2.5 shadow-2xl border border-neutral-200 text-center transform scale-95 transition-all relative overflow-hidden">
+      
+      <!-- Barra superior vibrante con la paleta de la ruleta -->
+      <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#E76F51] via-[#F4A261] via-[#2A9D8F] to-[#457B9D]"></div>
 
-        <!-- Ícono Destacado de Celebración -->
-        <div class="flex justify-center pt-1">
-          <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#FFF3EE] to-[#FFE5DC] border border-[#E76F51]/30 flex items-center justify-center text-3xl shadow-sm">
-            🎁
-          </div>
-        </div>
-        
-        <div>
-          <span class="inline-block px-3 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-300 text-[10px] font-black uppercase tracking-wider">
-            ✓ ¡Premio Desbloqueado!
-          </span>
-          <h2 class="font-brand text-2xl font-black text-neutral-900 mt-1 leading-tight">
-            ¡Felicitaciones, <span id="winner-name-txt" class="text-[#E76F51]"></span>!
-          </h2>
-        </div>
-
-        <!-- Tarjeta Cupón Troquelado Golden Ticket con borde punteado de valor -->
-        <div class="bg-gradient-to-b from-[#FFFDF9] to-[#FAF5EC] p-3.5 rounded-2xl border-2 border-dashed border-[#F4A261] relative shadow-sm space-y-1">
-          <div class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">Tu Beneficio Obtenido:</div>
-          <div id="prize-title-txt" class="font-brand text-3xl font-black text-neutral-900 leading-none py-0.5"></div>
-          <div id="prize-desc-txt" class="text-[11px] font-bold text-neutral-800 bg-amber-100/80 py-1 px-3 rounded-lg inline-block border border-amber-200/90 leading-tight"></div>
-        </div>
-
-        <!-- Reloj Regresivo y Código Unificado en Bloque Satinado -->
-        <div class="bg-neutral-900 text-white p-3 rounded-2xl space-y-1 shadow-md">
-          <div class="flex justify-between items-center text-[10px]">
-            <span class="text-neutral-400 font-bold uppercase tracking-wider">Canje en caja:</span>
-            <span class="text-amber-300 font-extrabold flex items-center gap-1">
-              <span>⏱️ Vence en:</span>
-              <span id="countdown-clock" class="font-mono text-xs font-black text-white">02:00:00</span>
-            </span>
-          </div>
-          <div class="flex items-center justify-between bg-neutral-800/90 p-2 rounded-xl border border-neutral-700/80">
-            <span class="text-[10px] text-neutral-400 font-bold">CÓDIGO OFICIAL:</span>
-            <span id="coupon-code-txt" class="font-mono font-black text-base text-amber-200 tracking-widest"></span>
-          </div>
-        </div>
-
-        <!-- Indicación de canje transparente -->
-        <div class="p-2 bg-[#FAF8F5] rounded-xl border border-neutral-200 text-[10.5px] text-neutral-700 leading-snug">
-          Mostrá esta pantalla en caja de <strong>TOM</strong> o <strong>Maschwitz Mall</strong> para aplicar tu beneficio en el acto.
-        </div>
-
-        <!-- Botón para cerrar y volver a ver la tienda / app sin perder el cupón -->
-        <div class="pt-1 space-y-1.5">
-          <button onclick="closePrizeModal()" class="w-full py-2.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-800 font-extrabold text-xs transition">
-            ✕ Seguir mirando zapatos (Tu cupón sigue activo)
-          </button>
-          <div>
-            <button onclick="resetDemo()" class="text-[10px] text-neutral-400 hover:text-black underline transition">
-              🔄 Probar otro giro (Modo Demo / Test)
-            </button>
-          </div>
+      <!-- Ícono Destacado de Celebración -->
+      <div class="flex justify-center pt-1">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#FFF3EE] to-[#FFE5DC] border border-[#E76F51]/30 flex items-center justify-center text-3xl shadow-sm">
+          🎁
         </div>
       </div>
+      
+      <div>
+        <span class="inline-block px-3 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-300 text-[10px] font-black uppercase tracking-wider">
+          ✓ ¡Premio Desbloqueado!
+        </span>
+        <h2 class="font-brand text-2xl font-black text-neutral-900 mt-1 leading-tight">
+          ¡Felicitaciones, <span id="winner-name-txt" class="text-[#E76F51]"></span>!
+        </h2>
+      </div>
+
+      <!-- Tarjeta Cupón Troquelado Golden Ticket con borde punteado de valor -->
+      <div class="bg-gradient-to-b from-[#FFFDF9] to-[#FAF5EC] p-3.5 rounded-2xl border-2 border-dashed border-[#F4A261] relative shadow-sm space-y-1">
+        <div class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">Tu Beneficio Obtenido:</div>
+        <div id="prize-title-txt" class="font-brand text-3xl font-black text-neutral-900 leading-none py-0.5"></div>
+        <div id="prize-desc-txt" class="text-[11px] font-bold text-neutral-800 bg-amber-100/80 py-1 px-3 rounded-lg inline-block border border-amber-200/90 leading-tight"></div>
+      </div>
+
+      <!-- Reloj Regresivo y Código Unificado en Bloque Satinado -->
+      <div class="bg-neutral-900 text-white p-3 rounded-2xl space-y-1 shadow-md">
+        <div class="flex justify-between items-center text-[10px]">
+          <span class="text-neutral-400 font-bold uppercase tracking-wider">Canje en caja:</span>
+          <span class="text-amber-300 font-extrabold flex items-center gap-1">
+            <span>⏱️ Vence en:</span>
+            <span id="countdown-clock" class="font-mono text-xs font-black text-white">02:00:00</span>
+          </span>
+        </div>
+        <div class="flex items-center justify-between bg-neutral-800/90 p-2 rounded-xl border border-neutral-700/80">
+          <span class="text-[10px] text-neutral-400 font-bold">CÓDIGO OFICIAL:</span>
+          <span id="coupon-code-txt" class="font-mono font-black text-base text-amber-200 tracking-widest"></span>
+        </div>
+      </div>
+
+      <!-- Indicación de canje transparente -->
+      <div class="p-2 bg-[#FAF8F5] rounded-xl border border-neutral-200 text-[10.5px] text-neutral-700 leading-snug">
+        Mostrá esta pantalla en caja de <strong>TOM</strong> o <strong>Maschwitz Mall</strong> para aplicar tu beneficio en el acto.
+      </div>
+
+      <!-- Botón de Reinicio para Demo / Test -->
+      <div class="pt-0.5">
+        <button onclick="resetDemo()" class="text-[10.5px] text-neutral-400 hover:text-black underline transition">
+          🔄 Probar otro giro (Modo Demo / Test)
+        </button>
+      </div>
     </div>
-
-  </main>
-
-  <footer class="text-center py-1 text-[10px] text-neutral-400 z-10 flex items-center justify-between w-full px-2">
-    <span>Nazaria Zapatos · Verano 2027</span>
-    <button onclick="resetDemo()" class="text-[9px] text-neutral-400 hover:text-black underline">
-      Reset Test
-    </button>
-  </footer>
+  </div>
 
   <script>
     let isSpinning = false;
     let timerInterval = null;
+    let audioCtx = null;
 
     // 8 Premios Oficiales con Paleta Boutique Pop Verano SS27 y Probabilidades Ponderadas
     const PRIZES = [
@@ -394,7 +304,7 @@
       ctx.closePath();
     }
 
-    // DIBUJO DE RULETA 3D BOUTIQUE POP CON PASTILLAS DE ALTO CONTRASTE Y PINES
+    // DIBUJO DE RULETA 3D: PINES EXACTAMENTE EN LAS LÍNEAS DIVISORIAS Y PASTILLAS CENTRADAS
     function renderWheel3D() {
       const canvas = document.getElementById('wheel-canvas');
       const ctx = canvas.getContext('2d');
@@ -408,7 +318,7 @@
         const angle = i * arc;
         const prize = PRIZES[i];
 
-        // Gradiente radial por gajo con los colores vivos Boutique Pop
+        // 1. Gradiente radial por gajo con los colores vivos Boutique Pop
         const grad = ctx.createRadialGradient(radius, radius, 25, radius, radius, radius);
         grad.addColorStop(0, prize.bg1);
         grad.addColorStop(1, prize.bg2);
@@ -420,63 +330,62 @@
         ctx.lineTo(radius, radius);
         ctx.fill();
 
-        // Borde blanco sutil y limpio entre gajos
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+        // 2. Línea divisoria blanca entre gajos
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.95)';
         ctx.lineWidth = 3;
         ctx.stroke();
 
-        // Contenido con orientación VERTICAL (Radial desde el centro hacia afuera - Borrador 1)
+        // 3. Pastilla vertical alargada perfectamente centrada a lo largo del radio
         ctx.save();
         ctx.translate(radius, radius);
         ctx.rotate(angle + arc / 2);
 
-        // Pastilla vertical alargada perfectamente centrada: de x=84 a x=234
-        const pw = 150;
+        const pw = 148;
         const ph = 50;
-        const px = 84;
+        const px = 82;
         const py = -ph / 2;
 
         ctx.save();
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.26)';
-        ctx.shadowBlur = 7;
-        ctx.shadowOffsetY = 3;
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
+        ctx.shadowBlur = 6;
+        ctx.shadowOffsetY = 2.5;
 
         ctx.fillStyle = '#FFFFFF';
         drawPill(ctx, px, py, pw, ph, 25);
         ctx.fill();
 
-        ctx.strokeStyle = 'rgba(0, 0, 0, 0.06)';
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
         ctx.lineWidth = 1;
         ctx.stroke();
         ctx.restore();
 
-        // Ícono representativo en el extremo interior de la pastilla
-        ctx.font = '22px sans-serif';
+        // Ícono en la pastilla
+        ctx.font = '21px sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(prize.icon, px + 24, 0);
+        ctx.fillText(prize.icon, px + 23, 0);
 
-        // Monto principal grande y nítido en negro puro extra bold
-        ctx.font = '900 22px Montserrat, Inter, -apple-system, sans-serif';
+        // Monto principal grande en negro puro
+        ctx.font = '900 22px Montserrat, Inter, sans-serif';
         ctx.fillStyle = '#111111';
         ctx.textAlign = 'center';
-        ctx.fillText(prize.title, px + 88, -4);
+        ctx.fillText(prize.title, px + 86, -4);
 
         // Subtítulo nítido
-        ctx.font = '800 11px Montserrat, Inter, -apple-system, sans-serif';
+        ctx.font = '800 11px Montserrat, Inter, sans-serif';
         ctx.fillStyle = '#666666';
-        ctx.fillText(prize.sub, px + 88, 14);
+        ctx.fillText(prize.sub, px + 86, 14);
 
         ctx.restore();
 
-        // Clavija / Pin metálico perimetral exterior plateado pulido
-        const pinAngle = angle;
+        // 4. Clavija / Pin metálico EXACTAMENTE SOBRE LA LÍNEA DIVISORIA (angle)
         const pinRadius = radius - 13;
-        const pinX = radius + pinRadius * Math.cos(pinAngle);
-        const pinY = radius + pinRadius * Math.sin(pinAngle);
+        const pinX = radius + pinRadius * Math.cos(angle);
+        const pinY = radius + pinRadius * Math.sin(angle);
+
         ctx.save();
         ctx.beginPath();
-        ctx.arc(pinX, pinY, 5, 0, 2 * Math.PI);
+        ctx.arc(pinX, pinY, 5.5, 0, 2 * Math.PI);
         ctx.fillStyle = '#FFFFFF';
         ctx.shadowColor = 'rgba(0, 0, 0, 0.35)';
         ctx.shadowBlur = 4;
@@ -488,7 +397,27 @@
       }
     }
 
-    // GIRO REALISTA DE 10 SEGUNDOS (11 VUELTAS) CON PONDERACIÓN
+    // SONIDO MECÁNICO REAL SINCRONIZADO AL TOQUE DE CADA PIN
+    function playPinClickSound(intensity) {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        const freq = Math.max(280, 420 + (intensity * 400));
+        osc.frequency.setValueAtTime(freq, now);
+        gain.gain.setValueAtTime(0.05, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.038);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.04);
+      } catch(e) {}
+    }
+
+    // MOTOR FÍSICO REAL EN REQUESTANIMATIONFRAME: AGUJA Y PINES 100% SINCRONIZADOS
     function triggerSpin() {
       if (isSpinning) return;
       const input = document.getElementById('player-input');
@@ -505,112 +434,101 @@
       btn.disabled = true;
       btn.classList.add('opacity-50');
 
+      const canvas = document.getElementById('wheel-canvas');
+      const needle = document.getElementById('ticker-needle');
+
       const num = PRIZES.length;
-      const sliceDeg = 360 / num;
-      // Selección Ponderada Comercial
+      const sliceDeg = 360 / num; // 45°
       const winningIdx = getWeightedPrizeIndex();
       const prize = PRIZES[winningIdx];
 
-      const totalRounds = 360 * 11;
-      const targetDeg = 270 - (winningIdx * sliceDeg + sliceDeg / 2);
-      const finalRotation = totalRounds + (targetDeg % 360) + (Math.random() * 6 - 3);
+      // Ángulo matemático exacto para que el centro del gajo ganador quede a 270° (12 o'clock)
+      const targetDeg = (270 - (winningIdx * sliceDeg + sliceDeg / 2) + 360) % 360;
+      const totalRounds = 360 * 9; // 9 vueltas completas
+      const finalTargetRotation = totalRounds + targetDeg;
 
-      const canvas = document.getElementById('wheel-canvas');
-      canvas.style.transition = 'transform 10s cubic-bezier(0.12, 0.95, 0.15, 1)';
-      canvas.style.transform = `rotate(${finalRotation}deg)`;
+      const durationMs = 8000; // 8 segundos de giro natural
+      const startTime = performance.now();
+      let lastPinPassed = -1;
 
-      // Iniciar cabeceo elástico físico infalible
-      playWheelTicksAndFlick();
-
-      setTimeout(() => {
-        if (typeof confetti === 'function') {
-          confetti({ particleCount: 140, spread: 85, origin: { y: 0.6 }, colors: ['#E6D5C3', '#D4C6B6', '#1A1A1A', '#FFD700'] });
-        }
-        playVictoryJingle();
-        showPrizePopup(name, prize);
-      }, 10300);
-    }
-
-    // FÍSICA Y AUDIO INFALIBLE DE LA FLECHA (CABACEO CONTINUO EN VELOCIDAD + TICKS LENTOS AL FRENAR)
-    function playWheelTicksAndFlick() {
-      const needle = document.getElementById('ticker-needle');
-      if (!needle) return;
-
-      // Fase 1 (0s a 6s): Giro a máxima velocidad -> cabeceo vibratorio continuo ultra visible
-      needle.className = 'ticker-needle spinning-fast';
-
-      let audioCtx = null;
+      // Desbloquear audio context en click del usuario
       try {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      } catch (e) {}
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+      } catch(e) {}
 
-      // Audio durante el giro rápido
-      if (audioCtx) {
-        for (let i = 1; i <= 24; i++) {
-          const time = audioCtx.currentTime + (i * 0.22);
-          try {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(680, time);
-            gain.gain.setValueAtTime(0.04, time);
-            gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.03);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start(time);
-            osc.stop(time + 0.035);
-          } catch(err) {}
+      // Curva natural de inercia y fricción física
+      function easeOutQuintic(t) {
+        return 1 - Math.pow(1 - t, 4.5);
+      }
+
+      function physicsLoop(now) {
+        const elapsed = now - startTime;
+        const p = Math.min(1, elapsed / durationMs);
+        const ease = easeOutQuintic(p);
+        const currentRot = finalTargetRotation * ease;
+
+        // Girar canvas en este cuadro exacto
+        canvas.style.transform = `rotate(${currentRot}deg)`;
+
+        // CÁLCULO FÍSICO EXACTO DE LA AGUJA:
+        // Los pines están a 0°, 45°, 90°, 135°, 180°, 225°, 270°, 315°.
+        // El ticker está arriba en 270°. Un pin cruza el ticker cuando:
+        // (i * 45 + currentRot) % 360 = 270
+        // Progreso de pines cruzados:
+        const pinProgress = (currentRot + (360 - 270)) / 45;
+        const currentPinIndex = Math.floor(pinProgress);
+        const frac = pinProgress - currentPinIndex; // 0.0 a 1.0 dentro del intervalo del gajo
+
+        let needleAngle = 0;
+        // Cuando el pin se acerca a la aguja (último 20% del gajo): la aguja es empujada físicamente
+        if (frac > 0.80) {
+          const push = (frac - 0.80) / 0.20; // 0 a 1
+          needleAngle = -28 * Math.sin(push * Math.PI / 2);
+        } else if (frac < 0.16) {
+          // Rebote elástico hacia adelante inmediatamente después del cruce
+          const snap = frac / 0.16;
+          needleAngle = 8 * (1 - snap);
+        }
+
+        needle.style.transform = `rotate(${needleAngle}deg)`;
+
+        // Al cruzar cada pin: reproducir click acústico y vibración háptica
+        if (currentPinIndex !== lastPinPassed) {
+          lastPinPassed = currentPinIndex;
+          const speedFactor = 1 - p;
+          playPinClickSound(speedFactor);
+          // Vibración en los últimos 4 pines antes de frenar
+          if (p > 0.88 && window.navigator && window.navigator.vibrate) {
+            window.navigator.vibrate(22);
+          }
+        }
+
+        if (p < 1) {
+          requestAnimationFrame(physicsLoop);
+        } else {
+          // Detención total precisa
+          needle.style.transform = 'rotate(0deg)';
+          isSpinning = false;
+
+          setTimeout(() => {
+            if (typeof confetti === 'function') {
+              confetti({ particleCount: 140, spread: 85, origin: { y: 0.6 }, colors: ['#E6D5C3', '#D4C6B6', '#1A1A1A', '#FFD700'] });
+            }
+            playVictoryJingle();
+            showPrizePopup(name, prize);
+          }, 300);
         }
       }
 
-      // Fase 2 (6.2s a 10s): Desaceleración dramática -> ticks pesados individuales y espaciados
-      setTimeout(() => {
-        needle.className = 'ticker-needle';
-
-        const slowTickMoments = [300, 950, 1600, 2250, 2850, 3350, 3750];
-        slowTickMoments.forEach((delay, idx) => {
-          setTimeout(() => {
-            needle.className = 'ticker-needle';
-            void needle.offsetWidth;
-            needle.className = 'ticker-needle tick-heavy';
-
-            // Click acústico mecánico
-            if (audioCtx) {
-              try {
-                const now = audioCtx.currentTime;
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'triangle';
-                const f = Math.max(300, 520 - (idx * 28));
-                osc.frequency.setValueAtTime(f, now);
-                gain.gain.setValueAtTime(0.06, now);
-                gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.045);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start(now);
-                osc.stop(now + 0.05);
-              } catch(err) {}
-            }
-
-            // Háptico en los últimos 3 rebotes
-            if (idx >= 4 && window.navigator && window.navigator.vibrate) {
-              window.navigator.vibrate(25);
-            }
-          }, delay);
-        });
-
-        // Detener aguja alineada a 0deg al freno
-        setTimeout(() => {
-          needle.className = 'ticker-needle';
-        }, 4000);
-
-      }, 6200);
+      requestAnimationFrame(physicsLoop);
     }
 
-    // Jingle Triunfal de Victoria (Acorde Boutique Arpegiado)
+    // Jingle Triunfal de Victoria
     function playVictoryJingle() {
       try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
         const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
         notes.forEach((freq, idx) => {
           const osc = audioCtx.createOscillator();
@@ -634,7 +552,6 @@
       const code = existingCode || ('NTM-' + Math.floor(1000 + Math.random() * 9000));
       const expireTime = existingExpire || (Date.now() + 2 * 60 * 60 * 1000);
 
-      // Persistencia Anti-Trampa
       localStorage.setItem('nz_active_coupon', JSON.stringify({
         name: name,
         prize: prize,
@@ -690,47 +607,14 @@
       btn.classList.remove('opacity-50');
 
       const canvas = document.getElementById('wheel-canvas');
-      canvas.style.transition = 'none';
       canvas.style.transform = 'none';
+
+      const needle = document.getElementById('ticker-needle');
+      needle.style.transform = 'none';
 
       const input = document.getElementById('player-input');
       input.value = '';
       input.focus();
-    }
-
-    // Cerrar modal de premio manteniendo banner flotante activo
-    function closePrizeModal() {
-      document.getElementById('prize-modal').classList.add('hidden');
-      updateFloatingBanner();
-    }
-
-    // Reabrir modal desde el banner flotante
-    function reopenActiveCoupon() {
-      try {
-        const saved = localStorage.getItem('nz_active_coupon');
-        if (saved) {
-          const data = JSON.parse(saved);
-          if (data && data.expireTime > Date.now()) {
-            showPrizePopup(data.name, data.prize, data.code, data.expireTime);
-          }
-        }
-      } catch (e) {}
-    }
-
-    // Actualizar o mostrar banner flotante de cupón activo
-    function updateFloatingBanner() {
-      try {
-        const raw = localStorage.getItem('nz_active_coupon');
-        const banner = document.getElementById('active-coupon-banner');
-        if (!raw || !banner) return;
-        const data = JSON.parse(raw);
-        if (data && data.expireTime > Date.now()) {
-          document.getElementById('banner-prize-txt').innerText = `${data.prize.title} ${data.prize.sub} activo`;
-          banner.classList.remove('hidden');
-        } else {
-          banner.classList.add('hidden');
-        }
-      } catch (e) {}
     }
 
     // Verificar si hay un cupón activo al abrir la página
@@ -742,9 +626,7 @@
         if (saved) {
           const data = JSON.parse(saved);
           if (data && data.expireTime > Date.now()) {
-            // Mostrar banner flotante en lugar de tapar la pantalla abruptamente
-            updateFloatingBanner();
-            startCountdown(data.expireTime);
+            showPrizePopup(data.name, data.prize, data.code, data.expireTime);
           } else {
             localStorage.removeItem('nz_active_coupon');
           }
