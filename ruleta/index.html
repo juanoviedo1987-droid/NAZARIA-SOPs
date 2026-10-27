@@ -101,6 +101,16 @@
   <div class="sparkle text-[#D4C6B6] text-sm" style="right: 12%; bottom: 14%; animation-delay: 0.8s;">★</div>
 
   <!-- CABECERA COMPACTA: LOGO & TÍTULO -->
+  
+  <!-- Toast animado para CHANCE EXTRA / TIRÁ DE NUEVO -->
+  <div id="respin-toast" class="hidden fixed top-8 left-1/2 -translate-x-1/2 z-50 bg-[#1A1A1A] text-white px-5 py-3 rounded-2xl border-2 border-amber-400 shadow-2xl flex items-center gap-3 transition-all select-none">
+    <span class="text-2xl">🎰</span>
+    <div>
+      <div class="text-xs font-black text-amber-300 uppercase tracking-wider">¡CHANCE EXTRA!</div>
+      <div class="text-[11px] font-bold text-neutral-200">La ruleta vuelve a girar gratis...</div>
+    </div>
+  </div>
+
   <header class="text-center pt-0.5 z-10 w-full space-y-1 shrink-0">
     <!-- Logo Oficial 100% Transparente -->
     <div class="flex items-center justify-center min-h-[34px]">
@@ -254,27 +264,31 @@
     let timerInterval = null;
     let audioCtx = null;
 
-    // 8 Premios Oficiales Ordenados Armónicamente sin superposiciones
+        // 8 Premios Oficiales Calibrados (Ticket Promedio $50K - Cero Fricción de Pisos)
     const PRIZES = [
-      { title: "$15.000", sub: "REGALO", condition: "En compras mayores a $180.000 en temporada nueva", bg1: "#52B788", bg2: "#2A9D8F", weight: 2 },        // Verde Esmeralda (Premio Estrella)
-      { title: "25% OFF", sub: "EFECTIVO", condition: "20% habitual + 5% extra en temporada nueva", bg1: "#FAD089", bg2: "#F4A261", weight: 4 },          // Amarillo Sol
-      { title: "$10.000", sub: "REGALO", condition: "En compras mayores a $130.000 en temporada nueva", bg1: "#F28482", bg2: "#E76F51", weight: 12 },      // Coral Terracota
-      { title: "3 CUOTAS", sub: "S/INTERÉS", condition: "Sin interés con tarjeta de crédito bancaria", bg1: "#6BA4B8", bg2: "#457B9D", weight: 10 },      // Azul Mediterráneo
-      { title: "$5.000", sub: "REGALO", condition: "En compras mayores a $80.000 en temporada nueva", bg1: "#52B788", bg2: "#2A9D8F", weight: 25 },         // Verde Esmeralda
-      { title: "20% OFF", sub: "2da UNIDAD", condition: "En el par de menor valor de temporada nueva", bg1: "#FAD089", bg2: "#F4A261", weight: 12 },       // Amarillo Sol
-      { title: "15% OFF", sub: "DÉBITO/QR", condition: "10% habitual + 5% extra en temporada nueva", bg1: "#F28482", bg2: "#E76F51", weight: 12 },        // Coral Terracota
-      { title: "5% EXTRA", sub: "DIRECTO", condition: "Acumulable con todas las formas de pago", bg1: "#6BA4B8", bg2: "#457B9D", weight: 23 }          // Azul Mediterráneo
+      { title: "$15.000", sub: "REGALO", condition: "En cualquier calzado de Temporada Nueva", bg1: "#52B788", bg2: "#2A9D8F", weight: 1 },        // Gajo 0: Verde Esmeralda (Jackpot 1%)
+      { title: "20% OFF", sub: "2da UNIDAD", condition: "En el 2do par de menor valor de Temporada Nueva", bg1: "#FAD089", bg2: "#F4A261", weight: 8 },  // Gajo 1: Amarillo Sol (8%)
+      { title: "10% EXTRA", sub: "DIRECTO", condition: "Acumulable con tu medio de pago habitual", bg1: "#F28482", bg2: "#E76F51", weight: 8 },          // Gajo 2: Coral Terracota (8%)
+      { title: "$10.000", sub: "REGALO", condition: "En cualquier calzado de Temporada Nueva", bg1: "#6BA4B8", bg2: "#457B9D", weight: 3 },        // Gajo 3: Azul Mediterráneo (3%)
+      { title: "🎰 TIRÁ", sub: "DE NUEVO", condition: "Tirada extra", bg1: "#52B788", bg2: "#2A9D8F", weight: 15, isRespin: true },                     // Gajo 4: Verde Esmeralda Especial (15%)
+      { title: "10% OFF", sub: "2da UNIDAD", condition: "En el 2do par de menor valor de Temporada Nueva", bg1: "#FAD089", bg2: "#F4A261", weight: 20 }, // Gajo 5: Amarillo Sol (20%)
+      { title: "$5.000", sub: "REGALO", condition: "En cualquier calzado de Temporada Nueva", bg1: "#F28482", bg2: "#E76F51", weight: 15 },         // Gajo 6: Coral Terracota (15%)
+      { title: "5% EXTRA", sub: "DIRECTO", condition: "Acumulable con tu medio de pago habitual", bg1: "#6BA4B8", bg2: "#457B9D", weight: 30 }          // Gajo 7: Azul Mediterráneo (30%)
     ];
 
-    // Algoritmo Ponderado de Selección de Premios
-    function getWeightedPrizeIndex() {
-      const totalWeight = PRIZES.reduce((sum, p) => sum + p.weight, 0);
-      let rand = Math.random() * totalWeight;
-      for (let i = 0; i < PRIZES.length; i++) {
-        if (rand < PRIZES[i].weight) return i;
-        rand -= PRIZES[i].weight;
+    // Algoritmo Ponderado de Selección de Premios (permite excluir respin en segunda tirada)
+    function getWeightedPrizeIndex(excludeRespin = false) {
+      let pool = PRIZES.map((p, idx) => ({ ...p, origIdx: idx }));
+      if (excludeRespin) {
+        pool = pool.filter(p => !p.isRespin);
       }
-      return 0;
+      const totalWeight = pool.reduce((sum, p) => sum + p.weight, 0);
+      let rand = Math.random() * totalWeight;
+      for (let i = 0; i < pool.length; i++) {
+        if (rand < pool[i].weight) return pool[i].origIdx;
+        rand -= pool[i].weight;
+      }
+      return pool[0].origIdx;
     }
 
     // Helper para dibujar rectángulos redondeados con compatibilidad total
@@ -404,7 +418,7 @@
       } catch(e) {}
     }
 
-    // MOTOR FÍSICO REAL EN REQUESTANIMATIONFRAME: AGUJA Y PINES 100% SINCRONIZADOS
+        // MOTOR FÍSICO REAL EN REQUESTANIMATIONFRAME: AGUJA Y PINES 100% SINCRONIZADOS
     function triggerSpin() {
       if (isSpinning) return;
       const input = document.getElementById('player-input');
@@ -416,6 +430,10 @@
         return;
       }
 
+      runSpinAnimation(name, false, 0);
+    }
+
+    function runSpinAnimation(name, isSecondSpin, startRotation) {
       isSpinning = true;
       const btn = document.getElementById('spin-btn');
       btn.disabled = true;
@@ -426,25 +444,28 @@
 
       const num = PRIZES.length;
       const sliceDeg = 360 / num; // 45°
-      const winningIdx = getWeightedPrizeIndex();
+      // Si es la segunda tirada por "TIRÁ DE NUEVO", excluimos el gajo de respin para garantizar un premio real
+      const winningIdx = getWeightedPrizeIndex(isSecondSpin);
       const prize = PRIZES[winningIdx];
 
       // Ángulo matemático exacto para que el centro del gajo ganador quede a 270° (12 o'clock)
       const targetDeg = (270 - (winningIdx * sliceDeg + sliceDeg / 2) + 360) % 360;
-      const totalRounds = 360 * 9; // 9 vueltas completas
-      const finalTargetRotation = totalRounds + targetDeg;
+      const baseRounds = isSecondSpin ? 360 * 6 : 360 * 9;
+      // Normalizar rotación actual
+      const currentNormalized = startRotation % 360;
+      let forwardDelta = targetDeg - currentNormalized;
+      if (forwardDelta <= 0) forwardDelta += 360;
+      const finalTargetRotation = startRotation + baseRounds + forwardDelta;
 
-      const durationMs = 8000; // 8 segundos de giro natural
+      const durationMs = isSecondSpin ? 5500 : 8000;
       const startTime = performance.now();
       let lastPinPassed = -1;
 
-      // Desbloquear audio context en click del usuario
       try {
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         if (audioCtx.state === 'suspended') audioCtx.resume();
       } catch(e) {}
 
-      // Curva natural de inercia y fricción física
       function easeOutQuintic(t) {
         return 1 - Math.pow(1 - t, 4.5);
       }
@@ -453,12 +474,10 @@
         const elapsed = now - startTime;
         const p = Math.min(1, elapsed / durationMs);
         const ease = easeOutQuintic(p);
-        const currentRot = finalTargetRotation * ease;
+        const currentRot = startRotation + (finalTargetRotation - startRotation) * ease;
 
-        // Girar canvas en este cuadro exacto
         canvas.style.transform = `rotate(${currentRot}deg)`;
 
-        // CÁLCULO FÍSICO EXACTO DE LA AGUJA:
         const pinProgress = (currentRot + (360 - 270)) / 45;
         const currentPinIndex = Math.floor(pinProgress);
         const frac = pinProgress - currentPinIndex;
@@ -474,7 +493,6 @@
 
         needle.style.transform = `rotate(${needleAngle}deg)`;
 
-        // Al cruzar cada pin: sonido y vibración
         if (currentPinIndex !== lastPinPassed) {
           lastPinPassed = currentPinIndex;
           const speedFactor = 1 - p;
@@ -490,17 +508,36 @@
           needle.style.transform = 'rotate(0deg)';
           isSpinning = false;
 
-          setTimeout(() => {
-            if (typeof confetti === 'function') {
-              confetti({ particleCount: 140, spread: 85, origin: { y: 0.6 }, colors: ['#E6D5C3', '#D4C6B6', '#1A1A1A', '#FFD700'] });
-            }
-            playVictoryJingle();
-            showPrizePopup(name, prize);
-          }, 300);
+          if (prize.isRespin) {
+            // Manejar TIRÁ DE NUEVO
+            handleRespin(name, finalTargetRotation);
+          } else {
+            setTimeout(() => {
+              if (typeof confetti === 'function') {
+                confetti({ particleCount: 140, spread: 85, origin: { y: 0.6 }, colors: ['#E6D5C3', '#D4C6B6', '#1A1A1A', '#FFD700'] });
+              }
+              playVictoryJingle();
+              showPrizePopup(name, prize);
+            }, 300);
+          }
         }
       }
 
       requestAnimationFrame(physicsLoop);
+    }
+
+    // Manejo de TIRÁ DE NUEVO con aviso flotante y segundo tiro automático
+    function handleRespin(name, currentRotation) {
+      playPinClickSound(1);
+      const toast = document.getElementById('respin-toast');
+      if (toast) {
+        toast.classList.remove('hidden');
+      }
+
+      setTimeout(() => {
+        if (toast) toast.classList.add('hidden');
+        runSpinAnimation(name, true, currentRotation);
+      }, 2000);
     }
 
     // Jingle Triunfal de Victoria
