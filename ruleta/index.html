@@ -187,13 +187,13 @@
       <!-- Flecha marcadora 3D Superior con cabeceo físico interactivo -->
       <div id="ticker-el" class="absolute -top-4 left-1/2 -translate-x-1/2 ticker-container">
         <svg width="40" height="48" viewBox="0 0 40 48" fill="none">
-          <path d="M20 46L5 12C3 8 6 3 10 3H30C34 3 37 8 35 12L20 46Z" fill="url(#tickerGold)" stroke="#FFFFFF" stroke-width="2.5"/>
+          <path d="M20 46L5 12C3 8 6 3 10 3H30C34 3 37 8 35 12L20 46Z" fill="url(#tickerCoralAmber)" stroke="#FFFFFF" stroke-width="2.5"/>
           <circle cx="20" cy="14" r="6" fill="#1A1A1A" stroke="#FFFFFF" stroke-width="1.5"/>
           <defs>
-            <linearGradient id="tickerGold" x1="5" y1="3" x2="35" y2="46" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#FFF5E5"/>
-              <stop offset="0.5" stop-color="#D4C6B6"/>
-              <stop offset="1" stop-color="#9C7753"/>
+            <linearGradient id="tickerCoralAmber" x1="5" y1="3" x2="35" y2="46" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#E76F51"/>
+              <stop offset="0.5" stop-color="#F4A261"/>
+              <stop offset="1" stop-color="#E76F51"/>
             </linearGradient>
           </defs>
         </svg>
@@ -214,9 +214,9 @@
         <canvas id="wheel-canvas" width="600" height="600" class="w-[304px] h-[304px] sm:w-[324px] sm:h-[324px] rounded-full"></canvas>
       </div>
 
-      <!-- Centro 3D con Isologo Oficial de Nazaria -->
-      <div class="absolute z-30 w-13 h-13 rounded-full wheel-center-dome flex items-center justify-center pointer-events-none border-2 border-white shadow-lg" style="width: 52px; height: 52px;">
-        <img src="nazaria_emblem.png" alt="Nazaria" class="w-7 h-7 object-contain drop-shadow" />
+      <!-- Centro 3D con Isologo Oficial Nazaria Centrado Matemáticamente -->
+      <div class="absolute z-30 w-14 h-14 rounded-full flex items-center justify-center pointer-events-none shadow-xl" style="width: 56px; height: 56px;">
+        <img src="isologo_nazaria_center.svg" alt="Nazaria" class="w-full h-full object-contain" />
       </div>
     </div>
 
@@ -376,43 +376,47 @@
         ctx.lineWidth = 3;
         ctx.stroke();
 
-        // Contenido con orientación tangencial y pastilla GRANDE de máxima legibilidad
+        // Contenido con orientación VERTICAL (Radial desde el centro hacia afuera - Borrador 1)
         ctx.save();
         ctx.translate(radius, radius);
         ctx.rotate(angle + arc / 2);
-        ctx.translate(192, 0);
-        ctx.rotate(Math.PI / 2);
 
-        // Pastilla blanca ampliada para visibilidad contundente
-        const pw = 138;
-        const ph = 52;
-        const pr = 16;
+        // Pastilla vertical alargada tipo cápsula: de x=75 a x=225 (150px de recorrido)
+        const pw = 150;
+        const ph = 50;
+        const px = 74;
+        const py = -ph / 2;
 
         ctx.save();
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.28)';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.26)';
         ctx.shadowBlur = 7;
         ctx.shadowOffsetY = 3;
 
         ctx.fillStyle = '#FFFFFF';
-        drawPill(ctx, -pw / 2, -ph / 2, pw, ph, pr);
+        drawPill(ctx, px, py, pw, ph, 25);
         ctx.fill();
 
-        ctx.strokeStyle = 'rgba(230, 230, 230, 0.8)';
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.06)';
         ctx.lineWidth = 1;
         ctx.stroke();
         ctx.restore();
 
-        // Monto principal grande, nítido y legible en negro puro extra bold
-        ctx.font = '900 24px Montserrat, Inter, -apple-system, sans-serif';
-        ctx.fillStyle = '#111111';
+        // Ícono representativo en el extremo interior de la pastilla
+        ctx.font = '22px sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(prize.title, 0, -7);
+        ctx.fillText(prize.icon, px + 24, 0);
 
-        // Subtítulo con contraste fuerte
+        // Monto principal grande y nítido en negro puro extra bold
+        ctx.font = '900 22px Montserrat, Inter, -apple-system, sans-serif';
+        ctx.fillStyle = '#111111';
+        ctx.textAlign = 'center';
+        ctx.fillText(prize.title, px + 88, -4);
+
+        // Subtítulo nítido
         ctx.font = '800 11px Montserrat, Inter, -apple-system, sans-serif';
-        ctx.fillStyle = '#555555';
-        ctx.fillText(prize.sub, 0, 14);
+        ctx.fillStyle = '#666666';
+        ctx.fillText(prize.sub, px + 88, 14);
 
         ctx.restore();
 
