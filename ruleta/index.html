@@ -307,16 +307,16 @@
     let isSpinning = false;
     let timerInterval = null;
 
-    // 8 Premios Oficiales con Probabilidades Ponderadas Comerciales (Total 100%)
+    // 8 Premios Oficiales con Paleta Boutique Pop Verano SS27 y Probabilidades Ponderadas
     const PRIZES = [
-      { title: "$5.000", sub: "Regalo", icon: "🎁", condition: "En compras mayores a $80.000 en temporada nueva", bg1: "#FFFFFF", bg2: "#F8F4EE", weight: 25 },
-      { title: "25% OFF", sub: "Efectivo", icon: "💵", condition: "20% habitual + 5% extra en temporada nueva", bg1: "#EDE1D5", bg2: "#DECBC0", weight: 4 },
-      { title: "$10.000", sub: "Regalo", icon: "🎁", condition: "En compras mayores a $130.000 en temporada nueva", bg1: "#FFFFFF", bg2: "#F8F4EE", weight: 12 },
-      { title: "3 Cuotas", sub: "+ 5% OFF", icon: "💳", condition: "Sin interés con tarjeta de crédito bancaria", bg1: "#EDE1D5", bg2: "#DECBC0", weight: 10 },
-      { title: "20% OFF", sub: "2da Unidad", icon: "💎", condition: "En el par de menor valor de temporada nueva", bg1: "#FFFFFF", bg2: "#F8F4EE", weight: 12 },
-      { title: "15% OFF", sub: "Débito/QR", icon: "📱", condition: "10% habitual + 5% extra en temporada nueva", bg1: "#EDE1D5", bg2: "#DECBC0", weight: 12 },
-      { title: "$15.000", sub: "Regalo", icon: "⭐", condition: "En compras mayores a $180.000 en temporada nueva", bg1: "#FFFFFF", bg2: "#F8F4EE", weight: 2 },
-      { title: "5% EXTRA", sub: "Directo", icon: "🏷️", condition: "Acumulable con todas las formas de pago", bg1: "#EDE1D5", bg2: "#DECBC0", weight: 23 }
+      { title: "$5.000", sub: "Regalo", icon: "🎁", condition: "En compras mayores a $80.000 en temporada nueva", bg1: "#F28482", bg2: "#E76F51", weight: 25 },       // Coral Terracota
+      { title: "25% OFF", sub: "Efectivo", icon: "💵", condition: "20% habitual + 5% extra en temporada nueva", bg1: "#FAD089", bg2: "#F4A261", weight: 4 },        // Amarillo Sol
+      { title: "$10.000", sub: "Regalo", icon: "🎁", condition: "En compras mayores a $130.000 en temporada nueva", bg1: "#52B788", bg2: "#2A9D8F", weight: 12 },     // Verde Esmeralda
+      { title: "3 Cuotas", sub: "+ 5% OFF", icon: "💳", condition: "Sin interés con tarjeta de crédito bancaria", bg1: "#6BA4B8", bg2: "#457B9D", weight: 10 },       // Azul Mediterráneo
+      { title: "20% OFF", sub: "2da Unidad", icon: "💎", condition: "En el par de menor valor de temporada nueva", bg1: "#F28482", bg2: "#E76F51", weight: 12 },     // Coral Terracota
+      { title: "15% OFF", sub: "Débito/QR", icon: "📱", condition: "10% habitual + 5% extra en temporada nueva", bg1: "#FAD089", bg2: "#F4A261", weight: 12 },       // Amarillo Sol
+      { title: "$15.000", sub: "Regalo", icon: "⭐", condition: "En compras mayores a $180.000 en temporada nueva", bg1: "#52B788", bg2: "#2A9D8F", weight: 2 },       // Verde Esmeralda
+      { title: "5% EXTRA", sub: "Directo", icon: "🏷️", condition: "Acumulable con todas las formas de pago", bg1: "#6BA4B8", bg2: "#457B9D", weight: 23 }        // Azul Mediterráneo
     ];
 
     // Algoritmo Ponderado de Selección de Premios
@@ -330,7 +330,26 @@
       return 0;
     }
 
-    // DIBUJO DE RULETA 3D CON TEXTOS TANGENCIALES NÍTIDOS, AMPLIOS Y SIN COLISIÓN
+    // Helper para dibujar rectángulos redondeados con compatibilidad total
+    function drawPill(ctx, x, y, width, height, radius) {
+      ctx.beginPath();
+      if (ctx.roundRect) {
+        ctx.roundRect(x, y, width, height, radius);
+      } else {
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + width - radius, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        ctx.lineTo(x + width, y + height - radius);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        ctx.lineTo(x + radius, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+      }
+      ctx.closePath();
+    }
+
+    // DIBUJO DE RULETA 3D BOUTIQUE POP CON PASTILLAS DE ALTO CONTRASTE Y PINES
     function renderWheel3D() {
       const canvas = document.getElementById('wheel-canvas');
       const ctx = canvas.getContext('2d');
@@ -344,8 +363,8 @@
         const angle = i * arc;
         const prize = PRIZES[i];
 
-        // Gradiente radial 3D por gajo
-        const grad = ctx.createRadialGradient(radius, radius, 30, radius, radius, radius);
+        // Gradiente radial por gajo con los colores vivos Boutique Pop
+        const grad = ctx.createRadialGradient(radius, radius, 25, radius, radius, radius);
         grad.addColorStop(0, prize.bg1);
         grad.addColorStop(1, prize.bg2);
 
@@ -356,34 +375,72 @@
         ctx.lineTo(radius, radius);
         ctx.fill();
 
-        // Borde dorado entre gajos
-        ctx.strokeStyle = '#C4A482';
+        // Borde dorado de división entre gajos
+        ctx.strokeStyle = '#D4AF37';
         ctx.lineWidth = 3;
         ctx.stroke();
 
-        // Contenido con orientación tangencial (perfectamente horizontal al caer arriba)
+        // Contenido con orientación tangencial
         ctx.save();
         ctx.translate(radius, radius);
         ctx.rotate(angle + arc / 2);
         ctx.translate(195, 0);
         ctx.rotate(Math.PI / 2);
 
-        // Ícono grande y centrado
-        ctx.font = '26px sans-serif';
+        // Ícono grande arriba de la pastilla
+        ctx.font = '24px sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(prize.icon, 0, -22);
+        ctx.fillText(prize.icon, 0, -32);
 
-        // Monto principal grande, nítido y legible
-        ctx.font = '900 24px Inter, -apple-system, sans-serif';
+        // Pastilla blanca con sombra y borde como en la foto de referencia
+        const pw = 116;
+        const ph = 46;
+        const pr = 14;
+
+        ctx.save();
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.28)';
+        ctx.shadowBlur = 6;
+        ctx.shadowOffsetY = 3;
+
+        ctx.fillStyle = '#FFFFFF';
+        drawPill(ctx, -pw / 2, -10, pw, ph, pr);
+        ctx.fill();
+
+        ctx.strokeStyle = '#EDE1D5';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        ctx.restore();
+
+        // Monto principal grande, nítido y legible en negro sobre la pastilla
+        ctx.font = '900 20px Inter, -apple-system, sans-serif';
         ctx.fillStyle = '#1A1A1A';
-        ctx.fillText(prize.title, 0, 7);
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(prize.title, 0, 8);
 
         // Subtítulo con peso visual
-        ctx.font = '700 13px Inter, -apple-system, sans-serif';
+        ctx.font = '700 11px Inter, -apple-system, sans-serif';
         ctx.fillStyle = '#73573D';
-        ctx.fillText(prize.sub, 0, 27);
+        ctx.fillText(prize.sub, 0, 24);
 
+        ctx.restore();
+
+        // Clavija / Pin metálico perimetral exterior
+        const pinAngle = angle;
+        const pinRadius = radius - 14;
+        const pinX = radius + pinRadius * Math.cos(pinAngle);
+        const pinY = radius + pinRadius * Math.sin(pinAngle);
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(pinX, pinY, 4.5, 0, 2 * Math.PI);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.35)';
+        ctx.shadowBlur = 4;
+        ctx.fill();
+        ctx.strokeStyle = '#C4A482';
+        ctx.lineWidth = 2;
+        ctx.stroke();
         ctx.restore();
       }
     }
