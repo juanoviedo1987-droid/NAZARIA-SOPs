@@ -220,7 +220,7 @@
         <div id="prize-desc-txt" class="text-[11px] font-bold text-neutral-800 bg-amber-100/80 py-1 px-3 rounded-lg inline-block border border-amber-200/90 leading-tight"></div>
       </div>
 
-      <!-- Reloj Regresivo y Código Unificado en Bloque Satinado -->
+      <!-- Reloj Regresivo y Código Unificado en Bloque Satinado (Comprobante Oficial) -->
       <div class="bg-neutral-900 text-white p-3 rounded-2xl space-y-1 shadow-md">
         <div class="flex justify-between items-center text-[10px]">
           <span class="text-neutral-400 font-bold uppercase tracking-wider">Canje en caja:</span>
@@ -229,23 +229,11 @@
             <span id="countdown-clock" class="font-mono text-xs font-black text-white">02:00:00</span>
           </span>
         </div>
-        <div onclick="copyCouponCode()" title="Tocar para copiar" class="flex items-center justify-between bg-neutral-800/90 p-2 rounded-xl border border-neutral-700/80 cursor-pointer active:scale-95 transition hover:border-amber-400/50">
-          <div class="flex items-center gap-1.5">
-            <span class="text-[10px] text-neutral-400 font-bold">CÓDIGO:</span>
-            <span id="coupon-code-txt" class="font-mono font-black text-base text-amber-200 tracking-widest"></span>
-          </div>
-          <div class="flex items-center gap-1">
-            <span id="copy-status" class="text-[9px] text-emerald-400 font-black uppercase hidden">¡Copiado!</span>
-            <span class="text-xs text-neutral-400">📋</span>
-          </div>
+        <div class="flex items-center justify-between bg-neutral-800/90 p-2 rounded-xl border border-neutral-700/80">
+          <span class="text-[10px] text-neutral-400 font-bold uppercase tracking-wider">CÓDIGO OFICIAL:</span>
+          <span id="coupon-code-txt" class="font-mono font-black text-base text-amber-200 tracking-widest"></span>
         </div>
       </div>
-
-      <!-- Botón de WhatsApp para Guardar / Compartir -->
-      <button onclick="shareViaWhatsApp()" class="w-full py-2.5 px-3 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md active:scale-95 transition">
-        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-        <span>Guardar o Enviar por WhatsApp</span>
-      </button>
 
       <!-- Indicación de canje transparente -->
       <div class="p-2 bg-[#FAF8F5] rounded-xl border border-neutral-200 text-[10.5px] text-neutral-700 leading-snug">
@@ -584,55 +572,6 @@
 
       update();
       timerInterval = setInterval(update, 1000);
-    }
-
-    // Copiar código oficial al portapapeles con 1 toque
-    function copyCouponCode() {
-      const codeTxt = document.getElementById('coupon-code-txt').innerText;
-      if (!codeTxt) return;
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(codeTxt).then(() => {
-          showCopyFeedback();
-        }).catch(() => fallbackCopy(codeTxt));
-      } else {
-        fallbackCopy(codeTxt);
-      }
-    }
-
-    function fallbackCopy(text) {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-      showCopyFeedback();
-    }
-
-    function showCopyFeedback() {
-      const status = document.getElementById('copy-status');
-      if (status) {
-        status.classList.remove('hidden');
-        setTimeout(() => status.classList.add('hidden'), 2200);
-      }
-    }
-
-    // Compartir o Guardar cupón por WhatsApp
-    function shareViaWhatsApp() {
-      const name = document.getElementById('winner-name-txt').innerText || 'CLIENTA';
-      const prize = document.getElementById('prize-title-txt').innerText || 'BENEFICIO';
-      const condition = document.getElementById('prize-desc-txt').innerText || '';
-      const code = document.getElementById('coupon-code-txt').innerText || '';
-      
-      const msg = `🎉 ¡Gané un beneficio en la Ruleta de Nazaria Zapatos!\n\n` +
-                  `👟 *Premio:* ${prize}\n` +
-                  `📋 *Condición:* ${condition}\n` +
-                  `🎟️ *Código Oficial:* ${code}\n` +
-                  `⏱️ *Válido para canjear hoy en:* TOM o Maschwitz Mall\n\n` +
-                  `👉 ¡Girá tu ruleta acá!: https://premios-nazaria.vercel.app`;
-
-      const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
-      window.open(waUrl, '_blank');
     }
 
     // Reinicio para modo Demo / Pruebas
