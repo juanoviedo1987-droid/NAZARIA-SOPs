@@ -3,66 +3,58 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Ruleta de Premios · Nazaria Zapatos</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Nazaria Zapatos · Ruleta de Beneficios</title>
+  <link rel="icon" type="image/png" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Montserrat:wght@400;600;700;800;900&family=JetBrains+Mono:wght@700;800&display=swap" rel="stylesheet">
-  <!-- Canvas Confetti -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
   <style>
-    * { box-sizing: border-box; }
+    /* COMPACT VIEWPORT: 100dvh estricto sin scroll vertical */
     html, body {
       height: 100%;
       height: 100dvh;
-      overflow: hidden;
       margin: 0;
       padding: 0;
+      overflow: hidden;
+      touch-action: manipulation;
     }
     body {
-      font-family: 'Montserrat', -apple-system, sans-serif;
-      background: radial-gradient(circle at 50% 15%, #FFFFFF 0%, #FAF8F5 50%, #ECE3D8 100%);
+      font-family: 'Montserrat', sans-serif;
+      background-color: #FAF8F5;
       color: #1A1A1A;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
     }
-    .font-brand { font-family: 'Cinzel', Georgia, serif; }
-    .font-mono { font-family: 'JetBrains Mono', monospace; }
-
-    /* Efecto Titular de Alto Impacto */
-    .title-pop {
-      text-shadow: 0 2px 0 #D4C6B6, 0 4px 12px rgba(184, 155, 126, 0.45);
+    .font-brand {
+      font-family: 'Playfair Display', serif;
     }
 
-    /* Aro exterior Blanco Laqueado Glossy con Bisel Fino */
+    /* Aro Metálico Blanco Laqueado */
     .wheel-outer-ring {
-      background: radial-gradient(circle at 35% 30%, #FFFFFF 0%, #F8F9FA 55%, #E9ECEF 85%, #DEE2E6 100%);
-      padding: 10px;
-      border-radius: 9999px;
-      border: 3.5px solid #FFFFFF;
-      box-shadow: 
-        0 16px 36px rgba(0, 0, 0, 0.16),
-        0 4px 12px rgba(0, 0, 0, 0.08),
-        inset 0 2px 4px rgba(255, 255, 255, 1),
-        inset 0 -3px 5px rgba(0, 0, 0, 0.12);
       position: relative;
+      border-radius: 9999px;
+      padding: 7px;
+      background: linear-gradient(135deg, #FFFFFF 0%, #ECEBE8 35%, #FFFFFF 60%, #DFDDD9 100%);
+      box-shadow: 
+        0 18px 40px -10px rgba(0, 0, 0, 0.22),
+        0 8px 18px -4px rgba(0, 0, 0, 0.14),
+        inset 0 2px 4px rgba(255, 255, 255, 0.95),
+        inset 0 -2px 5px rgba(0, 0, 0, 0.12);
     }
 
-    /* Aguja marcadora superior: Rotación física pura */
+    /* Aguja / Marcador Físico con pivot superior */
     .ticker-needle {
-      width: 42px;
-      height: 50px;
-      transform-origin: 21px 6px;
-      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
+      transform-origin: 20px 10px;
       will-change: transform;
+      filter: drop-shadow(0 5px 6px rgba(0,0,0,0.32));
     }
 
-    /* Botón Shimmer de Acción */
+    /* Botón CTA con resplandor boutique */
     .btn-action-glow {
-      background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 50%, #111111 100%);
+      background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%);
       position: relative;
       overflow: hidden;
-      box-shadow: 0 8px 25px rgba(26, 26, 26, 0.35);
     }
     .btn-action-glow::after {
       content: '';
@@ -71,37 +63,23 @@
       left: -50%;
       width: 200%;
       height: 200%;
-      background: linear-gradient(60deg, transparent, rgba(255,255,255,0.18), transparent);
-      transform: rotate(30deg);
-      animation: shimmerBtn 3.2s infinite;
+      background: linear-gradient(
+        60deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.15) 50%,
+        transparent 70%
+      );
+      transform: rotate(25deg);
+      animation: shimmerBtn 4s infinite linear;
     }
     @keyframes shimmerBtn {
-      0% { transform: translateX(-100%) rotate(30deg); }
-      30%, 100% { transform: translateX(100%) rotate(30deg); }
-    }
-
-    /* Partículas de brillo de fondo */
-    .sparkle {
-      position: absolute;
-      pointer-events: none;
-      animation: sparkleFade 3s infinite ease-in-out;
-    }
-    @keyframes sparkleFade {
-      0%, 100% { opacity: 0.2; transform: scale(0.85); }
-      50% { opacity: 0.9; transform: scale(1.15); }
+      0% { transform: translateX(-100%) rotate(25deg); }
+      100% { transform: translateX(100%) rotate(25deg); }
     }
   </style>
 </head>
-<body class="h-screen h-[100dvh] max-h-[100dvh] overflow-hidden flex flex-col justify-between items-center p-2.5 sm:p-4 select-none">
+<body class="w-full flex flex-col items-center justify-between p-2 select-none relative">
 
-  <!-- Partículas decorativas de fondo -->
-  <div class="sparkle text-amber-300 text-xs" style="left: 8%; top: 10%; animation-delay: 0s;">✦</div>
-  <div class="sparkle text-[#D4C6B6] text-sm" style="right: 10%; top: 12%; animation-delay: 1.5s;">★</div>
-  <div class="sparkle text-amber-200 text-xs" style="left: 14%; bottom: 18%; animation-delay: 2.2s;">✦</div>
-  <div class="sparkle text-[#D4C6B6] text-sm" style="right: 12%; bottom: 14%; animation-delay: 0.8s;">★</div>
-
-  <!-- CABECERA COMPACTA: LOGO & TÍTULO -->
-  
   <!-- Toast animado para CHANCE EXTRA / TIRÁ DE NUEVO -->
   <div id="respin-toast" class="hidden fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-[#1A1A1A] text-white px-5 py-3 rounded-2xl border-2 border-amber-400 shadow-2xl flex items-center gap-3 transition-all select-none animate-bounce">
     <span class="text-3xl">🎰</span>
@@ -112,14 +90,14 @@
   </div>
 
   <header class="text-center pt-0.5 z-10 w-full space-y-1 shrink-0">
-    <!-- Logo Oficial 100% Transparente -->
-    <div class="flex items-center justify-center min-h-[34px]">
-      <img src="logo_nazaria_pure_transparent.png" alt="Nazaria Zapatos" class="h-8 sm:h-9 w-auto object-contain drop-shadow-xs">
+    <!-- Logo Oficial 100% Transparente (5 taps abre consola secreta de admin) -->
+    <div class="flex items-center justify-center min-h-[34px] cursor-pointer" onclick="handleLogoTap()">
+      <img src="logo_nazaria_pure_transparent.png" alt="Nazaria Zapatos" class="h-8 sm:h-9 w-auto object-contain drop-shadow-xs active:scale-95 transition">
     </div>
     
     <!-- Título de Alto Impacto -->
     <div>
-      <h1 class="font-brand text-2xl sm:text-3xl font-black tracking-wider text-[#1A1A1A] title-pop uppercase leading-tight">
+      <h1 class="font-brand text-2xl sm:text-3xl font-black tracking-wider text-[#1A1A1A] uppercase leading-tight">
         ¡GIRÁ Y GANÁ!
       </h1>
       <p class="text-[11px] font-bold text-neutral-600 tracking-wide mt-0.5">
@@ -144,9 +122,8 @@
     </div>
   </header>
 
-  <!-- SECCIÓN CENTRAL: RULETA PROTAGONISTA MÁS GRANDE (CENTRADA CON PRECISIÓN) -->
+  <!-- SECCIÓN CENTRAL: RULETA PROTAGONISTA -->
   <main class="w-full flex-1 flex items-center justify-center py-1 z-10 min-h-0">
-
     <div class="relative w-[320px] h-[320px] sm:w-[350px] sm:h-[350px] flex items-center justify-center">
       
       <!-- Flecha marcadora 3D Superior: Wrapper fijo + Aguja con física sincronizada -->
@@ -168,40 +145,50 @@
 
       <!-- Aro Metálico Blanco Laqueado Limpio -->
       <div class="wheel-outer-ring">
-        <!-- Canvas de la Ruleta: Pines y líneas girando 100% sincronizados -->
         <canvas id="wheel-canvas" width="600" height="600" class="w-[300px] h-[300px] sm:w-[330px] sm:h-[330px] rounded-full"></canvas>
       </div>
 
       <!-- Centro 3D con Isologo Oficial Nazaria Centrado Matemáticamente -->
-      <div class="absolute z-30 w-13 h-13 rounded-full flex items-center justify-center pointer-events-none shadow-xl" style="width: 52px; height: 52px;">
+      <div class="absolute z-30 rounded-full flex items-center justify-center pointer-events-none shadow-xl" style="width: 52px; height: 52px;">
         <img src="isologo_nazaria_center.svg" alt="Nazaria" class="w-full h-full object-contain" />
       </div>
     </div>
-
   </main>
 
-  <!-- PANEL INFERIOR DE ACCIÓN: BOTÓN ALINEADO Y TEXTO EN 1 SOLA LÍNEA -->
+  <!-- PANEL INFERIOR DE ACCIÓN (ESTADO NORMAL) -->
   <div id="play-panel" class="w-full max-w-[360px] pb-1 space-y-1.5 z-10 shrink-0 px-2 sm:px-0">
-    <div class="relative">
+    
+    <!-- Input normal de nombre -->
+    <div id="input-container" class="relative">
       <input type="text" id="player-input" placeholder="Ingresá tu nombre o apodo..." maxlength="25"
         class="w-full bg-white border-2 border-[#D4C6B6] rounded-2xl px-4 py-2.5 text-sm text-center font-bold text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black shadow-inner transition">
     </div>
 
-    <!-- CTA Principal Atractivo con Shimmer (Alineación Perfecta) -->
+    <!-- Tarjeta de Bloqueo Cooldown (12hs) - Se muestra cuando ya jugó -->
+    <div id="cooldown-card" class="hidden bg-neutral-900 text-white p-3 rounded-2xl border border-neutral-700 text-center space-y-1 shadow-lg">
+      <div class="text-[10px] text-amber-300 font-black uppercase tracking-wider flex items-center justify-center gap-1.5">
+        <span>🔒</span> <span>PARTICIPACIÓN REGISTRADA HOY</span>
+      </div>
+      <div class="text-xs text-neutral-300 font-semibold">Tu próximo tiro estará disponible en:</div>
+      <div id="cooldown-clock" class="font-mono text-xl font-black text-amber-200 tracking-widest py-0.5">--:--:--</div>
+      <div class="text-[9.5px] text-neutral-400">1 tirada por persona cada 12 horas</div>
+    </div>
+
+    <!-- CTA Principal Atractivo -->
     <button id="spin-btn" onclick="triggerSpin()"
       class="w-full py-3.5 px-4 rounded-2xl btn-action-glow text-white font-black text-sm uppercase tracking-wider transition active:scale-95 flex items-center justify-center gap-2 shadow-lg">
       <span class="text-base leading-none">🎰</span>
-      <span class="whitespace-nowrap leading-none">¡GIRAR Y DESCUBRIR MI PREMIO!</span>
+      <span id="spin-btn-txt" class="whitespace-nowrap leading-none">¡GIRAR Y DESCUBRIR MI PREMIO!</span>
     </button>
 
-    <!-- Texto Informativo en 1 Sola Línea Impecable (Sin cortes) -->
-    <p class="text-[9.5px] sm:text-[10.5px] text-center text-neutral-500 font-semibold tracking-tight whitespace-nowrap">
+    <!-- Texto Informativo -->
+    <p id="spin-footer-txt" class="text-[9.5px] sm:text-[10.5px] text-center text-neutral-500 font-semibold tracking-tight whitespace-nowrap">
       ✨ 100% de los giros tienen beneficio asegurado para canjear hoy
     </p>
   </div>
 
   <!-- PANTALLA GANADORA: GOLDEN TICKET BOUTIQUE POP VERANO -->
-  <div id="prize-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-3 select-none">
+  <div id="prize-modal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-md z-50 flex items-center justify-center p-3 select-none">
     <div class="bg-white rounded-[28px] p-5 max-w-[340px] w-full space-y-2.5 shadow-2xl border border-neutral-200 text-center transform scale-95 transition-all relative overflow-hidden">
       
       <!-- Barra superior vibrante con la paleta de la ruleta -->
@@ -246,52 +233,190 @@
       </div>
 
       <!-- Indicación de canje transparente -->
-      <div class="p-2 bg-[#FAF8F5] rounded-xl border border-neutral-200 text-[10.5px] text-neutral-700 leading-snug">
+      <div class="p-2.5 bg-[#FAF8F5] rounded-xl border border-neutral-200 text-[10.5px] text-neutral-700 leading-snug">
         Mostrá esta pantalla en caja de <strong>TOM</strong> o <strong>Maschwitz Mall</strong> para aplicar tu beneficio en el acto.
       </div>
+    </div>
+  </div>
 
-      <!-- Botón de Reinicio para Demo / Test -->
-      <div class="pt-0.5">
-        <button onclick="resetDemo()" class="text-[10.5px] text-neutral-400 hover:text-black underline transition">
-          🔄 Probar otro giro (Modo Demo / Test)
+  <!-- MODAL: INGRESO DE PIN ADMINISTRADOR (JUAN OVIEDO) -->
+  <div id="admin-pin-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl p-5 max-w-xs w-full text-center space-y-3 shadow-2xl border border-neutral-300">
+      <div class="w-12 h-12 mx-auto rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-2xl">
+        🔒
+      </div>
+      <div>
+        <h3 class="font-black text-sm text-neutral-900 uppercase tracking-wider">Consola de Control</h3>
+        <p class="text-[11px] text-neutral-500 mt-0.5">Ingresá el PIN de administración</p>
+      </div>
+      <input type="password" id="admin-pin-input" maxlength="6" placeholder="••••" inputmode="numeric"
+        class="w-full text-center text-xl tracking-widest font-mono font-black py-2 border-2 border-neutral-300 rounded-xl focus:outline-none focus:border-black">
+      <div class="flex gap-2 pt-1">
+        <button onclick="closeAdminPinModal()" class="w-1/2 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 rounded-xl font-bold text-xs">
+          Cancelar
+        </button>
+        <button onclick="verifyAdminPin()" class="w-1/2 py-2 bg-neutral-900 hover:bg-black text-white rounded-xl font-bold text-xs shadow-md">
+          Acceder
         </button>
       </div>
     </div>
   </div>
 
-  <script>
-    let isSpinning = false;
-    let timerInterval = null;
-    let audioCtx = null;
+  <!-- MODAL: PANEL DE PRUEBAS ADMINISTRADOR -->
+  <div id="admin-panel-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-3 overflow-y-auto">
+    <div class="bg-white rounded-2xl p-5 max-w-sm w-full space-y-3 shadow-2xl border border-neutral-300 my-auto text-left text-xs">
+      
+      <div class="flex items-center justify-between border-b pb-2">
+        <div class="flex items-center gap-1.5 font-black text-neutral-900 text-sm">
+          <span>⚙️</span> <span>PANEL DE CONTROL & TEST</span>
+        </div>
+        <button onclick="closeAdminPanel()" class="text-neutral-400 hover:text-black font-bold text-base">✕</button>
+      </div>
 
-        // 8 Premios Oficiales Calibrados (Ticket Promedio $50K - Cero Fricción de Pisos)
+      <!-- Acción 1: Resetear Cooldown y Cupón -->
+      <div class="p-2.5 bg-neutral-50 rounded-xl border border-neutral-200 space-y-1.5">
+        <div class="font-bold text-neutral-900 text-[11px] flex items-center gap-1">
+          <span>🔄</span> 1. RESETEAR MI TELÉFONO
+        </div>
+        <p class="text-[10px] text-neutral-500">Borra la sesión local y el bloqueo de 12 horas para poder volver a probar como cliente nuevo.</p>
+        <button onclick="adminResetAll()" class="w-full py-2 bg-neutral-900 hover:bg-black text-white font-black rounded-lg text-[11px] transition">
+          Borrar Bloqueo y Cupón Ahora
+        </button>
+      </div>
+
+      <!-- Acción 2: Forzar un Premio Específico -->
+      <div class="p-2.5 bg-amber-50/70 rounded-xl border border-amber-200 space-y-1.5">
+        <div class="font-bold text-amber-950 text-[11px] flex items-center gap-1">
+          <span>🎯</span> 2. FORZAR PREMIO DE PRUEBA
+        </div>
+        <p class="text-[10px] text-amber-800">Elegí qué premio querés que salga para testear su animación y ticket:</p>
+        <select id="admin-prize-select" class="w-full p-2 bg-white border border-amber-300 rounded-lg text-xs font-bold text-neutral-800">
+          <option value="0">$15.000 Regalo (Jackpot 1%)</option>
+          <option value="1">20% OFF 2da Unidad (8%)</option>
+          <option value="2">10% EXTRA Directo (8%)</option>
+          <option value="3">$10.000 Regalo (3%)</option>
+          <option value="4">🎰 ¡TIRÁ DE NUEVO! (15%)</option>
+          <option value="5">10% OFF 2da Unidad (20%)</option>
+          <option value="6">$5.000 Regalo (15%)</option>
+          <option value="7">5% EXTRA Directo (30%)</option>
+        </select>
+        <button onclick="adminForceSpin()" class="w-full py-2 bg-amber-500 hover:bg-amber-600 text-white font-black rounded-lg text-[11px] transition shadow-xs">
+          Girar Ruleta Con Este Premio
+        </button>
+      </div>
+
+      <!-- Acción 3: Simular Estados Temporales -->
+      <div class="p-2.5 bg-blue-50/70 rounded-xl border border-blue-200 space-y-1.5">
+        <div class="font-bold text-blue-950 text-[11px] flex items-center gap-1">
+          <span>⏱️</span> 3. SIMULAR ESTADOS
+        </div>
+        <div class="grid grid-cols-2 gap-1.5">
+          <button onclick="adminSimulateExpiring()" class="py-1.5 px-2 bg-white hover:bg-neutral-100 text-neutral-800 border border-neutral-300 rounded font-bold text-[10px]">
+            Cupón vence en 15s
+          </button>
+          <button onclick="adminSimulateCooldown()" class="py-1.5 px-2 bg-white hover:bg-neutral-100 text-neutral-800 border border-neutral-300 rounded font-bold text-[10px]">
+            Bloqueo 12hs Activo
+          </button>
+        </div>
+      </div>
+
+      <!-- Botón de Cierre -->
+      <button onclick="closeAdminPanel()" class="w-full py-2 bg-neutral-200 hover:bg-neutral-300 text-neutral-800 font-bold rounded-lg text-xs">
+        Cerrar Panel
+      </button>
+
+    </div>
+  </div>
+
+  <script>
+    // ==========================================
+    // CONFIGURACIÓN OFICIAL & REGLAS DE TIEMPO
+    // ==========================================
+    const COUPON_DURATION_MS = 2 * 60 * 60 * 1000;    // 2 horas para canjear en mostrador
+    const COOLDOWN_DURATION_MS = 12 * 60 * 60 * 1000; // 12 horas de bloqueo para volver a tirar
+    const ADMIN_PIN = "3585";                         // PIN oficial de administración Juan Oviedo
+
+    let isSpinning = false;
+    let couponTimer = null;
+    let cooldownTimer = null;
+    let audioCtx = null;
+    let pendingRespin = null;
+    let forcedPrizeIndex = null;
+    let logoTapCount = 0;
+    let logoTapTimer = null;
+
+    // 8 Premios Oficiales Calibrados (Ticket Promedio $50K - Cero Fricción de Pisos)
     const PRIZES = [
-      { title: "$15.000", sub: "REGALO", condition: "En cualquier calzado de Temporada Nueva", bg1: "#52B788", bg2: "#2A9D8F", weight: 1 },        // Gajo 0: Verde Esmeralda (Jackpot 1%)
-      { title: "20% OFF", sub: "2da UNIDAD", condition: "En el 2do par de menor valor de Temporada Nueva", bg1: "#FAD089", bg2: "#F4A261", weight: 8 },  // Gajo 1: Amarillo Sol (8%)
-      { title: "10% EXTRA", sub: "DIRECTO", condition: "Acumulable con tu medio de pago habitual", bg1: "#F28482", bg2: "#E76F51", weight: 8 },          // Gajo 2: Coral Terracota (8%)
-      { title: "$10.000", sub: "REGALO", condition: "En cualquier calzado de Temporada Nueva", bg1: "#6BA4B8", bg2: "#457B9D", weight: 3 },        // Gajo 3: Azul Mediterráneo (3%)
-      { title: "🎰 TIRÁ", sub: "DE NUEVO", condition: "Tirada extra", bg1: "#52B788", bg2: "#2A9D8F", weight: 15, isRespin: true },                     // Gajo 4: Verde Esmeralda Especial (15%)
-      { title: "10% OFF", sub: "2da UNIDAD", condition: "En el 2do par de menor valor de Temporada Nueva", bg1: "#FAD089", bg2: "#F4A261", weight: 20 }, // Gajo 5: Amarillo Sol (20%)
-      { title: "$5.000", sub: "REGALO", condition: "En cualquier calzado de Temporada Nueva", bg1: "#F28482", bg2: "#E76F51", weight: 15 },         // Gajo 6: Coral Terracota (15%)
-      { title: "5% EXTRA", sub: "DIRECTO", condition: "Acumulable con tu medio de pago habitual", bg1: "#6BA4B8", bg2: "#457B9D", weight: 30 }          // Gajo 7: Azul Mediterráneo (30%)
+      { title: "$15.000", sub: "REGALO", condition: "En cualquier calzado de Temporada Nueva", bg1: "#52B788", bg2: "#2A9D8F", weight: 1 },
+      { title: "20% OFF", sub: "2da UNIDAD", condition: "En el 2do par de menor valor de Temporada Nueva", bg1: "#FAD089", bg2: "#F4A261", weight: 8 },
+      { title: "10% EXTRA", sub: "DIRECTO", condition: "Acumulable con tu medio de pago habitual", bg1: "#F28482", bg2: "#E76F51", weight: 8 },
+      { title: "$10.000", sub: "REGALO", condition: "En cualquier calzado de Temporada Nueva", bg1: "#6BA4B8", bg2: "#457B9D", weight: 3 },
+      { title: "🎰 TIRÁ", sub: "DE NUEVO", condition: "Tirada extra", bg1: "#52B788", bg2: "#2A9D8F", weight: 15, isRespin: true },
+      { title: "10% OFF", sub: "2da UNIDAD", condition: "En el 2do par de menor valor de Temporada Nueva", bg1: "#FAD089", bg2: "#F4A261", weight: 20 },
+      { title: "$5.000", sub: "REGALO", condition: "En cualquier calzado de Temporada Nueva", bg1: "#F28482", bg2: "#E76F51", weight: 15 },
+      { title: "5% EXTRA", sub: "DIRECTO", condition: "Acumulable con tu medio de pago habitual", bg1: "#6BA4B8", bg2: "#457B9D", weight: 30 }
     ];
 
-    // Algoritmo Ponderado de Selección de Premios (permite excluir respin en segunda tirada)
+    // ==========================================
+    // PERSISTENCIA & SEGURIDAD ATÓMICA
+    // ==========================================
+    function getStoredSession() {
+      try {
+        const local = localStorage.getItem('nz_spin_session');
+        if (local) return JSON.parse(local);
+        
+        // Backup en cookies
+        const match = document.cookie.match(/(^|;\s*)nz_spin_session=([^;]+)/);
+        if (match) return JSON.parse(decodeURIComponent(match[2]));
+      } catch (e) {}
+      return null;
+    }
+
+    function saveSession(session) {
+      try {
+        const str = JSON.stringify(session);
+        localStorage.setItem('nz_spin_session', str);
+        const maxAge = Math.max(60, Math.floor((session.cooldownExpiresAt - Date.now()) / 1000));
+        document.cookie = "nz_spin_session=" + encodeURIComponent(str) + "; path=/; max-age=" + maxAge + "; SameSite=Lax";
+      } catch (e) {}
+    }
+
+    function clearSession() {
+      try {
+        localStorage.removeItem('nz_spin_session');
+        document.cookie = "nz_spin_session=; path=/; max-age=0";
+      } catch (e) {}
+    }
+
+    // ==========================================
+    // SELECCIÓN PONDERADA DE PREMIOS
+    // ==========================================
     function getWeightedPrizeIndex(excludeRespin = false) {
+      if (forcedPrizeIndex !== null) {
+        const idx = forcedPrizeIndex;
+        forcedPrizeIndex = null;
+        return idx;
+      }
+
       let pool = PRIZES.map((p, idx) => ({ ...p, origIdx: idx }));
       if (excludeRespin) {
         pool = pool.filter(p => !p.isRespin);
       }
       const totalWeight = pool.reduce((sum, p) => sum + p.weight, 0);
       let rand = Math.random() * totalWeight;
-      for (let i = 0; i < pool.length; i++) {
-        if (rand < pool[i].weight) return pool[i].origIdx;
-        rand -= pool[i].weight;
+
+      for (const item of pool) {
+        if (rand < item.weight) {
+          return item.origIdx;
+        }
+        rand -= item.weight;
       }
-      return pool[0].origIdx;
+      return pool[pool.length - 1].origIdx;
     }
 
-    // Helper para dibujar rectángulos redondeados con compatibilidad total
+    // ==========================================
+    // RENDERIZADO DEL CANVAS DE LA RULETA
+    // ==========================================
     function drawPill(ctx, x, y, width, height, radius) {
       ctx.beginPath();
       if (ctx.roundRect) {
@@ -310,7 +435,6 @@
       ctx.closePath();
     }
 
-    // DIBUJO DE RULETA: PASTILLAS CENTRADAS SIN COLISIONES Y ALEJADAS DEL CENTRO
     function renderWheel3D() {
       const canvas = document.getElementById('wheel-canvas');
       const ctx = canvas.getContext('2d');
@@ -324,7 +448,6 @@
         const angle = i * arc;
         const prize = PRIZES[i];
 
-        // 1. Gradiente radial por gajo con los colores vivos Boutique Pop
         const grad = ctx.createRadialGradient(radius, radius, 30, radius, radius, radius);
         grad.addColorStop(0, prize.bg1);
         grad.addColorStop(1, prize.bg2);
@@ -336,12 +459,10 @@
         ctx.lineTo(radius, radius);
         ctx.fill();
 
-        // 2. Línea divisoria blanca nítida
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.95)';
         ctx.lineWidth = 3;
         ctx.stroke();
 
-        // 3. Pastilla vertical alargada (de x=105 a x=253: 53px de aire libre respecto al domo central de 52px)
         ctx.save();
         ctx.translate(radius, radius);
         ctx.rotate(angle + arc / 2);
@@ -365,21 +486,18 @@
         ctx.stroke();
         ctx.restore();
 
-        // Título del premio: Centrado en la pastilla, grande y sin emojis que se superpongan
         ctx.font = '900 23px Montserrat, Inter, sans-serif';
         ctx.fillStyle = '#111111';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(prize.title, px + pw / 2, -4);
 
-        // Subtítulo con peso visual
         ctx.font = '800 11px Montserrat, Inter, sans-serif';
         ctx.fillStyle = '#666666';
         ctx.fillText(prize.sub, px + pw / 2, 14);
 
         ctx.restore();
 
-        // 4. Clavija / Pin metálico EXACTAMENTE SOBRE LA LÍNEA DIVISORIA (angle)
         const pinRadius = radius - 13;
         const pinX = radius + pinRadius * Math.cos(angle);
         const pinY = radius + pinRadius * Math.sin(angle);
@@ -398,7 +516,9 @@
       }
     }
 
-    // SONIDO MECÁNICO REAL SINCRONIZADO AL TOQUE DE CADA PIN
+    // ==========================================
+    // AUDIO ENGINE SINTÉTICO (SIN DEPENDENCIAS)
+    // ==========================================
     function playPinClickSound(intensity) {
       try {
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -418,12 +538,40 @@
       } catch(e) {}
     }
 
-        // MOTOR FÍSICO REAL EN REQUESTANIMATIONFRAME: AGUJA Y PINES 100% SINCRONIZADOS
-    let pendingRespin = null;
+    function playVictoryJingle() {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const notes = [523.25, 659.25, 783.99, 1046.50];
+        notes.forEach((freq, idx) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          const startTime = audioCtx.currentTime + (idx * 0.13);
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, startTime);
+          gain.gain.setValueAtTime(0.12, startTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.85);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(startTime);
+          osc.stop(startTime + 0.9);
+        });
+      } catch (e) {}
+    }
 
+    // ==========================================
+    // MOTOR FÍSICO Y EJECUCIÓN DEL GIRO
+    // ==========================================
     function triggerSpin() {
       if (isSpinning) return;
 
+      const session = getStoredSession();
+      if (session && session.cooldownExpiresAt > Date.now() && !pendingRespin) {
+        alert("Ya participaste en la ruleta por hoy. Tu próximo tiro estará disponible al finalizar el tiempo de espera.");
+        return;
+      }
+
+      // Si viene de TIRÁ DE NUEVO
       if (pendingRespin) {
         const { name, currentRotation } = pendingRespin;
         pendingRespin = null;
@@ -458,14 +606,29 @@
 
       const num = PRIZES.length;
       const sliceDeg = 360 / num; // 45°
-      // Si es la segunda tirada por "TIRÁ DE NUEVO", excluimos el gajo de respin para garantizar un premio real
       const winningIdx = getWeightedPrizeIndex(isSecondSpin);
       const prize = PRIZES[winningIdx];
 
-      // Ángulo matemático exacto para que el centro del gajo ganador quede a 270° (12 o'clock)
+      // GUARDADO ATÓMICO PREVIO: Protege contra F5 durante el giro
+      const now = Date.now();
+      const code = 'NTM-' + Math.floor(1000 + Math.random() * 9000);
+      const couponExpiresAt = now + COUPON_DURATION_MS;
+      const cooldownExpiresAt = now + COOLDOWN_DURATION_MS;
+
+      const sessionData = {
+        name: name,
+        prize: prize,
+        code: code,
+        spunAt: now,
+        couponExpiresAt: couponExpiresAt,
+        cooldownExpiresAt: cooldownExpiresAt,
+        isSecondSpinPending: prize.isRespin ? true : false
+      };
+      saveSession(sessionData);
+
+      // Cálculo del ángulo físico exacto
       const targetDeg = (270 - (winningIdx * sliceDeg + sliceDeg / 2) + 360) % 360;
       const baseRounds = isSecondSpin ? 360 * 6 : 360 * 9;
-      // Normalizar rotación actual
       const currentNormalized = startRotation % 360;
       let forwardDelta = targetDeg - currentNormalized;
       if (forwardDelta <= 0) forwardDelta += 360;
@@ -484,8 +647,8 @@
         return 1 - Math.pow(1 - t, 4.5);
       }
 
-      function physicsLoop(now) {
-        const elapsed = now - startTime;
+      function physicsLoop(nowTime) {
+        const elapsed = nowTime - startTime;
         const p = Math.min(1, elapsed / durationMs);
         const ease = easeOutQuintic(p);
         const currentRot = startRotation + (finalTargetRotation - startRotation) * ease;
@@ -523,15 +686,18 @@
           isSpinning = false;
 
           if (prize.isRespin) {
-            // Manejar TIRÁ DE NUEVO
             handleRespin(name, finalTargetRotation);
           } else {
+            // Actualizar que ya no hay segundo tiro pendiente
+            sessionData.isSecondSpinPending = false;
+            saveSession(sessionData);
+
             setTimeout(() => {
               if (typeof confetti === 'function') {
                 confetti({ particleCount: 140, spread: 85, origin: { y: 0.6 }, colors: ['#E6D5C3', '#D4C6B6', '#1A1A1A', '#FFD700'] });
               }
               playVictoryJingle();
-              showPrizePopup(name, prize);
+              showPrizePopup(sessionData);
             }, 300);
           }
         }
@@ -540,134 +706,254 @@
       requestAnimationFrame(physicsLoop);
     }
 
-    // Manejo de TIRÁ DE NUEVO: aviso en pantalla y habilitación manual del botón para el usuario
+    // ==========================================
+    // MANEJO DE CHANCE EXTRA INTERACTIVA
+    // ==========================================
     function handleRespin(name, currentRotation) {
       playVictoryJingle();
       pendingRespin = { name, currentRotation };
 
       const toast = document.getElementById('respin-toast');
-      if (toast) {
-        toast.classList.remove('hidden');
-      }
+      if (toast) toast.classList.remove('hidden');
 
       const btn = document.getElementById('spin-btn');
       btn.disabled = false;
       btn.classList.remove('opacity-50');
       btn.classList.add('ring-4', 'ring-amber-400', 'ring-offset-2', 'animate-pulse');
-      btn.innerHTML = `
-        <span class="text-base leading-none">🎰</span>
-        <span class="whitespace-nowrap leading-none">¡TOCÁ PARA GIRAR TU CHANCE EXTRA!</span>
-      `;
+      document.getElementById('spin-btn-txt').innerText = "¡TOCÁ PARA GIRAR TU CHANCE EXTRA!";
     }
 
-    // Jingle Triunfal de Victoria
-    function playVictoryJingle() {
-      try {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
-        notes.forEach((freq, idx) => {
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
-          const startTime = audioCtx.currentTime + (idx * 0.13);
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq, startTime);
-          gain.gain.setValueAtTime(0.12, startTime);
-          gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.85);
-          osc.connect(gain);
-          gain.connect(audioCtx.destination);
-          osc.start(startTime);
-          osc.stop(startTime + 0.9);
-        });
-      } catch (e) {}
-    }
-
-    // Mostrar cupón y guardar en localStorage (Anti-Trampa)
-    function showPrizePopup(name, prize, existingCode, existingExpire) {
+    // ==========================================
+    // MOSTRAR PREMIO & CUENTA REGRESIVA
+    // ==========================================
+    function showPrizePopup(session) {
       const modal = document.getElementById('prize-modal');
-      const code = existingCode || ('NTM-' + Math.floor(1000 + Math.random() * 9000));
-      const expireTime = existingExpire || (Date.now() + 2 * 60 * 60 * 1000);
-
-      localStorage.setItem('nz_active_coupon', JSON.stringify({
-        name: name,
-        prize: prize,
-        code: code,
-        expireTime: expireTime
-      }));
-
-      document.getElementById('winner-name-txt').innerText = name.toUpperCase();
-      document.getElementById('prize-title-txt').innerText = prize.title + ' ' + prize.sub;
-      document.getElementById('prize-desc-txt').innerText = prize.condition;
-      document.getElementById('coupon-code-txt').innerText = code;
+      document.getElementById('winner-name-txt').innerText = session.name.toUpperCase();
+      document.getElementById('prize-title-txt').innerText = session.prize.title + ' ' + session.prize.sub;
+      document.getElementById('prize-desc-txt').innerText = session.prize.condition;
+      document.getElementById('coupon-code-txt').innerText = session.code;
 
       modal.classList.remove('hidden');
-      startCountdown(expireTime);
+      startCouponCountdown(session.couponExpiresAt);
     }
 
-    function startCountdown(expireTime) {
-      if (timerInterval) clearInterval(timerInterval);
+    function startCouponCountdown(expireTime) {
+      if (couponTimer) clearInterval(couponTimer);
 
       function update() {
-        const now = Date.now();
-        const diff = expireTime - now;
-
+        const diff = expireTime - Date.now();
         if (diff <= 0) {
-          clearInterval(timerInterval);
+          clearInterval(couponTimer);
           document.getElementById('countdown-clock').innerText = "VENCIDO";
           document.getElementById('countdown-clock').classList.add('text-red-400');
-          localStorage.removeItem('nz_active_coupon');
+          // Al vencer el cupón, cerrar modal y pasar a modo cooldown bloqueado
+          setTimeout(() => {
+            document.getElementById('prize-modal').classList.add('hidden');
+            checkSessionState();
+          }, 2000);
           return;
         }
 
         const hours = Math.floor(diff / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
         const pad = (n) => String(n).padStart(2, '0');
         document.getElementById('countdown-clock').innerText = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
       }
 
       update();
-      timerInterval = setInterval(update, 1000);
+      couponTimer = setInterval(update, 1000);
     }
 
-    // Reinicio para modo Demo / Pruebas
-    function resetDemo() {
-      localStorage.removeItem('nz_active_coupon');
-      document.getElementById('prize-modal').classList.add('hidden');
-      isSpinning = false;
-      if (timerInterval) clearInterval(timerInterval);
+    // ==========================================
+    // BLOQUEO VISUAL DE COOLDOWN (12 HORAS)
+    // ==========================================
+    function applyCooldownLockedUI(cooldownExpiresAt) {
+      const inputContainer = document.getElementById('input-container');
+      const cooldownCard = document.getElementById('cooldown-card');
+      const spinBtn = document.getElementById('spin-btn');
+      const spinBtnTxt = document.getElementById('spin-btn-txt');
+      const footerTxt = document.getElementById('spin-footer-txt');
 
+      inputContainer.classList.add('hidden');
+      cooldownCard.classList.remove('hidden');
+
+      spinBtn.disabled = true;
+      spinBtn.classList.remove('btn-action-glow', 'active:scale-95');
+      spinBtn.classList.add('bg-neutral-300', 'text-neutral-500', 'cursor-not-allowed', 'opacity-75');
+
+      footerTxt.innerText = "🔒 Límite diario alcanzado · Podrás volver a participar en 12 hs";
+
+      if (cooldownTimer) clearInterval(cooldownTimer);
+
+      function updateCooldown() {
+        const diff = cooldownExpiresAt - Date.now();
+        if (diff <= 0) {
+          clearInterval(cooldownTimer);
+          clearSession();
+          location.reload();
+          return;
+        }
+
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        const pad = (n) => String(n).padStart(2, '0');
+        const formatted = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+
+        document.getElementById('cooldown-clock').innerText = formatted;
+        spinBtnTxt.innerText = `PRÓXIMO GIRO EN ${formatted}`;
+      }
+
+      updateCooldown();
+      cooldownTimer = setInterval(updateCooldown, 1000);
+    }
+
+    // ==========================================
+    // CHEQUEO CENTRAL DE ESTADO AL ABRIR
+    // ==========================================
+    function checkSessionState() {
+      const session = getStoredSession();
+      if (!session) return;
+
+      const now = Date.now();
+
+      // 1. Caso TIRÁ DE NUEVO pendiente (por si recargó antes de la 2da tirada)
+      if (session.isSecondSpinPending) {
+        handleRespin(session.name, 0);
+        return;
+      }
+
+      // 2. Caso Cupón Activo (< 2 horas)
+      if (session.couponExpiresAt > now) {
+        showPrizePopup(session);
+        return;
+      }
+
+      // 3. Caso Cooldown Activo (Cupón vencido pero < 12 horas)
+      if (session.cooldownExpiresAt > now) {
+        applyCooldownLockedUI(session.cooldownExpiresAt);
+        return;
+      }
+
+      // 4. Caso expirado total (> 12 horas)
+      clearSession();
+    }
+
+    // ==========================================
+    // CONSOLA SECRETA DE ADMINISTRADOR (PIN 3585)
+    // ==========================================
+    function handleLogoTap() {
+      logoTapCount++;
+      if (logoTapTimer) clearTimeout(logoTapTimer);
+      logoTapTimer = setTimeout(() => { logoTapCount = 0; }, 3000);
+
+      if (logoTapCount >= 5) {
+        logoTapCount = 0;
+        openAdminPinModal();
+      }
+    }
+
+    function openAdminPinModal() {
+      document.getElementById('admin-pin-modal').classList.remove('hidden');
+      const input = document.getElementById('admin-pin-input');
+      input.value = '';
+      setTimeout(() => input.focus(), 150);
+    }
+
+    function closeAdminPinModal() {
+      document.getElementById('admin-pin-modal').classList.add('hidden');
+    }
+
+    function verifyAdminPin() {
+      const pin = document.getElementById('admin-pin-input').value.trim();
+      if (pin === ADMIN_PIN) {
+        closeAdminPinModal();
+        openAdminPanel();
+      } else {
+        alert("PIN Incorrecto");
+        document.getElementById('admin-pin-input').value = '';
+      }
+    }
+
+    function openAdminPanel() {
+      document.getElementById('admin-panel-modal').classList.remove('hidden');
+    }
+
+    function closeAdminPanel() {
+      document.getElementById('admin-panel-modal').classList.add('hidden');
+    }
+
+    // Acciones de Administrador
+    function adminResetAll() {
+      clearSession();
+      alert("✅ Teléfono reseteado: bloqueo y cupones eliminados.");
+      location.reload();
+    }
+
+    function adminForceSpin() {
+      const sel = document.getElementById('admin-prize-select');
+      forcedPrizeIndex = parseInt(sel.value, 10);
+      closeAdminPanel();
+      document.getElementById('prize-modal').classList.add('hidden');
+      
+      clearSession();
+      // Restaurar UI de giro si estaba bloqueada
+      document.getElementById('input-container').classList.remove('hidden');
+      document.getElementById('cooldown-card').classList.add('hidden');
       const btn = document.getElementById('spin-btn');
       btn.disabled = false;
-      btn.classList.remove('opacity-50');
-
-      const canvas = document.getElementById('wheel-canvas');
-      canvas.style.transform = 'none';
-
-      const needle = document.getElementById('ticker-needle');
-      needle.style.transform = 'none';
+      btn.classList.add('btn-action-glow', 'active:scale-95');
+      btn.classList.remove('bg-neutral-300', 'text-neutral-500', 'cursor-not-allowed', 'opacity-75');
+      document.getElementById('spin-btn-txt').innerText = "¡GIRAR Y DESCUBRIR MI PREMIO!";
 
       const input = document.getElementById('player-input');
-      input.value = '';
-      input.focus();
+      if (!input.value.trim()) input.value = "Admin Test";
+      
+      triggerSpin();
     }
 
-    // Verificar si hay un cupón activo al abrir la página
+    function adminSimulateExpiring() {
+      const session = getStoredSession();
+      if (!session) {
+        alert("Primero realizá un tiro para simular el cupón.");
+        return;
+      }
+      session.couponExpiresAt = Date.now() + 15000; // Vence en 15 segundos
+      saveSession(session);
+      closeAdminPanel();
+      showPrizePopup(session);
+    }
+
+    function adminSimulateCooldown() {
+      const session = getStoredSession() || {
+        name: "Test User",
+        prize: PRIZES[0],
+        code: "NTM-TEST",
+        spunAt: Date.now() - 3 * 3600 * 1000,
+        couponExpiresAt: Date.now() - 1000,
+        cooldownExpiresAt: Date.now() + 9 * 3600 * 1000
+      };
+      session.couponExpiresAt = Date.now() - 1000;
+      session.cooldownExpiresAt = Date.now() + 9 * 3600 * 1000;
+      saveSession(session);
+      closeAdminPanel();
+      document.getElementById('prize-modal').classList.add('hidden');
+      applyCooldownLockedUI(session.cooldownExpiresAt);
+    }
+
+    // ==========================================
+    // INICIALIZACIÓN
+    // ==========================================
     window.onload = function() {
       renderWheel3D();
+      checkSessionState();
 
-      try {
-        const saved = localStorage.getItem('nz_active_coupon');
-        if (saved) {
-          const data = JSON.parse(saved);
-          if (data && data.expireTime > Date.now()) {
-            showPrizePopup(data.name, data.prize, data.code, data.expireTime);
-          } else {
-            localStorage.removeItem('nz_active_coupon');
-          }
-        }
-      } catch (e) {}
+      // Atajo por URL: ?admin=true
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('admin') === 'true' || params.get('admin') === '1') {
+        openAdminPinModal();
+      }
     };
   </script>
 </body>
