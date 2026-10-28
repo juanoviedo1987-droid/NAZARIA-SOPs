@@ -23,38 +23,55 @@
     }
     body {
       font-family: 'Montserrat', sans-serif;
-      background-color: #FAF8F5;
+      background: radial-gradient(circle at 50% 12%, #FFF0F6 0%, #FDE4EE 35%, #F8D1E0 75%, #F0B8CE 100%);
       color: #1A1A1A;
+      position: relative;
     }
     .font-brand {
       font-family: 'Playfair Display', serif;
     }
 
-    /* Aro Metálico Blanco Laqueado */
+    /* Resplandor y halo luminoso boutique */
+    .boutique-glow {
+      position: absolute;
+      top: 8%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 340px;
+      height: 340px;
+      background: radial-gradient(circle, rgba(255, 46, 147, 0.18) 0%, rgba(255, 215, 0, 0.14) 45%, transparent 70%);
+      filter: blur(45px);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Aro Metálico Dorado 3D con Bombillas Perimetrales */
     .wheel-outer-ring {
       position: relative;
       border-radius: 9999px;
-      padding: 7px;
-      background: linear-gradient(135deg, #FFFFFF 0%, #ECEBE8 35%, #FFFFFF 60%, #DFDDD9 100%);
+      padding: 8px;
+      background: linear-gradient(135deg, #FFE899 0%, #D48806 25%, #FFF2B2 50%, #B87818 75%, #FFDF73 100%);
       box-shadow: 
-        0 18px 40px -10px rgba(0, 0, 0, 0.22),
-        0 8px 18px -4px rgba(0, 0, 0, 0.14),
+        0 20px 50px -10px rgba(184, 120, 24, 0.45),
+        0 8px 25px -4px rgba(255, 46, 147, 0.25),
         inset 0 2px 4px rgba(255, 255, 255, 0.95),
-        inset 0 -2px 5px rgba(0, 0, 0, 0.12);
+        inset 0 -2px 5px rgba(0, 0, 0, 0.35);
     }
 
-    /* Aguja / Marcador Físico con pivot superior */
+    /* Aguja / Marcador Físico con pivot superior en Fucsia Neón */
     .ticker-needle {
       transform-origin: 20px 10px;
       will-change: transform;
-      filter: drop-shadow(0 5px 6px rgba(0,0,0,0.32));
+      filter: drop-shadow(0 6px 8px rgba(216, 27, 96, 0.5));
     }
 
-    /* Botón CTA con resplandor boutique */
+    /* Botón CTA Glamour Fucsia Neón con borde oro y reflejo */
     .btn-action-glow {
-      background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%);
+      background: linear-gradient(135deg, #FF1493 0%, #E01E5A 50%, #C2185B 100%);
       position: relative;
       overflow: hidden;
+      border: 2px solid #FFE082;
+      box-shadow: 0 10px 25px rgba(224, 30, 90, 0.45), inset 0 1px 3px rgba(255, 255, 255, 0.5);
     }
     .btn-action-glow::after {
       content: '';
@@ -66,11 +83,11 @@
       background: linear-gradient(
         60deg,
         transparent 30%,
-        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0.35) 50%,
         transparent 70%
       );
       transform: rotate(25deg);
-      animation: shimmerBtn 4s infinite linear;
+      animation: shimmerBtn 3.5s infinite linear;
     }
     @keyframes shimmerBtn {
       0% { transform: translateX(-100%) rotate(25deg); }
@@ -79,6 +96,7 @@
   </style>
 </head>
 <body class="w-full flex flex-col items-center justify-between p-2 select-none relative">
+  <div class="boutique-glow"></div>
 
   <!-- Toast animado para CHANCE EXTRA / TIRÁ DE NUEVO -->
   <div id="respin-toast" class="hidden fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-[#1A1A1A] text-white px-5 py-3 rounded-2xl border-2 border-amber-400 shadow-2xl flex items-center gap-3 transition-all select-none animate-bounce">
@@ -95,13 +113,15 @@
       <img src="logo_nazaria_pure_transparent.png" alt="Nazaria Zapatos" class="h-8 sm:h-9 w-auto object-contain drop-shadow-xs active:scale-95 transition">
     </div>
     
-    <!-- Título de Alto Impacto -->
+    <!-- Título de Alto Impacto Boutique Glam -->
     <div>
-      <h1 class="font-brand text-2xl sm:text-3xl font-black tracking-wider text-[#1A1A1A] uppercase leading-tight">
-        ¡GIRÁ Y GANÁ!
+      <h1 class="font-brand text-2xl sm:text-3xl font-black tracking-wider uppercase leading-tight flex items-center justify-center gap-1.5 drop-shadow-sm">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF007F] via-[#FF1493] to-[#D81B60]" style="filter: drop-shadow(0 2px 4px rgba(255, 0, 127, 0.25));">¡GIRÁ</span>
+        <span class="text-[#1A1A1A]">Y</span>
+        <span class="text-transparent bg-clip-text bg-gradient-to-b from-[#FFE57F] via-[#FFB300] to-[#C67D0A]" style="filter: drop-shadow(0 2px 6px rgba(198, 125, 10, 0.35));">GANÁ!</span>
       </h1>
-      <p class="text-[11px] font-bold text-neutral-600 tracking-wide mt-0.5">
-        Beneficio exclusivo para canjear hoy en tu compra
+      <p class="text-[10.5px] font-extrabold text-[#9A6208] tracking-widest uppercase mt-0.5">
+        ¡REGALOS Y DESCUENTOS EXCLUSIVOS!
       </p>
     </div>
 
@@ -130,13 +150,13 @@
       <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 z-40 pointer-events-none">
         <div id="ticker-needle" class="ticker-needle">
           <svg width="42" height="50" viewBox="0 0 40 48" fill="none">
-            <path d="M20 46L5 12C3 8 6 3 10 3H30C34 3 37 8 35 12L20 46Z" fill="url(#tickerCoralAmber)" stroke="#FFFFFF" stroke-width="2.5"/>
-            <circle cx="20" cy="14" r="6" fill="#1A1A1A" stroke="#FFFFFF" stroke-width="1.5"/>
+            <path d="M20 46L5 12C3 8 6 3 10 3H30C34 3 37 8 35 12L20 46Z" fill="url(#tickerFuchsiaPink)" stroke="#FFE082" stroke-width="2.5"/>
+            <circle cx="20" cy="14" r="6" fill="#FFFFFF" stroke="#D81B60" stroke-width="1.8"/>
             <defs>
-              <linearGradient id="tickerCoralAmber" x1="5" y1="3" x2="35" y2="46" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#E76F51"/>
-                <stop offset="0.5" stop-color="#F4A261"/>
-                <stop offset="1" stop-color="#E76F51"/>
+              <linearGradient id="tickerFuchsiaPink" x1="5" y1="3" x2="35" y2="46" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FF2E93"/>
+                <stop offset="0.5" stop-color="#E01E5A"/>
+                <stop offset="1" stop-color="#C2185B"/>
               </linearGradient>
             </defs>
           </svg>
@@ -149,8 +169,8 @@
       </div>
 
       <!-- Centro 3D con Isologo Oficial Nazaria Centrado Matemáticamente -->
-      <div class="absolute z-30 rounded-full flex items-center justify-center pointer-events-none shadow-xl" style="width: 52px; height: 52px;">
-        <img src="isologo_nazaria_center.svg" alt="Nazaria" class="w-full h-full object-contain" />
+      <div class="absolute z-30 rounded-full flex items-center justify-center pointer-events-none shadow-2xl border-2 border-[#D48806]" style="width: 54px; height: 54px; background: #FFFFFF;">
+        <img src="isologo_nazaria_center.svg" alt="Nazaria" class="w-full h-full object-contain p-0.5" />
       </div>
     </div>
   </main>
@@ -192,7 +212,7 @@
     <div class="bg-white rounded-[28px] p-5 max-w-[340px] w-full space-y-2.5 shadow-2xl border border-neutral-200 text-center transform scale-95 transition-all relative overflow-hidden">
       
       <!-- Barra superior vibrante con la paleta de la ruleta -->
-      <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#E76F51] via-[#F4A261] via-[#2A9D8F] to-[#457B9D]"></div>
+      <div class="absolute top-0 left-0 right-0 h-2.5 bg-gradient-to-r from-[#FF007F] via-[#FFB703] via-[#00C49F] to-[#7C3AED]"></div>
 
       <!-- Ícono Destacado de Celebración -->
       <div class="flex justify-center pt-1">
@@ -211,7 +231,7 @@
       </div>
 
       <!-- Tarjeta Cupón Troquelado Golden Ticket con borde punteado de valor -->
-      <div class="bg-gradient-to-b from-[#FFFDF9] to-[#FAF5EC] p-3.5 rounded-2xl border-2 border-dashed border-[#F4A261] relative shadow-sm space-y-1">
+      <div class="bg-gradient-to-b from-[#FFFDF9] to-[#FFF6E5] p-3.5 rounded-2xl border-2 border-dashed border-[#FFB703] relative shadow-sm space-y-1">
         <div class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">Tu Beneficio Obtenido:</div>
         <div id="prize-title-txt" class="font-brand text-3xl font-black text-neutral-900 leading-none py-0.5"></div>
         <div id="prize-desc-txt" class="text-[11px] font-bold text-neutral-800 bg-amber-100/80 py-1 px-3 rounded-lg inline-block border border-amber-200/90 leading-tight"></div>
@@ -347,14 +367,14 @@
 
     // 8 Premios Oficiales Calibrados (Ticket Promedio $50K - Cero Fricción de Pisos)
     const PRIZES = [
-      { title: "$15.000", sub: "REGALO", condition: "En cualquier calzado de Temporada Nueva", bg1: "#52B788", bg2: "#2A9D8F", weight: 1 },
-      { title: "20% OFF", sub: "2da UNIDAD", condition: "En el 2do par de menor valor de Temporada Nueva", bg1: "#FAD089", bg2: "#F4A261", weight: 8 },
-      { title: "10% EXTRA", sub: "DIRECTO", condition: "Acumulable con tu medio de pago habitual", bg1: "#F28482", bg2: "#E76F51", weight: 8 },
-      { title: "$10.000", sub: "REGALO", condition: "En cualquier calzado de Temporada Nueva", bg1: "#6BA4B8", bg2: "#457B9D", weight: 3 },
-      { title: "🎰 TIRÁ", sub: "DE NUEVO", condition: "Tirada extra", bg1: "#52B788", bg2: "#2A9D8F", weight: 15, isRespin: true },
-      { title: "10% OFF", sub: "2da UNIDAD", condition: "En el 2do par de menor valor de Temporada Nueva", bg1: "#FAD089", bg2: "#F4A261", weight: 20 },
-      { title: "$5.000", sub: "REGALO", condition: "En cualquier calzado de Temporada Nueva", bg1: "#F28482", bg2: "#E76F51", weight: 15 },
-      { title: "5% EXTRA", sub: "DIRECTO", condition: "Acumulable con tu medio de pago habitual", bg1: "#6BA4B8", bg2: "#457B9D", weight: 30 }
+      { title: "$15.000", sub: "DE REGALO", condition: "En cualquier calzado de Temporada Nueva", bg1: "#00C49F", bg2: "#00897B", weight: 1 },
+      { title: "20% OFF", sub: "2da UNIDAD", condition: "En el 2do par de menor valor de Temporada Nueva", bg1: "#E01E5A", bg2: "#AD1457", weight: 8 },
+      { title: "10% EXTRA", sub: "DIRECTO", condition: "Acumulable con tu medio de pago habitual", bg1: "#7C3AED", bg2: "#4C1D95", weight: 8 },
+      { title: "$10.000", sub: "DE REGALO", condition: "En cualquier calzado de Temporada Nueva", bg1: "#FFB703", bg2: "#D97706", weight: 3 },
+      { title: "🎰 TIRÁ", sub: "DE NUEVO", condition: "¡Tirada extra garantizada!", bg1: "#00B4D8", bg2: "#0077B6", weight: 15, isRespin: true },
+      { title: "10% OFF", sub: "2da UNIDAD", condition: "En el 2do par de menor valor de Temporada Nueva", bg1: "#FF7A00", bg2: "#E65100", weight: 20 },
+      { title: "$5.000", sub: "DE REGALO", condition: "En cualquier calzado de Temporada Nueva", bg1: "#F43F5E", bg2: "#BE123C", weight: 15 },
+      { title: "5% EXTRA", sub: "DIRECTO", condition: "Acumulable con tu medio de pago habitual", bg1: "#2563EB", bg2: "#1E40AF", weight: 30 }
     ];
 
     // ==========================================
@@ -498,19 +518,40 @@
 
         ctx.restore();
 
-        const pinRadius = radius - 13;
-        const pinX = radius + pinRadius * Math.cos(angle);
-        const pinY = radius + pinRadius * Math.sin(angle);
+      }
+
+      // Dibujar 16 Bombillas LED perimetrales (Estilo Marquesina Boutique de Shopping)
+      const numLights = 16;
+      const lightArc = (2 * Math.PI) / numLights;
+      const lightRadius = radius - 11;
+
+      for (let j = 0; j < numLights; j++) {
+        const la = j * lightArc;
+        const lx = radius + lightRadius * Math.cos(la);
+        const ly = radius + lightRadius * Math.sin(la);
 
         ctx.save();
+        // Halo de resplandor cálido
         ctx.beginPath();
-        ctx.arc(pinX, pinY, 5.5, 0, 2 * Math.PI);
-        ctx.fillStyle = '#FFFFFF';
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.35)';
-        ctx.shadowBlur = 4;
+        ctx.arc(lx, ly, 7, 0, 2 * Math.PI);
+        ctx.fillStyle = 'rgba(255, 230, 150, 0.45)';
         ctx.fill();
-        ctx.strokeStyle = '#DEE2E6';
-        ctx.lineWidth = 1.5;
+
+        // Bombilla central dorada / marfil brillante
+        ctx.beginPath();
+        ctx.arc(lx, ly, 4.5, 0, 2 * Math.PI);
+        const bulbGrad = ctx.createRadialGradient(lx - 1, ly - 1, 0.5, lx, ly, 4.5);
+        bulbGrad.addColorStop(0, '#FFFFFF');
+        bulbGrad.addColorStop(0.4, '#FFF8E1');
+        bulbGrad.addColorStop(1, '#FFC107');
+        ctx.fillStyle = bulbGrad;
+        ctx.shadowColor = 'rgba(255, 193, 7, 0.8)';
+        ctx.shadowBlur = 6;
+        ctx.fill();
+
+        // Aro de engaste metálico
+        ctx.strokeStyle = '#B87818';
+        ctx.lineWidth = 1;
         ctx.stroke();
         ctx.restore();
       }

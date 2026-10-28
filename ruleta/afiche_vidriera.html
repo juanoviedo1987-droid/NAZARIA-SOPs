@@ -2,220 +2,86 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Afiche de Vidriera Oficial · Ruleta Nazaria</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Afiche Oficial de Vidriera · Ruleta Nazaria</title>
+  <link rel="icon" type="image/png" href="favicon.png">
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    @page { size: A4 portrait; margin: 0; }
-    * { box-sizing: border-box; }
-    body {
-      font-family: 'Montserrat', sans-serif;
-      background-color: #E2DBD2;
+    @page {
+      size: A4 portrait;
       margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
     }
-    .font-brand { font-family: 'Cinzel', Georgia, serif; }
-    
-    .poster-canvas {
-      width: 794px;
-      height: 1123px;
-      background: radial-gradient(circle at 50% 15%, #FFFFFF 0%, #FAF8F5 45%, #EFE8DF 100%);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      padding: 40px 46px 32px 46px;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+    @media print {
+      body {
+        background: transparent !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .poster-wrapper {
+        box-shadow: none !important;
+        margin: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        max-width: none !important;
+        border-radius: 0 !important;
+      }
+      img.poster-img {
+        width: 100vw !important;
+        height: 100vh !important;
+        object-fit: fill !important;
+      }
     }
-    .border-gold {
-      position: absolute;
-      inset: 16px;
-      border: 1.5px solid #C4A482;
-      border-radius: 20px;
-      pointer-events: none;
-    }
-    .border-gold-inner {
-      position: absolute;
-      inset: 21px;
-      border: 1px solid rgba(196, 164, 130, 0.4);
-      border-radius: 15px;
-      pointer-events: none;
-    }
-    .title-pop {
-      text-shadow: 0 2px 0 #D4C6B6, 0 4px 16px rgba(184, 155, 126, 0.45);
+    body {
+      background: #111111;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
   </style>
 </head>
-<body>
-  <div class="poster-canvas">
-    <div class="border-gold"></div>
-    <div class="border-gold-inner"></div>
+<body class="min-h-screen flex flex-col items-center justify-center p-3 sm:p-6 text-white select-none">
 
-    <!-- CABECERA ELEGANTE Y COMPACTA -->
-    <div class="text-center z-10 w-full space-y-1.5 pt-1 shrink-0">
-      <div class="flex justify-center items-center">
-        <img src="logo_nazaria_pure_transparent.png" alt="Nazaria" class="h-12 w-auto object-contain">
-      </div>
-      
-      <div class="space-y-1">
-        <h1 class="font-brand text-[44px] font-black tracking-wider text-[#1A1A1A] title-pop uppercase leading-none">
-          ¡GIRÁ Y GANÁ!
+  <!-- BARRA SUPERIOR DE ACCIONES (NO SE IMPRIME) -->
+  <header class="no-print w-full max-w-[820px] flex flex-wrap items-center justify-between gap-3 mb-4 bg-neutral-900/90 backdrop-blur-md p-3.5 rounded-2xl border border-neutral-800 shadow-xl">
+    <div class="flex items-center gap-2.5">
+      <span class="text-xl">🪟</span>
+      <div>
+        <h1 class="text-xs sm:text-sm font-black text-white tracking-wide uppercase leading-tight">
+          Afiche Oficial de Vidriera
         </h1>
-        <p class="text-sm font-black text-[#A88665] tracking-[0.22em] uppercase">
-          ¡REGALOS Y DESCUENTOS EXCLUSIVOS!
+        <p class="text-[11px] text-neutral-400 font-medium">
+          Nazaria Zapatos · Tamaño A4 / Vidriera Shopping (TOM &amp; Maschwitz)
         </p>
       </div>
-
-      <div class="pt-0.5 flex items-center justify-center gap-2">
-        <span class="text-[9.5px] uppercase font-bold text-neutral-400 tracking-wider">Válido en:</span>
-        <div class="inline-flex items-center gap-2.5 bg-white px-3 py-1 rounded-full border border-[#D4C6B6] shadow-xs">
-          <div class="flex items-center gap-1.5">
-            <img src="tom_badge.png" alt="TOM" style="height: 16px; width: auto; object-fit: contain;">
-            <span class="text-[10px] font-black text-neutral-800">TOM</span>
-          </div>
-          <span class="text-neutral-300 font-bold">•</span>
-          <div class="flex items-center gap-1.5">
-            <img src="maschwitz_badge.png" alt="Maschwitz" style="height: 16px; width: auto; object-fit: contain;">
-            <span class="text-[10px] font-black text-neutral-800">Maschwitz</span>
-          </div>
-        </div>
-      </div>
     </div>
 
-    <!-- RULETA 3D PROTAGÓNICA MÁS GRANDE (385px) -->
-    <div class="z-10 relative flex items-center justify-center my-auto shrink-0">
-      <!-- Ticker Marcador Superior -->
-      <div class="absolute -top-4 left-1/2 -translate-x-1/2 z-30 drop-shadow-lg">
-        <svg width="46" height="54" viewBox="0 0 40 48" fill="none">
-          <path d="M20 46L5 12C3 8 6 3 10 3H30C34 3 37 8 35 12L20 46Z" fill="#E76F51" stroke="#FFFFFF" stroke-width="2.5"/>
-          <circle cx="20" cy="14" r="6" fill="#1A1A1A" stroke="#FFFFFF" stroke-width="1.5"/>
-        </svg>
-      </div>
-
-      <!-- Aro Laqueado Blanco Glossy -->
-      <div class="p-3 rounded-full bg-gradient-to-tr from-[#DEE2E6] via-[#FFFFFF] to-[#E9ECEF] border-[3.5px] border-white shadow-2xl flex items-center justify-center">
-        <canvas id="wheel-poster" width="600" height="600" class="w-[385px] h-[385px] rounded-full"></canvas>
-      </div>
-
-      <!-- Centro Isologo Oficial Nazaria Centrado -->
-      <div class="absolute z-20 w-16 h-16 rounded-full bg-white shadow-xl flex items-center justify-center border-2 border-neutral-200">
-        <img src="isologo_nazaria_center.svg" alt="Nazaria" class="w-12 h-12 object-contain">
-      </div>
+    <div class="flex items-center gap-2">
+      <a href="index.html" target="_blank"
+        class="px-3 py-2 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs font-bold rounded-xl transition flex items-center gap-1.5 border border-neutral-700">
+        <span>📱 Probar App</span>
+      </a>
+      <a href="afiche_oficial_vidriera.jpg" download="Afiche_Vidriera_Nazaria_HD.jpg"
+        class="px-3 py-2 bg-neutral-800 hover:bg-neutral-700 text-amber-300 text-xs font-bold rounded-xl transition flex items-center gap-1.5 border border-neutral-700">
+        <span>⬇️ Descargar HD</span>
+      </a>
+      <button onclick="window.print()"
+        class="px-4 py-2 bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white text-xs font-black rounded-xl transition shadow-lg flex items-center gap-1.5 active:scale-95">
+        <span>🖨️ IMPRIMIR A4</span>
+      </button>
     </div>
+  </header>
 
-    <!-- RECUADRO LLAMADOR MÁS GRANDE Y PROTAGÓNICO (QR GIGANTE) -->
-    <div class="z-10 w-full max-w-[700px] mx-auto bg-white/95 backdrop-blur-md rounded-[32px] p-5 border-2 border-[#C4A482] shadow-2xl flex items-center justify-between gap-6 shrink-0">
-      
-      <!-- QR Gigante de Alta Definición (200px) -->
-      <div class="bg-white p-2.5 rounded-2xl border-2 border-neutral-200 shadow-sm shrink-0">
-        <img src="qr_nazaria_oficial.png" alt="QR Ruleta Nazaria" class="w-48 h-48 object-contain">
-      </div>
+  <!-- CONTENEDOR DEL AFICHE A4 OFICIAL -->
+  <main class="poster-wrapper relative w-full max-w-[794px] aspect-[1/1.414] bg-neutral-950 rounded-2xl overflow-hidden shadow-[0_20px_70px_rgba(0,0,0,0.8)] border border-neutral-800 flex items-center justify-center">
+    <img src="afiche_oficial_vidriera.jpg" alt="Afiche Oficial de Vidriera Ruleta Nazaria"
+      class="poster-img w-full h-full object-contain select-none">
+  </main>
 
-      <!-- Texto Llamador Claro, Directo y de Gran Legibilidad -->
-      <div class="space-y-2.5 text-left flex-1">
-        <div class="inline-flex items-center gap-1.5 bg-[#1A1A1A] text-amber-200 px-3.5 py-1 rounded-full text-[11px] font-black uppercase tracking-wider">
-          <span>📸 ESCANEÁ CON TU CELULAR</span>
-        </div>
-        
-        <h3 class="font-brand text-[25px] font-black text-neutral-900 leading-tight">
-          APUNTÁ Y DESCUBRÍ TU PREMIO EN EL ACTO
-        </h3>
-        
-        <div class="space-y-1.5 text-xs font-bold text-neutral-700">
-          <p class="flex items-center gap-2">
-            <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center text-[10px] font-black">✓</span>
-            <span>100% de los giros tienen beneficio asegurado</span>
-          </p>
-          <p class="flex items-center gap-2">
-            <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center text-[10px] font-black">✓</span>
-            <span>Sin descargas de apps · Jugás directo en tu navegador</span>
-          </p>
-          <p class="flex items-center gap-2">
-            <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center text-[10px] font-black">✓</span>
-            <span>Mostrás tu pantalla en caja y te descuentan hoy</span>
-          </p>
-        </div>
-      </div>
+  <!-- PIE INFORMATIVO -->
+  <footer class="no-print mt-4 text-center text-xs text-neutral-500">
+    <p>Para imprimir sin bordes en imprenta o papel ilustración A4: presionar <strong>Imprimir A4</strong> y seleccionar escala <em>"Ajustar a la página"</em> o <em>100%</em>.</p>
+  </footer>
 
-    </div>
-
-    <!-- PIE DEL CARTEL -->
-    <div class="text-center z-10 w-full pt-1.5 shrink-0">
-      <p class="text-[10px] text-neutral-500 font-semibold tracking-wide">
-        Nazaria Zapatos · Colección Verano 2027 · Canje exclusivo presencial en este local
-      </p>
-    </div>
-
-  </div>
-
-  <script>
-    const canvas = document.getElementById('wheel-poster');
-    if (canvas) {
-      const ctx = canvas.getContext('2d');
-      const radius = 300;
-      const arc = (2 * Math.PI) / 8;
-      const prizes = [
-        { title: '$15.000', sub: 'REGALO', bg1: '#52B788', bg2: '#2A9D8F' },
-        { title: '20% OFF', sub: '2da UNIDAD', bg1: '#FAD089', bg2: '#F4A261' },
-        { title: '10% EXTRA', sub: 'DIRECTO', bg1: '#F28482', bg2: '#E76F51' },
-        { title: '$10.000', sub: 'REGALO', bg1: '#6BA4B8', bg2: '#457B9D' },
-        { title: '🎰 TIRÁ', sub: 'DE NUEVO', bg1: '#52B788', bg2: '#2A9D8F' },
-        { title: '10% OFF', sub: '2da UNIDAD', bg1: '#FAD089', bg2: '#F4A261' },
-        { title: '$5.000', sub: 'REGALO', bg1: '#F28482', bg2: '#E76F51' },
-        { title: '5% EXTRA', sub: 'DIRECTO', bg1: '#6BA4B8', bg2: '#457B9D' }
-      ];
-      for (let i = 0; i < 8; i++) {
-        const angle = i * arc;
-        const p = prizes[i];
-        const grad = ctx.createRadialGradient(radius, radius, 30, radius, radius, radius);
-        grad.addColorStop(0, p.bg1);
-        grad.addColorStop(1, p.bg2);
-        ctx.fillStyle = grad;
-        ctx.beginPath();
-        ctx.arc(radius, radius, radius, angle, angle + arc);
-        ctx.lineTo(radius, radius);
-        ctx.fill();
-        ctx.strokeStyle = '#FFFFFF';
-        ctx.lineWidth = 3;
-        ctx.stroke();
-
-        ctx.save();
-        ctx.translate(radius, radius);
-        ctx.rotate(angle + arc / 2);
-        const pw = 145, ph = 48, px = 105, py = -ph / 2;
-        ctx.fillStyle = '#FFFFFF';
-        ctx.beginPath();
-        ctx.roundRect(px, py, pw, ph, 24);
-        ctx.fill();
-        ctx.strokeStyle = '#FFFFFF';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        ctx.font = '900 23px Montserrat, sans-serif';
-        ctx.fillStyle = '#111111';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(p.title, px + pw / 2, -4);
-
-        ctx.font = '800 11px Montserrat, sans-serif';
-        ctx.fillStyle = '#666666';
-        ctx.fillText(p.sub, px + pw / 2, 14);
-        ctx.restore();
-
-        ctx.beginPath();
-        ctx.arc(radius + Math.cos(angle) * (radius - 12), radius + Math.sin(angle) * (radius - 12), 5, 0, 2*Math.PI);
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fill();
-      }
-    }
-  </script>
 </body>
 </html>
