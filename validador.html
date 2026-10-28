@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
@@ -19,82 +19,94 @@
     .font-mono {
       font-family: 'JetBrains Mono', monospace;
     }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 1; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .pulse-badge {
+      animation: pulse-ring 2s infinite ease-in-out;
+    }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-between p-3 sm:p-6">
+<body class="min-h-screen flex flex-col items-center justify-between p-3 sm:p-5">
 
-  <!-- ENCABEZADO OFICIAL UNIFICADO (TOM & MASCHWITZ) -->
-  <header class="w-full max-w-lg text-center space-y-2 mb-3">
-    <div class="flex items-center justify-between border-b border-neutral-200 pb-3">
-      <div class="flex items-center gap-2">
-        <span class="text-2xl">🎰</span>
+  <!-- ENCABEZADO OFICIAL UNIFICADO -->
+  <header class="w-full max-w-lg text-center space-y-2 mb-2">
+    <div class="flex items-center justify-between border-b border-neutral-200 pb-2.5">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-neutral-900 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+          ⚡
+        </div>
         <div class="text-left">
-          <h1 class="font-bold text-sm sm:text-base text-neutral-900 leading-tight">Validador de Cupones Nazaria</h1>
-          <p class="text-[11px] text-neutral-500">Base centralizada en tiempo real · TOM &amp; Maschwitz</p>
+          <h1 class="font-black text-sm sm:text-base text-neutral-900 leading-tight">Validador de Cupones en Caja</h1>
+          <p class="text-[11px] text-neutral-500 font-medium">Nazaria Zapatos · TOM &amp; Maschwitz Mall</p>
         </div>
       </div>
-      <a href="index.html#p14" class="text-[11px] font-bold text-neutral-600 hover:text-black underline flex items-center gap-1">
+      <a href="index.html#p14" class="text-[11px] font-bold text-neutral-600 hover:text-black underline flex items-center gap-1 bg-neutral-100 px-2 py-1 rounded-lg">
         <span>📖</span> SOP P-14
       </a>
     </div>
 
     <!-- Indicador de Sincronización en Vivo -->
     <div class="flex items-center justify-between px-1 text-[11px]">
-      <span class="inline-flex items-center gap-1.5 text-emerald-800 font-semibold bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+      <span class="inline-flex items-center gap-1.5 text-emerald-800 font-bold bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200 text-[10px]">
         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-        Sincronización central activa (cada 30s)
+        Nube en vivo (cada 30s)
       </span>
-      <span id="sync-counter" class="text-neutral-400 font-medium">Actualizando...</span>
+      <span id="sync-counter" class="text-neutral-400 font-semibold text-[10.5px]">Actualizando...</span>
     </div>
   </header>
 
   <!-- CONTENEDOR PRINCIPAL DEL VALIDADOR -->
-  <main class="w-full max-w-lg bg-white rounded-2xl border border-neutral-200 p-4 sm:p-6 shadow-sm space-y-4 my-auto">
+  <main class="w-full max-w-lg bg-white rounded-3xl border-2 border-neutral-200 p-4 sm:p-5 shadow-lg space-y-4 my-auto">
     
+    <!-- BUSCADOR SIMPLE Y DESTACADO -->
     <div>
-      <label for="code-input" class="block text-xs font-bold text-neutral-700 uppercase tracking-wider mb-1.5">
-        Ingresar Código del Cupón de la Clienta:
+      <label for="code-input" class="block text-[11px] font-black text-neutral-700 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+        <span>1. Ingresá el código del cupón:</span>
+        <span class="text-neutral-400 font-normal lowercase">(4 dígitos)</span>
       </label>
       <div class="relative flex items-center">
-        <span class="absolute left-3.5 font-mono font-bold text-neutral-400 text-base select-none pointer-events-none">
+        <span class="absolute left-3.5 font-mono font-bold text-neutral-400 text-lg select-none pointer-events-none">
           NTM-
         </span>
-        <input type="text" id="code-input" placeholder="4821" maxlength="9" autofocus autocomplete="off"
-          class="w-full pl-16 pr-24 py-3.5 bg-neutral-50 border-2 border-neutral-300 rounded-xl font-mono text-xl font-black text-neutral-900 tracking-wider focus:bg-white focus:outline-none focus:border-black transition shadow-inner"
+        <input type="text" id="code-input" placeholder="4821" maxlength="9" autofocus autocomplete="off" inputmode="numeric"
+          class="w-full pl-20 pr-28 py-3.5 bg-neutral-50 border-2 border-neutral-300 rounded-2xl font-mono text-2xl font-black text-neutral-900 tracking-wider focus:bg-white focus:outline-none focus:border-neutral-900 transition shadow-inner"
           onkeydown="if(event.key==='Enter') searchCoupon()">
-        <button onclick="searchCoupon()" class="absolute right-2 px-3.5 py-2 bg-neutral-900 hover:bg-black text-white text-xs font-black rounded-lg transition shadow-xs">
-          Buscar ➔
+        <button onclick="searchCoupon()" class="absolute right-1.5 px-3.5 py-2.5 bg-neutral-900 hover:bg-black active:scale-95 text-white text-xs font-black rounded-xl transition shadow-sm flex items-center gap-1">
+          <span>CONSULTAR</span>
         </button>
       </div>
-      <p class="text-[11px] text-neutral-500 mt-1.5">
-        💡 Tipeá solo los 4 números (ej: <strong class="text-neutral-800">4821</strong>) y presioná <strong>Enter</strong>.
+      <p class="text-[11px] text-neutral-500 mt-1.5 font-medium">
+        💡 Escribí solo los 4 números (ej: <strong class="text-neutral-900">4821</strong>) y tocá <strong>Consultar</strong> o <strong>Enter</strong>.
       </p>
     </div>
 
     <!-- SPINNER DE CARGA -->
-    <div id="loader" class="hidden text-center py-6 space-y-2">
-      <div class="w-6 h-6 border-2 border-black border-t-transparent rounded-full animate-spin mx-auto"></div>
-      <p class="text-xs text-neutral-500 font-semibold">Consultando base central...</p>
+    <div id="loader" class="hidden text-center py-8 space-y-2">
+      <div class="w-8 h-8 border-3 border-neutral-900 border-t-transparent rounded-full animate-spin mx-auto"></div>
+      <p class="text-xs text-neutral-700 font-bold">Verificando en la base central...</p>
     </div>
 
-    <!-- TARJETA: RESULTADO DE LA BÚSQUEDA -->
+    <!-- TARJETA: RESULTADO DE LA BÚSQUEDA (SEMÁFORO VISUAL) -->
     <div id="result-card" class="hidden"></div>
 
   </main>
 
   <!-- HISTORIAL GENERAL DEL DÍA (TOM & MASCHWITZ) -->
-  <footer class="w-full max-w-lg mt-4 space-y-2">
-    <div class="flex items-center justify-between text-xs font-bold text-neutral-700">
+  <footer class="w-full max-w-lg mt-3 space-y-2">
+    <div class="flex items-center justify-between text-xs font-black text-neutral-700 px-1">
       <span class="flex items-center gap-1.5">
-        <span>📋</span> Cupones Canjeados Hoy (TOM &amp; Maschwitz)
-        <span id="redeemed-badge-count" class="bg-neutral-200 text-neutral-800 font-mono text-[10px] px-1.5 py-0.2 rounded-full font-bold">0</span>
+        <span>📋</span> Cupones Canjeados Hoy
+        <span id="redeemed-badge-count" class="bg-neutral-900 text-white font-mono text-[10px] px-2 py-0.2 rounded-full font-bold">0</span>
       </span>
-      <button onclick="loadRedeemedToday()" class="text-[11px] text-neutral-500 hover:text-black underline flex items-center gap-1">
-        <span>🔄</span> Actualizar ahora
+      <button onclick="loadRedeemedToday()" class="text-[11px] text-neutral-500 hover:text-black font-bold underline flex items-center gap-1">
+        <span>🔄</span> Actualizar
       </button>
     </div>
     
-    <div id="recent-list-container" class="bg-white rounded-xl border border-neutral-200 p-2.5 max-h-48 overflow-y-auto text-xs divide-y divide-neutral-100">
+    <div id="recent-list-container" class="bg-white rounded-2xl border border-neutral-200 p-2.5 max-h-44 overflow-y-auto text-xs divide-y divide-neutral-100 shadow-sm">
       <p class="text-[11px] text-neutral-400 text-center py-2">Cargando registros del día...</p>
     </div>
   </footer>
@@ -119,7 +131,7 @@
     function normalizeCode(raw) {
       let code = (raw || "").trim().toUpperCase();
       if (!code) return "";
-      if (/^\\d{4}$/.test(code)) {
+      if (/^\d{4}$/.test(code)) {
         code = "NTM-" + code;
       }
       return code;
@@ -143,7 +155,7 @@
       resultCard.innerHTML = "";
 
       try {
-        const res = await fetch(\`\${SUPABASE_URL}/rest/v1/fechas_especiales?evento=eq.CUPON_RULETA&manana=eq.\${encodeURIComponent(code)}&select=*\`, {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/fechas_especiales?evento=eq.CUPON_RULETA&manana=eq.${encodeURIComponent(code)}&select=*`, {
           headers: {
             'apikey': SUPABASE_KEY,
             'Authorization': 'Bearer ' + SUPABASE_KEY
@@ -166,32 +178,39 @@
       } catch (err) {
         loader.classList.add('hidden');
         resultCard.classList.remove('hidden');
-        resultCard.innerHTML = \`
-          <div class="p-3 bg-red-50 text-red-800 rounded-xl border border-red-200 text-xs">
-            Error de conexión con la base central. Reintentar.
+        resultCard.innerHTML = `
+          <div class="p-4 bg-red-50 text-red-900 rounded-2xl border-2 border-red-200 text-center font-bold text-xs space-y-2">
+            <div>⚠️ Error de conexión con la nube.</div>
+            <button onclick="searchCoupon()" class="px-3 py-1 bg-red-800 text-white rounded-lg text-[11px]">Reintentar</button>
           </div>
-        \`;
+        `;
       }
     }
 
     function renderNotFound(code) {
       const resultCard = document.getElementById('result-card');
-      resultCard.innerHTML = \`
-        <div class="p-4 bg-amber-50 border-2 border-amber-300 rounded-xl text-center space-y-2">
-          <div class="w-10 h-10 mx-auto rounded-full bg-amber-100 text-amber-900 flex items-center justify-center text-xl font-bold">
+      resultCard.innerHTML = `
+        <div class="p-5 bg-neutral-100 border-2 border-neutral-300 rounded-2xl text-center space-y-3">
+          <div class="w-14 h-14 mx-auto rounded-full bg-neutral-200 text-neutral-600 flex items-center justify-center text-3xl font-black">
             ❓
           </div>
-          <div class="font-black text-sm text-neutral-900 uppercase">
-            CÓDIGO NO REGISTRADO (\${code})
+          <div>
+            <span class="bg-neutral-800 text-white font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+              NO REGISTRADO
+            </span>
+            <h2 class="text-xl font-black text-neutral-900 font-mono mt-1">
+              ${code}
+            </h2>
           </div>
           <p class="text-xs text-neutral-600 leading-snug">
-            Este código no figura en la base oficial. Verificá que la clienta no lo haya anotado con error o si corresponde a otra acción.
+            Este código <strong>no existe</strong> en la ruleta oficial.<br>
+            Pedile a la clienta que te muestre la pantalla de su celular para verificar el número.
           </p>
-          <button onclick="resetSearch()" class="mt-2 text-xs font-bold text-neutral-800 underline">
+          <button onclick="resetSearch()" class="mt-1 py-2 px-4 bg-neutral-900 hover:bg-black text-white text-xs font-bold rounded-xl transition">
             Probar otro código ➔
           </button>
         </div>
-      \`;
+      `;
     }
 
     function renderCouponState(record) {
@@ -204,132 +223,205 @@
       const expiresAt = details.couponExpiresAt || (new Date(record.creado_en).getTime() + 2 * 3600 * 1000);
       const isExpired = (!isRedeemed && expiresAt < now);
 
-      // CASO 1: YA CANJEADO (RECHAZO ROTUNDO)
+      // CASO 1: YA CANJEADO (SEMÁFORO ROJO GIGANTE - RECHAZO TOTAL)
       if (isRedeemed) {
         const redeemedDate = details.redeemedAt ? new Date(details.redeemedAt) : new Date(record.creado_en);
         const timeStr = redeemedDate.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
         const dateStr = redeemedDate.toLocaleDateString('es-AR');
+        const branchName = (record.sucursal_codigo === 'MASCHWITZ') ? 'Maschwitz Mall' : 'TOM Shopping';
 
-        resultCard.innerHTML = \`
-          <div class="p-4 bg-red-50 border-2 border-red-400 rounded-xl space-y-3 text-center">
-            <div class="w-12 h-12 mx-auto rounded-full bg-red-100 text-red-700 flex items-center justify-center text-2xl font-black">
+        resultCard.innerHTML = `
+          <div class="p-5 bg-red-50 border-3 border-red-500 rounded-2xl space-y-3.5 text-center shadow-md">
+            <!-- Icono gigante de stop -->
+            <div class="w-16 h-16 mx-auto rounded-full bg-red-600 text-white flex items-center justify-center text-3xl font-black shadow-lg">
               ✕
             </div>
+            
             <div>
-              <span class="bg-red-600 text-white font-black text-[11px] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-                CUPÓN YA UTILIZADO
+              <span class="bg-red-600 text-white font-black text-[11px] px-3 py-1 rounded-full uppercase tracking-widest">
+                ⛔ RECHAZAR: YA FUE CANJEADO
               </span>
-              <h2 class="text-lg font-black text-red-950 mt-1 font-mono">
-                \${record.manana}
+              <h2 class="text-2xl font-black text-red-950 mt-1 font-mono tracking-wider">
+                ${record.manana}
               </h2>
             </div>
-            <div class="p-3 bg-white rounded-lg border border-red-200 text-xs space-y-1 text-neutral-800 text-left">
-              <div>• <strong>Canjeado en:</strong> Sucursal <span class="font-bold text-neutral-900 bg-neutral-100 px-1.5 py-0.2 rounded">\${record.sucursal_codigo || 'TOM'}</span></div>
-              <div>• <strong>Fecha y Hora:</strong> \${dateStr} a las \${timeStr} hs</div>
-              <div>• <strong>Clienta:</strong> \${details.name || 'Sin nombre'}</div>
-              <div>• <strong>Premio:</strong> \${details.prizeTitle || ''} \${details.prizeSub || ''}</div>
+
+            <!-- Ficha clara de auditoría -->
+            <div class="p-3 bg-white rounded-xl border-2 border-red-200 text-xs text-left space-y-1.5 shadow-inner">
+              <div class="flex items-center justify-between border-b border-red-100 pb-1">
+                <span class="text-neutral-500 font-semibold">Local de canje:</span>
+                <span class="font-black text-red-700 bg-red-100 px-2 py-0.5 rounded">${branchName}</span>
+              </div>
+              <div class="flex items-center justify-between border-b border-red-100 pb-1">
+                <span class="text-neutral-500 font-semibold">Hora de quemado:</span>
+                <span class="font-bold text-neutral-900">${dateStr} · ${timeStr} hs</span>
+              </div>
+              <div class="flex items-center justify-between border-b border-red-100 pb-1">
+                <span class="text-neutral-500 font-semibold">Clienta:</span>
+                <span class="font-bold text-neutral-900">${details.name || 'Sin nombre'}</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-neutral-500 font-semibold">Premio original:</span>
+                <span class="font-bold text-neutral-900">${details.prizeTitle || ''} ${details.prizeSub || ''}</span>
+              </div>
             </div>
-            <div class="p-2.5 bg-red-600 text-white rounded-lg text-xs font-black uppercase tracking-wider">
-              ⛔ RECHAZAR: NO APLICAR DESCUENTO
+
+            <div class="p-3 bg-red-600 text-white rounded-xl text-xs font-black uppercase tracking-wider shadow-sm">
+              🚫 NO APLICAR DESCUENTO (CUPÓN DUPLICADO)
             </div>
-            <button onclick="resetSearch()" class="text-xs font-bold text-neutral-700 underline pt-1">
-              Verificar otro código ➔
+
+            <button onclick="resetSearch()" class="text-xs font-bold text-neutral-700 hover:text-black underline pt-1 block mx-auto">
+              Verificar otro cupón ➔
             </button>
           </div>
-        \`;
+        `;
         return;
       }
 
-      // CASO 2: VENCIDO (> 2 HORAS)
+      // CASO 2: VENCIDO (> 2 HORAS) (SEMÁFORO AMARILLO)
       if (isExpired) {
         const expDate = new Date(expiresAt).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
-        resultCard.innerHTML = \`
-          <div class="p-4 bg-amber-50 border-2 border-amber-300 rounded-xl space-y-2 text-center">
-            <div class="text-2xl">⏱️</div>
-            <span class="bg-amber-200 text-amber-900 font-black text-[11px] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-              CUPÓN VENCIDO
-            </span>
-            <div class="font-mono text-base font-black text-neutral-900">
-              \${record.manana}
+        resultCard.innerHTML = `
+          <div class="p-5 bg-amber-50 border-3 border-amber-400 rounded-2xl space-y-3 text-center shadow-md">
+            <div class="w-16 h-16 mx-auto rounded-full bg-amber-400 text-amber-950 flex items-center justify-center text-3xl font-black shadow-sm">
+              ⏱️
             </div>
-            <p class="text-xs text-neutral-600">
-              El plazo de 2 horas expiró hoy a las <strong>\${expDate} hs</strong>. El beneficio ya no tiene validez para canje.
-            </p>
-            <button onclick="resetSearch()" class="text-xs font-bold text-neutral-800 underline pt-1">
+            
+            <div>
+              <span class="bg-amber-400 text-amber-950 font-black text-[11px] px-3 py-1 rounded-full uppercase tracking-wider">
+                ⚠️ CUPÓN VENCIDO (> 2 HORAS)
+              </span>
+              <h2 class="text-2xl font-black text-amber-950 mt-1 font-mono">
+                ${record.manana}
+              </h2>
+            </div>
+
+            <div class="p-3 bg-white rounded-xl border border-amber-200 text-xs text-neutral-700 leading-snug">
+              Expiró hoy a las <strong>${expDate} hs</strong>.<br>
+              El plazo de validez de 2 horas desde el giro ha finalizado.
+            </div>
+
+            <div class="p-2.5 bg-amber-200 text-amber-950 rounded-xl text-xs font-black uppercase tracking-wide">
+              NO VÁLIDO PARA CANJE
+            </div>
+
+            <button onclick="resetSearch()" class="text-xs font-bold text-neutral-700 underline pt-1 block mx-auto">
               Verificar otro código ➔
             </button>
           </div>
-        \`;
+        `;
         return;
       }
 
-      // CASO 3: VÁLIDO & ACTIVO (OPCIÓN DE CANJE INMEDIATO)
+      // CASO 3: VÁLIDO & ACTIVO (SEMÁFORO VERDE GIGANTE - FOOLPROOF)
       const diffMs = expiresAt - now;
-      const minLeft = Math.floor(diffMs / (60 * 1000));
+      const minLeft = Math.max(1, Math.floor(diffMs / (60 * 1000)));
 
-      resultCard.innerHTML = \`
-        <div class="p-4 bg-emerald-50 border-2 border-emerald-400 rounded-xl space-y-3">
+      // Determinar estilo visual según el tipo de premio
+      let prizeBg = "from-emerald-500 to-teal-700";
+      let icon = "🎁";
+      let duxHint = "Cargar como Bonificación en Dux ERP";
+      const prizeTitle = (details.prizeTitle || "").toUpperCase();
+
+      if (prizeTitle.includes("$15.000") || prizeTitle.includes("$10.000") || prizeTitle.includes("$5.000")) {
+        prizeBg = "from-emerald-600 to-green-700";
+        icon = "💵";
+        duxHint = `Descontar ${details.prizeTitle} en Dux como Bonificación Especial`;
+      } else if (prizeTitle.includes("%")) {
+        prizeBg = "from-purple-600 to-indigo-700";
+        icon = "🏷️";
+        duxHint = `Aplicar ${details.prizeTitle} en la 2da unidad de menor valor`;
+      } else if (prizeTitle.includes("EXTRA")) {
+        prizeBg = "from-blue-600 to-sky-700";
+        icon = "⚡";
+        duxHint = `Sumar ${details.prizeTitle} acumulable con Efectivo o Débito`;
+      }
+
+      resultCard.innerHTML = `
+        <div class="p-5 bg-emerald-50 border-3 border-emerald-500 rounded-3xl space-y-4 shadow-xl">
+          
+          <!-- Encabezado de Éxito -->
           <div class="flex items-center justify-between">
-            <span class="bg-emerald-600 text-white font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-              ✓ CUPÓN VÁLIDO & ACTIVO
+            <span class="inline-flex items-center gap-1.5 bg-emerald-600 text-white font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider shadow-sm pulse-badge">
+              <span class="text-sm">✓</span> CUPÓN VÁLIDO
             </span>
-            <span class="text-xs font-bold text-emerald-800">
-              ⏱️ Vence en \${minLeft} min
+            <span class="text-xs font-bold text-emerald-900 bg-emerald-200/70 px-2.5 py-1 rounded-full flex items-center gap-1">
+              <span>⏱️</span> Quedan ${minLeft} min
             </span>
           </div>
 
-          <!-- Detalle del Beneficio -->
-          <div class="bg-white p-3.5 rounded-xl border border-emerald-200 shadow-xs space-y-1">
-            <div class="text-[10px] font-bold text-neutral-400 uppercase tracking-widest font-mono">
-              CÓDIGO: \${record.manana}
+          <!-- TARJETA PROTAGÓNICA DEL BENEFICIO (GIGANTE Y MUY VISUAL) -->
+          <div class="bg-gradient-to-r ${prizeBg} text-white p-4 rounded-2xl shadow-lg space-y-2 text-center">
+            <div class="text-xs font-mono font-bold tracking-widest opacity-80 uppercase">
+              CÓDIGO: ${record.manana}
             </div>
-            <div class="text-2xl font-black text-neutral-900 leading-tight">
-              \${details.prizeTitle || ''} \${details.prizeSub || ''}
+            
+            <div class="text-3xl sm:text-4xl font-black tracking-tight drop-shadow-sm flex items-center justify-center gap-2">
+              <span>${icon}</span>
+              <span>${details.prizeTitle || ''}</span>
             </div>
-            <div class="text-xs font-semibold text-neutral-700 bg-emerald-50/70 p-1.5 rounded-md border border-emerald-200/60">
-              \${details.condition || 'Temporada Nueva'}
+
+            <div class="text-sm font-bold tracking-wide uppercase bg-black/20 py-1 px-3 rounded-lg inline-block">
+              ${details.prizeSub || ''}
             </div>
-            <div class="text-[11px] text-neutral-500 pt-0.5">
-              Clienta: <strong class="text-neutral-800">\${details.name || 'Sin nombre'}</strong>
+
+            <div class="text-xs font-medium text-white/90 bg-white/10 p-2 rounded-xl mt-1 border border-white/20">
+              📌 <strong>Condición:</strong> ${details.condition || 'Válido para calzado temporada nueva'}
             </div>
           </div>
 
-          <!-- Botones de Canje Rápido por Sucursal -->
-          <div class="space-y-1.5 pt-1">
-            <div class="text-[11px] font-bold text-neutral-700 uppercase tracking-wider text-center">
-              Seleccionar local para quemar el cupón:
+          <!-- DATOS DE LA CLIENTA -->
+          <div class="flex items-center justify-between bg-white px-3.5 py-2.5 rounded-xl border border-emerald-200 text-xs">
+            <span class="text-neutral-500 font-semibold">Clienta en caja:</span>
+            <span class="font-black text-neutral-900 text-sm">${details.name || 'Clienta'}</span>
+          </div>
+
+          <!-- INSTRUCCIÓN DE ACCIÓN PARA LA CAJERA -->
+          <div class="p-2.5 bg-neutral-900 text-neutral-100 rounded-xl text-xs space-y-1">
+            <div class="font-bold text-amber-300 flex items-center gap-1">
+              <span>💻</span> INSTRUCCIÓN DUX ERP:
             </div>
-            <div class="grid grid-cols-2 gap-2">
-              <button onclick="redeemCouponNow('\${record.id}', 'TOM')"
-                class="py-3 px-2 bg-neutral-900 hover:bg-black active:scale-98 text-white font-black text-xs rounded-xl transition shadow-md flex items-center justify-center gap-1.5">
-                <span>🛍️</span>
-                <span>CANJEAR EN TOM</span>
+            <div class="text-[11.5px] font-medium leading-tight">
+              ${duxHint}. Colocar <strong>${record.manana}</strong> en las notas de la venta.
+            </div>
+          </div>
+
+          <!-- BOTONES DE QUEMADO INMEDIATO (UN TOQUE) -->
+          <div class="space-y-2 pt-1">
+            <div class="text-[11px] font-black text-neutral-700 uppercase tracking-wider text-center">
+              👉 Tocá tu local para QUEMAR el cupón ahora:
+            </div>
+            <div class="grid grid-cols-2 gap-2.5">
+              <button onclick="redeemCouponNow('${record.id}', 'TOM')"
+                class="py-3.5 px-3 bg-neutral-900 hover:bg-black active:scale-95 text-white font-black text-xs rounded-2xl transition shadow-lg flex flex-col items-center justify-center gap-1 border-2 border-neutral-700">
+                <span class="text-lg">🛍️</span>
+                <span>QUEMAR EN TOM</span>
               </button>
-              <button onclick="redeemCouponNow('\${record.id}', 'MASCHWITZ')"
-                class="py-3 px-2 bg-neutral-900 hover:bg-black active:scale-98 text-white font-black text-xs rounded-xl transition shadow-md flex items-center justify-center gap-1.5">
-                <span>🛍️</span>
-                <span>CANJEAR EN MASCHWITZ</span>
+              <button onclick="redeemCouponNow('${record.id}', 'MASCHWITZ')"
+                class="py-3.5 px-3 bg-neutral-900 hover:bg-black active:scale-95 text-white font-black text-xs rounded-2xl transition shadow-lg flex flex-col items-center justify-center gap-1 border-2 border-neutral-700">
+                <span class="text-lg">🛍️</span>
+                <span>QUEMAR EN MASCHWITZ</span>
               </button>
             </div>
           </div>
 
-          <p class="text-[10.5px] text-neutral-500 text-center">
-            Al tocar el local, el cupón se quema en tiempo real en la nube compartida.
+          <p class="text-[10px] text-neutral-500 text-center font-medium">
+            Al tocar el botón, se bloquea al instante para que no pueda usarse nunca más.
           </p>
         </div>
-      \`;
+      `;
     }
 
     async function redeemCouponNow(recordId, branch) {
       if (!currentCouponRecord) return;
 
       const resultCard = document.getElementById('result-card');
-      resultCard.innerHTML = \`
-        <div class="p-6 bg-white border border-neutral-200 rounded-xl text-center space-y-2">
-          <div class="w-6 h-6 border-2 border-black border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p class="text-xs font-bold text-neutral-700">Quemando cupón en el sistema central...</p>
+      resultCard.innerHTML = `
+        <div class="p-8 bg-white border-2 border-neutral-200 rounded-3xl text-center space-y-3 shadow-md">
+          <div class="w-8 h-8 border-3 border-neutral-900 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p class="text-sm font-bold text-neutral-800">Quemando cupón en tiempo real...</p>
         </div>
-      \`;
+      `;
 
       let details = {};
       try { details = JSON.parse(currentCouponRecord.observacion || "{}"); } catch(e) {}
@@ -337,7 +429,7 @@
       details.redeemedBranch = branch;
 
       try {
-        await fetch(\`\${SUPABASE_URL}/rest/v1/fechas_especiales?id=eq.\${recordId}\`, {
+        await fetch(`${SUPABASE_URL}/rest/v1/fechas_especiales?id=eq.${recordId}`, {
           method: 'PATCH',
           headers: {
             'apikey': SUPABASE_KEY,
@@ -352,30 +444,36 @@
           })
         });
 
-        // Actualizar UI con éxito
-        resultCard.innerHTML = \`
-          <div class="p-4 bg-neutral-900 text-white rounded-xl text-center space-y-2.5 border border-neutral-700 shadow-md">
-            <div class="text-3xl">🎉</div>
-            <h2 class="text-sm font-black text-emerald-400 uppercase tracking-wider">
-              ¡CUPÓN QUEMADO EXITOSAMENTE!
-            </h2>
-            <div class="font-mono text-base font-bold text-amber-200">
-              \${currentCouponRecord.manana} · Sucursal \${branch}
+        // PANTALLA DE ÉXITO VISUAL PARA LA CAJERA
+        resultCard.innerHTML = `
+          <div class="p-6 bg-neutral-900 text-white rounded-3xl text-center space-y-3.5 border-2 border-emerald-500 shadow-2xl">
+            <div class="w-16 h-16 mx-auto rounded-full bg-emerald-500 text-neutral-950 flex items-center justify-center text-3xl font-black shadow-lg">
+              ✓
             </div>
-            <p class="text-xs text-neutral-300 leading-snug">
-              Ya quedó registrado como <strong>CANJEADO</strong>.<br>
-              Cargar la bonificación correspondiente en <strong>Dux ERP</strong> asentando \`\${currentCouponRecord.manana}\` en observaciones.
-            </p>
-            <button onclick="resetSearch()" class="mt-2 py-2 px-5 bg-white text-neutral-900 font-black text-xs rounded-lg hover:bg-neutral-100 transition shadow-sm">
+            <div>
+              <span class="bg-emerald-500 text-neutral-950 font-black text-[11px] px-3 py-1 rounded-full uppercase tracking-wider">
+                ¡CUPÓN QUEMADO EXITOSAMENTE!
+              </span>
+              <h2 class="text-2xl font-black text-amber-300 font-mono mt-1">
+                ${currentCouponRecord.manana}
+              </h2>
+            </div>
+            
+            <div class="p-3 bg-neutral-800/80 rounded-xl border border-neutral-700 text-xs text-neutral-300 leading-snug">
+              Registrado como <strong>CANJEADO</strong> en <strong>${branch === 'MASCHWITZ' ? 'Maschwitz Mall' : 'TOM Shopping'}</strong>.<br>
+              ¡Ya no podrá ser reutilizado en ningún local!
+            </div>
+
+            <button onclick="resetSearch()" class="w-full py-3.5 px-4 bg-white hover:bg-neutral-100 active:scale-95 text-neutral-900 font-black text-xs rounded-xl transition shadow-lg">
               Validar Siguiente Cupón ➔
             </button>
           </div>
-        \`;
+        `;
 
         loadRedeemedToday();
 
       } catch (err) {
-        alert("Error al actualizar estado en la nube. Reintentar.");
+        alert("Error de conexión al quemar cupón. Reintentar.");
         searchCoupon();
       }
     }
@@ -393,7 +491,7 @@
       const syncCounter = document.getElementById('sync-counter');
 
       try {
-        const res = await fetch(\`\${SUPABASE_URL}/rest/v1/fechas_especiales?evento=eq.CUPON_RULETA&tarde=eq.CANJEADO&order=creado_en.desc&limit=15\`, {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/fechas_especiales?evento=eq.CUPON_RULETA&tarde=eq.CANJEADO&order=creado_en.desc&limit=20`, {
           headers: {
             'apikey': SUPABASE_KEY,
             'Authorization': 'Bearer ' + SUPABASE_KEY
@@ -402,11 +500,11 @@
 
         const list = await res.json();
         const now = new Date();
-        syncCounter.innerText = \`Sincronizado \${now.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })} hs\`;
+        syncCounter.innerText = `Sincronizado ${now.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })} hs`;
 
         if (!list || list.length === 0) {
           countBadge.innerText = "0";
-          listContainer.innerHTML = \`<p class="text-[11px] text-neutral-400 text-center py-2">No hay cupones canjeados hoy en ninguna sucursal.</p>\`;
+          listContainer.innerHTML = `<p class="text-[11px] text-neutral-400 text-center py-2 font-medium">No hay cupones canjeados hoy en ninguna sucursal.</p>`;
           return;
         }
 
@@ -417,25 +515,25 @@
           try { det = JSON.parse(item.observacion || "{}"); } catch(e) {}
           const time = det.redeemedAt ? new Date(det.redeemedAt).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }) : '--:--';
           const branchBadge = item.sucursal_codigo === 'MASCHWITZ' 
-            ? '<span class="bg-amber-100 text-amber-900 font-bold px-1.5 py-0.5 rounded text-[10px]">Maschwitz</span>'
-            : '<span class="bg-blue-100 text-blue-900 font-bold px-1.5 py-0.5 rounded text-[10px]">TOM</span>';
+            ? '<span class="bg-amber-100 text-amber-900 font-black px-1.5 py-0.5 rounded text-[10px]">MASCHWITZ</span>'
+            : '<span class="bg-blue-100 text-blue-900 font-black px-1.5 py-0.5 rounded text-[10px]">TOM</span>';
 
-          return \`
-            <div class="py-2 flex items-center justify-between gap-2">
+          return `
+            <div class="py-2.5 flex items-center justify-between gap-2">
               <div class="flex items-center gap-1.5 flex-wrap">
-                \${branchBadge}
-                <span class="font-mono font-bold text-neutral-900">\${item.manana}</span>
-                <span class="text-neutral-500 text-[11px]">\${det.prizeTitle || ''} \${det.prizeSub || ''}</span>
+                ${branchBadge}
+                <span class="font-mono font-bold text-neutral-900 text-xs">${item.manana}</span>
+                <span class="text-neutral-600 text-[11px] font-medium">${det.prizeTitle || ''} ${det.prizeSub || ''}</span>
               </div>
-              <div class="text-[11px] font-semibold text-neutral-400 shrink-0">
-                \${time} hs
+              <div class="text-[11px] font-bold text-neutral-400 shrink-0">
+                ${time} hs
               </div>
             </div>
-          \`;
+          `;
         }).join('');
 
       } catch (e) {
-        listContainer.innerHTML = \`<p class="text-[11px] text-red-500 text-center py-2">Error al sincronizar historial.</p>\`;
+        listContainer.innerHTML = `<p class="text-[11px] text-red-500 text-center py-2 font-medium">Error al sincronizar historial.</p>`;
       }
     }
   </script>

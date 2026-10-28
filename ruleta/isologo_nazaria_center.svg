@@ -1,21 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
   <defs>
-    <radialGradient id="domeBg" cx="35%" cy="30%" r="65%">
-      <stop offset="0%" stop-color="#FFFFFF" />
-      <stop offset="60%" stop-color="#FAF8F5" />
-      <stop offset="100%" stop-color="#E5DDD3" />
-    </radialGradient>
-    <filter id="subtleGlow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.15"/>
+    <filter id="subtleShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.10"/>
     </filter>
+    <clipPath id="horizontalFeetCut">
+      <!-- Clip the bottom so feet are cut cleanly horizontal at y=172 -->
+      <rect x="0" y="0" width="200" height="172" />
+    </clipPath>
   </defs>
-  <!-- Fondo circular blanco con bisel sutil -->
-  <circle cx="100" cy="100" r="95" fill="url(#domeBg)" stroke="#FFFFFF" stroke-width="6" filter="url(#subtleGlow)"/>
-  <circle cx="100" cy="100" r="92" fill="none" stroke="#D8C8B8" stroke-width="2"/>
+  <!-- Base circular blanca pura impecable -->
+  <circle cx="100" cy="100" r="95" fill="#FFFFFF" stroke="#EAEAEA" stroke-width="2.5" filter="url(#subtleShadow)"/>
   
-  <!-- Isologo Nazaria centrado milimétricamente (Runa Othala) -->
-  <g fill="none" stroke="#1A1A1A" stroke-width="11" stroke-linecap="round" stroke-linejoin="miter">
-    <!-- Trazado continuo simétrico -->
-    <path d="M 68 146 L 100 114 L 132 82 L 100 50 L 68 82 L 100 114 L 132 146" />
+  <!-- Isologo Oficial Nazaria: Runa estilizada con vértice superior continuo en punta y corte horizontal en la base -->
+  <g clip-path="url(#horizontalFeetCut)">
+    <path d="M 143 182 L 100 137 L 44 81 L 100 25 L 156 81 L 100 137 L 57 182"
+          fill="none" 
+          stroke="#111111" 
+          stroke-width="15.5" 
+          stroke-linecap="butt" 
+          stroke-linejoin="miter" 
+          stroke-miterlimit="10" />
   </g>
 </svg>
