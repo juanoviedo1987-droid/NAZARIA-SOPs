@@ -2,3 +2,4 @@ node_modules/
 dux_*.json
 campana_salida/
 .env
+.vercel
