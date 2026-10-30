@@ -1,10 +1,10 @@
 <h1 class="sop-title-1">P-02 · Operación de Caja y Medios de Pago</h1>
-<p class="sop-text"><strong>Objetivo:</strong> Estandarizar el cobro en mostrador para garantizar la acreditación real de fondos, capturar datos de fidelización y ejecutar cierres de caja ciegos sin desvíos financieros.</p>
+<p class="sop-text"><strong>Objetivo:</strong> Estandarizar el cobro en mostrador bajo precios blindados en Dux ERP, garantizar la correcta selección de listas según medio de pago, aplicar cupones o redondeos en pesos siempre a favor de la clienta y ejecutar cierres de caja ciegos sin desvíos.</p>
 <hr class="sop-divider">
 
 <h2 class="sop-title-2">FASE 1: APERTURA Y MEDIOS DE PAGO</h2>
 <ul class="sop-list">
-  <li class="sop-list-item">🖥️ <strong>Dux como Autoridad de Precios:</strong> El sistema es la única fuente oficial de precios. Si existe discrepancia, se cobra lo que dicta Dux y se reporta el desvío luego de la venta (a excepción de los calzados de liquidación de batea autorizados según la matriz de P-12).</li>
+  <li class="sop-list-item">🖥️ <strong>Precios en Sistema Blindados (Dux Autoridad Única):</strong> El sistema Dux es la única autoridad oficial de precios. El personal de sucursal tiene bloqueada la modificación manual de precios unitarios. Queda terminantemente prohibido alterar o intentar editar importes en las líneas de venta. Si surge una discrepancia física vs. sistema, se factura lo que dicta Dux y se reporta a supervisión con posterioridad a la venta.</li>
   <li class="sop-list-item">📱 <strong>Planilla Comercial Activa:</strong> Consultar la planilla vigente de promociones (P-11) para validar bancos, días y cuotas habilitadas en la sucursal.</li>
   <li class="sop-list-item">💵 <strong>Fondo de Caja Inicial:</strong> Contar físicamente los billetes y asentar el fondo exacto al abrir la jornada.</li>
 </ul>
@@ -13,7 +13,38 @@
 <h2 class="sop-title-2">FASE 2: PROTOCOLO DE COBRO Y TRAZABILIDAD</h2>
 <ul class="sop-list">
   <li class="sop-list-item">👤 <strong>Identificación de Clienta:</strong> Buscar por DNI/CUIT antes de cargar artículos. Si no existe, crear ficha completando DNI, Email (crítico para fidelización) y Teléfono. Prohibido duplicar cuentas (ver P-03).</li>
-  <li class="sop-list-item">🏷️ <strong>Descuentos Homologados:</strong> Trabajar sobre el Precio de Lista de Dux e imputar únicamente los descuentos autorizados según la planilla activa (P-11: Efectivo 20% OFF, QR / Débito 10% OFF; o precios de batea fijados en P-12). Prohibido aplicar rebajas discrecionales.</li>
+
+  <li class="sop-list-item">🏷️ <strong>Selección de Lista según Medio de Pago:</strong>
+    <ul class="sop-list">
+      <li class="sop-list-item">• <strong>Tarjeta (Crédito / Débito) / QR / Transferencia:</strong> Se cobra sobre la lista <strong>"GENERAL - PRECIO DE LISTA"</strong>. Aplicar las cuotas o condiciones comerciales vigentes según P-11.</li>
+      <li class="sop-list-item">• <strong>Efectivo (20% OFF Integrado):</strong> El cajero selecciona la lista <strong>"GENERAL - EFECTIVO"</strong>. El precio ya se calcula automáticamente con el 20% de descuento y redondeado a múltiplos de $100. <em>Queda prohibido aplicar descuentos porcentuales manuales sobre la venta.</em></li>
+    </ul>
+  </li>
+
+  <li class="sop-list-item">📦 <strong>Cobro de Liquidaciones y Bateas (Códigos Genéricos):</strong>
+    <p class="sop-text" style="margin-top: 4px; margin-bottom: 6px;">Cuando la operativa comercial establezca precios fijos por categoría o batea (ejemplo: códigos genéricos como <code>LIQ-CAT1</code>, <code>LIQ-CAT2</code>, <code>LIQ-CAT3</code>, etc.):</p>
+    <ul class="sop-list">
+      <li class="sop-list-item">• Cargar el código genérico correspondiente a la categoría o valor fijado.</li>
+      <li class="sop-list-item">• <strong>Campo "Observaciones" Mandatorio:</strong> Es obligatorio asentar en las observaciones de la venta qué artículo físico real se entrega (ejemplo: <em>"Stiletto Roma Charol Negro T37"</em>). Queda terminantemente prohibido emitir comprobantes de liquidación con este campo en blanco.</li>
+    </ul>
+  </li>
+
+  <li class="sop-list-item">🎟️ <strong>Descuentos Adicionales (Cupones / Ruleta / Atenciones):</strong>
+    <p class="sop-text" style="margin-top: 4px; margin-bottom: 6px;">En Dux se opera bajo la modalidad exclusiva de <strong>Descuento por Monto Fijo ($)</strong> en el casillero de cabecera de la venta:</p>
+    <ul class="sop-list">
+      <li class="sop-list-item">• Si la clienta presenta un cupón o premio de la Ruleta (ej: 5% EXTRA según P-14): se calcula el importe en pesos del descuento sobre el total y se ingresa el monto directo en pesos en el casillero de descuento de la venta.</li>
+      <li class="sop-list-item">• Si la supervisión autoriza una atención comercial fija en pesos, se imputa directamente dicho importe en la casilla de descuento en pesos, asentando el motivo en las observaciones.</li>
+    </ul>
+  </li>
+
+  <li class="sop-list-item">🪙 <strong>Política de Redondeo en Efectivo (A Favor de la Clienta):</strong>
+    <p class="sop-text" style="margin-top: 4px; margin-bottom: 6px;">Todo importe final cobrado en efectivo debe terminar en cifra redonda (múltiplo de $100). Prohibido exigir o dar cambio en billetes o monedas chicas inexistentes en mostrador:</p>
+    <ul class="sop-list">
+      <li class="sop-list-item">• Si por descuentos combinados surge una diferencia fraccionada (ejemplo: $42.340), <strong>el redondeo es SIEMPRE a favor de la clienta hacia abajo ($42.300)</strong>.</li>
+      <li class="sop-list-item">• El cajero ajusta la diferencia (en este ejemplo, $40) en el casillero de descuento en pesos para que el ticket coincida exactamente con el efectivo ingresado a caja. Prohibido redondear hacia arriba cobrando de más.</li>
+    </ul>
+  </li>
+
   <li class="sop-list-item">💳 <strong>Terminales Payway / Nave:</strong> Pasar la tarjeta, aguardar el ticket impreso con estado <strong>APROBADO</strong> y asentar obligatoriamente en Dux: <strong>Lote [XXX] + Cupón [XXXX]</strong>.</li>
   <li class="sop-list-item">📱 <strong>Mercado Pago QR:</strong> El cobro se da por válido <strong>únicamente</strong> cuando la pantalla o aplicación propia del local confirme la acreditación en verde. Terminantemente prohibido validar cobros mirando el celular de la clienta.</li>
   <li class="sop-list-item">🚫 <strong>Prohibición Absoluta de Transferencias Directas a CBU/Alias:</strong> Terminantemente prohibido pasar CBU/Alias a clientas o aceptar transferencias bancarias en mostrador (riesgo crítico de estafas con comprobantes truchos). Quien desee abonar con fondos de su cuenta bancaria o billetera debe escanear el QR oficial del local desde su app (MODO / Mercado Pago).</li>
@@ -24,15 +55,17 @@
 <ul class="sop-list">
   <li class="sop-list-item">💳 <strong>Cierre de Lote Físico:</strong> Realizar el cierre de lote en la terminal Payway al finalizar la jornada (mandatorio para la acreditación bancaria efectiva).</li>
   <li class="sop-list-item">🖥️ <strong>Cierre Ciego en Dux:</strong> Dirigirse a <em>Tesorería &gt; Caja Diaria &gt; Cierre de Caja</em> e ingresar manualmente el dinero físico real contado a ciegas (el sistema muestra $0 por seguridad).</li>
-  <li class="sop-list-item">💵 <strong>Control de Diferencias:</strong> Si "Diferencia cierre" marca $0, caja correcta. Ante cualquier sobrante o faltante, revisar movimientos y asentar una observación obligatoria antes de retirarse.</li>
+  <li class="sop-list-item">💵 <strong>Control de Diferencias:</strong> Si "Diferencia cierre" marca $0, caja correcta. El ticket y el dinero coinciden peso por peso gracias al redondeo exacto. Ante cualquier diferencia, revisar movimientos y asentar una observación obligatoria antes de retirarse.</li>
   <li class="sop-list-item">🔄 <strong>Corrección de Errores:</strong> Los permisos de vendedora no permiten borrar ventas. Cualquier error de facturación o cobro se subsana emitiendo la Nota de Crédito vinculada correspondiente (ver paso a paso en P-03).</li>
 </ul>
 <hr class="sop-divider">
 
 <h3 class="sop-title-3">⚠ REGLAS DE ORO (Puntos Críticos de Control)</h3>
 <ul class="sop-warning-list">
-  <li class="sop-warning-item">⚠ <strong>Validación en Dispositivo Propio:</strong> Queda terminantemente prohibido entregar mercadería basándose en comprobantes o capturas del celular del cliente. Todo pago digital se constata en el ticket o visor del local. La entrega sin acreditación real es responsabilidad directa de quien cobra.</li>
-  <li class="sop-warning-item">🚫 <strong>Cero Transferencias en Mostrador:</strong> Ninguna vendedora está autorizada a solicitar ni aceptar transferencias a cuentas bancarias en el local. No contamos con acceso al Home Banking en salón para verificar la acreditación real en el segundo y los comprobantes mostrados en pantallas de clientes son vulnerables a fraudes.</li>
-  <li class="sop-warning-item">⚠ <strong>Canal Correcto de Cobro:</strong> Pasar una promoción bancaria por una pasarela incorrecta (ej: cobrar por Mercado Pago una promo de Payway) genera comisiones comerciales directas contra la sucursal.</li>
-  <li class="sop-warning-item">⚠ <strong>Cierre de Lote Obligatorio:</strong> Omitir el cierre de lote físico en la terminal Payway demora la liquidación bancaria de las ventas con tarjeta de toda la jornada.</li>
+  <li class="sop-warning-item">⚠ <strong>Precios Blindados en Dux:</strong> Está terminantemente prohibido intentar alterar o exigir modificaciones manuales a los precios unitarios de los artículos. Dux es la autoridad y los permisos están bloqueados en mostrador.</li>
+  <li class="sop-warning-item">⚠ <strong>Uso Exclusivo de la Lista "GENERAL - EFECTIVO":</strong> El 20% OFF de mostrador por pago en efectivo se aplica únicamente seleccionando la lista "GENERAL - EFECTIVO" en Dux. Prohibido cargar descuentos porcentuales manuales sobre la lista general.</li>
+  <li class="sop-warning-item">⚠ <strong>Redondeo en Efectivo Siempre a Favor de la Clienta:</strong> Jamás se redondea hacia arriba ni se cobra de más a una clienta. Todo ajuste por cambio chico se realiza restando el remanente en la casilla de Descuento ($) para cobrar múltiplos de $100 exactos.</li>
+  <li class="sop-warning-item">⚠ <strong>Observación Obligatoria en Códigos Genéricos:</strong> Vender un código genérico o de liquidación sin detallar el modelo y talle físico exacto en el campo de Observaciones es considerado falta grave en la auditoría de stock.</li>
+  <li class="sop-warning-item">⚠ <strong>Validación en Dispositivo Propio:</strong> Queda terminantemente prohibido entregar mercadería basándose en comprobantes o capturas del celular del cliente. Todo pago digital se constata en el ticket o visor del local.</li>
+  <li class="sop-warning-item">🚫 <strong>Cero Transferencias en Mostrador:</strong> Ninguna vendedora está autorizada a solicitar ni aceptar transferencias a cuentas bancarias en el local.</li>
 </ul>
