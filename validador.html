@@ -43,9 +43,14 @@
           <p class="text-[11px] text-neutral-500 font-medium">Nazaria Zapatos · TOM &amp; Maschwitz Mall</p>
         </div>
       </div>
-      <a href="index.html#p14" class="text-[11px] font-bold text-neutral-600 hover:text-black underline flex items-center gap-1 bg-neutral-100 px-2 py-1 rounded-lg">
-        <span>📖</span> SOP P-14
-      </a>
+      <div class="flex items-center gap-1.5">
+        <button onclick="openAdminModal()" class="text-[11px] font-bold text-neutral-700 hover:text-black flex items-center gap-1 bg-amber-100 hover:bg-amber-200 border border-amber-300 px-2 py-1 rounded-lg transition active:scale-95 shadow-sm" title="Panel de Auditoría e Histórico">
+          <span>🔒</span> <span class="hidden sm:inline">Auditor</span>
+        </button>
+        <a href="index.html#p14" class="text-[11px] font-bold text-neutral-600 hover:text-black underline flex items-center gap-1 bg-neutral-100 px-2 py-1 rounded-lg">
+          <span>📖</span> SOP
+        </a>
+      </div>
     </div>
 
     <!-- Indicador de Sincronización en Vivo -->
@@ -94,29 +99,161 @@
 
   </main>
 
-  <!-- HISTORIAL GENERAL DEL DÍA (TOM & MASCHWITZ) -->
+  <!-- CANJEADOS EN EL DÍA (ORDENADOS POR HORA DE QUEMADO REAL) -->
   <footer class="w-full max-w-lg mt-3 space-y-2">
     <div class="flex items-center justify-between text-xs font-black text-neutral-700 px-1">
       <span class="flex items-center gap-1.5">
         <span>📋</span> Cupones Canjeados Hoy
         <span id="redeemed-badge-count" class="bg-neutral-900 text-white font-mono text-[10px] px-2 py-0.2 rounded-full font-bold">0</span>
       </span>
-      <button onclick="loadRedeemedToday()" class="text-[11px] text-neutral-500 hover:text-black font-bold underline flex items-center gap-1">
-        <span>🔄</span> Actualizar
-      </button>
+      <div class="flex items-center gap-2">
+        <select id="branch-filter" onchange="filterTodayList()" class="text-[11px] font-bold bg-neutral-100 border border-neutral-300 rounded-lg px-2 py-0.5 text-neutral-700 focus:outline-none">
+          <option value="ALL">Ambas sucursales</option>
+          <option value="TOM">TOM Shopping</option>
+          <option value="MASCHWITZ">Maschwitz Mall</option>
+        </select>
+        <button onclick="loadRedeemedToday()" class="text-[11px] text-neutral-500 hover:text-black font-bold underline flex items-center gap-1">
+          <span>🔄</span>
+        </button>
+      </div>
     </div>
     
-    <div id="recent-list-container" class="bg-white rounded-2xl border border-neutral-200 p-2.5 max-h-44 overflow-y-auto text-xs divide-y divide-neutral-100 shadow-sm">
-      <p class="text-[11px] text-neutral-400 text-center py-2">Cargando registros del día...</p>
+    <div id="recent-list-container" class="bg-white rounded-2xl border border-neutral-200 p-2.5 max-h-48 overflow-y-auto text-xs divide-y divide-neutral-100 shadow-sm">
+      <p class="text-[11px] text-neutral-400 text-center py-2">Cargando registros de hoy...</p>
     </div>
   </footer>
+
+  <!-- ============================================================ -->
+  <!-- MODAL: ACCESO ADMINISTRADOR / HISTÓRICO COMPLETO DE AUDITORÍA -->
+  <!-- ============================================================ -->
+  <div id="admin-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3">
+    <div class="w-full max-w-xl bg-white rounded-3xl shadow-2xl border-2 border-neutral-800 overflow-hidden flex flex-col max-h-[92vh]">
+      
+      <!-- Modal Header -->
+      <div class="bg-neutral-900 text-white px-5 py-3.5 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-amber-400 text-neutral-950 flex items-center justify-center font-black text-base">
+            🔒
+          </div>
+          <div>
+            <h2 class="font-black text-sm tracking-wide">Auditoría e Histórico General</h2>
+            <p class="text-[10.5px] text-neutral-300 font-medium">Solo Administrador · Consulta de Canjes</p>
+          </div>
+        </div>
+        <button onclick="closeAdminModal()" class="w-8 h-8 rounded-full bg-neutral-800 hover:bg-neutral-700 text-white flex items-center justify-center text-sm font-bold transition">
+          ✕
+        </button>
+      </div>
+
+      <!-- SECCIÓN 1: LOGIN CON PIN (SI NO ESTÁ AUTORIZADO) -->
+      <div id="admin-auth-panel" class="p-6 text-center space-y-4 my-auto">
+        <div class="w-14 h-14 mx-auto rounded-2xl bg-amber-100 border border-amber-300 text-amber-900 flex items-center justify-center text-2xl font-black">
+          🔑
+        </div>
+        <div>
+          <h3 class="font-black text-base text-neutral-900">Ingreso Exclusivo Administración</h3>
+          <p class="text-xs text-neutral-500 mt-0.5">Ingresá el PIN de seguridad para auditar el histórico:</p>
+        </div>
+        <div class="max-w-xs mx-auto space-y-2">
+          <input type="password" id="admin-pin-input" placeholder="••••" maxlength="6" inputmode="numeric"
+            class="w-full py-3 text-center bg-neutral-50 border-2 border-neutral-300 rounded-2xl font-mono text-2xl font-black text-neutral-900 tracking-widest focus:bg-white focus:outline-none focus:border-neutral-900 transition"
+            onkeydown="if(event.key==='Enter') checkAdminPin()">
+          <button onclick="checkAdminPin()" class="w-full py-3 bg-neutral-900 hover:bg-black text-white font-black text-xs rounded-xl transition shadow active:scale-95">
+            INGRESAR AL HISTÓRICO
+          </button>
+          <p id="pin-error" class="text-xs font-bold text-red-600 hidden">PIN incorrecto. Reintentar.</p>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 2: PANEL DE AUDITORÍA CON FILTROS E HISTÓRICO -->
+      <div id="admin-dashboard-panel" class="hidden flex flex-col flex-1 overflow-hidden p-4 space-y-3">
+        <!-- Filtros Rápidos -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-neutral-50 p-3 rounded-2xl border border-neutral-200 text-xs">
+          <div>
+            <label class="block font-black text-neutral-600 text-[10px] uppercase mb-1">📅 Fecha:</label>
+            <input type="date" id="history-date-filter" onchange="applyHistoryFilters()"
+              class="w-full bg-white border border-neutral-300 rounded-xl px-2.5 py-1.5 font-bold text-neutral-800 text-xs focus:outline-none focus:border-neutral-900">
+          </div>
+          <div>
+            <label class="block font-black text-neutral-600 text-[10px] uppercase mb-1">🏢 Sucursal:</label>
+            <select id="history-branch-filter" onchange="applyHistoryFilters()"
+              class="w-full bg-white border border-neutral-300 rounded-xl px-2.5 py-1.5 font-bold text-neutral-800 text-xs focus:outline-none focus:border-neutral-900">
+              <option value="ALL">Todas las sucursales</option>
+              <option value="TOM">TOM Shopping</option>
+              <option value="MASCHWITZ">Maschwitz Mall</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-black text-neutral-600 text-[10px] uppercase mb-1">🔍 Buscar Cupón/Nombre:</label>
+            <input type="text" id="history-search-filter" oninput="applyHistoryFilters()" placeholder="Ej: 2295 o Cecilia"
+              class="w-full bg-white border border-neutral-300 rounded-xl px-2.5 py-1.5 font-bold text-neutral-800 text-xs focus:outline-none focus:border-neutral-900">
+          </div>
+        </div>
+
+        <!-- Barra de Métricas Rápidas del Filtro -->
+        <div class="grid grid-cols-3 gap-2 text-center">
+          <div class="bg-neutral-100 rounded-xl p-2 border border-neutral-200">
+            <span class="block text-[10px] font-bold text-neutral-500 uppercase">Total Canjes</span>
+            <span id="metric-total" class="font-mono font-black text-base text-neutral-900">0</span>
+          </div>
+          <div class="bg-blue-50 rounded-xl p-2 border border-blue-200">
+            <span class="block text-[10px] font-bold text-blue-700 uppercase">TOM</span>
+            <span id="metric-tom" class="font-mono font-black text-base text-blue-900">0</span>
+          </div>
+          <div class="bg-amber-50 rounded-xl p-2 border border-amber-200">
+            <span class="block text-[10px] font-bold text-amber-700 uppercase">Maschwitz</span>
+            <span id="metric-maschwitz" class="font-mono font-black text-base text-amber-900">0</span>
+          </div>
+        </div>
+
+        <!-- Botones de Acción (Todo el histórico / Exportar) -->
+        <div class="flex items-center justify-between text-xs px-1">
+          <div class="flex items-center gap-1.5">
+            <button onclick="setDateFilterToday()" class="px-2.5 py-1 bg-neutral-200 hover:bg-neutral-300 font-bold text-[11px] rounded-lg transition">
+              Hoy
+            </button>
+            <button onclick="setDateFilterYesterday()" class="px-2.5 py-1 bg-neutral-200 hover:bg-neutral-300 font-bold text-[11px] rounded-lg transition">
+              Ayer
+            </button>
+            <button onclick="clearDateFilter()" class="px-2.5 py-1 bg-neutral-200 hover:bg-neutral-300 font-bold text-[11px] rounded-lg transition">
+              Ver Todos (Histórico Total)
+            </button>
+          </div>
+          <button onclick="fetchHistoryFromCloud()" class="font-bold text-neutral-600 hover:text-black underline text-[11px] flex items-center gap-1">
+            <span>🔄</span> Refrescar
+          </button>
+        </div>
+
+        <!-- Lista del Histórico -->
+        <div id="history-list-container" class="flex-1 overflow-y-auto bg-neutral-50 rounded-2xl border border-neutral-200 p-2 divide-y divide-neutral-200/80 text-xs min-h-[220px]">
+          <p class="text-neutral-400 text-center py-4 text-xs font-medium">Cargando histórico...</p>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="bg-neutral-100 border-t border-neutral-200 px-4 py-2.5 flex items-center justify-between text-[11px]">
+        <span class="text-neutral-500 font-medium">Orden cronológico por quemado en caja (`redeemedAt`)</span>
+        <button onclick="closeAdminModal()" class="font-black text-neutral-700 hover:text-black underline">
+          Cerrar
+        </button>
+      </div>
+
+    </div>
+  </div>
 
   <script>
     const SUPABASE_URL = 'https://hlvovocufifroigdlhmv.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhsdm92b2N1Zmlmcm9pZ2RsaG12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxMDM3MjksImV4cCI6MjEwNTY3OTcyOX0.7KGejvoqjyTAZhEGYODz_Jm2DpddYiLUyIKdhhLxsr0';
 
+    // PIN de Administrador para ver histórico completo
+    const ADMIN_PIN = '1985';
+    let isAdminUnlocked = false;
+
     let currentCouponRecord = null;
     let autoRefreshTimer = null;
+    let todayRedeemedCache = [];
+    let historyAllCache = [];
 
     window.onload = function() {
       document.getElementById('code-input').focus();
@@ -232,7 +369,6 @@
 
         resultCard.innerHTML = `
           <div class="p-5 bg-red-50 border-3 border-red-500 rounded-2xl space-y-3.5 text-center shadow-md">
-            <!-- Icono gigante de stop -->
             <div class="w-16 h-16 mx-auto rounded-full bg-red-600 text-white flex items-center justify-center text-3xl font-black shadow-lg">
               ✕
             </div>
@@ -317,7 +453,6 @@
       const diffMs = expiresAt - now;
       const minLeft = Math.max(1, Math.floor(diffMs / (60 * 1000)));
 
-      // Determinar estilo visual según el tipo de premio
       let prizeBg = "from-emerald-500 to-teal-700";
       let icon = "🎁";
       let duxHint = "Cargar como Bonificación en Dux ERP";
@@ -340,7 +475,6 @@
       resultCard.innerHTML = `
         <div class="p-5 bg-emerald-50 border-3 border-emerald-500 rounded-3xl space-y-4 shadow-xl">
           
-          <!-- Encabezado de Éxito -->
           <div class="flex items-center justify-between">
             <span class="inline-flex items-center gap-1.5 bg-emerald-600 text-white font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider shadow-sm pulse-badge">
               <span class="text-sm">✓</span> CUPÓN VÁLIDO
@@ -350,7 +484,7 @@
             </span>
           </div>
 
-          <!-- TARJETA PROTAGÓNICA DEL BENEFICIO (GIGANTE Y MUY VISUAL) -->
+          <!-- TARJETA PROTAGÓNICA DEL BENEFICIO -->
           <div class="bg-gradient-to-r ${prizeBg} text-white p-4 rounded-2xl shadow-lg space-y-2 text-center">
             <div class="text-xs font-mono font-bold tracking-widest opacity-80 uppercase">
               CÓDIGO: ${record.manana}
@@ -382,7 +516,7 @@
               <span>💻</span> INSTRUCCIÓN DUX ERP:
             </div>
             <div class="text-[11.5px] font-medium leading-tight">
-              ${duxHint}. Colocar <strong>${record.manana}</strong> en las notas de la venta.
+              ${duxHint}. Colocar <strong>${record.manana}</strong> en las notas o cobro de la venta.
             </div>
           </div>
 
@@ -425,7 +559,8 @@
 
       let details = {};
       try { details = JSON.parse(currentCouponRecord.observacion || "{}"); } catch(e) {}
-      details.redeemedAt = Date.now();
+      const burnTime = Date.now();
+      details.redeemedAt = burnTime;
       details.redeemedBranch = branch;
 
       try {
@@ -444,7 +579,6 @@
           })
         });
 
-        // PANTALLA DE ÉXITO VISUAL PARA LA CAJERA
         resultCard.innerHTML = `
           <div class="p-6 bg-neutral-900 text-white rounded-3xl text-center space-y-3.5 border-2 border-emerald-500 shadow-2xl">
             <div class="w-16 h-16 mx-auto rounded-full bg-emerald-500 text-neutral-950 flex items-center justify-center text-3xl font-black shadow-lg">
@@ -460,7 +594,7 @@
             </div>
             
             <div class="p-3 bg-neutral-800/80 rounded-xl border border-neutral-700 text-xs text-neutral-300 leading-snug">
-              Registrado como <strong>CANJEADO</strong> en <strong>${branch === 'MASCHWITZ' ? 'Maschwitz Mall' : 'TOM Shopping'}</strong>.<br>
+              Registrado como <strong>CANJEADO</strong> en <strong>${branch === 'MASCHWITZ' ? 'Maschwitz Mall' : 'TOM Shopping'}</strong> a las <strong>${new Date(burnTime).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })} hs</strong>.<br>
               ¡Ya no podrá ser reutilizado en ningún local!
             </div>
 
@@ -485,56 +619,274 @@
       input.focus();
     }
 
+    // ============================================================
+    // CARGA DE TICKETS DEL DÍA (ORDENADOS POR redeemedAt DESCENDENTE)
+    // ============================================================
     async function loadRedeemedToday() {
       const listContainer = document.getElementById('recent-list-container');
-      const countBadge = document.getElementById('redeemed-badge-count');
       const syncCounter = document.getElementById('sync-counter');
 
       try {
-        const res = await fetch(`${SUPABASE_URL}/rest/v1/fechas_especiales?evento=eq.CUPON_RULETA&tarde=eq.CANJEADO&order=creado_en.desc&limit=20`, {
+        // Obtenemos los últimos cupones canjeados
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/fechas_especiales?evento=eq.CUPON_RULETA&tarde=eq.CANJEADO&select=*&limit=100`, {
           headers: {
             'apikey': SUPABASE_KEY,
             'Authorization': 'Bearer ' + SUPABASE_KEY
           }
         });
 
-        const list = await res.json();
+        const rawList = await res.json();
         const now = new Date();
         syncCounter.innerText = `Sincronizado ${now.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })} hs`;
 
-        if (!list || list.length === 0) {
-          countBadge.innerText = "0";
-          listContainer.innerHTML = `<p class="text-[11px] text-neutral-400 text-center py-2 font-medium">No hay cupones canjeados hoy en ninguna sucursal.</p>`;
+        if (!rawList || rawList.length === 0) {
+          todayRedeemedCache = [];
+          filterTodayList();
           return;
         }
 
-        countBadge.innerText = String(list.length);
+        // Obtener fecha de hoy en formato local (YYYY-MM-DD)
+        const todayStr = getLocalDateString(now);
 
-        listContainer.innerHTML = list.map(item => {
+        // Parsear y enriquecer registros
+        const processed = rawList.map(item => {
           let det = {};
           try { det = JSON.parse(item.observacion || "{}"); } catch(e) {}
-          const time = det.redeemedAt ? new Date(det.redeemedAt).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }) : '--:--';
-          const branchBadge = item.sucursal_codigo === 'MASCHWITZ' 
-            ? '<span class="bg-amber-100 text-amber-900 font-black px-1.5 py-0.5 rounded text-[10px]">MASCHWITZ</span>'
-            : '<span class="bg-blue-100 text-blue-900 font-black px-1.5 py-0.5 rounded text-[10px]">TOM</span>';
+          const burnTimestamp = det.redeemedAt || new Date(item.creado_en).getTime();
+          const burnDate = new Date(burnTimestamp);
+          return {
+            ...item,
+            _details: det,
+            _burnTimestamp: burnTimestamp,
+            _burnDateStr: getLocalDateString(burnDate),
+            _burnTimeStr: burnDate.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })
+          };
+        });
 
-          return `
-            <div class="py-2.5 flex items-center justify-between gap-2">
-              <div class="flex items-center gap-1.5 flex-wrap">
-                ${branchBadge}
-                <span class="font-mono font-bold text-neutral-900 text-xs">${item.manana}</span>
-                <span class="text-neutral-600 text-[11px] font-medium">${det.prizeTitle || ''} ${det.prizeSub || ''}</span>
-              </div>
-              <div class="text-[11px] font-bold text-neutral-400 shrink-0">
-                ${time} hs
-              </div>
-            </div>
-          `;
-        }).join('');
+        // FILTRAR ESTRICTAMENTE LOS CANJEADOS HOY
+        todayRedeemedCache = processed.filter(item => item._burnDateStr === todayStr);
+
+        // ORDENAR POR HORA DE QUEMADO REAL (redeemedAt) DESCENDENTE (EL ÚLTIMO QUEMADO PRIMERO)
+        todayRedeemedCache.sort((a, b) => b._burnTimestamp - a._burnTimestamp);
+
+        // Renderizar en UI
+        filterTodayList();
 
       } catch (e) {
         listContainer.innerHTML = `<p class="text-[11px] text-red-500 text-center py-2 font-medium">Error al sincronizar historial.</p>`;
       }
+    }
+
+    function filterTodayList() {
+      const listContainer = document.getElementById('recent-list-container');
+      const countBadge = document.getElementById('redeemed-badge-count');
+      const branchFilter = document.getElementById('branch-filter').value;
+
+      const filtered = todayRedeemedCache.filter(item => {
+        if (branchFilter === 'ALL') return true;
+        return item.sucursal_codigo === branchFilter;
+      });
+
+      countBadge.innerText = String(filtered.length);
+
+      if (filtered.length === 0) {
+        listContainer.innerHTML = `<p class="text-[11px] text-neutral-400 text-center py-3 font-medium">No hay cupones canjeados hoy ${branchFilter !== 'ALL' ? 'en ' + branchFilter : ''}.</p>`;
+        return;
+      }
+
+      listContainer.innerHTML = filtered.map((item, index) => {
+        const isLatest = (index === 0);
+        const branchBadge = item.sucursal_codigo === 'MASCHWITZ' 
+          ? '<span class="bg-amber-100 text-amber-900 font-black px-1.5 py-0.5 rounded text-[10px]">MASCHWITZ</span>'
+          : '<span class="bg-blue-100 text-blue-900 font-black px-1.5 py-0.5 rounded text-[10px]">TOM</span>';
+
+        const latestBadge = isLatest 
+          ? '<span class="bg-emerald-500 text-white font-black text-[9px] px-1.5 py-0.2 rounded-full uppercase tracking-wider">ÚLTIMO CANJE</span>' 
+          : '';
+
+        return `
+          <div class="py-2.5 flex items-center justify-between gap-2 hover:bg-neutral-50 px-1 rounded-lg transition">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              ${branchBadge}
+              ${latestBadge}
+              <span class="font-mono font-bold text-neutral-900 text-xs">${item.manana}</span>
+              <span class="text-neutral-900 font-bold text-[11px]">${item._details.name || 'Clienta'}</span>
+              <span class="text-neutral-500 text-[10.5px] font-medium">(${item._details.prizeTitle || ''})</span>
+            </div>
+            <div class="text-[11px] font-black text-neutral-800 shrink-0 bg-neutral-100 px-2 py-0.5 rounded">
+              ${item._burnTimeStr} hs
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ============================================================
+    // PANEL ADMINISTRADOR / HISTÓRICO COMPLETO
+    // ============================================================
+    function openAdminModal() {
+      const modal = document.getElementById('admin-modal');
+      modal.classList.remove('hidden');
+
+      if (isAdminUnlocked) {
+        showAdminDashboard();
+      } else {
+        document.getElementById('admin-auth-panel').classList.remove('hidden');
+        document.getElementById('admin-dashboard-panel').classList.add('hidden');
+        setTimeout(() => document.getElementById('admin-pin-input').focus(), 100);
+      }
+    }
+
+    function closeAdminModal() {
+      document.getElementById('admin-modal').classList.add('hidden');
+      document.getElementById('pin-error').classList.add('hidden');
+      document.getElementById('admin-pin-input').value = "";
+    }
+
+    function checkAdminPin() {
+      const pin = document.getElementById('admin-pin-input').value.trim();
+      if (pin === ADMIN_PIN) {
+        isAdminUnlocked = true;
+        document.getElementById('pin-error').classList.add('hidden');
+        showAdminDashboard();
+      } else {
+        document.getElementById('pin-error').classList.remove('hidden');
+        document.getElementById('admin-pin-input').value = "";
+        document.getElementById('admin-pin-input').focus();
+      }
+    }
+
+    function showAdminDashboard() {
+      document.getElementById('admin-auth-panel').classList.add('hidden');
+      document.getElementById('admin-dashboard-panel').classList.remove('hidden');
+      
+      // Establecer filtro por defecto: Hoy
+      if (!document.getElementById('history-date-filter').value) {
+        document.getElementById('history-date-filter').value = getLocalDateString(new Date());
+      }
+      fetchHistoryFromCloud();
+    }
+
+    async function fetchHistoryFromCloud() {
+      const listContainer = document.getElementById('history-list-container');
+      listContainer.innerHTML = `<p class="text-neutral-400 text-center py-6 text-xs font-medium">Cargando registros completos desde Supabase...</p>`;
+
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/fechas_especiales?evento=eq.CUPON_RULETA&tarde=eq.CANJEADO&select=*&limit=500`, {
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_KEY
+          }
+        });
+
+        const data = await res.json();
+        historyAllCache = (data || []).map(item => {
+          let det = {};
+          try { det = JSON.parse(item.observacion || "{}"); } catch(e) {}
+          const burnTimestamp = det.redeemedAt || new Date(item.creado_en).getTime();
+          const burnDate = new Date(burnTimestamp);
+          return {
+            ...item,
+            _details: det,
+            _burnTimestamp: burnTimestamp,
+            _burnDateStr: getLocalDateString(burnDate),
+            _burnTimeStr: burnDate.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }),
+            _burnFullStr: `${burnDate.toLocaleDateString('es-AR')} ${burnDate.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}`
+          };
+        });
+
+        // Ordenar siempre por tiempo de quemado real descendente
+        historyAllCache.sort((a, b) => b._burnTimestamp - a._burnTimestamp);
+
+        applyHistoryFilters();
+
+      } catch (err) {
+        listContainer.innerHTML = `<p class="text-red-500 text-center py-6 text-xs font-bold">Error al descargar historial.</p>`;
+      }
+    }
+
+    function applyHistoryFilters() {
+      const dateVal = document.getElementById('history-date-filter').value;
+      const branchVal = document.getElementById('history-branch-filter').value;
+      const searchVal = document.getElementById('history-search-filter').value.trim().toLowerCase();
+
+      const filtered = historyAllCache.filter(item => {
+        // Filtro fecha
+        if (dateVal && item._burnDateStr !== dateVal) return false;
+        // Filtro sucursal
+        if (branchVal !== 'ALL' && item.sucursal_codigo !== branchVal) return false;
+        // Filtro búsqueda texto
+        if (searchVal) {
+          const raw = `${item.manana} ${item._details.name || ''} ${item._details.prizeTitle || ''} ${item.sucursal_codigo}`.toLowerCase();
+          if (!raw.includes(searchVal)) return false;
+        }
+        return true;
+      });
+
+      // Actualizar métricas
+      document.getElementById('metric-total').innerText = String(filtered.length);
+      document.getElementById('metric-tom').innerText = String(filtered.filter(x => x.sucursal_codigo === 'TOM').length);
+      document.getElementById('metric-maschwitz').innerText = String(filtered.filter(x => x.sucursal_codigo === 'MASCHWITZ').length);
+
+      // Renderizar listado
+      const container = document.getElementById('history-list-container');
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="text-center py-8 text-neutral-400 font-medium">No se encontraron cupones canjeados para los filtros seleccionados.</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map((item, idx) => {
+        const branchBadge = item.sucursal_codigo === 'MASCHWITZ' 
+          ? '<span class="bg-amber-100 text-amber-950 font-black px-2 py-0.5 rounded text-[10px] border border-amber-300">MASCHWITZ</span>'
+          : '<span class="bg-blue-100 text-blue-950 font-black px-2 py-0.5 rounded text-[10px] border border-blue-300">TOM</span>';
+
+        return `
+          <div class="py-2 px-1 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 hover:bg-neutral-100/70 rounded-xl transition">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                ${branchBadge}
+                <span class="font-mono font-black text-xs text-neutral-900">${item.manana}</span>
+                <span class="font-bold text-neutral-800 text-xs">${item._details.name || 'Sin nombre'}</span>
+              </div>
+              <div class="text-[11px] text-neutral-600 font-medium">
+                🎁 <strong>${item._details.prizeTitle || ''}</strong> ${item._details.prizeSub || ''}
+              </div>
+            </div>
+            <div class="text-right sm:text-right shrink-0">
+              <div class="text-[11px] font-black text-neutral-800 font-mono">
+                ${item._burnTimeStr} hs
+              </div>
+              <div class="text-[10px] text-neutral-400 font-semibold">
+                ${item._burnDateStr}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function setDateFilterToday() {
+      document.getElementById('history-date-filter').value = getLocalDateString(new Date());
+      applyHistoryFilters();
+    }
+
+    function setDateFilterYesterday() {
+      const d = new Date();
+      d.setDate(d.getDate() - 1);
+      document.getElementById('history-date-filter').value = getLocalDateString(d);
+      applyHistoryFilters();
+    }
+
+    function clearDateFilter() {
+      document.getElementById('history-date-filter').value = "";
+      applyHistoryFilters();
+    }
+
+    function getLocalDateString(date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, '0');
+      const d = String(date.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
     }
   </script>
 </body>
